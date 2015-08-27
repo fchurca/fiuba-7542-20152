@@ -1,0 +1,21 @@
+@startuml
+
+class Juego
+abstract class Entidad
+class Unidad
+class Edificio
+class Jugador
+class Sprite
+class CoordenadaMapa
+class CoordenadaPantalla
+
+Juego o-- Entidad
+Juego o-- Jugador
+Jugador o-- Entidad
+Unidad --|> Entidad
+Edificio --|> Entidad
+Entidad *-- CoordenadaMapa
+Entidad *-- Sprite
+Sprite *-- CoordenadaPantalla
+
+@enduml
