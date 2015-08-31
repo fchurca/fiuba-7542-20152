@@ -1,21 +1,74 @@
 @startuml
 
-class Juego
-abstract class Entidad
-class Unidad
-class Edificio
+package AACCG{
+class Juego {
+vel_personaje
+size_x
+size_y
+nombre
+}
+class Pantalla {
+ancho
+alto
+margen_scroll
+}
 class Jugador
-class Sprite
-class CoordenadaMapa
-class CoordenadaPantalla
+class EntidadFactory {
+nombre
+ancho_base
+alto_base
+crear(jugador,coordenada)
+}
+class SpriteFactory {
+imagen
+pixel_ref_x
+pixel_ref_y
+fps
+delay
+crear(entidad)
+}
+class Entidad {
+nombre
+ancho_base
+alto_base
+}
+class Sprite {
+imagen
+pixel_ref_x
+pixel_ref_y
+fps
+delay
+}
+class CoordenadaMapa {
+x
+y
+}
+class CoordenadaPantalla {
+x
+y
+}
+}
 
+package SDL {
+class Window
+}
+
+Juego *-- Pantalla
+Pantalla *-- CoordenadaMapa
+Juego o-- EntidadFactory
+EntidadFactory --> Entidad
+EntidadFactory --> Jugador
+EntidadFactory --> CoordenadaMapa
+EntidadFactory *-- SpriteFactory
+SpriteFactory --> Sprite
+SpriteFactory --> Entidad
 Juego o-- Entidad
 Juego o-- Jugador
 Jugador o-- Entidad
-Unidad --|> Entidad
-Edificio --|> Entidad
 Entidad *-- CoordenadaMapa
 Entidad *-- Sprite
 Sprite *-- CoordenadaPantalla
+
+Pantalla --> Window
 
 @enduml
