@@ -63,7 +63,7 @@ public:
 	std::vector<TagTipoEntidad> getTiposEntidades();
 	TagEscenario getEscenario();
 
-	bool ParserYAML::esNumero(std::string s);
+	bool esNumero(std::string s);
 	~ParserYAML(void);
 };
 

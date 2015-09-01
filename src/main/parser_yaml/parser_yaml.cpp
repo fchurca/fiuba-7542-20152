@@ -1,4 +1,4 @@
-#include "ParserYAML.h"
+#include "parser_yaml.h"
 
 const std::string NOMBRE_DEFAULT = "ENTIDAD";
 const std::string IMAGEN_DEFAULT = "IMAGEN";
