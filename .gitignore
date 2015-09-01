@@ -33,4 +33,6 @@
 .settings
 .cproject
 
+# make
+makefile
 
