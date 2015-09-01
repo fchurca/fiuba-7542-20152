@@ -2,13 +2,17 @@
 #include <fstream>
 #include <string>
 #include <vector>
-//-----------------------------------------------------------------------------
-#include "parser_yaml/parser_yaml.h"
-//-----------------------------------------------------------------------------
+#include "ParserYAML\ParserYAML.h"
+#include "Log\Logger.h"
+
 int main(int argc, char* args[]) {
 
+	Logger::getInstance()->writeError("Error");
+	Logger::getInstance()->writeInformation("Info");
+	Logger::getInstance()->writeWarning("Warning");
+	
 	//	test parser
-	ParserYAML* parser = new ParserYAML("configuracion.yaml"); .
+	ParserYAML* parser = new ParserYAML("config.yaml"); //TODO: Actualizar la ruta del archivo.
 	parser->parse();
 	TagPantalla tp = parser->getPantalla();
 	TagConfiguracion tc = parser->getConfiguracion();
