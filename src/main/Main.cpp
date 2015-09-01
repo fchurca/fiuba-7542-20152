@@ -2,8 +2,8 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include "ParserYAML\ParserYAML.h"
-#include "Log\Logger.h"
+#include "parser_yaml/parser_yaml.h"
+#include "Log/Logger.h"
 
 int main(int argc, char* args[]) {
 
@@ -12,7 +12,7 @@ int main(int argc, char* args[]) {
 	Logger::getInstance()->writeWarning("Warning");
 	
 	//	test parser
-	ParserYAML* parser = new ParserYAML("config.yaml"); //TODO: Actualizar la ruta del archivo.
+	ParserYAML* parser = new ParserYAML("configuracion.yaml"); //TODO: Actualizar la ruta del archivo.
 	parser->parse();
 	TagPantalla tp = parser->getPantalla();
 	TagConfiguracion tc = parser->getConfiguracion();

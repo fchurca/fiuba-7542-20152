@@ -16,10 +16,10 @@ ParserYAML::ParserYAML(std::string filename){
 void ParserYAML::parse(){
 	std::ifstream fin(this->filename.c_str());
 	if(!fin){
-		throw exception("yaml-cpp: el archivo de configuracion no existe o bien no pudo ser abierto.");
+		throw runtime_error("yaml-cpp: el archivo de configuracion no existe o bien no pudo ser abierto.");
 	}
 	if (fin.peek() == std::ifstream::traits_type::eof()) {
-		throw exception("yaml-cpp: el archivo de configuracion esta vacio.");
+		throw runtime_error("yaml-cpp: el archivo de configuracion esta vacio.");
 	} 
 	try{
 		YAML::Parser parser(fin);
@@ -27,14 +27,14 @@ void ParserYAML::parse(){
 		if(fin.is_open())
 			fin.close();
 		if(this->doc.Type() != YAML::NodeType::Map) {
-			throw exception("yaml-cpp: el archivo de configuracion no tiene la estructura correcta o no existe.");
+			throw runtime_error("yaml-cpp: el archivo de configuracion no tiene la estructura correcta o no existe.");
 		}
 	}
 	catch(YAML::ParserException &e){ 
 		std::string message = std::string(e.what());
 		if(fin.is_open())
 			fin.close();
-		throw exception(message.c_str());
+		throw runtime_error(message.c_str());
 	}
 }
 
@@ -42,7 +42,7 @@ TagConfiguracion ParserYAML::getConfiguracion(){
 	TagConfiguracion configuracion;
 	const YAML::Node& conf = this->doc["configuracion"];
 	if(conf.size() != 1)
-		throw exception("yaml-cpp: el archivo de configuracion tiene mas de una  configuracion o no existe.");
+		throw runtime_error("yaml-cpp: el archivo de configuracion tiene mas de una  configuracion o no existe.");
 	setConfiguracion(conf[0],configuracion);
 	return configuracion;
 }
@@ -51,7 +51,7 @@ TagPantalla ParserYAML::getPantalla(){
 	TagPantalla pantalla;
 	const YAML::Node& pant = this->doc["pantalla"];
 	if(pant.size() != 1)
-		throw exception("yaml-cpp: el archivo de configuracion tiene mas de una configuracion de la pantalla o no existe.");
+		throw runtime_error("yaml-cpp: el archivo de configuracion tiene mas de una configuracion de la pantalla o no existe.");
 	setPantalla(pant[0], pantalla);
 	return pantalla;
 }
@@ -71,7 +71,7 @@ TagEscenario ParserYAML::getEscenario(){
 	TagEscenario escenario;
 	const YAML::Node& esc = this->doc["escenario"];
 	if(esc.size() != 1)
-		throw exception("yaml-cpp: el archivo de configuracion tiene mas de una configuracion del escenario o no existe.");
+		throw runtime_error("yaml-cpp: el archivo de configuracion tiene mas de una configuracion del escenario o no existe.");
 	setEscenario(esc[0],escenario);
 	return escenario;
 }
@@ -138,7 +138,7 @@ void ParserYAML::setEscenario(const YAML::Node& node, TagEscenario& escenario){
 	TagEntidad protagonista;
     const YAML::Node& pro = node["protagonista"];
 	if(pro.size() != 1)
-		throw exception("yaml-cpp: el archivo de configuracion tiene mas de un protagonista o no tiene.");
+		throw runtime_error("yaml-cpp: el archivo de configuracion tiene mas de un protagonista o no tiene.");
 	setEntidad(pro[0], protagonista);
 	escenario.protagonista = protagonista;
 }
