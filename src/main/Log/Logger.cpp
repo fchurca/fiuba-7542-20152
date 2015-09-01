@@ -53,7 +53,8 @@ int Logger::write(string message, string tipo){
 		return 0;
 	}
 	catch(exception &e) {
-		messageError = strcat("ERROR : ", e.what()); 
+		messageError = "ERROR : ";
+		messageError += e.what(); 
 		return 1;
 	}
 };
