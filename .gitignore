@@ -27,12 +27,12 @@
 *.out
 *.app
 /Debug/
+bin/
 
 #IDE files
 .project
 .settings
 .cproject
 
-# make
-makefile
-
+# Archivos de log
+*.log
