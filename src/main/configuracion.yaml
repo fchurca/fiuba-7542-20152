@@ -1,6 +1,6 @@
 pantalla:
   - ancho: 4
-  - alto: 4
+    alto: 4
 configuracion:
   - vel_personaje: 3
     margen_scroll: 45
