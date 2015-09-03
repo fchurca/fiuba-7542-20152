@@ -4,7 +4,7 @@
 
 class GameWindow {
 protected:
-	SDL_Window* window = NULL;
+	SDL_Window* window; //= NULL;
 	static bool sdlInitialized; // = false
 	static bool initialize();
 public:

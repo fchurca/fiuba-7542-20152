@@ -53,6 +53,10 @@ private:
 	void setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEntidad);
 	void setEntidad (const YAML::Node& node, TagEntidad& entidad);
 	void setEscenario(const YAML::Node& node, TagEscenario& escenario);
+	bool esNumero(std::string s);
+	bool validarScalarNumericoPositivo(const YAML::Node & nodo, std::string tag, unsigned int & salida);
+	bool validarScalarAlfaNumerico(const YAML::Node & nodo, std::string tag, std::string & salida);
+	std::string ubicarNodo(const YAML::Mark mark);
 	
 
 public:
@@ -62,8 +66,6 @@ public:
 	TagPantalla getPantalla();
 	std::vector<TagTipoEntidad> getTiposEntidades();
 	TagEscenario getEscenario();
-
-	bool esNumero(std::string s);
 	~ParserYAML(void);
 };
 

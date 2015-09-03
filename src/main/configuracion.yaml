@@ -15,7 +15,7 @@ tipos:
     pixel_ref_y: 30
   - nombre: juana_de_arco
     imagen: C:/juana.png
-    pfs: 15
+    fps: 15
     delay: 15
 escenario:
   - nombre: orleans
