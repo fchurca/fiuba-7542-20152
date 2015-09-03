@@ -11,7 +11,7 @@ private:
 	std::string name;
 	int fps;
 	int delay;
-	std::string image;
+	std::string image_path;
 public:
 	Escenario();
 	virtual ~Escenario();

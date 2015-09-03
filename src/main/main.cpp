@@ -2,13 +2,15 @@
 #include <fstream>
 #include <string>
 #include <vector>
-
+//-----------------------------------------------------------------------------
 #include <SDL2/SDL.h>
-
+//-----------------------------------------------------------------------------
 #include "parser_yaml/parser_yaml.h"
 #include "log/logger.h"
 #include "gfx/game_window.h"
-
+//-----------------------------------------------------------------------------
+#define CONFIG_FILE_PATH "config.yaml"
+//-----------------------------------------------------------------------------
 int main(int argc, char* args[]) {
 
 	Logger::getInstance()->writeError("Error");
@@ -26,7 +28,7 @@ int main(int argc, char* args[]) {
 	}
 
 	//	test parser
-	ParserYAML* parser = new ParserYAML("configuracion.yaml"); //TODO: Actualizar la ruta del archivo.
+	ParserYAML* parser = new ParserYAML(CONFIG_FILE_PATH);
 	parser->parse();
 	TagPantalla tp = parser->getPantalla();
 	TagConfiguracion tc = parser->getConfiguracion();

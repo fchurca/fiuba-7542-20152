@@ -61,8 +61,11 @@ TagPantalla ParserYAML::getPantalla(){
 	if(this->doc.FindValue("pantalla") != NULL){
 		const YAML::Node& pant = this->doc["pantalla"];
 		if(pant.Type() == YAML::NodeType::Sequence){
-			if(pant.size() == 1)
+			if(pant.size() == 2)
+			{
 				setPantalla(pant[0], pantalla);
+				setPantalla(pant[1], pantalla);
+			}
 			else
 				throw runtime_error("yaml-cpp: el tag de pantalla posee mas de un elemento en la secuencia.");
 		}
