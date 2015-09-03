@@ -7,19 +7,18 @@ size_x
 size_y
 nombre
 }
-class Pantalla {
-ancho
-alto
+class GameWindow {
 margen_scroll
 }
 class Jugador
+class Tile
 class EntidadFactory {
 nombre
 ancho_base
 alto_base
 crear(jugador,coordenada)
 }
-class SpriteFactory {
+class SpriteSheet {
 imagen
 pixel_ref_x
 pixel_ref_y
@@ -43,32 +42,29 @@ class CoordenadaMapa {
 x
 y
 }
-class CoordenadaPantalla {
-x
-y
-}
 }
 
 package SDL {
-class Window
+class SDL_Window
+class SDL_Point
 }
 
-Juego *-- Pantalla
-Pantalla *-- CoordenadaMapa
+Juego *-- GameWindow
+GameWindow *-- CoordenadaMapa
+GameWindow *-- SDL_Point : size >
 Juego o-- EntidadFactory
+Juego *-- Tile
+Tile o-- Entidad
 EntidadFactory --> Entidad
 EntidadFactory --> Jugador
 EntidadFactory --> CoordenadaMapa
-EntidadFactory *-- SpriteFactory
-SpriteFactory --> Sprite
-SpriteFactory --> Entidad
-Juego o-- Entidad
+GameWindow *-- SpriteSheet
+SpriteSheet --> Sprite
 Juego o-- Jugador
 Jugador o-- Entidad
 Entidad *-- CoordenadaMapa
-Entidad *-- Sprite
-Sprite *-- CoordenadaPantalla
+Sprite *-- SDL_Point
 
-Pantalla --> Window
+GameWindow --> SDL_Window
 
 @enduml
