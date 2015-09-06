@@ -16,6 +16,7 @@ Logger * Logger::getInstance() {
 	if (!instance){
 		instance = new Logger();
 		instance->open();
+		instance->writeInformation("Initializing Logger");
 	}
 	return instance;
 }
