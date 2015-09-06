@@ -11,10 +11,12 @@ using namespace std;
 class Logger{
 private:
 	static Logger * instance;
-	bool isNew;
+	ofstream file;
 	string messageError;
 	string getCurrentTime();
 	int write(string message, string tipo);
+	void open();
+	void close();
 	Logger();
 public:
 	static Logger * getInstance();
