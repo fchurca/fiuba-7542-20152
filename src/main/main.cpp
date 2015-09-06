@@ -9,7 +9,7 @@
 #include "log/logger.h"
 #include "game.h"
 //-----------------------------------------------------------------------------
-#define CONFIG_FILE_PATH "config.yaml"
+#define CONFIG_FILE_PATH "configiguracion.yaml"
 //-----------------------------------------------------------------------------
 int main(int argc, char* args[]) {
 

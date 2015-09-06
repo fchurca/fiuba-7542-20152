@@ -4,6 +4,8 @@
 #include <iostream>
 #include <fstream>
 #include "yaml-cpp/yaml.h"
+#include "../defines/defines.h"
+#include "../log/logger.h"
 
 using namespace std;
 
@@ -57,6 +59,11 @@ private:
 	bool validarScalarNumericoPositivo(const YAML::Node & nodo, std::string tag, unsigned int & salida);
 	bool validarScalarAlfaNumerico(const YAML::Node & nodo, std::string tag, std::string & salida);
 	std::string ubicarNodo(const YAML::Mark mark);
+	void setArchivoDefault();
+	void setConfiguracionDefault(TagConfiguracion& configuracion);
+	void setPantallaDefault (TagPantalla& pantalla);
+	void setTipoEntidadDefault (TagTipoEntidad& tipoEntidad);
+	std::string intToString(int i);
 	
 
 public:
