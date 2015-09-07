@@ -31,4 +31,5 @@
 //Entidad Default
 #define POS_X_DEFAULT  0
 #define POS_Y_DEFAULT  0
+#define TIPO_DEFAULT  "ENTIDAD"
 #endif

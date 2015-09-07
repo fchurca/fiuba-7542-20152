@@ -55,6 +55,7 @@ private:
 	void setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEntidad);
 	void setEntidad (const YAML::Node& node, TagEntidad& entidad);
 	void setEscenario(const YAML::Node& node, TagEscenario& escenario);
+	std::string intToString(int i);
 	bool esNumero(std::string s);
 	bool validarScalarNumericoPositivo(const YAML::Node & nodo, std::string tag, unsigned int & salida);
 	bool validarScalarAlfaNumerico(const YAML::Node & nodo, std::string tag, std::string & salida);
@@ -63,7 +64,8 @@ private:
 	void setConfiguracionDefault(TagConfiguracion& configuracion);
 	void setPantallaDefault (TagPantalla& pantalla);
 	void setTipoEntidadDefault (TagTipoEntidad& tipoEntidad);
-	std::string intToString(int i);
+	void setEscenarioDefault (TagEscenario& escenario);
+	
 	
 
 public:
