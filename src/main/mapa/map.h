@@ -6,6 +6,7 @@
 //-----------------------------------------------------------------------------
 #include "../entidades/entity.h"
 #include "../gfx/sprite_sheet.h"
+#include "../parser_yaml/parser_yaml.h"
 //-----------------------------------------------------------------------------
 class Map {
 
@@ -18,7 +19,7 @@ private:
 public:
 	static Map* map;
 	static Map* getInstance();
-	virtual ~Map();
+	virtual ~Map(){}
 
 public:
 	void buildMap(ParserYAML* parser);
