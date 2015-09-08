@@ -1,5 +1,4 @@
 #include "game_window.h"
-#include "../log/logger.h"
 
 bool GameWindow::sdlInitialized = false;
 
@@ -25,14 +24,25 @@ GameWindow::GameWindow() {
 	Logger::getInstance()->writeInformation("Creating window");
 	int SCREEN_WIDTH = 640,
 		SCREEN_HEIGHT = 480;
-	GameWindow::initialize();
+	GameWindow::initialize(); 
 	window = SDL_CreateWindow("Trabajo Práctico 7542",
 			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 			SCREEN_WIDTH, SCREEN_HEIGHT,
 			SDL_WINDOW_SHOWN);
+	
+	Logger::getInstance()->writeInformation("Creating renderer");
+	renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
+
+	// TODO: IMG_INIT
+
 }
 
 GameWindow::~GameWindow() {
+	Logger::getInstance()->writeInformation("Destroying renderer");
+	if (renderer != NULL) {
+		SDL_DestroyRenderer(renderer);
+		renderer = NULL;
+	}
 	Logger::getInstance()->writeInformation("Destroying window");
 	if (window != NULL) {
 		Logger::getInstance()->writeWarning("Window never initialized");
