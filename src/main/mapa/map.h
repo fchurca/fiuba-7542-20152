@@ -13,8 +13,11 @@ private:
 	std::vector<Entity*> entities;
 	std::vector<SpriteSheet*> spriteSheets;
 
-public:
+private:
 	Map();
+public:
+	static Map* map;
+	static Map* getInstance();
 	virtual ~Map();
 
 public:
