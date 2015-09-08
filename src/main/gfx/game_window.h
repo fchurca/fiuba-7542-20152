@@ -3,6 +3,7 @@
 #include <SDL2/SDL.h>
 #include "../log/logger.h"
 #include "sprite_sheet.h"
+#include "../defines/defines.h"
 
 class GameWindow {
 protected:

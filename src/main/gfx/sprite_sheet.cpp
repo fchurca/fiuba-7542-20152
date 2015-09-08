@@ -4,6 +4,14 @@ SpriteSheet::SpriteSheet( std::string pPath ){
 	path = pPath;
 	texture = NULL;
 	initialized = false;
+
+	fps = 0;
+	delay = 0;
+
+	ancho_base = 0;
+	alto_base = 0;
+	pixel_ref_x = 0;
+	pixel_ref_y = 0;
 }
 
 SpriteSheet::~SpriteSheet(){
@@ -48,12 +56,18 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ){
 	return texture != NULL;
 }
 
-void SpriteSheet::render( SDL_Renderer* renderer ){
+void SpriteSheet::render( int x, int y, SDL_Renderer* renderer ){
+	//	TODO: EL RENDER DEBE RECIBIR LA ENTIDAD PARA OBTENER LA UBICACION
+
+	//	Conversion isometrica - TODO: PONER LAS CONVERSIONES EN OTRA CLASE
+	int screenX = ((x / 2) - ((y * TILE_WIDTH_DEFAULT) / (TILE_HEIGHT_DEFAULT * 2)));
+	int screenY = (((x * TILE_HEIGHT_DEFAULT) / (TILE_WIDTH_DEFAULT * 2)) + (y / 2));
+
 	//	Ubicacion donde dibujar
-	SDL_Rect renderQuad = { 100, 100, 100, 100 };
+	SDL_Rect renderQuad = { screenX, screenY, TILE_WIDTH_DEFAULT, TILE_HEIGHT_DEFAULT };
 
 	//	Parte de la imagen a levantar
-	SDL_Rect clip = { 10, 10, 100, 100 };
+	SDL_Rect clip = { 1, 1, TILE_WIDTH_DEFAULT, TILE_HEIGHT_DEFAULT };
 
 	//	Dibujado
 	SDL_RenderCopy( renderer, getLoadedTexture( renderer ), &clip, &renderQuad );

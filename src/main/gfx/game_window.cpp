@@ -35,6 +35,9 @@ GameWindow::GameWindow() {
 
 	// TODO: IMG_INIT
 
+
+	
+	SDL_RenderPresent( renderer );
 }
 
 GameWindow::~GameWindow() {
