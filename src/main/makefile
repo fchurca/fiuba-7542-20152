@@ -1,7 +1,8 @@
 all: bin/tp7542
 
-bin/tp7542: main.cpp bin/parser_yaml.o bin/logger.o bin/gfx.o
-	$(CXX) -o $@ main.cpp -lyaml-cpp -lSDL2 bin/parser_yaml.o bin/logger.o bin/gfx.o
+bin/tp7542: main.cpp bin/parser_yaml.o bin/logger.o bin/gfx.o bin/controller.o
+	#TODO: ordenar game, mapa, mapFactory
+	$(CXX) -o $@ main.cpp -lyaml-cpp -lSDL2 -lSDL2_image bin/parser_yaml.o bin/logger.o bin/gfx.o bin/controller.o game.cpp mapa/map.cpp mapa/mapFactory.cpp
 
 bin/gfx.o: gfx/game_window.cpp gfx/game_window.h
 	$(CXX) -o $@ -c gfx/game_window.cpp
@@ -11,6 +12,9 @@ bin/logger.o: log/logger.cpp log/logger.h
 
 bin/parser_yaml.o: parser_yaml/parser_yaml.cpp parser_yaml/parser_yaml.h
 	$(CXX) -o $@ -c parser_yaml/parser_yaml.cpp
+
+bin/controller.o: controllers/event_handler.cpp
+	$(CXX) -o $@ -c controllers/event_handler.cpp
 
 clean: cleanobj
 	rm -f bin/tp7542
