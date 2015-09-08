@@ -1,22 +1,20 @@
-
-#ifndef SRC_MAIN_ENTIDADES_ENTIDAD_H_
-#define SRC_MAIN_ENTIDADES_ENTIDAD_H_
+//-----------------------------------------------------------------------------
+#ifndef SRC_MAIN_ENTIDADES_ENTITY_H_
+#define SRC_MAIN_ENTIDADES_ENTITY_H_
 //-----------------------------------------------------------------------------
 #include <string>
 //-----------------------------------------------------------------------------
-class Entidad {
+class Entity {
 
 private:
 	int x;
 	int y;
 	std::string name;
-	int delay;
-	int fps;
-	std::string image;
+
 public:
-	Entidad();
-	virtual ~Entidad();
+	Entity();
+	virtual ~Entity();
 };
 //-----------------------------------------------------------------------------
-#endif /* SRC_MAIN_ENTIDADES_ENTIDAD_H_ */
+#endif /* SRC_MAIN_ENTIDADES_ENTITY_H_ */
 //-----------------------------------------------------------------------------

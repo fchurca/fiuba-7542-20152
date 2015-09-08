@@ -1,16 +1,12 @@
-#ifndef SRC_MAIN_MAP_MAP_H_
-#define SRC_MAIN_MAP_MAP_H_
 //-----------------------------------------------------------------------------
-#include <string>
+#ifndef SRC_MAIN_MAPA_MAPFACTORY_H_
+#define SRC_MAIN_MAPA_MAPFACTORY_H_
 //-----------------------------------------------------------------------------
-class Map {
-
-private:
-
+class mapFactory {
 public:
-	Map();
-	virtual ~Map();
+	mapFactory();
+	virtual ~mapFactory();
 };
 //-----------------------------------------------------------------------------
-#endif /* SRC_MAIN_MAP_MAP_H_ */
+#endif /* SRC_MAIN_MAPA_MAPFACTORY_H_ */
 //-----------------------------------------------------------------------------
