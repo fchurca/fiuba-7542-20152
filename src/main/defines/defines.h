@@ -38,4 +38,8 @@
 #define LOG_LEVEL_ERROR  1
 #define LOG_LEVEL_WARNING  2
 #define LOG_LEVEL_INFORMATION  3
+
+//Tile
+#define TILE_WIDTH_DEFAULT  64
+#define TILE_HEIGHT_DEFAULT  32
 #endif
