@@ -21,7 +21,7 @@ public:
 	virtual ~Map();
 
 public:
-	void factoryMethod();
+	void buildMap(ParserYAML* parser);
 };
 //-----------------------------------------------------------------------------
 #endif /* SRC_MAIN_MAP_MAP_H_ */

@@ -27,16 +27,20 @@ int main(int argc, char* args[]) {
 	//	}
 	//}
 
-	Game game;
+	ParserYAML* parser = new ParserYAML(CONFIG_FILE_PATH);
+	Map* map = Map::getInstance();
+	map->buildMap(parser);
+
+	Game game(map);
 	game.start();
 
 	//	test parser
-	ParserYAML* parser = new ParserYAML(CONFIG_FILE_PATH);
+	/*ParserYAML* parser = new ParserYAML(CONFIG_FILE_PATH);
 	parser->parse();
 	TagPantalla tp = parser->getPantalla();
 	TagConfiguracion tc = parser->getConfiguracion();
 	std::vector<TagTipoEntidad> tte = parser->getTiposEntidades();
-	TagEscenario te = parser->getEscenario();
+	TagEscenario te = parser->getEscenario();*/
 
 	Logger::getInstance()->writeInformation("Closing down");
 

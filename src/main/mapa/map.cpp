@@ -18,7 +18,7 @@ Map* Map::getInstance()
 	return map;
 }
 //-----------------------------------------------------------------------------
-void Map::factoryMethod()
+void Map::buildMap(ParserYAML* parser)
 {
 
 }
