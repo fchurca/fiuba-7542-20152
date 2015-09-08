@@ -8,8 +8,6 @@ SpriteSheet::SpriteSheet( std::string pPath ){
 	fps = 0;
 	delay = 0;
 
-	ancho_base = 0;
-	alto_base = 0;
 	pixel_ref_x = 0;
 	pixel_ref_y = 0;
 }
