@@ -32,4 +32,10 @@
 #define POS_X_DEFAULT  0
 #define POS_Y_DEFAULT  0
 #define TIPO_DEFAULT  "ENTIDAD"
+
+//Log Level
+#define LOG_LEVEL_OFF  0
+#define LOG_LEVEL_ERROR  1
+#define LOG_LEVEL_WARNING  2
+#define LOG_LEVEL_INFORMATION  3
 #endif

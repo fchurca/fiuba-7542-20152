@@ -1,6 +1,9 @@
 #include "logger.h"
 
 Logger::Logger(){
+	enabledError = true;
+	enabledWarning = true;
+	enabledInformation = true;
 }
 
 Logger::~Logger(){
@@ -16,9 +19,17 @@ Logger * Logger::getInstance() {
 	if (!instance){
 		instance = new Logger();
 		instance->open();
-		instance->writeInformation("Initializing Logger");
 	}
 	return instance;
+}
+
+/**
+*	Establece nivel de log
+*/
+void Logger::setLevel(int level){
+	enabledError = (level >= LOG_LEVEL_ERROR);
+	enabledWarning =  (level >= LOG_LEVEL_WARNING);;
+	enabledInformation =  (level >= LOG_LEVEL_INFORMATION);;
 }
 
 /**
@@ -64,14 +75,18 @@ int Logger::write(string message, string tipo){
 *	@return: Devuelve 1 si se produjo algun error, 0 en caso contrario
 */
 int Logger::writeError(string message){
-	return write(message, "ERROR  ");
+	if( enabledError )
+		return write(message, "ERROR  ");
+	return 0;
 }
 /**
 *	Escribe en el archivo de log el mensaje recibido por parametro
 *	@return: Devuelve 1 si se produjo algun error, 0 en caso contrario
 */
 int Logger::writeWarning(string message){
-	return write(message, "WARNING");
+	if( enabledWarning )
+		return write(message, "WARNING");
+	return 0;
 }
 
 /**
@@ -79,7 +94,9 @@ int Logger::writeWarning(string message){
 *	@return: Devuelve 1 si se produjo algun error, 0 en caso contrario
 */
 int Logger::writeInformation(string message){
-	return write(message, "INFO   ");
+	if( enabledInformation )
+		return write(message, "INFO   ");
+	return 0;
 }
 
 /**
