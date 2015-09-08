@@ -1,11 +1,13 @@
 #include "game.h"
 
-Game::Game(){
+Game::Game(Map* map){
+	this->gameMap = map;
 	this->exitGame = false;
 }
 
 Game::~Game(){
 	delete(EventHandler::getInstance());
+	delete(this->gameMap);
 }
 
 bool Game::endOfGame(){

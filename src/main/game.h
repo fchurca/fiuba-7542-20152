@@ -6,6 +6,7 @@
 #include "controllers/event_handler.h"
 #include "gfx/game_window.h"
 #include "log/logger.h"
+#include "mapa/map.h"
 
 class Game {
 private:
@@ -15,8 +16,10 @@ private:
 	void processInput();
 	void update();
 	void render();
+
+	Map* gameMap;
 public:
-	Game();
+	Game(Map* map);
 	int start();
 	~Game();
 };
