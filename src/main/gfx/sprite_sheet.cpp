@@ -2,6 +2,7 @@
 
 SpriteSheet::SpriteSheet( std::string pPath ){
 	path = pPath;
+
 	texture = NULL;
 	initialized = false;
 
@@ -42,8 +43,8 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ){
 		//	TODO: CARGAR UNA IMAGEN DEFAULT
 	}
 	else {
-		//	Color de Fondo
-		SDL_SetColorKey( loadedSurface, SDL_TRUE, SDL_MapRGB( loadedSurface->format, 0, 0xFF, 0xFF ) );
+		//	Color de Fondo Transparente
+		SDL_SetColorKey(loadedSurface, SDL_TRUE | SDL_RLEACCEL, SDL_MapRGB( loadedSurface->format, 255, 0, 255));
 
 		//	Textura de la superficie
 		texture = SDL_CreateTextureFromSurface( renderer, loadedSurface );
@@ -64,8 +65,8 @@ void SpriteSheet::render( int x, int y, SDL_Renderer* renderer ){
 	//	Ubicacion donde dibujar
 	SDL_Rect renderQuad = { screenX, screenY, TILE_WIDTH_DEFAULT, TILE_HEIGHT_DEFAULT };
 
-	//	Parte de la imagen a levantar
-	SDL_Rect clip = { 1, 1, TILE_WIDTH_DEFAULT, TILE_HEIGHT_DEFAULT };
+	//	Parte de la imagen a levantar - TODO: VER DE DONDE LEVANTARLO
+	SDL_Rect clip = { 0, 0, TILE_WIDTH_DEFAULT, TILE_HEIGHT_DEFAULT };
 
 	//	Dibujado
 	SDL_RenderCopy( renderer, getLoadedTexture( renderer ), &clip, &renderQuad );
