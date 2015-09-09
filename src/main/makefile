@@ -1,4 +1,5 @@
-CXX += -std=c++11
+CFLAGS += -std=c++11 -g
+CXX += $(CFLAGS)
 
 all: bin/tp7542
 
