@@ -6,7 +6,7 @@
 #include "controllers/event_handler.h"
 #include "gfx/game_window.h"
 #include "log/logger.h"
-#include "board/board.h"
+#include "model/board.h"
 
 class Game {
 private:

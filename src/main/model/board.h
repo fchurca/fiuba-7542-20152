@@ -1,5 +1,5 @@
-#ifndef _SRC_MAIN_BOARD_BOARD_H_
-#define _SRC_MAIN_BOARD_BOARD_H_
+#ifndef _MODEL_BOARD_H_
+#define _MODEL_BOARD_H_
 //-----------------------------------------------------------------------------
 #include <string>
 #include <vector>
@@ -19,5 +19,5 @@ public:
 	void buildBoard(ParserYAML* parser);
 };
 //-----------------------------------------------------------------------------
-#endif /* _SRC_MAIN_BOARD_BOARD_H_ */
+#endif /* _MODEL_BOARD_H_ */
 //-----------------------------------------------------------------------------
