@@ -9,21 +9,24 @@ void Board::buildBoard(ParserYAML* parser) {
 	cerr << "Adding a new Dummy entity" << endl;
 }
 
-Board::Board() {
+Board::Board(int sizeX, int sizeY) : sizeX(sizeX), sizeY(sizeY) {
+	cerr << "Creating board " << this << " of size " << sizeX << "x" << sizeY << endl;
 }
 
 Board::~Board() {
-	cerr << "Killing board " << this << endl;
-	for(Entity* & e : entities) {
-		cerr << "Killing entity " << e->name << endl;
+	cerr << "Killing Board " << this << endl;
+	while (!entities.empty()) {
+		auto e = entities.back();
+		entities.pop_back();
 		delete e;
-		e = NULL;
 	}
 }
 
 void Board::update() {
-	/*cerr << "Board " << this << " updating" << endl;
-	// TODO: hacer vivir a las entidades
-	cerr << "Board " << this << " updated" << endl;*/
+	cerr << "Board " << this << " updating" << endl;
+	for(auto& e : entities) {
+		e->update();
+	}
+	cerr << "Board " << this << " updated" << endl;
 }
 

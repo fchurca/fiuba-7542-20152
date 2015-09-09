@@ -11,9 +11,12 @@ class Board {
 
 private:
 	std::vector<Entity*> entities;
+	Board();
 
 public:
-	Board();
+	const int
+		sizeX, sizeY;
+	Board(int sizeX, int sizeY);
 	~Board();
 
 	void update();

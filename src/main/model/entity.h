@@ -15,6 +15,8 @@ public:
 	const std::string name;
 	Entity(std::string newName);
 	~Entity();
+
+	void update();
 };
 //-----------------------------------------------------------------------------
 #endif /* _MODEL_ENTITY_H_ */
