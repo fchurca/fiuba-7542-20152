@@ -15,6 +15,7 @@ private:
 public:
 	~Board(){}
 
+	void update();
 	void buildBoard(ParserYAML* parser);
 };
 //-----------------------------------------------------------------------------

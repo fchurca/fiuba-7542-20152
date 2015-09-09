@@ -21,6 +21,7 @@ void Game::render(){
 
 void Game::update(){
 	//	Actualizar juego
+	gameBoard->update();
 	return;
 }
 
