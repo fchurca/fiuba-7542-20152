@@ -1,24 +1,24 @@
-#include "map.h"
+#include "board.h"
 //-----------------------------------------------------------------------------
-Map* Map::map = 0;
+Board* Board::board = 0;
 //-----------------------------------------------------------------------------
-Map::Map()
+Board::Board()
 {
 
 
 }
 //-----------------------------------------------------------------------------
-Map* Map::getInstance()
+Board* Board::getInstance()
 {
-	if (Map::map == 0)
+	if (Board::board == 0)
 	{
-		map = new Map();
-		return map;
+		board = new Board();
+		return board;
 	}
-	return map;
+	return board;
 }
 //-----------------------------------------------------------------------------
-void Map::buildMap(ParserYAML* parser)
+void Board::buildBoard(ParserYAML* parser)
 {
 
 }

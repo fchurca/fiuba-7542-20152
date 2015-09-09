@@ -1,12 +1,12 @@
 //-----------------------------------------------------------------------------
-#ifndef SRC_MAIN_MAPA_MAPFACTORY_H_
-#define SRC_MAIN_MAPA_MAPFACTORY_H_
+#ifndef SRC_MAIN_BOARD_BOARDFACTORY_H_
+#define SRC_MAIN_BOARD_BOARDFACTORY_H_
 //-----------------------------------------------------------------------------
-class mapFactory {
+class boardFactory {
 public:
-	mapFactory();
-	virtual ~mapFactory();
+	boardFactory();
+	virtual ~boardFactory();
 };
 //-----------------------------------------------------------------------------
-#endif /* SRC_MAIN_MAPA_MAPFACTORY_H_ */
+#endif /* SRC_MAIN_BOARD_BOARDFACTORY_H_ */
 //-----------------------------------------------------------------------------

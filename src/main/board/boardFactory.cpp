@@ -1,12 +1,12 @@
-#include "mapFactory.h"
+#include "boardFactory.h"
 //-----------------------------------------------------------------------------
-mapFactory::mapFactory() {
+boardFactory::boardFactory() {
 	// TODO Auto-generated constructor stub
 
 }
 //-----------------------------------------------------------------------------
 
-mapFactory::~mapFactory() {
+boardFactory::~boardFactory() {
 	// TODO Auto-generated destructor stub
 }
 //-----------------------------------------------------------------------------

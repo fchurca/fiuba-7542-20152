@@ -28,10 +28,10 @@ int main(int argc, char* args[]) {
 	//}
 
 	ParserYAML* parser = new ParserYAML(CONFIG_FILE_PATH);
-	Map* map = Map::getInstance();
-	map->buildMap(parser);
+	Board* board = Board::getInstance();
+	board->buildBoard(parser);
 
-	Game game(map);
+	Game game(board);
 	game.start();
 
 	//	test parser

@@ -1,5 +1,5 @@
-#ifndef SRC_MAIN_MAP_MAP_H_
-#define SRC_MAIN_MAP_MAP_H_
+#ifndef _SRC_MAIN_BOARD_BOARD_H_
+#define _SRC_MAIN_BOARD_BOARD_H_
 //-----------------------------------------------------------------------------
 #include <string>
 #include <vector>
@@ -8,22 +8,22 @@
 #include "../gfx/sprite_sheet.h"
 #include "../parser_yaml/parser_yaml.h"
 //-----------------------------------------------------------------------------
-class Map {
+class Board {
 
 private:
 	std::vector<Entity*> entities;
 	std::vector<SpriteSheet*> spriteSheets;
 
 private:
-	Map();
+	Board();
 public:
-	static Map* map;
-	static Map* getInstance();
-	virtual ~Map(){}
+	static Board* board;
+	static Board* getInstance();
+	virtual ~Board(){}
 
 public:
-	void buildMap(ParserYAML* parser);
+	void buildBoard(ParserYAML* parser);
 };
 //-----------------------------------------------------------------------------
-#endif /* SRC_MAIN_MAP_MAP_H_ */
+#endif /* _SRC_MAIN_BOARD_BOARD_H_ */
 //-----------------------------------------------------------------------------

@@ -1,8 +1,8 @@
 all: bin/tp7542
 
 bin/tp7542: bin/main.o bin/parser_yaml.o bin/logger.o bin/gfx.o bin/controller.o
-	#TODO: ordenar game, mapa, mapFactory
-	$(CXX) -o $@ -lyaml-cpp -lSDL2 -lSDL2_image bin/main.o bin/parser_yaml.o bin/logger.o bin/gfx.o bin/controller.o game.cpp mapa/map.cpp mapa/mapFactory.cpp
+	#TODO: ordenar game, board, boardFactory
+	$(CXX) -o $@ -lyaml-cpp -lSDL2 -lSDL2_image bin/main.o bin/parser_yaml.o bin/logger.o bin/gfx.o bin/controller.o game.cpp board/board.cpp board/boardFactory.cpp
 
 bin/main.o: main.cpp
 	$(CXX) -o $@ -c main.cpp

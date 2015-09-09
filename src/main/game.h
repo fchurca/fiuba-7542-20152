@@ -6,7 +6,7 @@
 #include "controllers/event_handler.h"
 #include "gfx/game_window.h"
 #include "log/logger.h"
-#include "mapa/map.h"
+#include "board/board.h"
 
 class Game {
 private:
@@ -17,9 +17,9 @@ private:
 	void update();
 	void render();
 
-	Map* gameMap;
+	Board* gameBoard;
 public:
-	Game(Map* map);
+	Game(Board* board);
 	int start();
 	~Game();
 };
