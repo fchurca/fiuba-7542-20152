@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 //-----------------------------------------------------------------------------
-#include "../entidades/entity.h"
+#include "../model/entity.h"
 #include "../parser_yaml/parser_yaml.h"
 //-----------------------------------------------------------------------------
 class Board {

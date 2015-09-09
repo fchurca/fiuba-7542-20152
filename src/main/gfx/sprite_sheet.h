@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <string>
 #include "../log/logger.h"
-#include "../entidades/entity.h"
+#include "../model/entity.h"
 #include "../defines/defines.h"
 
 class SpriteSheet {
