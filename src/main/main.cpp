@@ -31,8 +31,10 @@ int main(int argc, char* args[]) {
 	Board board;
 	board.buildBoard(parser);
 
-	Game game(&board);
-	game.start();
+	{
+		Game game(&board);
+		game.start();
+	}
 
 	//	test parser
 	/*ParserYAML* parser = new ParserYAML(CONFIG_FILE_PATH);

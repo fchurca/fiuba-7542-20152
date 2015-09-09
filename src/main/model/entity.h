@@ -9,11 +9,11 @@ class Entity {
 private:
 	int x;
 	int y;
-	std::string name;
 	Entity();
 
 public:
-	Entity(std::string name);
+	const std::string name;
+	Entity(std::string newName);
 	~Entity();
 };
 //-----------------------------------------------------------------------------

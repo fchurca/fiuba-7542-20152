@@ -1,3 +1,5 @@
+CXX += -std=c++11
+
 all: bin/tp7542
 
 bin/tp7542: bin/main.o bin/parser_yaml.o bin/logger.o bin/gfx.o bin/controller.o bin/board.o bin/entity.o

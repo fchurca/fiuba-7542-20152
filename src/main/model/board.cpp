@@ -1,18 +1,29 @@
 #include "board.h"
 #include <iostream>
+
+using namespace std;
+
 //-----------------------------------------------------------------------------
 void Board::buildBoard(ParserYAML* parser) {
 }
 
-void Board::Board() {
+Board::Board() {
+	entities.push_back(new Entity("Dummy"));
+	cerr << "Adding a new Dummy entity" << endl;
 }
 
-void Board::~Board() {
+Board::~Board() {
+	cerr << "Killing board " << this << endl;
+	for(Entity* & e : entities) {
+		cerr << "Killing entity " << e->name << endl;
+		delete e;
+		e = NULL;
+	}
 }
 
 void Board::update() {
-	std::cerr << "Board " << this << " updating" << std::endl;
+	/*cerr << "Board " << this << " updating" << endl;
 	// TODO: hacer vivir a las entidades
-	std::cerr << "Board " << this << " updated" << std::endl;
+	cerr << "Board " << this << " updated" << endl;*/
 }
 
