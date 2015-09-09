@@ -7,7 +7,7 @@ Game::Game(Board* map){
 
 Game::~Game(){
 	delete(EventHandler::getInstance());
-	delete(this->gameBoard);
+	// delete(this->gameBoard); NO MIENTRAS GAMEBOARD SEA RESPONSABILIDAD DE GAME
 }
 
 bool Game::endOfGame(){
