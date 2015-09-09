@@ -14,14 +14,9 @@ private:
 	std::vector<Entity*> entities;
 	std::vector<SpriteSheet*> spriteSheets;
 
-private:
-	Board();
 public:
-	static Board* board;
-	static Board* getInstance();
-	virtual ~Board(){}
+	~Board(){}
 
-public:
 	void buildBoard(ParserYAML* parser);
 };
 //-----------------------------------------------------------------------------
