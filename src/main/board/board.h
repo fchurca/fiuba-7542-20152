@@ -5,14 +5,12 @@
 #include <vector>
 //-----------------------------------------------------------------------------
 #include "../entidades/entity.h"
-#include "../gfx/sprite_sheet.h"
 #include "../parser_yaml/parser_yaml.h"
 //-----------------------------------------------------------------------------
 class Board {
 
 private:
 	std::vector<Entity*> entities;
-	std::vector<SpriteSheet*> spriteSheets;
 
 public:
 	~Board(){}
