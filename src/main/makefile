@@ -1,8 +1,8 @@
 all: bin/tp7542
 
-bin/tp7542: bin/main.o bin/parser_yaml.o bin/logger.o bin/gfx.o bin/controller.o bin/model.o
+bin/tp7542: bin/main.o bin/parser_yaml.o bin/logger.o bin/gfx.o bin/controller.o bin/board.o bin/entity.o
 	#TODO: ordenar game, board
-	$(CXX) -o $@ -lyaml-cpp -lSDL2 -lSDL2_image bin/main.o bin/parser_yaml.o bin/logger.o bin/gfx.o bin/controller.o bin/model.o game.cpp
+	$(CXX) -o $@ -lyaml-cpp -lSDL2 -lSDL2_image bin/main.o bin/parser_yaml.o bin/logger.o bin/gfx.o bin/controller.o bin/board.o bin/entity.o game.cpp
 
 bin/main.o: main.cpp
 	$(CXX) -o $@ -c main.cpp
@@ -16,11 +16,14 @@ bin/logger.o: log/logger.cpp log/logger.h
 bin/parser_yaml.o: parser_yaml/parser_yaml.cpp parser_yaml/parser_yaml.h
 	$(CXX) -o $@ -c parser_yaml/parser_yaml.cpp
 
-bin/controller.o: controllers/event_handler.cpp
+bin/controller.o: controllers/event_handler.cpp controllers/event_handler.h
 	$(CXX) -o $@ -c controllers/event_handler.cpp
 
-bin/model.o: model/board.cpp
+bin/board.o: model/board.cpp model/board.h
 	$(CXX) -o $@ -c model/board.cpp
+
+bin/entity.o: model/entity.cpp model/entity.h
+	$(CXX) -o $@ -c model/entity.cpp
 
 clean: cleanobj
 	rm -f bin/tp7542

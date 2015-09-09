@@ -10,10 +10,11 @@ private:
 	int x;
 	int y;
 	std::string name;
+	Entity();
 
 public:
-	Entity();
-	virtual ~Entity();
+	Entity(std::string name);
+	~Entity();
 };
 //-----------------------------------------------------------------------------
 #endif /* _MODEL_ENTITY_H_ */

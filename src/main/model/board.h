@@ -13,7 +13,8 @@ private:
 	std::vector<Entity*> entities;
 
 public:
-	~Board(){}
+	Board();
+	~Board();
 
 	void update();
 	void buildBoard(ParserYAML* parser);
