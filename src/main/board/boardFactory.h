@@ -5,7 +5,7 @@
 class boardFactory {
 public:
 	boardFactory();
-	virtual ~boardFactory();
+	~boardFactory();
 };
 //-----------------------------------------------------------------------------
 #endif /* SRC_MAIN_BOARD_BOARDFACTORY_H_ */
