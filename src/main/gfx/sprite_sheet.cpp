@@ -63,7 +63,7 @@ void SpriteSheet::render( int x, int y, SDL_Renderer* renderer ){
 	int screenY = (((x * TILE_HEIGHT_DEFAULT) / (TILE_WIDTH_DEFAULT * 2)) + (y / 2));
 
 	//	Ubicacion donde dibujar
-	SDL_Rect renderQuad = { screenX, screenY, TILE_WIDTH_DEFAULT, TILE_HEIGHT_DEFAULT };
+	SDL_Rect renderQuad = { screenX + ANCHO_DEFAULT/2, screenY, TILE_WIDTH_DEFAULT, TILE_HEIGHT_DEFAULT };
 
 	//	Parte de la imagen a levantar - TODO: VER DE DONDE LEVANTARLO
 	SDL_Rect clip = { 0, 0, TILE_WIDTH_DEFAULT, TILE_HEIGHT_DEFAULT };
