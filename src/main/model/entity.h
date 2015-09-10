@@ -12,6 +12,7 @@ class Entity {
 		double
 			x, y;
 		Entity();
+		void adjustPosition();
 
 	public:
 		const std::string name;
