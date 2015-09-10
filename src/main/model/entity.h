@@ -9,8 +9,9 @@ class Board;
 
 class Entity {
 	protected:
-		double
-			x, y;
+		double x, y;	// Position (tile)
+		double speed;	// Speed (tiles/s)
+
 		Entity();
 		void adjustPosition();
 

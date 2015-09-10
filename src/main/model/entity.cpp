@@ -9,6 +9,7 @@ Entity::Entity(std::string name, Board& board, double x, double y) :
 	board(board) {
 		this->x = x;
 		this->y = y;
+		speed = 1;
 		adjustPosition();
 		cerr << "Created Entity " << this
 			<< " of kind " << name
