@@ -11,11 +11,15 @@ class Entity {
 	protected:
 		double x, y;	// Position (tile)
 		double speed;	// Speed (tiles/s)
+		bool targeted;
+		double targetX, targetY;
 
 		Entity();
 		void adjustPosition();
 
 	public:
+		void setTarget(double x, double y);
+		void unsetTarget();
 		const std::string name;
 		const Board& board;
 

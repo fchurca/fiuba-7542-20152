@@ -6,6 +6,7 @@ using namespace std;
 //-----------------------------------------------------------------------------
 void Board::buildBoard(ParserYAML* parser) {
 	createEntity("Dummy", 0, 0);
+	entities.back()->setTarget(99,99);
 }
 
 void Board::createEntity(std::string name, double x, double y) {
