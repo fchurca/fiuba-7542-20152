@@ -52,3 +52,11 @@ void Entity::update() {
 	}
 	cerr << endl;
 }
+
+int Entity::getX(){
+	return this->x;
+}
+
+int Entity::getY(){
+	return this->y;
+}
