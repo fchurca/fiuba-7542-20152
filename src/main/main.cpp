@@ -8,6 +8,7 @@
 #include "parser_yaml/parser_yaml.h"
 #include "log/logger.h"
 #include "game.h"
+#include "gfx/game_window.h"
 //-----------------------------------------------------------------------------
 #define CONFIG_FILE_PATH "configuracion.yaml"
 //-----------------------------------------------------------------------------
@@ -33,7 +34,9 @@ int main(int argc, char* args[]) {
 		Board board(64, 48);
 		board.buildBoard(parser);
 		Game game(&board);
-		game.start();
+		GameWindow gameWin(&game);
+		gameWin.init(); //TODO DEBE CARGARSE CON LOS DATOS OBTENIDOS DEL PARSER
+		gameWin.start();
 	}
 
 	//	test parser
