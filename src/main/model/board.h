@@ -22,6 +22,7 @@ public:
 	void createEntity(std::string name, double x, double y);
 	void update();
 	void buildBoard(ParserYAML* parser);
+	std::vector<Entity*> getEntities();
 };
 //-----------------------------------------------------------------------------
 #endif /* _MODEL_BOARD_H_ */
