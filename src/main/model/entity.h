@@ -4,6 +4,9 @@
 //-----------------------------------------------------------------------------
 #include <string>
 //-----------------------------------------------------------------------------
+
+class Board;
+
 class Entity {
 
 private:
@@ -13,7 +16,8 @@ private:
 
 public:
 	const std::string name;
-	Entity(std::string newName);
+	const Board& board;
+	Entity(std::string name, Board& board);
 	~Entity();
 
 	void update();

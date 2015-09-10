@@ -5,8 +5,12 @@ using namespace std;
 
 //-----------------------------------------------------------------------------
 void Board::buildBoard(ParserYAML* parser) {
-	entities.push_back(new Entity("Dummy"));
 	cerr << "Adding a new Dummy entity" << endl;
+	createEntity("Dummy");
+}
+
+void Board::createEntity(std::string name) {
+	entities.push_back(new Entity(name, *this));
 }
 
 Board::Board(int sizeX, int sizeY) : sizeX(sizeX), sizeY(sizeY) {

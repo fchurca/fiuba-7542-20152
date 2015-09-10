@@ -1,13 +1,21 @@
 #include "entity.h"
 #include <iostream>
+
+using namespace std;
 //-----------------------------------------------------------------------------
-Entity::Entity(std::string newName) : name(newName) {}
+Entity::Entity(std::string name, Board& board) :
+	name(name),
+	board(board) {
+		cerr << "Created Entity " << this
+			<< " of kind " << name
+			<< " owned by board " << &board << endl;
+	}
 //-----------------------------------------------------------------------------
 Entity::~Entity() {
-	std::cerr << "Killing Entity " << name << " " << this << std::endl;
+	cerr << "Killing Entity " << name << " " << this << endl;
 }
 //-----------------------------------------------------------------------------
 
 void Entity::update() {
-	std::cerr << "Entity " << this << " is alive" << std::endl;
+	cerr << "Entity " << this << " is alive" << endl;
 }
