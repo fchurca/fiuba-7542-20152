@@ -8,19 +8,19 @@
 class Board;
 
 class Entity {
+	protected:
+		double
+			x, y;
+		Entity();
 
-private:
-	int x;
-	int y;
-	Entity();
+	public:
+		const std::string name;
+		const Board& board;
 
-public:
-	const std::string name;
-	const Board& board;
-	Entity(std::string name, Board& board);
-	~Entity();
+		Entity(std::string name, Board& board);
+		~Entity();
 
-	void update();
+		void update();
 };
 //-----------------------------------------------------------------------------
 #endif /* _MODEL_ENTITY_H_ */
