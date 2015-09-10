@@ -19,7 +19,7 @@ public:
 	Board(int sizeX, int sizeY);
 	~Board();
 
-	void createEntity(std::string name);
+	void createEntity(std::string name, double x, double y);
 	void update();
 	void buildBoard(ParserYAML* parser);
 };

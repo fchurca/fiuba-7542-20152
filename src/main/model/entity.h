@@ -17,7 +17,7 @@ class Entity {
 		const std::string name;
 		const Board& board;
 
-		Entity(std::string name, Board& board);
+		Entity(std::string name, Board& board, double x, double y);
 		~Entity();
 
 		void update();

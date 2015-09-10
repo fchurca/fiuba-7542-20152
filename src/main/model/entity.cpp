@@ -3,12 +3,15 @@
 
 using namespace std;
 //-----------------------------------------------------------------------------
-Entity::Entity(std::string name, Board& board) :
+Entity::Entity(std::string name, Board& board, double x, double y) :
 	name(name),
 	board(board) {
+		this->x = x;
+		this->y = y;
 		cerr << "Created Entity " << this
 			<< " of kind " << name
-			<< " owned by board " << &board << endl;
+			<< " owned by board " << &board
+			<< " at " << x << "," << y << endl;
 	}
 //-----------------------------------------------------------------------------
 Entity::~Entity() {
@@ -17,5 +20,6 @@ Entity::~Entity() {
 //-----------------------------------------------------------------------------
 
 void Entity::update() {
-	cerr << "Entity " << this << " is alive" << endl;
+	cerr << "Entity " << this << " is alive at "
+		<< x << "," << y << endl;
 }
