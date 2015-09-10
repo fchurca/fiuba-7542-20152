@@ -6,8 +6,8 @@
 #define ARCHIVO_CONFIGURACION_DEFAULT  "configuracionDefault.yaml"
 
 //Pantalla Default
-#define ANCHO_DEFAULT  0
-#define ALTO_DEFAULT  0
+#define ANCHO_DEFAULT  640
+#define ALTO_DEFAULT  480
 
 //Configuracion Default
 #define VELOCIDAD_PERSONAJE_DEFAULT 0
