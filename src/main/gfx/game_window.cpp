@@ -29,6 +29,7 @@ GameWindow::GameWindow(Game* game) {
 			SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 			ANCHO_DEFAULT, ALTO_DEFAULT,
 			SDL_WINDOW_SHOWN);
+
 	
 	Logger::getInstance()->writeInformation("Creating renderer");
 	renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
@@ -36,6 +37,8 @@ GameWindow::GameWindow(Game* game) {
 
 	// TODO: IMG_INIT
 	
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Color: negro opaco
+	SDL_RenderClear(renderer); // Limpio pantalla inicialmente
 	SDL_RenderPresent( renderer );
 }
 
