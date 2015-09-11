@@ -39,5 +39,8 @@ force: clean all
 run: all
 	bin/tp7542
 
-.PHONY: clean cleanobj all force
+cppcheck:
+	cppcheck `find . -name '*.cpp'`
+
+.PHONY: clean cleanobj all force cppcheck
 
