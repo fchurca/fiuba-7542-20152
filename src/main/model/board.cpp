@@ -58,11 +58,11 @@ Board::~Board() {
 }
 
 void Board::update() {
-	/*cerr << "Board " << this << " updating" << endl;
+	//cerr << "Board " << this << " updating" << endl;
 	for(auto& e : entities) {
 		e->update();
 	}
-	cerr << "Board " << this << " updated" << endl;*/
+	//cerr << "Board " << this << " updated" << endl;
 }
 
 std::vector<Entity*> Board::getEntities() {

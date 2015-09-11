@@ -43,14 +43,14 @@ void Entity::unsetTarget() {
 }
 
 void Entity::update() {
-	cerr << "Entity " << this << " is alive at " << x << "," << y;
+/*	cerr << "Entity " << this << " is alive at " << x << "," << y;
 	if (targeted) {
 		cerr << " heading for " << targetX << "," << targetY
 			<< " at " << speed << " tiles/s";
 	} else {
 		cerr << " standing still";
 	}
-	cerr << endl;
+	cerr << endl;*/
 }
 
 int Entity::getX(){
