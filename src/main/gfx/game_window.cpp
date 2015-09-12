@@ -58,9 +58,8 @@ GameWindow::~GameWindow() {
 		window = NULL;
 	}
 
-	map<std::string, SpriteSheet*>::const_iterator itr;
-	for(itr = spritesSheets.begin(); itr != spritesSheets.end(); ++itr){
-		delete itr->second;
+	for(auto itr : spritesSheets){
+		delete itr.second;
 	}
 }
 
@@ -70,19 +69,16 @@ bool GameWindow::endOfGame(){
 
 void GameWindow::render(){
 	//	Dibujar
-	std::vector<Entity*> entities = this->model->getBoard()->getEntities();
-	std::map<std::string,SpriteSheet*>::iterator it;
-	SpriteSheet* ss;
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
-	for (std::size_t i =0; i < entities.size(); ++i){
-		it = this->spritesSheets.find(entities[i]->name);
+	for (auto entity : this->model->getBoard()->getEntities()){
+		auto it = this->spritesSheets.find(entity->name);
 		if(it != this->spritesSheets.end()){
-			ss = it->second;
-			ss->render(entities[i]->getX() * TILE_WIDTH_DEFAULT, entities[i]->getY() * TILE_HEIGHT_DEFAULT, renderer);
+			it->second
+				->render(entity->getX() * TILE_WIDTH_DEFAULT, entity->getY() * TILE_HEIGHT_DEFAULT, renderer);
+		} else {
+			Logger::getInstance()->writeWarning("No existe SpriteSheet para este tipo de entidad" + entity->name);
 		}
-		else
-			Logger::getInstance()->writeWarning("No existe SpriteSheet para este tipo de entidad" + entities[i]->name);
 	}
 	
 	SDL_RenderPresent( renderer );
