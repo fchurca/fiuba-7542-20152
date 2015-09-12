@@ -22,13 +22,13 @@ bin/parser_yaml.o: parser_yaml/parser_yaml.cpp parser_yaml/parser_yaml.h
 bin/controller.o: controllers/event_handler.cpp controllers/event_handler.h
 	${CXXO}
 
-bin/board.o: model/board.cpp model/board.h
+bin/board.o: model/board.cpp model/board.h model/entity.h model/entity_factory.h
 	${CXXO}
 
 bin/entity.o: model/entity.cpp model/entity.h
 	${CXXO}
 
-bin/entity_factory.o: model/entity_factory.cpp model/entity_factory.h
+bin/entity_factory.o: model/entity_factory.cpp model/entity_factory.h model/entity.h
 	${CXXO}
 
 bin/sprite_sheet.o: gfx/sprite_sheet.cpp gfx/sprite_sheet.h

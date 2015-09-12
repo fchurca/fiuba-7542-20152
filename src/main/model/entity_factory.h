@@ -12,9 +12,11 @@ class EntityFactory {
 		const int size_x;
 		const int size_y;
 		const double speed;
-		const Board& board;
-		EntityFactory(std::string name, int size_x, int size_y, double speed, const Board& board);
+		Board& board;
+
+		EntityFactory(std::string name, int size_x, int size_y, double speed, Board& board);
 		~EntityFactory();
-};
+
+		Entity* createEntity(int x, int y);};
 
 #endif // _MODEL_ENTITY_FACTORY_H_

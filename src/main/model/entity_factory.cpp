@@ -2,7 +2,7 @@
 
 #include "entity_factory.h"
 
-EntityFactory::EntityFactory(std::string name, int size_x, int size_y, double speed, const Board& board):
+EntityFactory::EntityFactory(std::string name, int size_x, int size_y, double speed, Board& board):
 	name(name),
 	size_x(size_x), size_y(size_y),
 	speed(speed),
@@ -17,5 +17,9 @@ EntityFactory::EntityFactory(std::string name, int size_x, int size_y, double sp
 
 EntityFactory::~EntityFactory() {
 	std::cerr << "Killing EntityFactory " << this << std::endl;
+}
+
+Entity* EntityFactory::createEntity(int x, int y) {
+	return new Entity(name, board, x, y);
 }
 
