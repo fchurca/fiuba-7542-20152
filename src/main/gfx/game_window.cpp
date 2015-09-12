@@ -73,6 +73,8 @@ void GameWindow::render(){
 	std::vector<Entity*> entities = this->model->getBoard()->getEntities();
 	std::map<std::string,SpriteSheet*>::iterator it;
 	SpriteSheet* ss;
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	SDL_RenderClear(renderer);
 	for (std::size_t i =0; i < entities.size(); ++i){
 		it = this->spritesSheets.find(entities[i]->name);
 		if(it != this->spritesSheets.end()){
@@ -95,7 +97,7 @@ void GameWindow::init(){
 }
 
 void GameWindow::update(){
-	//	Actualizar juego
+	model->update();
 	return;
 }
 
@@ -123,7 +125,7 @@ int GameWindow::start(){
 		update();
 		render();
 
-		//sleep();
+		SDL_Delay(20); // TODO: Optimizar, sacar hardcodeo
 	}
 	return 0;
 }

@@ -9,11 +9,11 @@
 class Game {
 private:
 	void init();
-	void update();
 	Board* gameBoard;
 public:
 	Game(Board* board);
 	~Game();
 	Board* getBoard();
+	void update();
 };
 #endif //__GAME_H__
