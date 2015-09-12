@@ -18,6 +18,9 @@ private:
 
 	unsigned int pixel_ref_x;
 	unsigned int pixel_ref_y;
+	unsigned int total_sprites;
+	unsigned int alto_sprite;
+	unsigned int ancho_sprite;
 
 	bool initialized;//= FALSE;
 	SDL_Texture* texture;// = NULL;
@@ -25,9 +28,10 @@ private:
 	void free();
 
 public:
-	SpriteSheet( std::string pPath );
+	SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, int fps, int delay );
 	~SpriteSheet();
 	void render( int x, int y, SDL_Renderer* renderer );
+	void dibujarAnimado( int x, int y, SDL_Renderer* renderer );
 	SDL_Texture* getLoadedTexture( SDL_Renderer* renderer );
 };
 

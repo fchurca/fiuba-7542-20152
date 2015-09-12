@@ -79,7 +79,10 @@ void GameWindow::render(){
 		it = this->spritesSheets.find(entities[i]->name);
 		if(it != this->spritesSheets.end()){
 			ss = it->second;
-			ss->render(entities[i]->getX() * TILE_WIDTH_DEFAULT, entities[i]->getY() * TILE_HEIGHT_DEFAULT, renderer);
+			if(entities[i]->name == "chancho")
+				ss->dibujarAnimado(entities[i]->getX() * TILE_WIDTH_DEFAULT, entities[i]->getY() * TILE_HEIGHT_DEFAULT, renderer);
+			else
+				ss->render(entities[i]->getX() * TILE_WIDTH_DEFAULT, entities[i]->getY() * TILE_HEIGHT_DEFAULT, renderer);
 		}
 		else
 			Logger::getInstance()->writeWarning("No existe SpriteSheet para este tipo de entidad" + entities[i]->name);
@@ -90,9 +93,10 @@ void GameWindow::render(){
 }
 
 void GameWindow::init(){
-	this->spritesSheets["agua"] = new SpriteSheet("resources//agua.png");
-	this->spritesSheets["pasto"] = new SpriteSheet("resources//pasto.png");
-	this->spritesSheets["piedra"] = new SpriteSheet("resources//piedra.png");
+	this->spritesSheets["agua"] = new SpriteSheet("resources//agua.png", 0, 0, TILE_WIDTH_DEFAULT, TILE_HEIGHT_DEFAULT, 1, 0, 0);
+	this->spritesSheets["pasto"] = new SpriteSheet("resources//pasto.png", 0, 0, TILE_WIDTH_DEFAULT, TILE_HEIGHT_DEFAULT, 1, 0, 0);
+	this->spritesSheets["piedra"] = new SpriteSheet("resources//piedra.png", 0, 0, TILE_WIDTH_DEFAULT, TILE_HEIGHT_DEFAULT, 1, 0, 0);
+	this->spritesSheets["chancho"] = new SpriteSheet("resources//chanchos.png", 0, 0, 44, 48, 15, 0, 0);
 
 }
 
@@ -125,7 +129,7 @@ int GameWindow::start(){
 		update();
 		render();
 
-		SDL_Delay(20); // TODO: Optimizar, sacar hardcodeo
+		SDL_Delay(100); // TODO: Optimizar, sacar hardcodeo
 	}
 	return 0;
 }
