@@ -18,7 +18,7 @@ class EntityFactory;
 class Board {
 
 private:
-	std::vector<Entity*> entities;
+	std::vector<std::shared_ptr<Entity>> entities;
 	std::map<std::string, std::shared_ptr<EntityFactory>> entityFactories;
 	Board();
 
@@ -32,7 +32,7 @@ public:
 	void createEntityFactory(std::string name, int size_x, int size_y, double speed);
 	void update();
 	void buildBoard(ParserYAML* parser);
-	std::vector<Entity*> getEntities();
+	std::vector<std::shared_ptr<Entity>> getEntities();
 };
 //-----------------------------------------------------------------------------
 #endif /* _MODEL_BOARD_H_ */

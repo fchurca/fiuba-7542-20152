@@ -61,12 +61,6 @@ Board::Board(int sizeX, int sizeY) : sizeX(sizeX), sizeY(sizeY) {
 
 Board::~Board() {
 	cerr << "Killing Board " << this << endl;
-	while (!entities.empty()) {
-		auto e = entities.back();
-		entities.pop_back();
-		delete e;
-	}
-	cerr << "Board " << this << " killed" << endl;
 }
 
 void Board::update() {
@@ -77,7 +71,7 @@ void Board::update() {
 	//cerr << "Board " << this << " updated" << endl;
 }
 
-std::vector<Entity*> Board::getEntities() {
-	return this->entities;
+std::vector<std::shared_ptr<Entity>> Board::getEntities() {
+	return entities;
 }
 

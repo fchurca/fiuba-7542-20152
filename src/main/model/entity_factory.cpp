@@ -20,7 +20,7 @@ EntityFactory::~EntityFactory() {
 		<< "of kind " << name << std::endl;
 }
 
-Entity* EntityFactory::createEntity(int x, int y) {
-	return new Entity(name, board, x, y);
+std::shared_ptr<Entity> EntityFactory::createEntity(int x, int y) {
+	return std::make_shared<Entity>(name, board, x, y);
 }
 

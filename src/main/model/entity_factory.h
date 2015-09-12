@@ -2,6 +2,7 @@
 #define _MODEL_ENTITY_FACTORY_H_
 
 #include <string>
+#include <memory>
 
 #include "board.h"
 #include "entity.h"
@@ -17,6 +18,6 @@ class EntityFactory {
 		EntityFactory(std::string name, int size_x, int size_y, double speed, Board& board);
 		~EntityFactory();
 
-		Entity* createEntity(int x, int y);};
+		std::shared_ptr<Entity> createEntity(int x, int y);};
 
 #endif // _MODEL_ENTITY_FACTORY_H_
