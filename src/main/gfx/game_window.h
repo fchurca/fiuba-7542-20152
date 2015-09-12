@@ -22,6 +22,7 @@ protected:
 	void processInput();
 	void update();
 	void render();
+	void restart();
 
 public:
 	GameWindow();

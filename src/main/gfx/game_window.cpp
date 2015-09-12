@@ -21,7 +21,9 @@ bool GameWindow::initialize() {
 
 GameWindow::GameWindow() {
 	this->parser = new ParserYAML(CONFIG_FILE_PATH);
+	this->model = NULL;
 	this->exitGame = false;
+
 	Logger::getInstance()->writeInformation("Creating window");
 	
 	GameWindow::initialize(); 
@@ -41,8 +43,6 @@ GameWindow::GameWindow() {
 	SDL_RenderClear(renderer); // Limpio pantalla inicialmente
 	SDL_RenderPresent( renderer );
 }
-
-
 
 GameWindow::~GameWindow() {
 	map<std::string, SpriteSheet*>::const_iterator itr;
@@ -95,6 +95,18 @@ void GameWindow::render(){
 	return;
 }
 
+void GameWindow::restart(){
+	//model->restart()	PARA NO TENER Q INSTANCIAR UN NUEVO MODEL
+	delete model;
+	
+	map<std::string, SpriteSheet*>::const_iterator itr;
+	for(itr = spritesSheets.begin(); itr != spritesSheets.end(); ++itr){
+		delete itr->second;
+	}
+	
+	init();
+}
+
 void GameWindow::init(){
 	this->parser->parse();
 	
@@ -117,8 +129,12 @@ void GameWindow::processInput(){
 	if(SDL_PollEvent(EventHandler::getInstance()->getEvent())) {
 		if(EventHandler::getInstance()->getEvent()->type == SDL_QUIT )
 			this->exitGame = true;
-		if(EventHandler::getInstance()->getEvent()->type == SDL_KEYDOWN )
+		if(EventHandler::getInstance()->getEvent()->type == SDL_KEYDOWN ){
 			Logger::getInstance()->writeInformation("Teclado");
+			if(EventHandler::getInstance()->getEvent()->key.keysym.sym == SDLK_r){
+				restart();
+			}
+		}
 		if( EventHandler::getInstance()->getEvent()->type == SDL_MOUSEBUTTONUP ){
 			if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_LEFT )
 				Logger::getInstance()->writeInformation("Boton Izquierdo");
