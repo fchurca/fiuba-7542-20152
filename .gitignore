@@ -36,3 +36,6 @@ bin/
 
 # Archivos de log
 *.log
+
+# Archivos generados por Doxygen
+/doc/doxygen/
