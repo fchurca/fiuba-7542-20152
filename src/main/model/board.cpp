@@ -7,6 +7,10 @@ using namespace std;
 void Board::buildBoard(ParserYAML* parser) {
 
 	// CARGO MAPA PARA PRUEBA
+	createEntityFactory("agua", 1, 1, 0);
+	createEntityFactory("pasto", 1, 1, 0);
+	createEntityFactory("piedra", 1, 1, 0);
+
 	createEntity("agua", 0, 0);
 	createEntity("agua", 0, 1);
 	createEntity("agua", 0, 2);
@@ -44,6 +48,10 @@ void Board::createEntity(std::string name, double x, double y) {
 	entities.push_back(new Entity(name, *this, x, y));
 }
 
+void Board::createEntityFactory(std::string name, int size_x, int size_y, double speed) {
+	entityFactories[name] = new EntityFactory(name, size_x, size_y, speed, *this);
+}
+
 Board::Board(int sizeX, int sizeY) : sizeX(sizeX), sizeY(sizeY) {
 	cerr << "Creating board " << this << " of size " << sizeX << "x" << sizeY << endl;
 }
@@ -55,6 +63,12 @@ Board::~Board() {
 		entities.pop_back();
 		delete e;
 	}
+	for(auto e : entityFactories) {
+		auto p = e.second;
+		entityFactories.erase(p->name);
+		delete p;
+	}
+	cerr << "Board " << this << " killed" << endl;
 }
 
 void Board::update() {

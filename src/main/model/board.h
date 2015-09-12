@@ -3,14 +3,22 @@
 //-----------------------------------------------------------------------------
 #include <string>
 #include <vector>
+#include <map>
 //-----------------------------------------------------------------------------
-#include "../model/entity.h"
+#include "entity.h"
+#include "entity_factory.h"
+
 #include "../parser_yaml/parser_yaml.h"
 //-----------------------------------------------------------------------------
+
+class Entity;
+class EntityFactory;
+
 class Board {
 
 private:
 	std::vector<Entity*> entities;
+	std::map<std::string, EntityFactory*> entityFactories;
 	Board();
 
 public:
@@ -20,6 +28,7 @@ public:
 	~Board();
 
 	void createEntity(std::string name, double x, double y);
+	void createEntityFactory(std::string name, int size_x, int size_y, double speed);
 	void update();
 	void buildBoard(ParserYAML* parser);
 	std::vector<Entity*> getEntities();
