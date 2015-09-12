@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <memory>
 //-----------------------------------------------------------------------------
 #include "entity.h"
 #include "entity_factory.h"
@@ -18,7 +19,7 @@ class Board {
 
 private:
 	std::vector<Entity*> entities;
-	std::map<std::string, EntityFactory*> entityFactories;
+	std::map<std::string, std::shared_ptr<EntityFactory>> entityFactories;
 	Board();
 
 public:

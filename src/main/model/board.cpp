@@ -52,7 +52,7 @@ void Board::createEntity(std::string name, double x, double y) {
 }
 
 void Board::createEntityFactory(std::string name, int size_x, int size_y, double speed) {
-	entityFactories[name] = new EntityFactory(name, size_x, size_y, speed, *this);
+	entityFactories[name] = std::make_shared<EntityFactory>(name, size_x, size_y, speed, *this);
 }
 
 Board::Board(int sizeX, int sizeY) : sizeX(sizeX), sizeY(sizeY) {
@@ -65,11 +65,6 @@ Board::~Board() {
 		auto e = entities.back();
 		entities.pop_back();
 		delete e;
-	}
-	for(auto e : entityFactories) {
-		auto p = e.second;
-		entityFactories.erase(p->name);
-		delete p;
 	}
 	cerr << "Board " << this << " killed" << endl;
 }

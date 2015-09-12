@@ -16,7 +16,8 @@ EntityFactory::EntityFactory(std::string name, int size_x, int size_y, double sp
 }
 
 EntityFactory::~EntityFactory() {
-	std::cerr << "Killing EntityFactory " << this << std::endl;
+	std::cerr << "Killing EntityFactory " << this
+		<< "of kind " << name << std::endl;
 }
 
 Entity* EntityFactory::createEntity(int x, int y) {
