@@ -45,21 +45,21 @@ GameWindow::GameWindow(Game* game) {
 
 
 GameWindow::~GameWindow() {
-	
+	for(auto itr : spritesSheets){
+		delete itr.second;
+	}
+
 	Logger::getInstance()->writeInformation("Destroying renderer");
 	if (renderer != NULL) {
 		SDL_DestroyRenderer(renderer);
 		renderer = NULL;
 	}
+
 	Logger::getInstance()->writeInformation("Destroying window");
 	if (window != NULL) {
 		Logger::getInstance()->writeWarning("Window never initialized");
 		SDL_DestroyWindow(window);
 		window = NULL;
-	}
-
-	for(auto itr : spritesSheets){
-		delete itr.second;
 	}
 }
 
