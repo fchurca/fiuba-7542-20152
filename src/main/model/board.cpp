@@ -65,9 +65,9 @@ Board::~Board() {
 
 void Board::update() {
 	//cerr << "Board " << this << " updating" << endl;
-	for(auto& e : entities) {
-		e->update();
-	}
+	//for(auto& e : entities) {
+	//	e->update();
+	//}
 	//cerr << "Board " << this << " updated" << endl;
 }
 
