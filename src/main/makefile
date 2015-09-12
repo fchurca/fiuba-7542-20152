@@ -4,34 +4,34 @@ CXX += $(CFLAGS)
 all: bin/tp7542
 
 bin/tp7542: bin/main.o bin/parser_yaml.o bin/logger.o bin/gfx.o bin/controller.o bin/board.o bin/entity.o bin/sprite_sheet.o bin/game.o
-	$(CXX) -o $@ -lyaml-cpp -lSDL2 -lSDL2_image bin/main.o bin/parser_yaml.o bin/logger.o bin/gfx.o bin/controller.o bin/board.o bin/entity.o bin/sprite_sheet.o bin/game.o
+	$(CXX) -o $@ -lyaml-cpp -lSDL2 -lSDL2_image $^
 
 bin/main.o: main.cpp
-	$(CXX) -o $@ -c main.cpp
+	$(CXX) -o $@ -c $<
 
 bin/gfx.o: gfx/game_window.cpp gfx/game_window.h
-	$(CXX) -o $@ -c gfx/game_window.cpp
+	$(CXX) -o $@ -c $<
 
 bin/logger.o: log/logger.cpp log/logger.h
-	$(CXX) -o $@ -c log/logger.cpp
+	$(CXX) -o $@ -c $<
 
 bin/parser_yaml.o: parser_yaml/parser_yaml.cpp parser_yaml/parser_yaml.h
-	$(CXX) -o $@ -c parser_yaml/parser_yaml.cpp
+	$(CXX) -o $@ -c $<
 
 bin/controller.o: controllers/event_handler.cpp controllers/event_handler.h
-	$(CXX) -o $@ -c controllers/event_handler.cpp
+	$(CXX) -o $@ -c $<
 
 bin/board.o: model/board.cpp model/board.h
-	$(CXX) -o $@ -c model/board.cpp
+	$(CXX) -o $@ -c $<
 
 bin/entity.o: model/entity.cpp model/entity.h
-	$(CXX) -o $@ -c model/entity.cpp
+	$(CXX) -o $@ -c $<
 
 bin/sprite_sheet.o: gfx/sprite_sheet.cpp gfx/sprite_sheet.h
-	$(CXX) -o $@ -c gfx/sprite_sheet.cpp
+	$(CXX) -o $@ -c $<
 
 bin/game.o: game.cpp game.h
-	$(CXX) -o $@ -c game.cpp
+	$(CXX) -o $@ -c $<
 
 clean: cleanobj
 	rm -f bin/tp7542
