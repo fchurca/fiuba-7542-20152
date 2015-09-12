@@ -3,9 +3,8 @@ CXX += $(CFLAGS)
 
 all: bin/tp7542
 
-bin/tp7542: bin/main.o bin/parser_yaml.o bin/logger.o bin/gfx.o bin/controller.o bin/board.o bin/entity.o
-	#TODO: ordenar game, board
-	$(CXX) -o $@ -lyaml-cpp -lSDL2 -lSDL2_image bin/main.o bin/parser_yaml.o bin/logger.o bin/gfx.o bin/controller.o bin/board.o bin/entity.o game.cpp
+bin/tp7542: bin/main.o bin/parser_yaml.o bin/logger.o bin/gfx.o bin/controller.o bin/board.o bin/entity.o bin/sprite_sheet.o bin/game.o
+	$(CXX) -o $@ -lyaml-cpp -lSDL2 -lSDL2_image bin/main.o bin/parser_yaml.o bin/logger.o bin/gfx.o bin/controller.o bin/board.o bin/entity.o bin/sprite_sheet.o bin/game.o
 
 bin/main.o: main.cpp
 	$(CXX) -o $@ -c main.cpp
@@ -27,6 +26,12 @@ bin/board.o: model/board.cpp model/board.h
 
 bin/entity.o: model/entity.cpp model/entity.h
 	$(CXX) -o $@ -c model/entity.cpp
+
+bin/sprite_sheet.o: gfx/sprite_sheet.cpp gfx/sprite_sheet.h
+	$(CXX) -o $@ -c gfx/sprite_sheet.cpp
+
+bin/game.o: game.cpp game.h
+	$(CXX) -o $@ -c game.cpp
 
 clean: cleanobj
 	rm -f bin/tp7542
