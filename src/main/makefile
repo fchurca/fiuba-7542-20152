@@ -8,31 +8,31 @@ bin/tp7542: bin/main.o bin/parser_yaml.o bin/logger.o bin/gfx.o bin/controller.o
 	$(CXX) -o $@ -lyaml-cpp -lSDL2 -lSDL2_image $^
 
 bin/main.o: main.cpp
-	$(CXXO)
+	${CXXO}
 
 bin/gfx.o: gfx/game_window.cpp gfx/game_window.h
-	$(CXXO)
+	${CXXO}
 
 bin/logger.o: log/logger.cpp log/logger.h
-	$(CXXO)
+	${CXXO}
 
 bin/parser_yaml.o: parser_yaml/parser_yaml.cpp parser_yaml/parser_yaml.h
-	$(CXXO)
+	${CXXO}
 
 bin/controller.o: controllers/event_handler.cpp controllers/event_handler.h
-	$(CXXO)
+	${CXXO}
 
 bin/board.o: model/board.cpp model/board.h
-	$(CXXO)
+	${CXXO}
 
 bin/entity.o: model/entity.cpp model/entity.h
-	$(CXXO)
+	${CXXO}
 
 bin/sprite_sheet.o: gfx/sprite_sheet.cpp gfx/sprite_sheet.h
-	$(CXXO)
+	${CXXO}
 
 bin/game.o: game.cpp game.h
-	$(CXXO)
+	${CXXO}
 
 clean: cleanobj
 	rm -f bin/tp7542
