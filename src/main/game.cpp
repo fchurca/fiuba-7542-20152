@@ -1,11 +1,12 @@
 #include "game.h"
 
-Game::Game(Board* map){
-	this->gameBoard = map;
+Game::Game(ParserYAML* parser){
+	this->gameBoard = new Board(64, 48);
+	this->gameBoard->buildBoard(parser);
 }
 
 Game::~Game(){
-	// delete(this->gameBoard); NO MIENTRAS GAMEBOARD SEA RESPONSABILIDAD DE GAME
+	delete(this->gameBoard);
 }
 
 void Game::init(){

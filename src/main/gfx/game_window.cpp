@@ -19,9 +19,9 @@ bool GameWindow::initialize() {
 	return GameWindow::sdlInitialized;
 }
 
-GameWindow::GameWindow(Game* game) {
+GameWindow::GameWindow() {
+	this->parser = new ParserYAML(CONFIG_FILE_PATH);
 	this->exitGame = false;
-	this->model = game;
 	Logger::getInstance()->writeInformation("Creating window");
 	
 	GameWindow::initialize(); 
@@ -49,6 +49,9 @@ GameWindow::~GameWindow() {
 	for(itr = spritesSheets.begin(); itr != spritesSheets.end(); ++itr){
 		delete itr->second;
 	}
+
+	delete parser;
+	delete model;
 
 	Logger::getInstance()->writeInformation("Destroying renderer");
 	if (renderer != NULL) {
@@ -93,6 +96,10 @@ void GameWindow::render(){
 }
 
 void GameWindow::init(){
+	this->parser->parse();
+	
+	this->model = new Game(parser);
+
 	this->spritesSheets["agua"] = new SpriteSheet("resources//agua.png", 0, 0, TILE_WIDTH_DEFAULT, TILE_HEIGHT_DEFAULT, 1, 0, 0);
 	this->spritesSheets["pasto"] = new SpriteSheet("resources//pasto.png", 0, 0, TILE_WIDTH_DEFAULT, TILE_HEIGHT_DEFAULT, 1, 0, 0);
 	this->spritesSheets["piedra"] = new SpriteSheet("resources//piedra.png", 0, 0, TILE_WIDTH_DEFAULT, TILE_HEIGHT_DEFAULT, 1, 0, 0);
@@ -122,6 +129,8 @@ void GameWindow::processInput(){
 }
 
 int GameWindow::start(){
+	init();
+
 	
 	while (!endOfGame())
 	{

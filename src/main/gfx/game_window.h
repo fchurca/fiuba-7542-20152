@@ -4,12 +4,14 @@
 #include "../game.h"
 #include "../log/logger.h"
 #include "../defines/defines.h"
+#include "../parser_yaml/parser_yaml.h"
 #include "../controllers/event_handler.h"
 #include "sprite_sheet.h"
 
 class GameWindow {
 protected:
 	Game* model; //= NULL;
+	ParserYAML* parser;
 	SDL_Window* window; //= NULL;
 	SDL_Renderer* renderer;// = NULL;
 	std::map<std::string, SpriteSheet*> spritesSheets;
@@ -22,7 +24,7 @@ protected:
 	void render();
 
 public:
-	GameWindow(Game* game);
+	GameWindow();
 	~GameWindow();
 	int start();
 	void init();

@@ -5,6 +5,9 @@
 //Archivo Configuracion Default
 #define ARCHIVO_CONFIGURACION_DEFAULT  "configuracionDefault.yaml"
 
+//Archivo Configuracion
+#define CONFIG_FILE_PATH "configuracion.yaml"
+
 //Pantalla Default
 #define ANCHO_DEFAULT  640
 #define ALTO_DEFAULT  480

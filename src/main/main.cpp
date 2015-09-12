@@ -10,7 +10,7 @@
 #include "game.h"
 #include "gfx/game_window.h"
 //-----------------------------------------------------------------------------
-#define CONFIG_FILE_PATH "configuracion.yaml"
+
 //-----------------------------------------------------------------------------
 int main(int argc, char* args[]) {
 
@@ -18,38 +18,11 @@ int main(int argc, char* args[]) {
 	Logger::getInstance()->writeInformation("Info");
 	Logger::getInstance()->writeWarning("Warning");
 
-	//Logger::getInstance()->writeInformation("Creating window");
-	//GameWindow window = GameWindow();
-
-	//for(bool quit = false; !quit;) {
-	//	for(SDL_Event e; SDL_PollEvent(&e) != 0;) {
-	//		quit |= e.type == SDL_QUIT;
-	//		Logger::getInstance()->writeInformation("Event received");
-	//	}
-	//}
-
-	ParserYAML* parser = new ParserYAML(CONFIG_FILE_PATH);
-
-	{
-		Board board(64, 48);
-		board.buildBoard(parser);
-		Game game(&board);
-		GameWindow gameWin(&game);
-		gameWin.init(); //TODO DEBE CARGARSE CON LOS DATOS OBTENIDOS DEL PARSER
-		gameWin.start();
-	}
-
-	//	test parser
-	/*ParserYAML* parser = new ParserYAML(CONFIG_FILE_PATH);
-	parser->parse();
-	TagPantalla tp = parser->getPantalla();
-	TagConfiguracion tc = parser->getConfiguracion();
-	std::vector<TagTipoEntidad> tte = parser->getTiposEntidades();
-	TagEscenario te = parser->getEscenario();*/
+	GameWindow gameWin = GameWindow();
+	gameWin.start();
 
 	Logger::getInstance()->writeInformation("Closing down");
 
-	delete parser;
 	//
 	delete (Logger::getInstance());
 	//
