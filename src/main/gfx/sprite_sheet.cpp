@@ -68,7 +68,7 @@ void SpriteSheet::render( int x, int y, int frame, Directions direction, SDL_Ren
 
 	int image = fps % total_sprites;	//aca se debe usar el frame actual
 
-	//	Parte de la imagen a levantar - TODO: VER DE DONDE LEVANTARLO
+	//	Parte de la imagen a levantar
 	SDL_Rect clip = { image * ancho_sprite, direction * alto_sprite, ancho_sprite, alto_sprite };
 	//SDL_Rect clip = { direction *ancho_sprite, image *  alto_sprite, ancho_sprite, alto_sprite };
 
