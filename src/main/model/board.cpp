@@ -44,7 +44,7 @@ void Board::buildBoard(ParserYAML* parser) {
 
 	createEntity("chancho", 2, 2);
 	
-	entities.back()->setTarget(34, 2);
+	entities.back()->setTarget(4, 2);
 }
 
 void Board::createEntity(std::string name, double x, double y) {
