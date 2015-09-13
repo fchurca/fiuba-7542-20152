@@ -11,8 +11,8 @@ SpriteSheet::SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int a
 	this->alto_sprite = altoSprite;
 	this->ancho_sprite = anchoSprite;
 	this->total_sprites = cantSprites;
-	this->fps = fps;
-	this->delay = delay;
+	this->fps = fps;	// segundos
+	this->delay = delay;	// segundos
 	this->tick = 0;
 	this->counter = 0;
 }
@@ -63,12 +63,14 @@ void SpriteSheet::render( int x, int y, int frame, Directions direction, SDL_Ren
 
 	// Todas las entidades del mismo tipo estan usando el mismo fps y delay. 
 	// Revisar esto, para que cada entidad tenga el estado
-	int currentTick = SDL_GetTicks();	//tiempo en milisegundos
 
-	if ( (this->fps == 0) || (currentTick - this->tick) >= (1000 / this->fps )){
-	
-		//	Actualizo el tick
-		this->tick = currentTick;
+	unsigned int currentTick = SDL_GetTicks();	//Tiempo actual en milisegundos
+
+	unsigned int currentFrame = counter % total_sprites;	//Aca se debe usar el frame actual desde el estado de la entidad
+
+	unsigned int diffTime = currentTick - this->tick;	//Tiempo transcurrido entre render y render
+
+	if ( (this->fps == 0) || (diffTime >= (1000 / this->fps ) ) ) {
 
 		//	Conversion isometrica - TODO: PONER LAS CONVERSIONES EN OTRA CLASE
 		int screenX = ((x / 2) - ((y * TILE_WIDTH_DEFAULT) / (TILE_HEIGHT_DEFAULT * 2)));
@@ -77,13 +79,16 @@ void SpriteSheet::render( int x, int y, int frame, Directions direction, SDL_Ren
 		//	Ubicacion donde dibujar
 		SDL_Rect renderQuad = { screenX - pixel_ref_x + ANCHO_DEFAULT/2, screenY - pixel_ref_y, ancho_sprite, alto_sprite };
 
-		int currentFrame = counter % total_sprites;	//aca se debe usar el frame actual
-
 		//	Parte de la imagen a levantar
 		SDL_Rect clip = { currentFrame * ancho_sprite, direction * alto_sprite, ancho_sprite, alto_sprite };
-	
+
 		//	Dibujado
 		SDL_RenderCopy( renderer, getLoadedTexture( renderer ), &clip, &renderQuad );
-		counter++;
+
+		if ( ( (currentFrame != 0) || (diffTime >= (this->delay * 1000)) ) ) {
+			//	Actualizo el tick
+			this->tick = currentTick;
+			counter++;
+		}
 	}
 }

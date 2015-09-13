@@ -112,8 +112,7 @@ void GameWindow::init(){
 	this->spritesSheets["agua"] = new SpriteSheet("resources//agua.png", 0, 0, TILE_HEIGHT_DEFAULT, TILE_WIDTH_DEFAULT,  1, 0, 0);
 	this->spritesSheets["pasto"] = new SpriteSheet("resources//pasto.png", 0, 0, TILE_HEIGHT_DEFAULT, TILE_WIDTH_DEFAULT, 1, 0, 0);
 	this->spritesSheets["piedra"] = new SpriteSheet("resources//piedra.png", 0, 0, TILE_HEIGHT_DEFAULT, TILE_WIDTH_DEFAULT, 1, 0, 0);
-	this->spritesSheets["chancho"] = new SpriteSheet("resources//chanchos.png", 10, 10, 44, 48, 15, 0, 0);
-
+	this->spritesSheets["chancho"] = new SpriteSheet("resources//chanchos.png", 10, 10, 44, 48, 15, 0, 1);
 }
 
 void GameWindow::update(){
