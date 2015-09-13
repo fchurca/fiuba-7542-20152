@@ -31,6 +31,7 @@ public:
 	SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, int fps, int delay );
 	~SpriteSheet();
 	void render( int x, int y, SDL_Renderer* renderer );
+	void render( int x, int y, int frame, int direction, SDL_Renderer* renderer );
 	void dibujarAnimado( int x, int y, SDL_Renderer* renderer );
 	SDL_Texture* getLoadedTexture( SDL_Renderer* renderer );
 };

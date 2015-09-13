@@ -11,11 +11,12 @@
 class GameWindow {
 protected:
 	Game* model; //= NULL;
-	ParserYAML* parser;
+	ParserYAML* parser; //= NULL;
 	SDL_Window* window; //= NULL;
 	SDL_Renderer* renderer;// = NULL;
 	std::map<std::string, SpriteSheet*> spritesSheets;
-	bool exitGame;
+	bool exit;
+	int tick;
 	static bool sdlInitialized; // = false
 	static bool initialize();
 	bool endOfGame();	
