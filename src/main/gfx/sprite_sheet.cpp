@@ -95,7 +95,6 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ){
 
 
 void SpriteSheet::render( int x, int y, int frame, Directions direction, SDL_Renderer* renderer ){
-	//	TODO: EL RENDER DEBE RECIBIR LA ENTIDAD PARA OBTENER LA UBICACION
 
 	//	Conversion isometrica - TODO: PONER LAS CONVERSIONES EN OTRA CLASE
 	int screenX = ((x / 2) - ((y * TILE_WIDTH_DEFAULT) / (TILE_HEIGHT_DEFAULT * 2)));
@@ -108,6 +107,7 @@ void SpriteSheet::render( int x, int y, int frame, Directions direction, SDL_Ren
 
 	//	Parte de la imagen a levantar - TODO: VER DE DONDE LEVANTARLO
 	SDL_Rect clip = { image * ancho_sprite, direction * alto_sprite, ancho_sprite, alto_sprite };
+	//SDL_Rect clip = { direction *ancho_sprite, image *  alto_sprite, ancho_sprite, alto_sprite };
 
 	//	Dibujado
 	SDL_RenderCopy( renderer, getLoadedTexture( renderer ), &clip, &renderQuad );
