@@ -29,6 +29,8 @@ class Entity {
 		double bearingX();
 		double bearingY();
 		double bearing();
+		double sqDistance();
+		double distance();
 		Directions getDirection();
 
 		Entity(std::string name, Board& board, double x, double y);

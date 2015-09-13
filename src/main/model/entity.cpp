@@ -45,15 +45,25 @@ void Entity::unsetTarget() {
 }
 
 void Entity::update() {
-	cerr << "Entity " << this << " is alive at " << x << "," << y;
+	cerr << "Entity " << this << " of kind " << name
+		<< " is alive at " << x << "," << y;
 	if (targeted) {
+		auto d = distance();
 		cerr << " heading for " << targetX << "," << targetY
-			<< " at " << speed << " tiles/s";
-		double dr = speed*.1;
-		double dx = cos(bearing())*dr;
-		double dy = sin(bearing())*dr;
-		x += dx;
-		y += dy;
+			<< " at " << speed << " tiles/s"
+			<< " with " << distance() << " tiles to walk";
+		auto dr = speed*board.dt/1000;
+		if (dr < distance()) {
+			auto dx = cos(bearing())*dr;
+			auto dy = sin(bearing())*dr;
+			x += dx;
+			y += dy;
+		} else {
+			cerr << " reaching target";
+			x = targetX;
+			y = targetY;
+			targeted = false;
+		}
 	} else {
 		cerr << " standing still";
 	}
@@ -78,6 +88,14 @@ double Entity::bearingY() {
 
 double Entity::bearing() {
 	return atan2(bearingY(), bearingX());
+}
+
+double Entity::sqDistance() {
+	return pow(bearingX(), 2) + pow(bearingY(), 2);
+}
+
+double Entity::distance() {
+	return sqrt(sqDistance());
 }
 
 Directions Entity::getDirection(){
