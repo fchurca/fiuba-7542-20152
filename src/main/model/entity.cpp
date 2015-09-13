@@ -1,6 +1,8 @@
 #include "entity.h"
 #include "board.h"
 #include <iostream>
+#define _USE_MATH_DEFINES
+#include <cmath>
 
 using namespace std;
 
@@ -12,7 +14,6 @@ name(name),
 	this->x = x;
 	this->y = y;
 	this->speed = 1;
-	this->direction = NORTH;
 	adjustPosition();
 	cerr << "Created Entity " << this
 		<< " of kind " << name
@@ -63,5 +64,8 @@ int Entity::getY(){
 }
 
 Directions Entity::getDirection(){
-	return this->direction;
+	return targeted?
+		static_cast<Directions>(
+				(unsigned)floor(16*atan2(targetX - x, targetY - y)/M_PI)%8):
+		NORTH;
 }

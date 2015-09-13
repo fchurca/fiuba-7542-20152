@@ -16,8 +16,6 @@ class Entity {
 		bool targeted;
 		double targetX, targetY;
 
-		Directions direction;	// Direccion en la que se esta moviendo el protagonista
-
 		Entity();
 		void adjustPosition();
 
