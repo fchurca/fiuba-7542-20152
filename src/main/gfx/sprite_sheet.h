@@ -15,6 +15,8 @@ private:
 
 	unsigned int fps;	//Animacion
 	unsigned int delay;	//Animacion
+	unsigned int tick;
+	unsigned int counter; //esto despues vuela
 
 	unsigned int pixel_ref_x;
 	unsigned int pixel_ref_y;

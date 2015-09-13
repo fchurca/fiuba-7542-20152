@@ -13,6 +13,8 @@ SpriteSheet::SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int a
 	this->total_sprites = cantSprites;
 	this->fps = fps;
 	this->delay = delay;
+	this->tick = 0;
+	this->counter = 0;
 }
 
 SpriteSheet::~SpriteSheet(){
@@ -59,20 +61,29 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ){
 
 void SpriteSheet::render( int x, int y, int frame, Directions direction, SDL_Renderer* renderer ){
 
-	//	Conversion isometrica - TODO: PONER LAS CONVERSIONES EN OTRA CLASE
-	int screenX = ((x / 2) - ((y * TILE_WIDTH_DEFAULT) / (TILE_HEIGHT_DEFAULT * 2)));
-	int screenY = (((x * TILE_HEIGHT_DEFAULT) / (TILE_WIDTH_DEFAULT * 2)) + (y / 2));
+	// Todas las entidades del mismo tipo estan usando el mismo fps y delay. 
+	// Revisar esto, para que cada entidad tenga el estado
+	int currentTick = SDL_GetTicks();	//tiempo en milisegundos
 
-	//	Ubicacion donde dibujar
-	SDL_Rect renderQuad = { screenX - pixel_ref_x + ANCHO_DEFAULT/2, screenY - pixel_ref_y, ancho_sprite, alto_sprite };
+	if ( (this->fps == 0) || (currentTick - this->tick) >= (1000 / this->fps )){
+	
+		//	Actualizo el tick
+		this->tick = currentTick;
 
-	int image = fps % total_sprites;	//aca se debe usar el frame actual
+		//	Conversion isometrica - TODO: PONER LAS CONVERSIONES EN OTRA CLASE
+		int screenX = ((x / 2) - ((y * TILE_WIDTH_DEFAULT) / (TILE_HEIGHT_DEFAULT * 2)));
+		int screenY = (((x * TILE_HEIGHT_DEFAULT) / (TILE_WIDTH_DEFAULT * 2)) + (y / 2));
 
-	//	Parte de la imagen a levantar
-	SDL_Rect clip = { image * ancho_sprite, direction * alto_sprite, ancho_sprite, alto_sprite };
-	//SDL_Rect clip = { direction *ancho_sprite, image *  alto_sprite, ancho_sprite, alto_sprite };
+		//	Ubicacion donde dibujar
+		SDL_Rect renderQuad = { screenX - pixel_ref_x + ANCHO_DEFAULT/2, screenY - pixel_ref_y, ancho_sprite, alto_sprite };
 
-	//	Dibujado
-	SDL_RenderCopy( renderer, getLoadedTexture( renderer ), &clip, &renderQuad );
-	fps++;
+		int currentFrame = counter % total_sprites;	//aca se debe usar el frame actual
+
+		//	Parte de la imagen a levantar
+		SDL_Rect clip = { currentFrame * ancho_sprite, direction * alto_sprite, ancho_sprite, alto_sprite };
+	
+		//	Dibujado
+		SDL_RenderCopy( renderer, getLoadedTexture( renderer ), &clip, &renderQuad );
+		counter++;
+	}
 }
