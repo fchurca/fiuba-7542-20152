@@ -18,11 +18,7 @@ int main(int argc, char* args[]) {
 	Logger::getInstance()->writeInformation("Info");
 	Logger::getInstance()->writeWarning("Warning");
 
-	{
-		GameWindow gameWin = GameWindow();
-		gameWin.start();
-	}
-
+	GameWindow().start();
 
 	Logger::getInstance()->writeInformation("Closing down");
 
