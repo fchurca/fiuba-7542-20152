@@ -11,7 +11,7 @@ void Board::buildBoard(ParserYAML* parser) {
 	createEntityFactory("pasto", 1, 1, 0);
 	createEntityFactory("piedra", 1, 1, 0);
 	createEntityFactory("chancho", 1, 1, 0);
-	
+
 	createEntity("agua", 0, 0);
 	createEntity("agua", 0, 1);
 	createEntity("agua", 0, 2);
@@ -41,10 +41,10 @@ void Board::buildBoard(ParserYAML* parser) {
 	createEntity("pasto", 4, 2);
 	createEntity("pasto", 4, 3);
 	createEntity("pasto", 4, 4);
-	
+
 	createEntity("chancho", 2, 2);
 	
-	entities.back()->setTarget(2, 34);
+	entities.back()->setTarget(34, 2);
 }
 
 void Board::createEntity(std::string name, double x, double y) {

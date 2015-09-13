@@ -7,7 +7,7 @@
 using namespace std;
 
 Entity::Entity(std::string name, Board& board, double x, double y) :
-name(name),
+	name(name),
 	board(board),
 	targeted(false)
 {
@@ -45,27 +45,44 @@ void Entity::unsetTarget() {
 }
 
 void Entity::update() {
-	/*	cerr << "Entity " << this << " is alive at " << x << "," << y;
+	cerr << "Entity " << this << " is alive at " << x << "," << y;
 	if (targeted) {
-	cerr << " heading for " << targetX << "," << targetY
-	<< " at " << speed << " tiles/s";
+		cerr << " heading for " << targetX << "," << targetY
+			<< " at " << speed << " tiles/s";
+		double dr = speed*.1;
+		double dx = cos(bearing())*dr;
+		double dy = sin(bearing())*dr;
+		x += dx;
+		y += dy;
 	} else {
-	cerr << " standing still";
+		cerr << " standing still";
 	}
-	cerr << endl;*/
+	cerr << endl;
 }
 
-int Entity::getX(){
+double Entity::getX() {
 	return this->x;
 }
 
-int Entity::getY(){
+double Entity::getY() {
 	return this->y;
+}
+
+double Entity::bearingX() {
+	return targetX - x;
+}
+
+double Entity::bearingY() {
+	return targetY - y;
+}
+
+double Entity::bearing() {
+	return atan2(bearingY(), bearingX());
 }
 
 Directions Entity::getDirection(){
 	return targeted?
 		static_cast<Directions>(
-				(unsigned)floor(16*atan2(targetX - x, targetY - y)/M_PI)%8):
+				(unsigned)floor(16*bearing()/M_PI)%8):
 		SOUTH_EAST;
 }

@@ -24,8 +24,11 @@ class Entity {
 		void unsetTarget();
 		const std::string name;
 		const Board& board;
-		int getX();
-		int getY();
+		double getX();
+		double getY();
+		double bearingX();
+		double bearingY();
+		double bearing();
 		Directions getDirection();
 
 		Entity(std::string name, Board& board, double x, double y);

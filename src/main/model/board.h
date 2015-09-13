@@ -25,6 +25,7 @@ private:
 public:
 	const int
 		sizeX, sizeY;
+	unsigned dt;
 	Board(int sizeX, int sizeY);
 	~Board();
 
