@@ -57,43 +57,44 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ){
 	return texture != NULL;
 }
 
-void SpriteSheet::render( int x, int y, SDL_Renderer* renderer ){
-	//	TODO: EL RENDER DEBE RECIBIR LA ENTIDAD PARA OBTENER LA UBICACION
+//void SpriteSheet::render( int x, int y, SDL_Renderer* renderer ){
+//	//	TODO: EL RENDER DEBE RECIBIR LA ENTIDAD PARA OBTENER LA UBICACION
+//
+//	//	Conversion isometrica - TODO: PONER LAS CONVERSIONES EN OTRA CLASE
+//	int screenX = ((x / 2) - ((y * TILE_WIDTH_DEFAULT) / (TILE_HEIGHT_DEFAULT * 2)));
+//	int screenY = (((x * TILE_HEIGHT_DEFAULT) / (TILE_WIDTH_DEFAULT * 2)) + (y / 2));
+//
+//	//	Ubicacion donde dibujar
+//	SDL_Rect renderQuad = { screenX + ANCHO_DEFAULT/2, screenY, TILE_WIDTH_DEFAULT, TILE_HEIGHT_DEFAULT };
+//
+//	//	Parte de la imagen a levantar - TODO: VER DE DONDE LEVANTARLO
+//	SDL_Rect clip = { 0, 0, TILE_WIDTH_DEFAULT, TILE_HEIGHT_DEFAULT };
+//
+//	//	Dibujado
+//	SDL_RenderCopy( renderer, getLoadedTexture( renderer ), &clip, &renderQuad );
+//}
 
-	//	Conversion isometrica - TODO: PONER LAS CONVERSIONES EN OTRA CLASE
-	int screenX = ((x / 2) - ((y * TILE_WIDTH_DEFAULT) / (TILE_HEIGHT_DEFAULT * 2)));
-	int screenY = (((x * TILE_HEIGHT_DEFAULT) / (TILE_WIDTH_DEFAULT * 2)) + (y / 2));
+//void SpriteSheet::dibujarAnimado (int x, int y, SDL_Renderer* renderer ){
+//	//	TODO: EL RENDER DEBE RECIBIR LA ENTIDAD PARA OBTENER LA UBICACION
+//
+//	//	Conversion isometrica - TODO: PONER LAS CONVERSIONES EN OTRA CLASE
+//	int screenX = ((x / 2) - ((y * TILE_WIDTH_DEFAULT) / (TILE_HEIGHT_DEFAULT * 2)));
+//	int screenY = (((x * TILE_HEIGHT_DEFAULT) / (TILE_WIDTH_DEFAULT * 2)) + (y / 2));
+//
+//	//	Ubicacion donde dibujar
+//	SDL_Rect renderQuad = { screenX + ANCHO_DEFAULT/2, screenY, ancho_sprite, alto_sprite };
+//
+//	//	Parte de la imagen a levantar - TODO: VER DE DONDE LEVANTARLO
+//	int image = fps%total_sprites;
+//	SDL_Rect clip = { image * ancho_sprite, 0, ancho_sprite, alto_sprite };
+//
+//	//	Dibujado
+//	SDL_RenderCopy( renderer, getLoadedTexture( renderer ), &clip, &renderQuad );
+//	fps++; // uso fps como contador de imagen xq falta estado del modelo
+//}
 
-	//	Ubicacion donde dibujar
-	SDL_Rect renderQuad = { screenX + ANCHO_DEFAULT/2, screenY, TILE_WIDTH_DEFAULT, TILE_HEIGHT_DEFAULT };
 
-	//	Parte de la imagen a levantar - TODO: VER DE DONDE LEVANTARLO
-	SDL_Rect clip = { 0, 0, TILE_WIDTH_DEFAULT, TILE_HEIGHT_DEFAULT };
-
-	//	Dibujado
-	SDL_RenderCopy( renderer, getLoadedTexture( renderer ), &clip, &renderQuad );
-}
-
-void SpriteSheet::dibujarAnimado (int x, int y, SDL_Renderer* renderer ){
-	//	TODO: EL RENDER DEBE RECIBIR LA ENTIDAD PARA OBTENER LA UBICACION
-
-	//	Conversion isometrica - TODO: PONER LAS CONVERSIONES EN OTRA CLASE
-	int screenX = ((x / 2) - ((y * TILE_WIDTH_DEFAULT) / (TILE_HEIGHT_DEFAULT * 2)));
-	int screenY = (((x * TILE_HEIGHT_DEFAULT) / (TILE_WIDTH_DEFAULT * 2)) + (y / 2));
-
-	//	Ubicacion donde dibujar
-	SDL_Rect renderQuad = { screenX + ANCHO_DEFAULT/2, screenY, ancho_sprite, alto_sprite };
-
-	//	Parte de la imagen a levantar - TODO: VER DE DONDE LEVANTARLO
-	int image = fps%total_sprites;
-	SDL_Rect clip = { image * ancho_sprite, 0, ancho_sprite, alto_sprite };
-
-	//	Dibujado
-	SDL_RenderCopy( renderer, getLoadedTexture( renderer ), &clip, &renderQuad );
-	fps++; // uso fps como contador de imagen xq falta estado del modelo
-}
-
-void SpriteSheet::render( int x, int y, int frame, int direction, SDL_Renderer* renderer ){
+void SpriteSheet::render( int x, int y, int frame, Directions direction, SDL_Renderer* renderer ){
 	//	TODO: EL RENDER DEBE RECIBIR LA ENTIDAD PARA OBTENER LA UBICACION
 
 	//	Conversion isometrica - TODO: PONER LAS CONVERSIONES EN OTRA CLASE
