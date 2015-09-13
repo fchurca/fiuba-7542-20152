@@ -5,13 +5,14 @@
 using namespace std;
 
 Entity::Entity(std::string name, Board& board, double x, double y) :
-	name(name),
+name(name),
 	board(board),
 	targeted(false)
 {
 	this->x = x;
 	this->y = y;
-	speed = 1;
+	this->speed = 1;
+	this->direction = NORTH;
 	adjustPosition();
 	cerr << "Created Entity " << this
 		<< " of kind " << name
@@ -43,12 +44,12 @@ void Entity::unsetTarget() {
 }
 
 void Entity::update() {
-/*	cerr << "Entity " << this << " is alive at " << x << "," << y;
+	/*	cerr << "Entity " << this << " is alive at " << x << "," << y;
 	if (targeted) {
-		cerr << " heading for " << targetX << "," << targetY
-			<< " at " << speed << " tiles/s";
+	cerr << " heading for " << targetX << "," << targetY
+	<< " at " << speed << " tiles/s";
 	} else {
-		cerr << " standing still";
+	cerr << " standing still";
 	}
 	cerr << endl;*/
 }
@@ -59,4 +60,8 @@ int Entity::getX(){
 
 int Entity::getY(){
 	return this->y;
+}
+
+Directions Entity::getDirection(){
+	return this->direction;
 }

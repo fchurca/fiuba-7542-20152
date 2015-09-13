@@ -3,6 +3,8 @@
 #define _MODEL_ENTITY_H_
 //-----------------------------------------------------------------------------
 #include <string>
+#include "../defines/defines.h"
+
 //-----------------------------------------------------------------------------
 
 class Board;
@@ -14,6 +16,8 @@ class Entity {
 		bool targeted;
 		double targetX, targetY;
 
+		Directions direction;	// Direccion en la que se esta moviendo el protagonista
+
 		Entity();
 		void adjustPosition();
 
@@ -24,6 +28,7 @@ class Entity {
 		const Board& board;
 		int getX();
 		int getY();
+		Directions getDirection();
 
 		Entity(std::string name, Board& board, double x, double y);
 		~Entity();
