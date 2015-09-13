@@ -6,6 +6,7 @@ Game::Game(ParserYAML* parser){
 }
 
 Game::~Game(){
+	std::cerr << "Killing Game " << this << std::endl;
 	delete(this->gameBoard);
 }
 

@@ -67,11 +67,11 @@ Board::~Board() {
 }
 
 void Board::update() {
-	cerr << "Board " << this << " updating" << endl;
+	// cerr << "Board " << this << " updating" << endl;
 	for (std::size_t i =0; i < entities.size(); ++i){
 		entities[i]->update();
 	}
-	cerr << "Board " << this << " updated" << endl;
+	// cerr << "Board " << this << " updated" << endl;
 }
 
 std::vector<std::shared_ptr<Entity>> Board::getEntities() {
