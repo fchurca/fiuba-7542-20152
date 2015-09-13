@@ -101,7 +101,7 @@ void SpriteSheet::render( int x, int y, int frame, int direction, SDL_Renderer* 
 	int screenY = (((x * TILE_HEIGHT_DEFAULT) / (TILE_WIDTH_DEFAULT * 2)) + (y / 2));
 
 	//	Ubicacion donde dibujar
-	SDL_Rect renderQuad = { screenX + ANCHO_DEFAULT/2, screenY, ancho_sprite, alto_sprite };
+	SDL_Rect renderQuad = { screenX - pixel_ref_x + ANCHO_DEFAULT/2, screenY - pixel_ref_y, ancho_sprite, alto_sprite };
 
 	int image = fps % total_sprites;
 
