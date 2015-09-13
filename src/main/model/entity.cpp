@@ -67,5 +67,5 @@ Directions Entity::getDirection(){
 	return targeted?
 		static_cast<Directions>(
 				(unsigned)floor(16*atan2(targetX - x, targetY - y)/M_PI)%8):
-		NORTH;
+		SOUTH_EAST;
 }

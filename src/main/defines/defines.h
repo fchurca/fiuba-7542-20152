@@ -1,7 +1,16 @@
 #ifndef __DEFINES_H__
 #define __DEFINES_H__
 
-enum Directions { NORTH = 0, SOUTH = 1, EAST = 2, WEST = 3, NORTH_EAST = 4, NORTH_WEST = 5, SOUTH_EAST = 6, SOUTH_WEST = 7 };
+enum Directions {
+	SOUTH_EAST = 0,
+	SOUTH = 1,
+	SOUTH_WEST = 2,
+	WEST = 3,
+	NORTH_WEST = 4,
+	NORTH = 5,
+	NORTH_EAST = 6,
+	EAST = 7
+};
 
 //Archivo Configuracion Default
 #define ARCHIVO_CONFIGURACION_DEFAULT  "configuracionDefault.yaml"
