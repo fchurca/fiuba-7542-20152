@@ -24,7 +24,7 @@ protected:
 	void update();
 	void render();
 	void restart();
-
+	void scroll();
 public:
 	GameWindow();
 	~GameWindow();
