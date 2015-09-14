@@ -1,4 +1,5 @@
 #include "game_window.h"
+#include <sstream>
 
 bool GameWindow::sdlInitialized = false;
 
@@ -123,6 +124,8 @@ void GameWindow::update(){
 }
 
 void GameWindow::processInput(){
+	int mouse_x_screen, mouse_y_screen;
+
 	//	Procesar input del usuario
 	if(SDL_PollEvent(EventHandler::getInstance()->getEvent())) {
 		if(EventHandler::getInstance()->getEvent()->type == SDL_QUIT )
@@ -134,16 +137,40 @@ void GameWindow::processInput(){
 			}
 		}
 		if( EventHandler::getInstance()->getEvent()->type == SDL_MOUSEBUTTONUP ){
+			SDL_GetMouseState(&mouse_x_screen, &mouse_y_screen);
+			std::ostringstream oss;
+			oss << "Mouse en " << mouse_x_screen << "," << mouse_y_screen;
+
+			// Conversion de coordenadas en pantalla a coordenadas mapa
+
+			//x - y= (mouse_x_screen * 2 - ANCHO_DEFAULT + TILE_WIDTH_DEFAULT) / TILE_WIDTH_DEFAULT;
+			
+			//x + y = ((mouse_y_screen * 2) - ALTO_DEFAULT + TILE_HEIGHT_DEFAULT)/TILE_HEIGHT_DEFAULT;
+ 
+			// x_mapa = (mouse_y_screen * 4 - ANCHO_DEFAULT - ALTO_DEFAULT + TILE_WIDTH_DEFAULT + TILE_HEIGHT_DEFAULT)/(2 * TILE_HEIGHT_DEFAULT);
+
+			// y_mapa = terminar
+
+			double x_mapa = 2;
+			double y_mapa = 2;
+
+			model->getBoard()->getEntities().back()->setTarget(x_mapa, y_mapa);
+
+			Logger::getInstance()->writeInformation(oss.str().c_str());
 			if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_LEFT )
+			{
 				Logger::getInstance()->writeInformation("Boton Izquierdo");
+			}
 			if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_RIGHT)
+			{
+				
 				Logger::getInstance()->writeInformation("Boton derecho");
+			}
 		}
 	}
 }
 
 void GameWindow::scroll(){
-	
 	Uint8 mouse_b;
 	int mouse_x, mouse_y;
 	const double SCROLL_SPEED = 5;

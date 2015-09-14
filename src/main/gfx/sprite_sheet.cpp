@@ -77,11 +77,11 @@ void SpriteSheet::render( double x, double y, int frame, Directions direction, S
 	if ( (this->fps == 0) || (diffTime >= (1000 / this->fps ) ) ) {
 
 		//	Conversion isometrica - TODO: PONER LAS CONVERSIONES EN OTRA CLASE
-		int screenX = (x - y) * TILE_WIDTH_DEFAULT / 2;
-		int screenY = (x + y) * TILE_HEIGHT_DEFAULT / 2;
+		int screenX = ((x - y) * TILE_WIDTH_DEFAULT / 2) + (ANCHO_DEFAULT - TILE_WIDTH_DEFAULT) / 2;
+		int screenY = ((x + y) * TILE_HEIGHT_DEFAULT / 2) + (ALTO_DEFAULT - TILE_HEIGHT_DEFAULT) / 2;
 
 		//	Ubicacion donde dibujar
-		SDL_Rect renderQuad = { screenX - pixel_ref_x + (ANCHO_DEFAULT - TILE_WIDTH_DEFAULT)/2, screenY - pixel_ref_y + (ALTO_DEFAULT - TILE_HEIGHT_DEFAULT) / 2, ancho_sprite, alto_sprite };
+		SDL_Rect renderQuad = { screenX - pixel_ref_x , screenY - pixel_ref_y, ancho_sprite, alto_sprite };
 
 		//	Parte de la imagen a levantar
 		SDL_Rect clip = { currentFrame * ancho_sprite, direction * alto_sprite, ancho_sprite, alto_sprite };
