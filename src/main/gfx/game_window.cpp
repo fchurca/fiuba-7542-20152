@@ -143,27 +143,20 @@ void GameWindow::processInput(){
 
 			// Conversion de coordenadas en pantalla a coordenadas mapa
 
-			//x - y= (mouse_x_screen * 2 - ANCHO_DEFAULT + TILE_WIDTH_DEFAULT) / TILE_WIDTH_DEFAULT;
-			
-			//x + y = ((mouse_y_screen * 2) - ALTO_DEFAULT + TILE_HEIGHT_DEFAULT)/TILE_HEIGHT_DEFAULT;
+			double XsTerm = (double)(mouse_x_screen - (ANCHO_DEFAULT - TILE_WIDTH_DEFAULT)/2)/(double)TILE_WIDTH_DEFAULT;
+			double YsTerm = (double)(mouse_y_screen - (ALTO_DEFAULT - TILE_HEIGHT_DEFAULT)/2)/(double)TILE_HEIGHT_DEFAULT;
  
-			// x_mapa = (mouse_y_screen * 4 - ANCHO_DEFAULT - ALTO_DEFAULT + TILE_WIDTH_DEFAULT + TILE_HEIGHT_DEFAULT)/(2 * TILE_HEIGHT_DEFAULT);
+			double x_mapa = focus_x + XsTerm + YsTerm - 1;
+			double y_mapa = focus_y - XsTerm + YsTerm;
 
-			// y_mapa = terminar
-
-			double x_mapa = 2;
-			double y_mapa = 2;
-
-			model->getBoard()->getEntities().back()->setTarget(x_mapa, y_mapa);
+			oss << "; mapa: " << x_mapa << "," << y_mapa;
 
 			Logger::getInstance()->writeInformation(oss.str().c_str());
-			if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_LEFT )
-			{
+			if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_LEFT ) {
 				Logger::getInstance()->writeInformation("Boton Izquierdo");
+				model->getBoard()->getEntities().back()->setTarget(x_mapa, y_mapa);
 			}
-			if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_RIGHT)
-			{
-				
+			if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_RIGHT) {
 				Logger::getInstance()->writeInformation("Boton derecho");
 			}
 		}
