@@ -22,6 +22,9 @@ enum Directions {
 #define ANCHO_DEFAULT  640
 #define ALTO_DEFAULT  480
 
+//Margen en pantalla DEFAULT
+#define MARGEN_PANTALLA_DEFAULT  60
+
 //Configuracion Default
 #define VELOCIDAD_PERSONAJE_DEFAULT 0
 #define MARGEN_SCROLL_DEFAULT  0

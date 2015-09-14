@@ -145,7 +145,6 @@ int GameWindow::start(){
 
 	Uint8 mouse_b;
 	int mouse_x, mouse_y;
-	const int margin = 60; 
 	
 	while (!endOfGame())
 	{
@@ -154,17 +153,17 @@ int GameWindow::start(){
 		render();
 
 		SDL_GetMouseState(&mouse_x, &mouse_y);
-		if(mouse_x <= margin)
+		if(mouse_x <= MARGEN_PANTALLA_DEFAULT)
 		{
 			Logger::getInstance()->writeInformation("Mouse izquierda");
-		}else if(mouse_x >= ANCHO_DEFAULT - margin){
+		}else if(mouse_x >= ANCHO_DEFAULT - MARGEN_PANTALLA_DEFAULT){
 			Logger::getInstance()->writeInformation("Mouse derecha");
 		}
-		if(mouse_y <= margin)
+		if(mouse_y <= MARGEN_PANTALLA_DEFAULT)
 		{
 			Logger::getInstance()->writeInformation("Mouse arriba");
 		}
-		if(mouse_y >= ALTO_DEFAULT - margin)
+		if(mouse_y >= ALTO_DEFAULT - MARGEN_PANTALLA_DEFAULT)
 		{
 			Logger::getInstance()->writeInformation("Mouse abajo");
 		}
