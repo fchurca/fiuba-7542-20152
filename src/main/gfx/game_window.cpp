@@ -143,14 +143,34 @@ void GameWindow::processInput(){
 int GameWindow::start(){
 	init();
 
-
+	Uint8 mouse_b;
+	int mouse_x, mouse_y;
+	const int margin = 60; 
+	
 	while (!endOfGame())
 	{
 		processInput();
 		update();
 		render();
 
-		SDL_Delay(model->getBoard()->dt); // TODO: Optimizar
+		SDL_GetMouseState(&mouse_x, &mouse_y);
+		if(mouse_x <= margin)
+		{
+			Logger::getInstance()->writeInformation("Mouse izquierda");
+		}else if(mouse_x >= ANCHO_DEFAULT - margin){
+			Logger::getInstance()->writeInformation("Mouse derecha");
+		}
+		if(mouse_y <= margin)
+		{
+			Logger::getInstance()->writeInformation("Mouse arriba");
+		}
+		if(mouse_y >= ALTO_DEFAULT - margin)
+		{
+			Logger::getInstance()->writeInformation("Mouse abajo");
+		}
+
+
+		SDL_Delay(100); // TODO: Optimizar, sacar hardcodeo
 	}
 	return 0;
 }
