@@ -59,7 +59,7 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ){
 	return texture != NULL;
 }
 
-void SpriteSheet::render( int x, int y, int frame, Directions direction, SDL_Renderer* renderer ){
+void SpriteSheet::render( double x, double y, int frame, Directions direction, SDL_Renderer* renderer ){
 
 	// Todas las entidades del mismo tipo estan usando el mismo fps y delay. 
 	// Revisar esto, para que cada entidad tenga el estado
@@ -73,11 +73,11 @@ void SpriteSheet::render( int x, int y, int frame, Directions direction, SDL_Ren
 	if ( (this->fps == 0) || (diffTime >= (1000 / this->fps ) ) ) {
 
 		//	Conversion isometrica - TODO: PONER LAS CONVERSIONES EN OTRA CLASE
-		int screenX = ((x / 2) - ((y * TILE_WIDTH_DEFAULT) / (TILE_HEIGHT_DEFAULT * 2)));
-		int screenY = (((x * TILE_HEIGHT_DEFAULT) / (TILE_WIDTH_DEFAULT * 2)) + (y / 2));
+		int screenX = (x - y) * TILE_WIDTH_DEFAULT / 2;
+		int screenY = (x + y) * TILE_HEIGHT_DEFAULT / 2;
 
 		//	Ubicacion donde dibujar
-		SDL_Rect renderQuad = { screenX - pixel_ref_x + ANCHO_DEFAULT/2, screenY - pixel_ref_y, ancho_sprite, alto_sprite };
+		SDL_Rect renderQuad = { screenX - pixel_ref_x + (ANCHO_DEFAULT - TILE_WIDTH_DEFAULT)/2, screenY - pixel_ref_y + (ALTO_DEFAULT - TILE_HEIGHT_DEFAULT) / 2, ancho_sprite, alto_sprite };
 
 		//	Parte de la imagen a levantar
 		SDL_Rect clip = { currentFrame * ancho_sprite, direction * alto_sprite, ancho_sprite, alto_sprite };

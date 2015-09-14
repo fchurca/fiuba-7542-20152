@@ -82,7 +82,7 @@ void GameWindow::render(){
 		it = this->spritesSheets.find(entities[i]->name);
 		if(it != this->spritesSheets.end()){
 			ss = it->second;
-			ss->render(entities[i]->getX() * TILE_WIDTH_DEFAULT, entities[i]->getY() * TILE_HEIGHT_DEFAULT, 0, entities[i]->getDirection() , renderer);
+			ss->render(entities[i]->getX(), entities[i]->getY(), 0, entities[i]->getDirection() , renderer);
 		}
 		else
 			Logger::getInstance()->writeWarning("No existe SpriteSheet para este tipo de entidad" + entities[i]->name);
@@ -145,18 +145,16 @@ int GameWindow::start(){
 
 	Uint8 mouse_b;
 	int mouse_x, mouse_y;
-	
+
 	while (!endOfGame())
 	{
-		processInput();
-		update();
-		render();
-
 		SDL_GetMouseState(&mouse_x, &mouse_y);
+
 		if(mouse_x <= MARGEN_PANTALLA_DEFAULT)
 		{
 			Logger::getInstance()->writeInformation("Mouse izquierda");
-		}else if(mouse_x >= ANCHO_DEFAULT - MARGEN_PANTALLA_DEFAULT){
+		}
+		else if(mouse_x >= ANCHO_DEFAULT - MARGEN_PANTALLA_DEFAULT){
 			Logger::getInstance()->writeInformation("Mouse derecha");
 		}
 		if(mouse_y <= MARGEN_PANTALLA_DEFAULT)
@@ -168,6 +166,9 @@ int GameWindow::start(){
 			Logger::getInstance()->writeInformation("Mouse abajo");
 		}
 
+		processInput();
+		update();
+		render();
 
 		SDL_Delay(100); // TODO: Optimizar, sacar hardcodeo
 	}

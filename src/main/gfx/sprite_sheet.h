@@ -32,7 +32,7 @@ private:
 public:
 	SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, int fps, int delay );
 	~SpriteSheet();
-	void render( int x, int y, int frame, Directions direction, SDL_Renderer* renderer );
+	void render( double x, double y, int frame, Directions direction, SDL_Renderer* renderer );
 	SDL_Texture* getLoadedTexture( SDL_Renderer* renderer );
 };
 
