@@ -127,7 +127,7 @@ void GameWindow::processInput(){
 	int mouse_x_screen, mouse_y_screen;
 
 	//	Procesar input del usuario
-	if(SDL_PollEvent(EventHandler::getInstance()->getEvent())) {
+	while(SDL_PollEvent(EventHandler::getInstance()->getEvent())) {
 		if(EventHandler::getInstance()->getEvent()->type == SDL_QUIT )
 			this->exit = true;
 		if(EventHandler::getInstance()->getEvent()->type == SDL_KEYDOWN ){
