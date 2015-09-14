@@ -23,6 +23,8 @@ GameWindow::GameWindow() {
 	this->parser = new ParserYAML(CONFIG_FILE_PATH);
 	this->model = NULL;
 	this->exit = false;
+	this->focus_x = 0;
+	this->focus_y = 0;
 
 	Logger::getInstance()->writeInformation("Creating window");
 
@@ -109,10 +111,10 @@ void GameWindow::init(){
 
 	this->model = new Game(parser);
 
-	this->spritesSheets["agua"] = new SpriteSheet("resources//agua.png", 0, 0, TILE_HEIGHT_DEFAULT, TILE_WIDTH_DEFAULT,  1, 0, 0);
-	this->spritesSheets["pasto"] = new SpriteSheet("resources//pasto.png", 0, 0, TILE_HEIGHT_DEFAULT, TILE_WIDTH_DEFAULT, 1, 0, 0);
-	this->spritesSheets["piedra"] = new SpriteSheet("resources//piedra.png", 0, 0, TILE_HEIGHT_DEFAULT, TILE_WIDTH_DEFAULT, 1, 0, 0);
-	this->spritesSheets["chancho"] = new SpriteSheet("resources//chanchos.png", 10, 10, 44, 48, 15, 0, 1);
+	this->spritesSheets["agua"] = new SpriteSheet("resources//agua.png", 0, 0, TILE_HEIGHT_DEFAULT, TILE_WIDTH_DEFAULT,  1, 0, 0, *this);
+	this->spritesSheets["pasto"] = new SpriteSheet("resources//pasto.png", 0, 0, TILE_HEIGHT_DEFAULT, TILE_WIDTH_DEFAULT, 1, 0, 0, *this);
+	this->spritesSheets["piedra"] = new SpriteSheet("resources//piedra.png", 0, 0, TILE_HEIGHT_DEFAULT, TILE_WIDTH_DEFAULT, 1, 0, 0, *this);
+	this->spritesSheets["chancho"] = new SpriteSheet("resources//chanchos.png", 10, 10, 44, 48, 15, 0, 1, *this);
 }
 
 void GameWindow::update(){
@@ -145,25 +147,47 @@ int GameWindow::start(){
 
 	Uint8 mouse_b;
 	int mouse_x, mouse_y;
+	const double SCROLL_SPEED = 1;
 
 	while (!endOfGame())
 	{
+		double ds = SCROLL_SPEED * model->getBoard()->dt / 1000; //deltascroll
 		SDL_GetMouseState(&mouse_x, &mouse_y);
 
 		if(mouse_x <= MARGEN_PANTALLA_DEFAULT)
 		{
+			focus_x -= ds;
+			focus_y += ds;
 			Logger::getInstance()->writeInformation("Mouse izquierda");
 		}
 		else if(mouse_x >= ANCHO_DEFAULT - MARGEN_PANTALLA_DEFAULT){
+			focus_x += ds;
+			focus_y -= ds;
 			Logger::getInstance()->writeInformation("Mouse derecha");
 		}
 		if(mouse_y <= MARGEN_PANTALLA_DEFAULT)
 		{
+			focus_x -= ds;
+			focus_y -= ds;
 			Logger::getInstance()->writeInformation("Mouse arriba");
 		}
 		if(mouse_y >= ALTO_DEFAULT - MARGEN_PANTALLA_DEFAULT)
 		{
+			focus_x += ds;
+			focus_y += ds;
 			Logger::getInstance()->writeInformation("Mouse abajo");
+		}
+		auto & board = *(model->getBoard());
+		if(focus_x >= board.sizeX - 1){
+			focus_x = board.sizeX - 1;
+		}else if(focus_x < 0){
+			focus_x = 0;
+		}
+
+		if(focus_y >= board.sizeY - 1){
+			focus_y = board.sizeY - 1;
+		}else if(focus_y < 0){
+			focus_y = 0;
 		}
 
 		processInput();

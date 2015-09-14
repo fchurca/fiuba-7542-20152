@@ -1,6 +1,7 @@
 #include "sprite_sheet.h"
+#include "game_window.h"
 
-SpriteSheet::SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, int fps, int delay ){
+SpriteSheet::SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, int fps, int delay, GameWindow & owner) : owner(owner){
 	this->path = pPath;
 
 	texture = NULL;
@@ -69,6 +70,9 @@ void SpriteSheet::render( double x, double y, int frame, Directions direction, S
 	unsigned int currentFrame = counter % total_sprites;	//Aca se debe usar el frame actual desde el estado de la entidad
 
 	unsigned int diffTime = currentTick - this->tick;	//Tiempo transcurrido entre render y render
+
+	x -= owner.focus_x;
+	y -= owner.focus_y;
 
 	if ( (this->fps == 0) || (diffTime >= (1000 / this->fps ) ) ) {
 

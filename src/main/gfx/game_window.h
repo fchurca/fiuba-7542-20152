@@ -30,5 +30,7 @@ public:
 	~GameWindow();
 	int start();
 	void init();
+	double focus_x;
+	double focus_y;
 };
 #endif // __GFX_GAMEWINDOW_H__

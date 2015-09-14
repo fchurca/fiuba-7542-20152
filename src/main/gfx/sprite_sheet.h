@@ -9,6 +9,8 @@
 #include "../model/entity.h"
 #include "../defines/defines.h"
 
+class GameWindow;
+
 class SpriteSheet {
 private:
 	std::string path;
@@ -30,7 +32,8 @@ private:
 	void free();
 
 public:
-	SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, int fps, int delay );
+	GameWindow & owner;
+	SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, int fps, int delay, GameWindow & owner );
 	~SpriteSheet();
 	void render( double x, double y, int frame, Directions direction, SDL_Renderer* renderer );
 	SDL_Texture* getLoadedTexture( SDL_Renderer* renderer );
