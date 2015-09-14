@@ -147,7 +147,7 @@ int GameWindow::start(){
 
 	Uint8 mouse_b;
 	int mouse_x, mouse_y;
-	const double SCROLL_SPEED = 1;
+	const double SCROLL_SPEED = 5;
 
 	while (!endOfGame())
 	{
@@ -156,31 +156,42 @@ int GameWindow::start(){
 
 		if(mouse_x <= MARGEN_PANTALLA_DEFAULT)
 		{
-			focus_x -= ds;
-			focus_y += ds;
-			Logger::getInstance()->writeInformation("Mouse izquierda");
+			double dsi = (1.0 - ((double)mouse_x / (double)MARGEN_PANTALLA_DEFAULT)) * ds; 
+
+			focus_x -= dsi;
+			focus_y += dsi;
+			Logger::getInstance()->writeInformation("Scrolleando hacia la izquierda");
 		}
 		else if(mouse_x >= ANCHO_DEFAULT - MARGEN_PANTALLA_DEFAULT){
-			focus_x += ds;
-			focus_y -= ds;
-			Logger::getInstance()->writeInformation("Mouse derecha");
+			
+			double dsi = ((double)(mouse_x + MARGEN_PANTALLA_DEFAULT - ANCHO_DEFAULT)/(double)MARGEN_PANTALLA_DEFAULT) * ds;
+
+			focus_x += dsi;
+			focus_y -= dsi;
+			Logger::getInstance()->writeInformation("Scrolleando hacia la derecha");
 		}
 		if(mouse_y <= MARGEN_PANTALLA_DEFAULT)
 		{
-			focus_x -= ds;
-			focus_y -= ds;
-			Logger::getInstance()->writeInformation("Mouse arriba");
+			double dsi = (1.0 - ((double)mouse_y / (double)MARGEN_PANTALLA_DEFAULT)) * ds;
+			focus_x -= dsi;
+			focus_y -= dsi;
+			Logger::getInstance()->writeInformation("Scrolleando hacia arriba");
 		}
 		if(mouse_y >= ALTO_DEFAULT - MARGEN_PANTALLA_DEFAULT)
 		{
-			focus_x += ds;
-			focus_y += ds;
-			Logger::getInstance()->writeInformation("Mouse abajo");
+			double dsi = ((double)(mouse_y + MARGEN_PANTALLA_DEFAULT - ALTO_DEFAULT)/(double)MARGEN_PANTALLA_DEFAULT) * ds;
+
+			focus_x += dsi;
+			focus_y += dsi;
+			Logger::getInstance()->writeInformation("Scrolleando hacia abajo");
 		}
+		
 		auto & board = *(model->getBoard());
+		
 		if(focus_x >= board.sizeX - 1){
 			focus_x = board.sizeX - 1;
-		}else if(focus_x < 0){
+		}
+		else if(focus_x < 0){
 			focus_x = 0;
 		}
 
