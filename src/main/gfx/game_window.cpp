@@ -113,7 +113,7 @@ void GameWindow::init(){
 	this->model = new Game(parser); // TODO: Esto debería ser parser->build()
 
 	addSpriteSheet("agua", "resources//agua.png", 0, 0, TILE_HEIGHT_DEFAULT, TILE_WIDTH_DEFAULT,  1, 0, 0);
-	addSpriteSheet("pasto", "resources//pasto.png", 0, 0, TILE_HEIGHT_DEFAULT, TILE_WIDTH_DEFAULT, 1, 0, 0);
+	addSpriteSheet("pasto", "resources//pasto_largo.png", 0, 5, TILE_HEIGHT_DEFAULT+5, TILE_WIDTH_DEFAULT, 1, 0, 0);
 	addSpriteSheet("piedra", "resources//piedra.png", 0, 0, TILE_HEIGHT_DEFAULT, TILE_WIDTH_DEFAULT, 1, 0, 0);
 	addSpriteSheet("chancho", "resources//chanchos.png", -14, 32, 44, 48, 15, 0, 1);
 }
