@@ -110,7 +110,7 @@ void GameWindow::restart(){
 void GameWindow::init(){
 	this->parser->parse();
 
-	this->model = new Game(parser);
+	this->model = new Game(parser); // TODO: Esto debería ser parser->build()
 
 	this->spritesSheets["agua"] = new SpriteSheet("resources//agua.png", 0, 0, TILE_HEIGHT_DEFAULT, TILE_WIDTH_DEFAULT,  1, 0, 0, *this);
 	this->spritesSheets["pasto"] = new SpriteSheet("resources//pasto.png", 0, 0, TILE_HEIGHT_DEFAULT, TILE_WIDTH_DEFAULT, 1, 0, 0, *this);
