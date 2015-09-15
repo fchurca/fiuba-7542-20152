@@ -72,8 +72,8 @@ void Entity::update() {
 		if (pow(dr, 2) < sqDistance()) {
 			auto dx = cos(bearing())*dr;
 			auto dy = sin(bearing())*dr;
-			//x += dx;
-			//y += dy;
+			x += dx;
+			y += dy;
 		} else {
 			cerr << ", reaching target";
 			x = targetX;
