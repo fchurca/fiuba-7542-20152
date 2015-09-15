@@ -10,14 +10,14 @@
 class EntityFactory {
 	public:
 		const std::string name;
-		const int size_x;
-		const int size_y;
+		const double size_x;
+		const double size_y;
 		const double speed;
 		Board& board;
 
-		EntityFactory(std::string name, int size_x, int size_y, double speed, Board& board);
+		EntityFactory(std::string name, double size_x, double size_y, double speed, Board& board);
 		~EntityFactory();
 
-		std::shared_ptr<Entity> createEntity(int x, int y);};
+		std::shared_ptr<Entity> createEntity(double x, double y);};
 
 #endif // _MODEL_ENTITY_FACTORY_H_

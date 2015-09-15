@@ -57,7 +57,7 @@ std::shared_ptr<Entity> Board::createEntity(std::string name, double x, double y
 	return pEntity;
 }
 
-std::shared_ptr<EntityFactory> Board::createEntityFactory(std::string name, int size_x, int size_y, double speed) {
+std::shared_ptr<EntityFactory> Board::createEntityFactory(std::string name, double size_x, double size_y, double speed) {
 	auto pFactory = std::make_shared<EntityFactory>(name, size_x, size_y, speed, *this);
 	entityFactories[name] = pFactory;
 	return pFactory;

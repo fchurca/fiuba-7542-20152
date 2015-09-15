@@ -20,6 +20,8 @@ class Entity {
 		bool adjustPosition();
 
 	public:
+		const double
+			sizeX, sizeY;
 		void setTarget(double x, double y);
 		void unsetTarget();
 		const std::string name;
@@ -33,7 +35,7 @@ class Entity {
 		double distance();
 		Directions getDirection();
 
-		Entity(std::string name, Board& board, double x, double y);
+		Entity(std::string name, Board& board, double x, double y, double sizeX, double sizeY);
 		~Entity();
 
 		void update();

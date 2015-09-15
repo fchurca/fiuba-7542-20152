@@ -7,10 +7,11 @@
 
 using namespace std;
 
-Entity::Entity(std::string name, Board& board, double x, double y) :
+Entity::Entity(std::string name, Board& board, double x, double y, double sizeX, double sizeY) :
 	name(name),
 	board(board),
-	targeted(false)
+	targeted(false),
+	sizeX(sizeX), sizeY(sizeY)
 {
 	this->x = x;
 	this->y = y;

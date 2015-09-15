@@ -2,7 +2,7 @@
 
 #include "entity_factory.h"
 
-EntityFactory::EntityFactory(std::string name, int size_x, int size_y, double speed, Board& board):
+EntityFactory::EntityFactory(std::string name, double size_x, double size_y, double speed, Board& board):
 	name(name),
 	size_x(size_x), size_y(size_y),
 	speed(speed),
@@ -20,7 +20,7 @@ EntityFactory::~EntityFactory() {
 		<< "of kind " << name << std::endl;
 }
 
-std::shared_ptr<Entity> EntityFactory::createEntity(int x, int y) {
-	return std::make_shared<Entity>(name, board, x, y);
+std::shared_ptr<Entity> EntityFactory::createEntity(double x, double y) {
+	return std::make_shared<Entity>(name, board, x, y, size_x, size_y);
 }
 

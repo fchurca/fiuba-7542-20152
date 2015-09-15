@@ -31,7 +31,7 @@ public:
 	~Board();
 
 	std::shared_ptr<Entity> createEntity(std::string name, double x, double y);
-	std::shared_ptr<EntityFactory> createEntityFactory(std::string name, int size_x, int size_y, double speed);
+	std::shared_ptr<EntityFactory> createEntityFactory(std::string name, double size_x, double size_y, double speed);
 	void createProtagonist(std::string name, double x, double y);
 	void update();
 	void buildBoard(ParserYAML* parser);
