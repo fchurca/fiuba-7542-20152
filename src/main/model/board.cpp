@@ -43,8 +43,6 @@ void Board::buildBoard(ParserYAML* parser) {
 	createEntity("pasto", 4, 2);
 	createEntity("pasto", 4, 3);
 	createEntity("pasto", 4, 4);
-
-	protagonist->setTarget(4, 2);
 }
 
 std::shared_ptr<Entity> Board::createEntity(std::string name, double x, double y) {
