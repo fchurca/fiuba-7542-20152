@@ -86,7 +86,7 @@ void Board::createProtagonist(std::string name, double x, double y) {
 
 Board::Board(int sizeX, int sizeY) : sizeX(sizeX), sizeY(sizeY) {
 	cerr << "Creating board " << this << " of size " << sizeX << "x" << sizeY << endl;
-	dt = 20; // TRAER DE CONFIGURACIÓN
+	dt = 50; // TRAER DE CONFIGURACIÓN
 }
 
 Board::~Board() {
