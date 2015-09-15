@@ -221,6 +221,11 @@ void GameWindow::scroll(){
 
 int GameWindow::start(){
 	init();
+	{
+		auto protagonist = model->getBoard()->getProtagonist();
+		focus_x = protagonist.getX();
+		focus_y = protagonist.getY();
+	}
 
 	while (!endOfGame())
 	{
