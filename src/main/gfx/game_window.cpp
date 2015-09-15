@@ -1,5 +1,6 @@
 #include "game_window.h"
 #include <sstream>
+#include <algorithm>
 
 bool GameWindow::sdlInitialized = false;
 
@@ -81,6 +82,10 @@ void GameWindow::render(){
 	std::vector<std::shared_ptr<Entity>> entities = this->model->getBoard()->getEntities();
 	std::map<std::string,SpriteSheet*>::iterator it;
 	SpriteSheet* ss;
+	// Ordenamos las entidades por oclusión
+	std::sort(entities.begin(), entities.end(), [](std::shared_ptr<Entity> a, std::shared_ptr<Entity> b) {
+			return (a->getX() < b->getX()) || (a->getY() < b->getY());
+			});
 	for (std::size_t i =0; i < entities.size(); ++i){
 		it = this->spritesSheets.find(entities[i]->name);
 		if(it != this->spritesSheets.end()){
@@ -150,7 +155,7 @@ void GameWindow::processInput(){
 
 			double XsTerm = (double)(mouse_x_screen - ANCHO_DEFAULT/2)/(double)TILE_WIDTH_DEFAULT;
 			double YsTerm = (double)(mouse_y_screen - ALTO_DEFAULT/2)/(double)TILE_HEIGHT_DEFAULT;
- 
+
 			double x_mapa = focus_x + XsTerm + YsTerm + .5;
 			double y_mapa = focus_y - XsTerm + YsTerm + .5;
 
@@ -174,54 +179,54 @@ void GameWindow::scroll(){
 	const double SCROLL_SPEED = 5;
 
 	double ds = SCROLL_SPEED * model->getBoard()->dt / 1000; //deltascroll
-		SDL_GetMouseState(&mouse_x, &mouse_y);
+	SDL_GetMouseState(&mouse_x, &mouse_y);
 
-		if(mouse_x <= MARGEN_PANTALLA_DEFAULT)
-		{
-			double dsi = (1.0 - ((double)mouse_x / (double)MARGEN_PANTALLA_DEFAULT)) * ds; 
+	if(mouse_x <= MARGEN_PANTALLA_DEFAULT)
+	{
+		double dsi = (1.0 - ((double)mouse_x / (double)MARGEN_PANTALLA_DEFAULT)) * ds; 
 
-			focus_x -= dsi;
-			focus_y += dsi;
-			Logger::getInstance()->writeInformation("Scrolleando hacia la izquierda");
-		}
-		else if(mouse_x >= ANCHO_DEFAULT - MARGEN_PANTALLA_DEFAULT){
-			
-			double dsi = ((double)(mouse_x + MARGEN_PANTALLA_DEFAULT - ANCHO_DEFAULT)/(double)MARGEN_PANTALLA_DEFAULT) * ds;
+		focus_x -= dsi;
+		focus_y += dsi;
+		Logger::getInstance()->writeInformation("Scrolleando hacia la izquierda");
+	}
+	else if(mouse_x >= ANCHO_DEFAULT - MARGEN_PANTALLA_DEFAULT){
 
-			focus_x += dsi;
-			focus_y -= dsi;
-			Logger::getInstance()->writeInformation("Scrolleando hacia la derecha");
-		}
-		if(mouse_y <= MARGEN_PANTALLA_DEFAULT)
-		{
-			double dsi = (1.0 - ((double)mouse_y / (double)MARGEN_PANTALLA_DEFAULT)) * ds;
-			focus_x -= dsi;
-			focus_y -= dsi;
-			Logger::getInstance()->writeInformation("Scrolleando hacia arriba");
-		}
-		if(mouse_y >= ALTO_DEFAULT - MARGEN_PANTALLA_DEFAULT)
-		{
-			double dsi = ((double)(mouse_y + MARGEN_PANTALLA_DEFAULT - ALTO_DEFAULT)/(double)MARGEN_PANTALLA_DEFAULT) * ds;
+		double dsi = ((double)(mouse_x + MARGEN_PANTALLA_DEFAULT - ANCHO_DEFAULT)/(double)MARGEN_PANTALLA_DEFAULT) * ds;
 
-			focus_x += dsi;
-			focus_y += dsi;
-			Logger::getInstance()->writeInformation("Scrolleando hacia abajo");
-		}
-		
-		auto & board = *(model->getBoard());
-		
-		if(focus_x >= board.sizeX - 1){
-			focus_x = board.sizeX - 1;
-		}
-		else if(focus_x < 0){
-			focus_x = 0;
-		}
+		focus_x += dsi;
+		focus_y -= dsi;
+		Logger::getInstance()->writeInformation("Scrolleando hacia la derecha");
+	}
+	if(mouse_y <= MARGEN_PANTALLA_DEFAULT)
+	{
+		double dsi = (1.0 - ((double)mouse_y / (double)MARGEN_PANTALLA_DEFAULT)) * ds;
+		focus_x -= dsi;
+		focus_y -= dsi;
+		Logger::getInstance()->writeInformation("Scrolleando hacia arriba");
+	}
+	if(mouse_y >= ALTO_DEFAULT - MARGEN_PANTALLA_DEFAULT)
+	{
+		double dsi = ((double)(mouse_y + MARGEN_PANTALLA_DEFAULT - ALTO_DEFAULT)/(double)MARGEN_PANTALLA_DEFAULT) * ds;
 
-		if(focus_y >= board.sizeY - 1){
-			focus_y = board.sizeY - 1;
-		}else if(focus_y < 0){
-			focus_y = 0;
-		}
+		focus_x += dsi;
+		focus_y += dsi;
+		Logger::getInstance()->writeInformation("Scrolleando hacia abajo");
+	}
+
+	auto & board = *(model->getBoard());
+
+	if(focus_x >= board.sizeX - 1){
+		focus_x = board.sizeX - 1;
+	}
+	else if(focus_x < 0){
+		focus_x = 0;
+	}
+
+	if(focus_y >= board.sizeY - 1){
+		focus_y = board.sizeY - 1;
+	}else if(focus_y < 0){
+		focus_y = 0;
+	}
 }
 
 int GameWindow::start(){
