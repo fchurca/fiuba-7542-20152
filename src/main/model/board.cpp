@@ -36,26 +36,34 @@ void Board::buildBoard(ParserYAML* parser) {
 	createEntity("piedra", 3, 3);
 	createEntity("pasto", 3, 4);
 
+	createProtagonist("chancho", 2, 2);
+
 	createEntity("pasto", 4, 0);
 	createEntity("pasto", 4, 1);
 	createEntity("pasto", 4, 2);
 	createEntity("pasto", 4, 3);
 	createEntity("pasto", 4, 4);
 
-	createEntity("chancho", 2, 2);
-	
-	entities.back()->setTarget(4, 2);
+	protagonist->setTarget(4, 2);
 }
 
-void Board::createEntity(std::string name, double x, double y) {
+std::shared_ptr<Entity> Board::createEntity(std::string name, double x, double y) {
 	if (entityFactories.find(name) == entityFactories.end()) {
 		throw "Not found!"; // TODO: Moar elegance
 	}
-	entities.push_back(entityFactories[name]->createEntity(x, y));
+	auto pEntity = entityFactories[name]->createEntity(x, y);
+	entities.push_back(pEntity);
+	return pEntity;
 }
 
-void Board::createEntityFactory(std::string name, int size_x, int size_y, double speed) {
-	entityFactories[name] = std::make_shared<EntityFactory>(name, size_x, size_y, speed, *this);
+std::shared_ptr<EntityFactory> Board::createEntityFactory(std::string name, int size_x, int size_y, double speed) {
+	auto pFactory = std::make_shared<EntityFactory>(name, size_x, size_y, speed, *this);
+	entityFactories[name] = pFactory;
+	return pFactory;
+}
+
+void Board::createProtagonist(std::string name, double x, double y) {
+	protagonist = createEntity(name, x, y);
 }
 
 Board::Board(int sizeX, int sizeY) : sizeX(sizeX), sizeY(sizeY) {
@@ -77,5 +85,9 @@ void Board::update() {
 
 std::vector<std::shared_ptr<Entity>> Board::getEntities() {
 	return entities;
+}
+
+Entity & Board::getProtagonist() {
+	return * protagonist;
 }
 

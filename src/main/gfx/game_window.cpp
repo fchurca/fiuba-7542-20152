@@ -154,7 +154,7 @@ void GameWindow::processInput(){
 			Logger::getInstance()->writeInformation(oss.str().c_str());
 			if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_LEFT ) {
 				Logger::getInstance()->writeInformation("Boton Izquierdo");
-				model->getBoard()->getEntities().back()->setTarget(x_mapa, y_mapa);
+				model->getBoard()->getProtagonist().setTarget(x_mapa, y_mapa);
 			}
 			if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_RIGHT) {
 				Logger::getInstance()->writeInformation("Boton derecho");
