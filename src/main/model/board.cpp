@@ -60,7 +60,7 @@ void Board::createEntityFactory(std::string name, int size_x, int size_y, double
 
 Board::Board(int sizeX, int sizeY) : sizeX(sizeX), sizeY(sizeY) {
 	cerr << "Creating board " << this << " of size " << sizeX << "x" << sizeY << endl;
-	dt = 100; // TRAER DE CONFIGURACIÓN
+	dt = 20; // TRAER DE CONFIGURACIÓN
 }
 
 Board::~Board() {

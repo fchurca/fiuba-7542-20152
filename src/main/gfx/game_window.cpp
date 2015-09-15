@@ -229,7 +229,7 @@ int GameWindow::start(){
 		update();
 		render();
 
-		SDL_Delay(100); // TODO: Optimizar, sacar hardcodeo
+		SDL_Delay(model->getBoard()->dt); // TODO: Optimizar, sacar hardcodeo
 	}
 	return 0;
 }
