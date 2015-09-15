@@ -29,8 +29,8 @@ Entity::~Entity() {
 bool Entity::adjustPosition() {
 	bool ret = false;
 	int oldX = x, oldY = y;
-	int topX = board.sizeX - 1;
-	int topY = board.sizeY - 1;
+	int topX = board.sizeX;
+	int topY = board.sizeY;
 	if (x > topX) {
 		x = topX;
 		ret = true;

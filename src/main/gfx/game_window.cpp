@@ -143,11 +143,11 @@ void GameWindow::processInput(){
 
 			// Conversion de coordenadas en pantalla a coordenadas mapa
 
-			double XsTerm = (double)(mouse_x_screen - (ANCHO_DEFAULT - TILE_WIDTH_DEFAULT)/2)/(double)TILE_WIDTH_DEFAULT;
-			double YsTerm = (double)(mouse_y_screen - (ALTO_DEFAULT - TILE_HEIGHT_DEFAULT)/2)/(double)TILE_HEIGHT_DEFAULT;
+			double XsTerm = (double)(mouse_x_screen - ANCHO_DEFAULT/2)/(double)TILE_WIDTH_DEFAULT;
+			double YsTerm = (double)(mouse_y_screen - ALTO_DEFAULT/2)/(double)TILE_HEIGHT_DEFAULT;
  
-			double x_mapa = focus_x + XsTerm + YsTerm - 1;
-			double y_mapa = focus_y - XsTerm + YsTerm;
+			double x_mapa = focus_x + XsTerm + YsTerm + .5;
+			double y_mapa = focus_y - XsTerm + YsTerm + .5;
 
 			oss << "; mapa: " << x_mapa << "," << y_mapa;
 
