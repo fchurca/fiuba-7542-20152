@@ -83,7 +83,7 @@ void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer ){
 
 	if ( (this->fps == 0) || (diffTime >= (1000 / this->fps ) ) ) {
 
-		//	Conversion isometrica - TODO: PONER LAS CONVERSIONES EN OTRA CLASE
+		//	Conversion isometrica 
 		int screenX = ((x - y) * TILE_WIDTH_DEFAULT / 2) + (ANCHO_DEFAULT - TILE_WIDTH_DEFAULT) / 2;
 		int screenY = ((x + y) * TILE_HEIGHT_DEFAULT / 2) + (ALTO_DEFAULT - TILE_HEIGHT_DEFAULT) / 2;
 
@@ -92,6 +92,12 @@ void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer ){
 
 		//	Parte de la imagen a levantar
 		SDL_Rect clip = { currentFrame * ancho_sprite, direction * alto_sprite, ancho_sprite, alto_sprite };
+		
+		//Armar un render diferente para el protagonista
+		if (path.compare("resources//mago.png") == 0) {
+			clip.x = getFrameDirection(direction) * ancho_sprite;
+			clip.y = currentFrame * alto_sprite;
+		}
 
 		//	Dibujado
 		//	TODO: Verificar si renderQuad realmente se pisa con la pantalla
@@ -103,4 +109,18 @@ void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer ){
 			counter++;
 		}
 	}
+}
+
+int SpriteSheet::getFrameDirection(Directions direction) {
+	switch(direction) {
+			case SOUTH_EAST: return 6;
+			case SOUTH: return 1;
+			case SOUTH_WEST: return 7;
+			case WEST: return 3;
+			case NORTH_WEST: return 5;
+			case NORTH : return 0;
+			case NORTH_EAST : return 4;
+			case EAST : return 2;
+	}
+	return 0;
 }

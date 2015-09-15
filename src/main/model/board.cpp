@@ -11,6 +11,7 @@ void Board::buildBoard(ParserYAML* parser) {
 	createEntityFactory("pasto", 1, 1, 0);
 	createEntityFactory("piedra", 1, 1, 0);
 	createEntityFactory("chancho", 1, 1, 0);
+	createEntityFactory("mago", 1, 1, 0);
 
 	createEntity("agua", 0, 0);
 	createEntity("agua", 0, 1);
@@ -36,7 +37,9 @@ void Board::buildBoard(ParserYAML* parser) {
 	createEntity("piedra", 3, 3);
 	createEntity("pasto", 3, 4);
 
-	createProtagonist("chancho", 2, 2);
+	createEntity("chancho", 1, 1);
+
+	createProtagonist("mago", 2, 2);
 
 	createEntity("pasto", 4, 0);
 	createEntity("pasto", 4, 1);

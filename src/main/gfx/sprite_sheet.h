@@ -28,6 +28,7 @@ private:
 
 	bool initialized;//= FALSE;
 	SDL_Texture* texture;// = NULL;
+	int getFrameDirection(Directions direction);
 	bool loadTexture( SDL_Renderer* renderer );
 	void free();
 
