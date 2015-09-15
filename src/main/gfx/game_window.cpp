@@ -184,7 +184,7 @@ void GameWindow::processInput(){
 void GameWindow::scroll(){
 	Uint8 mouse_b;
 	int mouse_x, mouse_y;
-	const double SCROLL_SPEED = 5;
+	const double SCROLL_SPEED = 40;
 
 	double ds = SCROLL_SPEED * model->getBoard()->dt / 1000; //deltascroll
 	SDL_GetMouseState(&mouse_x, &mouse_y);
