@@ -5,6 +5,7 @@ using namespace std;
 
 //-----------------------------------------------------------------------------
 void Board::buildBoard(ParserYAML* parser) {
+	terrain.resize(sizeX * sizeY);
 
 	// CARGO MAPA PARA PRUEBA
 	createEntityFactory("agua", 1, 1, 0);
@@ -13,39 +14,55 @@ void Board::buildBoard(ParserYAML* parser) {
 	createEntityFactory("chancho", 1, 1, 0);
 	createEntityFactory("mago", 1, 1, 0);
 
-	createEntity("agua", 0, 0);
-	createEntity("agua", 0, 1);
-	createEntity("agua", 0, 2);
-	createEntity("pasto", 0, 3);
-	createEntity("pasto", 0, 4);
+	setTerrain("agua", 0, 0);
+	setTerrain("agua", 0, 1);
+	setTerrain("agua", 0, 2);
+	setTerrain("pasto", 0, 3);
+	setTerrain("pasto", 0, 4);
 
-	createEntity("pasto", 1, 0);
-	createEntity("pasto", 1, 1);
-	createEntity("pasto", 1, 2);
-	createEntity("pasto", 1, 3);
-	createEntity("pasto", 1, 4);
+	setTerrain("pasto", 1, 0);
+	setTerrain("pasto", 1, 1);
+	setTerrain("pasto", 1, 2);
+	setTerrain("pasto", 1, 3);
+	setTerrain("pasto", 1, 4);
 
-	createEntity("pasto", 2, 0);
-	createEntity("piedra", 2, 1);
-	createEntity("piedra", 2, 2);
-	createEntity("piedra", 2, 3);
-	createEntity("piedra", 2, 4);
+	setTerrain("pasto", 2, 0);
+	setTerrain("piedra", 2, 1);
+	setTerrain("piedra", 2, 2);
+	setTerrain("piedra", 2, 3);
+	setTerrain("piedra", 2, 4);
 
-	createEntity("pasto", 3, 0);
-	createEntity("piedra", 3, 1);
-	createEntity("piedra", 3, 2);
-	createEntity("piedra", 3, 3);
-	createEntity("pasto", 3, 4);
+	setTerrain("pasto", 3, 0);
+	setTerrain("piedra", 3, 1);
+	setTerrain("piedra", 3, 2);
+	setTerrain("piedra", 3, 3);
+	setTerrain("pasto", 3, 4);
 
 	createEntity("chancho", 1, 1);
 
 	createProtagonist("mago", 2, 2);
 
-	createEntity("pasto", 4, 0);
-	createEntity("pasto", 4, 1);
-	createEntity("pasto", 4, 2);
-	createEntity("pasto", 4, 3);
-	createEntity("pasto", 4, 4);
+	setTerrain("pasto", 4, 0);
+	setTerrain("pasto", 4, 1);
+	setTerrain("pasto", 4, 2);
+	setTerrain("pasto", 4, 3);
+	setTerrain("pasto", 4, 4);
+
+	for(size_t x = 0; x < sizeX; x++) {
+		for(size_t y = 0; y < sizeY; y++) {
+			if (&getTerrain(x, y) == NULL) {
+				setTerrain("pasto", x, y);
+			}
+		}
+	}
+}
+
+Entity & Board::getTerrain(size_t x, size_t y) {
+	return *(terrain[(sizeX*y) + x]);
+}
+
+void Board::setTerrain(string name, size_t x, size_t y) {
+	terrain[(sizeX*y) + x] = entityFactories[name]->createEntity(x, y);
 }
 
 std::shared_ptr<Entity> Board::createEntity(std::string name, double x, double y) {

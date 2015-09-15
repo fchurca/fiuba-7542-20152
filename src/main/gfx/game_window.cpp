@@ -79,7 +79,15 @@ void GameWindow::render(){
 	//	Dibujar
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
-	std::vector<std::shared_ptr<Entity>> entities = this->model->getBoard()->getEntities();
+	Board & board = *this->model->getBoard();
+	// Dibujamos el terreno
+	for (size_t x = 0; x < board.sizeX; x++) {
+		for (size_t y = 0; y < board.sizeY; y++) {
+			Entity & tile = board.getTerrain(x, y);
+			spritesSheets[tile.name]->render(tile, 0, renderer);
+		}
+	}
+	std::vector<std::shared_ptr<Entity>> entities = board.getEntities();
 	std::map<std::string,SpriteSheet*>::iterator it;
 	SpriteSheet* ss;
 	// Ordenamos las entidades por oclusión
