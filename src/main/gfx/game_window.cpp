@@ -85,7 +85,7 @@ void GameWindow::render(){
 		it = this->spritesSheets.find(entities[i]->name);
 		if(it != this->spritesSheets.end()){
 			ss = it->second;
-			ss->render(entities[i]->getX(), entities[i]->getY(), 0, entities[i]->getDirection() , renderer);
+			ss->render(*entities[i], 0, renderer);
 		}
 		else
 			Logger::getInstance()->writeWarning("No existe SpriteSheet para este tipo de entidad" + entities[i]->name);

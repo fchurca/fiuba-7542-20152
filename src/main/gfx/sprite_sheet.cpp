@@ -60,8 +60,10 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ){
 	return texture != NULL;
 }
 
-void SpriteSheet::render( double x, double y, int frame, Directions direction, SDL_Renderer* renderer ){
-
+void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer ){
+	auto x = entity.getX();
+	auto y = entity.getY();
+	auto direction = entity.getDirection();
 	// Todas las entidades del mismo tipo estan usando el mismo fps y delay. 
 	// Revisar esto, para que cada entidad tenga el estado
 
@@ -87,6 +89,7 @@ void SpriteSheet::render( double x, double y, int frame, Directions direction, S
 		SDL_Rect clip = { currentFrame * ancho_sprite, direction * alto_sprite, ancho_sprite, alto_sprite };
 
 		//	Dibujado
+		//	TODO: Verificar si renderQuad realmente se pisa con la pantalla
 		SDL_RenderCopy( renderer, getLoadedTexture( renderer ), &clip, &renderQuad );
 
 		if ( ( (currentFrame != 0) || (diffTime >= (this->delay * 1000)) ) ) {
