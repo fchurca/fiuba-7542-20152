@@ -118,7 +118,6 @@ double Entity::distance() {
 }
 
 Directions Entity::getDirection(){
-	return SOUTH_EAST; // TODO: Sacar cuando tengamos algún sprite que se mueva en todas direcciones
 	return targeted?
 		static_cast<Directions>(
 				(unsigned)floor(16*bearing()/M_PI)%8):
