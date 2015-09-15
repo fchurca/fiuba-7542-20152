@@ -1,7 +1,7 @@
 #include "game.h"
 
 Game::Game(ParserYAML* parser){
-	this->gameBoard = new Board(64, 48);
+	this->gameBoard = new Board(5, 5);
 	this->gameBoard->buildBoard(parser);
 }
 
