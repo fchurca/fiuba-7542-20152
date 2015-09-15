@@ -65,14 +65,15 @@ void Entity::update() {
 	if (targeted) {
 		auto d = distance();
 		cerr << " heading for " << targetX << "," << targetY
+			<< " (" << getDirection() << ") "
 			<< " at " << speed << " tiles/s"
 			<< " with " << distance() << " tiles to walk";
 		auto dr = speed*board.dt/1000;
 		if (pow(dr, 2) < sqDistance()) {
 			auto dx = cos(bearing())*dr;
 			auto dy = sin(bearing())*dr;
-			x += dx;
-			y += dy;
+			//x += dx;
+			//y += dy;
 		} else {
 			cerr << ", reaching target";
 			x = targetX;
@@ -121,6 +122,6 @@ double Entity::distance() {
 Directions Entity::getDirection(){
 	return targeted?
 		static_cast<Directions>(
-				(unsigned)floor(16*bearing()/M_PI)%8):
+				(unsigned)floor(4*bearing()/M_PI+.5)%8):
 		SOUTH_EAST;
 }

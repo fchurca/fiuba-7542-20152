@@ -112,15 +112,5 @@ void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer ){
 }
 
 int SpriteSheet::getFrameDirection(Directions direction) {
-	switch(direction) {
-		case SOUTH_EAST: return 1;
-		case SOUTH: return 7;
-		case SOUTH_WEST: return 3;
-		case WEST: return 5;
-		case NORTH_WEST: return 0;
-		case NORTH : return 5;
-		case NORTH_EAST : return 2;
-		case EAST : return 6;
-	}
-	return 0;
+	return direction;
 }
