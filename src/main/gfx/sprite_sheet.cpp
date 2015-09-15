@@ -48,9 +48,6 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ){
 		//	TODO: CARGAR UNA IMAGEN DEFAULT
 	}
 	else {
-		//	Color de Fondo Transparente
-		SDL_SetColorKey(loadedSurface, SDL_TRUE | SDL_RLEACCEL, SDL_MapRGB( loadedSurface->format, 255, 0, 255));
-
 		//	Textura de la superficie
 		texture = SDL_CreateTextureFromSurface( renderer, loadedSurface );
 
