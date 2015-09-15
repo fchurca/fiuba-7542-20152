@@ -112,15 +112,19 @@ void GameWindow::init(){
 
 	this->model = new Game(parser); // TODO: Esto debería ser parser->build()
 
-	this->spritesSheets["agua"] = new SpriteSheet("resources//agua.png", 0, 0, TILE_HEIGHT_DEFAULT, TILE_WIDTH_DEFAULT,  1, 0, 0, *this);
-	this->spritesSheets["pasto"] = new SpriteSheet("resources//pasto.png", 0, 0, TILE_HEIGHT_DEFAULT, TILE_WIDTH_DEFAULT, 1, 0, 0, *this);
-	this->spritesSheets["piedra"] = new SpriteSheet("resources//piedra.png", 0, 0, TILE_HEIGHT_DEFAULT, TILE_WIDTH_DEFAULT, 1, 0, 0, *this);
-	this->spritesSheets["chancho"] = new SpriteSheet("resources//chanchos.png", -14, 32, 44, 48, 15, 0, 1, *this);
+	addSpriteSheet("agua", "resources//agua.png", 0, 0, TILE_HEIGHT_DEFAULT, TILE_WIDTH_DEFAULT,  1, 0, 0);
+	addSpriteSheet("pasto", "resources//pasto.png", 0, 0, TILE_HEIGHT_DEFAULT, TILE_WIDTH_DEFAULT, 1, 0, 0);
+	addSpriteSheet("piedra", "resources//piedra.png", 0, 0, TILE_HEIGHT_DEFAULT, TILE_WIDTH_DEFAULT, 1, 0, 0);
+	addSpriteSheet("chancho", "resources//chanchos.png", -14, 32, 44, 48, 15, 0, 1);
 }
 
 void GameWindow::update(){
 	model->update();
 	return;
+}
+
+void GameWindow::addSpriteSheet(std::string name, std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, int fps, int delay) {
+	spritesSheets[name] = new SpriteSheet(pPath, pixelRefX, pixelRefY, altoSprite, anchoSprite, cantSprites, fps, delay, *this);
 }
 
 void GameWindow::processInput(){

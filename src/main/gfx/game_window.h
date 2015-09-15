@@ -19,13 +19,14 @@ protected:
 	int tick;
 	static bool sdlInitialized; // = false
 	static bool initialize();
-	bool endOfGame();	
+	bool endOfGame();
 	void processInput();
 	void update();
 	void render();
 	void restart();
 	void scroll();
 public:
+	void addSpriteSheet(std::string name, std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, int fps, int delay);
 	GameWindow();
 	~GameWindow();
 	int start();
