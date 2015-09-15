@@ -26,13 +26,26 @@ Entity::~Entity() {
 	cerr << "Killing Entity " << this << " of kind " << name << endl;
 }
 
-void Entity::adjustPosition() {
+bool Entity::adjustPosition() {
+	bool ret = false;
+	int oldX = x, oldY = y;
 	int topX = board.sizeX - 1;
 	int topY = board.sizeY - 1;
-	x = x < topX ? x : topX;
-	x = x >= 0 ? x : 0;
-	y = y < topY ? y : topY;
-	y = y >= 0 ? y : 0;
+	if (x > topX) {
+		x = topX;
+		ret = true;
+	} else if (x < 0) {
+		x = 0;
+		ret = true;
+	}
+	if (y > topY) {
+		y = topY;
+		ret = true;
+	} else if (y < 0) {
+		y = 0;
+		ret = true;
+	}
+	return ret;
 }
 
 void Entity::setTarget(double x, double y) {
@@ -54,19 +67,24 @@ void Entity::update() {
 			<< " at " << speed << " tiles/s"
 			<< " with " << distance() << " tiles to walk";
 		auto dr = speed*board.dt/1000;
-		if (dr < distance()) {
+		if (pow(dr, 2) < sqDistance()) {
 			auto dx = cos(bearing())*dr;
 			auto dy = sin(bearing())*dr;
 			x += dx;
 			y += dy;
 		} else {
-			cerr << " reaching target";
+			cerr << ", reaching target";
 			x = targetX;
 			y = targetY;
 			targeted = false;
 		}
+		if (adjustPosition()) {
+			cerr << ", reaching the end of the map";
+			unsetTarget();
+		}
+		cerr << ", stepping into " << x << "," << y;
 	} else {
-		cerr << " standing still";
+		cerr << ", standing still";
 	}
 	cerr << endl;
 }

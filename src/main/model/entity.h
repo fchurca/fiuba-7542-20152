@@ -17,7 +17,7 @@ class Entity {
 		double targetX, targetY;
 
 		Entity();
-		void adjustPosition();
+		bool adjustPosition();
 
 	public:
 		void setTarget(double x, double y);
