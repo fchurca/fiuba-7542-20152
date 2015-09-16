@@ -11,8 +11,8 @@ void Board::buildBoard(ParserYAML* parser) {
 	createEntityFactory("agua", 1, 1, 0);
 	createEntityFactory("pasto", 1, 1, 0);
 	createEntityFactory("piedra", 1, 1, 0);
-	createEntityFactory("chancho", 1, 1, 0);
-	createEntityFactory("mago", 1, 1, 0);
+	createEntityFactory("chancho", 0.5, 0.5, 0);
+	createEntityFactory("mago", 0.5, 0.5, 0);
 
 	setTerrain("agua", 0, 0);
 	setTerrain("agua", 0, 1);
