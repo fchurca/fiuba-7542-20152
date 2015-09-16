@@ -9,7 +9,7 @@ SpriteSheet::SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int a
 		<< " owned by " << &owner << std::endl;
 	this->path = pPath;
 
-	texture = NULL;
+	texture = nullptr;
 	initialized = false;
 
 	this->pixel_ref_x = pixelRefX;
@@ -31,9 +31,9 @@ SpriteSheet::~SpriteSheet(){
 }
 
 void SpriteSheet::free(){
-	if( texture != NULL ){
+	if(texture){
 		SDL_DestroyTexture( texture );
-		texture = NULL;
+		texture = nullptr;
 	}
 }
 
@@ -50,8 +50,8 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ){
 	//	Carga la imagen desde el path
 	SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
 
-	if( loadedSurface == NULL ) {
-		texture = NULL;
+	if(!loadedSurface) {
+		texture = nullptr;
 		Logger::getInstance()->writeError( "No se puede cargar la imagen " + path + "! - " + IMG_GetError() );
 		//	TODO: CARGAR UNA IMAGEN DEFAULT
 	}
@@ -62,7 +62,7 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ){
 		//	Libera la superficie
 		SDL_FreeSurface( loadedSurface );
 	}
-	return texture != NULL;
+	return texture;
 }
 
 void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer ){

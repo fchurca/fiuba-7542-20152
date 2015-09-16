@@ -50,7 +50,7 @@ void Board::buildBoard(ParserYAML* parser) {
 
 	for(size_t x = 0; x < sizeX; x++) {
 		for(size_t y = 0; y < sizeY; y++) {
-			if (&getTerrain(x, y) == NULL) {
+			if (!&getTerrain(x, y)) {
 				setTerrain("pasto", x, y);
 			}
 		}

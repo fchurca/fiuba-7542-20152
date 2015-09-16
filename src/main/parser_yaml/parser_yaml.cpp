@@ -1,14 +1,14 @@
 #include "parser_yaml.h"
 
 
-ParserYAML::ParserYAML(std::string filename){
+ParserYAML::ParserYAML(std::string filename) {
 	this->filename = filename;
 }
 
-void ParserYAML::parse(){
+void ParserYAML::parse() {
 	Logger::getInstance()->writeInformation("yaml-cpp: inicia parseo del archivo de configuracion.");
 	std::ifstream fin(this->filename.c_str());
-	if(!fin){
+	if(!fin) {
 		Logger::getInstance()->writeError("yaml-cpp: el archivo de configuracion no existe o bien no pudo ser abierto.");
 		Logger::getInstance()->writeInformation("yaml-cpp: se toma un archivo de escenario default.");
 		setArchivoDefault();
@@ -30,7 +30,7 @@ void ParserYAML::parse(){
 				setArchivoDefault();
 			}
 		}
-		catch(YAML::ParserException &e){ 
+		catch(YAML::ParserException &e) { 
 			std::string mensaje = std::string(e.what());
 			if(fin.is_open())
 				fin.close();
@@ -41,12 +41,12 @@ void ParserYAML::parse(){
 	}
 }
 
-TagConfiguracion ParserYAML::getConfiguracion(){
+TagConfiguracion ParserYAML::getConfiguracion() {
 	Logger::getInstance()->writeInformation("yaml-cpp: se obtiene la informacion de configuracion.");
 	TagConfiguracion configuracion;
-	if(this->doc.FindValue("configuracion") != NULL){
+	if(this->doc.FindValue("configuracion")) {
 		const YAML::Node& conf = this->doc["configuracion"];
-		if(conf.Type() == YAML::NodeType::Map){
+		if(conf.Type() == YAML::NodeType::Map) {
 			setConfiguracion(conf,configuracion);
 		}
 		else{
@@ -61,12 +61,12 @@ TagConfiguracion ParserYAML::getConfiguracion(){
 	return configuracion;
 }
 
-TagPantalla ParserYAML::getPantalla(){
+TagPantalla ParserYAML::getPantalla() {
 	Logger::getInstance()->writeInformation("yaml-cpp: se obtiene la informacion de la pantalla.");
 	TagPantalla pantalla;
-	if(this->doc.FindValue("pantalla") != NULL){
+	if(this->doc.FindValue("pantalla")) {
 		const YAML::Node& pant = this->doc["pantalla"];
-		if(pant.Type() == YAML::NodeType::Map){
+		if(pant.Type() == YAML::NodeType::Map) {
 			setPantalla(pant,pantalla);
 		}
 		else{
@@ -81,13 +81,13 @@ TagPantalla ParserYAML::getPantalla(){
 	return pantalla;
 }
 
-std::vector<TagTipoEntidad> ParserYAML::getTiposEntidades(){
+std::vector<TagTipoEntidad> ParserYAML::getTiposEntidades() {
 	Logger::getInstance()->writeInformation("yaml-cpp: se obtiene informacion de los tipos de entidades.");
 	std::vector<TagTipoEntidad> tiposDeEntidades;
-	if(this->doc.FindValue("tipos") != NULL){
+	if(this->doc.FindValue("tipos")) {
 		const YAML::Node& tipos = this->doc["tipos"];
-		if(tipos.Type() == YAML::NodeType::Sequence){
-			for(unsigned int i = 0; i < tipos.size(); i++){
+		if(tipos.Type() == YAML::NodeType::Sequence) {
+			for(unsigned int i = 0; i < tipos.size(); i++) {
 				Logger::getInstance()->writeInformation("yaml-cpp: se obtiene informacion del tipo de entidad numero."  + intToString(i));
 				TagTipoEntidad tipoEntidad;
 				setTipoEntidad(tipos[i], tipoEntidad);
@@ -112,12 +112,12 @@ std::vector<TagTipoEntidad> ParserYAML::getTiposEntidades(){
 	return tiposDeEntidades;
 }
 
-TagEscenario ParserYAML::getEscenario(){
+TagEscenario ParserYAML::getEscenario() {
 	Logger::getInstance()->writeInformation("yaml-cpp: se obtiene informacion de escenario.");
 	TagEscenario escenario;
-	if(this->doc.FindValue("escenario") != NULL){ 
+	if(this->doc.FindValue("escenario")) { 
 		const YAML::Node& esc = this->doc["escenario"];
-		if(esc.Type() == YAML::NodeType::Map){
+		if(esc.Type() == YAML::NodeType::Map) {
 			setEscenario(esc,escenario);
 		}
 		else{
@@ -132,12 +132,12 @@ TagEscenario ParserYAML::getEscenario(){
 	return escenario;
 }
 
-ParserYAML::~ParserYAML(void){
+ParserYAML::~ParserYAML(void) {
 
 }
 
-void ParserYAML::setConfiguracion (const YAML::Node& node, TagConfiguracion& configuracion){
-	if(node.Type() == YAML::NodeType::Map){
+void ParserYAML::setConfiguracion (const YAML::Node& node, TagConfiguracion& configuracion) {
+	if(node.Type() == YAML::NodeType::Map) {
 		if(!validarScalarNumericoPositivo(node, "vel_personaje", configuracion.vel_personaje))
 			configuracion.vel_personaje = VELOCIDAD_PERSONAJE_DEFAULT;
 		if(!validarScalarNumericoPositivo(node, "margen_scroll", configuracion.margen_scroll))
@@ -149,15 +149,15 @@ void ParserYAML::setConfiguracion (const YAML::Node& node, TagConfiguracion& con
 	}	
 }
 
-void ParserYAML::setConfiguracionDefault (TagConfiguracion& configuracion){
+void ParserYAML::setConfiguracionDefault (TagConfiguracion& configuracion) {
 	Logger::getInstance()->writeInformation("yaml-cpp: se toma configuracion por default.");
 	configuracion.margen_scroll = MARGEN_SCROLL_DEFAULT;
 	configuracion.margen_scroll = VELOCIDAD_PERSONAJE_DEFAULT;
 }
 
 
-void ParserYAML::setPantalla (const YAML::Node& node, TagPantalla& pantalla){
-	if(node.Type() == YAML::NodeType::Map){
+void ParserYAML::setPantalla (const YAML::Node& node, TagPantalla& pantalla) {
+	if(node.Type() == YAML::NodeType::Map) {
 		if((!validarScalarNumericoPositivo(node, "ancho", pantalla.ancho)) || (!validarScalarNumericoPositivo(node, "alto", pantalla.alto)))
 			setPantallaDefault(pantalla);	
 	}
@@ -167,15 +167,15 @@ void ParserYAML::setPantalla (const YAML::Node& node, TagPantalla& pantalla){
 	}	
 }
 
-void ParserYAML::setPantallaDefault (TagPantalla& pantalla){
+void ParserYAML::setPantallaDefault (TagPantalla& pantalla) {
 	Logger::getInstance()->writeInformation("yaml-cpp: se toma pantalla por default.");
 	pantalla.alto = ALTO_DEFAULT;
 	pantalla.ancho = ANCHO_DEFAULT;
 }
 
-void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEntidad){
-	if(node.Type() == YAML::NodeType::Map){
-		if(!validarScalarAlfaNumerico(node, "nombre", tipoEntidad.nombre)){
+void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEntidad) {
+	if(node.Type() == YAML::NodeType::Map) {
+		if(!validarScalarAlfaNumerico(node, "nombre", tipoEntidad.nombre)) {
 			Logger::getInstance()->writeInformation("yaml-cpp: el nombre del tipo de entidad se toma por default.");
 			tipoEntidad.nombre = NOMBRE_TIPO_ENTIDAD_DEFAULT;
 		}
@@ -185,7 +185,7 @@ void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEnt
 			|| (!validarScalarNumericoPositivo(node, "pixel_ref_x", tipoEntidad.pixel_ref_x))
 			|| (!validarScalarNumericoPositivo(node, "pixel_ref_y", tipoEntidad.pixel_ref_y))
 			|| (!validarScalarNumericoPositivo(node, "fps", tipoEntidad.fps))
-			|| (!validarScalarNumericoPositivo(node, "delay", tipoEntidad.delay))){
+			|| (!validarScalarNumericoPositivo(node, "delay", tipoEntidad.delay))) {
 				Logger::getInstance()->writeInformation("yaml-cpp: datos de la imagen del tipo de entidad invalidos, se toman por default (path, ancho_base, alto_base, pixel_ref_x, pixel_ref_y, fps, delay).");
 				tipoEntidad.imagen = IMAGEN_TIPO_ENTIDAD_DEFAULT;
 				tipoEntidad.ancho_base = ANCHO_BASE_DEFAULT;
@@ -202,7 +202,7 @@ void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEnt
 	}
 }
 
-void ParserYAML::setTipoEntidadDefault (TagTipoEntidad& tipoEntidad){
+void ParserYAML::setTipoEntidadDefault (TagTipoEntidad& tipoEntidad) {
 	Logger::getInstance()->writeInformation("yaml-cpp: se toma tipo de entidad por default.");
 	tipoEntidad.nombre = NOMBRE_TIPO_ENTIDAD_DEFAULT;
 	tipoEntidad.imagen = IMAGEN_TIPO_ENTIDAD_DEFAULT;
@@ -214,19 +214,19 @@ void ParserYAML::setTipoEntidadDefault (TagTipoEntidad& tipoEntidad){
 	tipoEntidad.delay = DELAY_DEFAULT;
 }
 
-void ParserYAML::setEntidad(const YAML::Node& node, TagEntidad& entidad){
-	if(node.Type() == YAML::NodeType::Map){
-		if(!validarScalarNumericoPositivo(node, "x", entidad.pos_x)){
+void ParserYAML::setEntidad(const YAML::Node& node, TagEntidad& entidad) {
+	if(node.Type() == YAML::NodeType::Map) {
+		if(!validarScalarNumericoPositivo(node, "x", entidad.pos_x)) {
 			Logger::getInstance()->writeInformation("yaml-cpp: la posicion x de la entidad se toma por defecto.");
 			entidad.pos_x = POS_X_DEFAULT;
 		}
 
-		if(!validarScalarNumericoPositivo(node, "y", entidad.pos_y)){
+		if(!validarScalarNumericoPositivo(node, "y", entidad.pos_y)) {
 			Logger::getInstance()->writeInformation("yaml-cpp: la posicion y de la entidad se toma por defecto.");
 			entidad.pos_y = POS_Y_DEFAULT;
 		}
 
-		if(!validarScalarAlfaNumerico(node, "tipo", entidad.tipoEntidad)){
+		if(!validarScalarAlfaNumerico(node, "tipo", entidad.tipoEntidad)) {
 			Logger::getInstance()->writeInformation("yaml-cpp: el tipo de la entidad se toma por defecto.");
 			entidad.tipoEntidad = TIPO_DEFAULT;
 		}
@@ -240,24 +240,24 @@ void ParserYAML::setEntidad(const YAML::Node& node, TagEntidad& entidad){
 	}
 }
 
-void ParserYAML::setEscenario(const YAML::Node& node, TagEscenario& escenario){
-	if(node.Type() == YAML::NodeType::Map){
-		if(!validarScalarAlfaNumerico(node, "nombre", escenario.nombre)){
+void ParserYAML::setEscenario(const YAML::Node& node, TagEscenario& escenario) {
+	if(node.Type() == YAML::NodeType::Map) {
+		if(!validarScalarAlfaNumerico(node, "nombre", escenario.nombre)) {
 			Logger::getInstance()->writeInformation("yaml-cpp: el nombre del escenario se toma por default.");
 			escenario.nombre = NOMBRE_ESCENARIO_DEFAULT;
 		}
 
-		if((!validarScalarNumericoPositivo(node, "size_x", escenario.size_x))||(!validarScalarNumericoPositivo(node, "size_y", escenario.size_y))){
+		if((!validarScalarNumericoPositivo(node, "size_x", escenario.size_x))||(!validarScalarNumericoPositivo(node, "size_y", escenario.size_y))) {
 			Logger::getInstance()->writeInformation("yaml-cpp: se toman por default los datos del tamonio del escenario.");
 			escenario.size_x = SIZE_X_DEFAULT;
 			escenario.size_x = SIZE_Y_DEFAULT;
 		}
 
 		std::vector<TagEntidad> entidades;
-		if(node.FindValue("entidades") != NULL){ 
+		if(node.FindValue("entidades")) { 
 			const YAML::Node& ent = node["entidades"];
-			if(ent.Type() == YAML::NodeType::Sequence){
-				for(unsigned int i = 0; i < ent.size(); i++){
+			if(ent.Type() == YAML::NodeType::Sequence) {
+				for(unsigned int i = 0; i < ent.size(); i++) {
 					TagEntidad entidad;
 					setEntidad(ent[i],entidad);
 					entidades.push_back(entidad);
@@ -275,10 +275,10 @@ void ParserYAML::setEscenario(const YAML::Node& node, TagEscenario& escenario){
 		escenario.entidades = entidades;
 
 		TagEntidad protagonista;
-		if(node.FindValue("protagonista") != NULL){ 
+		if(node.FindValue("protagonista")) { 
 			const YAML::Node& pro = node["protagonista"];
-			if(pro.Type() == YAML::NodeType::Sequence){
-				if(pro.size() == 1){
+			if(pro.Type() == YAML::NodeType::Sequence) {
+				if(pro.size() == 1) {
 					setEntidad(pro[0], protagonista);
 					escenario.protagonista = protagonista;
 				}
@@ -301,7 +301,7 @@ void ParserYAML::setEscenario(const YAML::Node& node, TagEscenario& escenario){
 		
 }
 
-void ParserYAML::setEscenarioDefault (TagEscenario& escenario){
+void ParserYAML::setEscenarioDefault (TagEscenario& escenario) {
 	Logger::getInstance()->writeInformation("yaml-cpp: se toma escenario por default.");
 	std::vector<TagEntidad> entidades;
 	TagEntidad protagonista;
@@ -312,7 +312,7 @@ void ParserYAML::setEscenarioDefault (TagEscenario& escenario){
 	
 }
 
-void ParserYAML::setArchivoDefault(){
+void ParserYAML::setArchivoDefault() {
 	// Este metodo no puede fallar, el archivo default no puede contener errores.
 	this->filename = ARCHIVO_CONFIGURACION_DEFAULT;
 	std::ifstream fin(this->filename.c_str());
@@ -326,10 +326,10 @@ void ParserYAML::setArchivoDefault(){
 bool ParserYAML::esNumero(std::string numero) { 
 	int i = 0;
 	int largo = numero.length();
-	if(numero.empty() || ((numero[0] != '-') && (!isdigit(numero[0])))){
+	if(numero.empty() || ((numero[0] != '-') && (!isdigit(numero[0])))) {
 		return false;
 	}
-	if(numero[0] == '-'){
+	if(numero[0] == '-') {
 		i = 1;
 	}
 	for(i; i < largo; i++) {
@@ -339,16 +339,16 @@ bool ParserYAML::esNumero(std::string numero) {
 	return true; 
 }
 
-bool ParserYAML::validarScalarNumericoPositivo(const YAML::Node & node, std::string tag, unsigned int & salida){
+bool ParserYAML::validarScalarNumericoPositivo(const YAML::Node & node, std::string tag, unsigned int & salida) {
 	std::string numero;
 	int num;
-	if(node.FindValue(tag)!= NULL) {
+	if(node.FindValue(tag)) {
 		const YAML::Node& nodo_tag = node[tag];
-		if (nodo_tag.Type() == YAML::NodeType::Scalar ){
+		if (nodo_tag.Type() == YAML::NodeType::Scalar) {
 			nodo_tag >> numero;
-			if (esNumero(numero)){
+			if (esNumero(numero)) {
 				nodo_tag >> num;
-				if(num >= 0){
+				if(num >= 0) {
 					nodo_tag >> salida;
 					return true;
 				}
@@ -366,11 +366,11 @@ bool ParserYAML::validarScalarNumericoPositivo(const YAML::Node & node, std::str
 	return false;
 }
 
-bool ParserYAML::validarScalarAlfaNumerico(const YAML::Node & node, std::string tag, std::string & salida){
+bool ParserYAML::validarScalarAlfaNumerico(const YAML::Node & node, std::string tag, std::string & salida) {
 	std::string cadena;
-	if(node.FindValue(tag)!= NULL) {
+	if(node.FindValue(tag)) {
 		const YAML::Node& nodo_tag = node[tag];
-		if (nodo_tag.Type() == YAML::NodeType::Scalar ){
+		if (nodo_tag.Type() == YAML::NodeType::Scalar) {
 			nodo_tag >> salida;
 			return true;
 		}
@@ -382,13 +382,13 @@ bool ParserYAML::validarScalarAlfaNumerico(const YAML::Node & node, std::string 
 	return false;
 }
 
-std::string ParserYAML::ubicarNodo(const YAML::Mark marca_nodo){
+std::string ParserYAML::ubicarNodo(const YAML::Mark marca_nodo) {
 	std::stringstream salida;
     salida << "linea " << marca_nodo.line+1 << ", columna " << marca_nodo.column+1 << " ";
 	return salida.str();
 }
 
-std::string ParserYAML::intToString(int i){
+std::string ParserYAML::intToString(int i) {
 	string resultado;          
 	ostringstream aux;   
 	aux << i;      

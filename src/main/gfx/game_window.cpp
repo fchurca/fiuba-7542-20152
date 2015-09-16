@@ -23,7 +23,7 @@ bool GameWindow::initialize() {
 
 GameWindow::GameWindow() {
 	this->parser = new ParserYAML(CONFIG_FILE_PATH);
-	this->model = NULL;
+	this->model = nullptr;
 	this->exit = false;
 	this->focus_x = 0;
 	this->focus_y = 0;
@@ -58,16 +58,17 @@ GameWindow::~GameWindow() {
 	delete model;
 
 	Logger::getInstance()->writeInformation("Destroying renderer");
-	if (renderer != NULL) {
+	if (renderer) {
 		SDL_DestroyRenderer(renderer);
-		renderer = NULL;
+		renderer = nullptr;
 	}
 
 	Logger::getInstance()->writeInformation("Destroying window");
-	if (window != NULL) {
-		Logger::getInstance()->writeWarning("Window never initialized");
+	if (window) {
 		SDL_DestroyWindow(window);
-		window = NULL;
+		window;
+	} else {
+		Logger::getInstance()->writeWarning("Window never initialized");
 	}
 }
 
