@@ -14,20 +14,18 @@
 //-----------------------------------------------------------------------------
 int main(int argc, char* args[]) {
 
-	Logger::getInstance()->writeError("Error");
-	Logger::getInstance()->writeInformation("Info");
-	Logger::getInstance()->writeWarning("Warning");
+	auto & logger = *Logger::getInstance();
+	logger.writeError("Error");
+	logger.getInstance()->writeInformation("Info");
+	logger.getInstance()->writeWarning("Warning");
 
 	{
 		GameWindow gameWin = GameWindow();
 		gameWin.start();
 	}
 
-	Logger::getInstance()->writeInformation("Closing down");
+	logger.getInstance()->writeInformation("Closing down");
 
-	//
-	delete (Logger::getInstance());
-	//
 	exit(0);
 }
 //-----------------------------------------------------------------------------

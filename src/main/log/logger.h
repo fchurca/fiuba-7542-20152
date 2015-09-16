@@ -24,6 +24,7 @@ private:
 	Logger();
 public:
 	static Logger * getInstance();
+	static void destroyInstance();
 	void setLevel(int level);
 	int writeError(string message);
 	int writeWarning(string message);

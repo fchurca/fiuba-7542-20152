@@ -1,9 +1,12 @@
 #include "logger.h"
 
+Logger * Logger::instance = nullptr;
+
 Logger::Logger(){
 	enabledError = true;
 	enabledWarning = true;
 	enabledInformation = true;
+	atexit(Logger::destroyInstance);
 }
 
 Logger::~Logger(){
@@ -13,7 +16,6 @@ Logger::~Logger(){
 	}
 }
 
-Logger * Logger::instance = 0;
 //Singleton
 Logger * Logger::getInstance() {
 	if (!instance){
@@ -23,6 +25,12 @@ Logger * Logger::getInstance() {
 	return instance;
 }
 
+void Logger::destroyInstance() {
+	if (instance) {
+		delete (Logger::getInstance());
+		instance = nullptr;
+	}
+}
 /**
 *	Establece nivel de log
 */
