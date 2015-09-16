@@ -17,7 +17,7 @@ EntityFactory::EntityFactory(std::string name, double size_x, double size_y, dou
 
 EntityFactory::~EntityFactory() {
 	std::cerr << "Killing EntityFactory " << this
-		<< "of kind " << name << std::endl;
+		<< " of kind " << name << std::endl;
 }
 
 std::shared_ptr<Entity> EntityFactory::createEntity(double x, double y) {
