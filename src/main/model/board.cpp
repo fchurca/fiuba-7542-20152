@@ -39,6 +39,7 @@ void Board::buildBoard(ParserYAML* parser) {
 	setTerrain("pasto", 3, 4);
 
 	createEntity("chancho", 1, 1);
+	createEntity("chancho", 1, 0);
 
 	createProtagonist("mago", 2, 2);
 

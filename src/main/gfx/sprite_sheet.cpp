@@ -75,7 +75,7 @@ void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer ){
 	auto direction = entity.getDirection();
 
 	auto currentTick = SDL_GetTicks();	//Tiempo actual en milisegundos
-	auto currentFrame = counter % total_sprites;	//Aca se debe usar el frame actual desde el estado de la entidad
+	currentFrame = counter % total_sprites;	//Aca se debe usar el frame actual desde el estado de la entidad
 	auto diffTime = currentTick - this->tick;	//Tiempo transcurrido entre render y render
 
 	x -= owner.focus_x;
@@ -83,7 +83,7 @@ void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer ){
 
 	// Todas las entidades del mismo tipo tienen el mismo fps y delay. 
 
-	if ( (this->fps == 0) || (diffTime >= (1000 / this->fps ) ) ) {
+	//if ( (this->fps == 0) || (diffTime >= (1000 / this->fps ) ) ) {
 
 		//	Conversion isometrica 
 		int screenX = ((x - y) * TILE_WIDTH_DEFAULT / 2) + (ANCHO_DEFAULT) / 2;
@@ -106,16 +106,16 @@ void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer ){
 		//	TODO: Verificar si renderQuad realmente se pisa con la pantalla
 		SDL_RenderCopy( renderer, getLoadedTexture( renderer ), &clip, &renderQuad );
 
-		if ( ( (currentFrame != 0) || (diffTime >= (this->delay * 1000)) ) ) {
+		
+	//}
+}
+
+void SpriteSheet::update(){
+	auto currentTick = SDL_GetTicks();
+	auto diffTime = currentTick - this->tick;
+	if ( ( (currentFrame != 0) || (diffTime >= (this->delay * 1000)) ) ) {
 			//	Actualizo el tick
 			this->tick = currentTick;
 			counter++;
 		}
-	}
-}
-
-void SpriteSheet::update(){
-	/*if ( ( (currentFrame != 0) || (GameTimer::getDiffTime() >= (this->delay * 1000)) ) ) {
-		counter++;
-	}*/
 }
