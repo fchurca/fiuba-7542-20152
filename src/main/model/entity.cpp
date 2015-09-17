@@ -7,12 +7,12 @@
 
 using namespace std;
 
-Entity::Entity(std::string name, Board& board, double x, double y, double sizeX, double sizeY) :
+Entity::Entity(std::string name, Board& board, double x, double y, double sizeX, double sizeY, double speed) :
+	targeted(false),
 	name(name),
 	board(board),
-	targeted(false),
 	x(x), y(y),
-	speed(1),
+	speed(speed),
 	sizeX(sizeX), sizeY(sizeY)
 {
 	adjustPosition();

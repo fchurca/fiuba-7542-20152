@@ -35,7 +35,7 @@ class Entity {
 		double distance();
 		Directions getDirection();
 
-		Entity(std::string name, Board& board, double x, double y, double sizeX, double sizeY);
+		Entity(std::string name, Board& board, double x, double y, double sizeX, double sizeY, double speed);
 		~Entity();
 
 		void update();

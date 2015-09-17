@@ -21,6 +21,6 @@ EntityFactory::~EntityFactory() {
 }
 
 std::shared_ptr<Entity> EntityFactory::createEntity(double x, double y) {
-	return std::make_shared<Entity>(name, board, x, y, size_x, size_y);
+	return std::make_shared<Entity>(name, board, x, y, size_x, size_y, speed);
 }
 
