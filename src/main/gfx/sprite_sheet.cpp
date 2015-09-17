@@ -72,6 +72,7 @@ void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer ){
 	// Revisar esto, para que cada entidad tenga el estado
 
 	auto currentFrame = counter % total_sprites;	//Aca se debe usar el frame actual desde el estado de la entidad
+	
 	auto diffTime = GameTimer::getDiffTime();	//Tiempo transcurrido entre render y render
 
 	x -= owner.focus_x;
@@ -89,9 +90,10 @@ void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer ){
 		//	Parte de la imagen a levantar
 		SDL_Rect clip = { currentFrame * ancho_sprite, direction * alto_sprite, ancho_sprite, alto_sprite };
 		
-		//Armar un render diferente para el protagonista
+		//Esto es porque los frame del mago estan en sentido contrario al del chancho
+		//cdo todas las imagenes esten en el mismo sentido esto vuela
 		if (path.compare("resources//mago.png") == 0) {
-			clip.x = getFrameDirection(direction) * ancho_sprite;
+			clip.x = direction * ancho_sprite;
 			clip.y = currentFrame * alto_sprite;
 		}
 
@@ -103,8 +105,4 @@ void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer ){
 			counter++;
 		}
 	}
-}
-
-int SpriteSheet::getFrameDirection(Directions direction) {
-	return direction;
 }
