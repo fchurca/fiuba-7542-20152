@@ -332,7 +332,7 @@ bool ParserYAML::esNumero(std::string numero) {
 	if(numero[0] == '-') {
 		i = 1;
 	}
-	for(i; i < largo; i++) {
+	for(; i < largo; i++) {
 		if(numero[i] < '0' || numero[i] > '9') 
 			return false; 
 	}
