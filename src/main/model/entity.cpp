@@ -31,15 +31,15 @@ bool Entity::adjustPosition() {
 	int oldX = x, oldY = y;
 	int topX = board.sizeX;
 	int topY = board.sizeY;
-	if (x > topX) {
-		x = topX;
+	if (x > topX - sizeX) {
+		x = topX - sizeX;
 		ret = true;
 	} else if (x < 0) {
 		x = 0;
 		ret = true;
 	}
-	if (y > topY) {
-		y = topY;
+	if (y > topY - sizeY) {
+		y = topY - sizeY;
 		ret = true;
 	} else if (y < 0) {
 		y = 0;
