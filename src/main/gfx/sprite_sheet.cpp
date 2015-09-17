@@ -72,11 +72,9 @@ void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer ){
 	// Todas las entidades del mismo tipo estan usando el mismo fps y delay. 
 	// Revisar esto, para que cada entidad tenga el estado
 
-	unsigned int currentTick = SDL_GetTicks();	//Tiempo actual en milisegundos
-
-	unsigned int currentFrame = counter % total_sprites;	//Aca se debe usar el frame actual desde el estado de la entidad
-
-	unsigned int diffTime = currentTick - this->tick;	//Tiempo transcurrido entre render y render
+	auto currentTick = SDL_GetTicks();	//Tiempo actual en milisegundos
+	auto currentFrame = counter % total_sprites;	//Aca se debe usar el frame actual desde el estado de la entidad
+	auto diffTime = currentTick - this->tick;	//Tiempo transcurrido entre render y render
 
 	x -= owner.focus_x;
 	y -= owner.focus_y;

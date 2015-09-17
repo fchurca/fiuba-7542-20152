@@ -15,16 +15,16 @@ class SpriteSheet {
 private:
 	std::string path;
 
-	unsigned int fps;	//Animacion
-	unsigned int delay;	//Animacion
-	unsigned int tick;
-	unsigned int counter; //esto despues vuela
+	int fps;	//Animacion
+	int delay;	//Animacion
+	int tick;
+	int counter; //esto despues vuela
 
-	unsigned int pixel_ref_x;
-	unsigned int pixel_ref_y;
-	unsigned int total_sprites;
-	unsigned int alto_sprite;
-	unsigned int ancho_sprite;
+	int pixel_ref_x;
+	int pixel_ref_y;
+	int total_sprites;
+	int alto_sprite;
+	int ancho_sprite;
 
 	bool initialized;//= FALSE;
 	SDL_Texture* texture;// = NULL;
