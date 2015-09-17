@@ -19,7 +19,11 @@ SpriteSheet::SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int a
 	this->total_sprites = cantSprites;
 	this->fps = fps;	// segundos
 	this->delay = delay;	// segundos
+	this->currentFrame = 0;
 	this->counter = 0;
+	this->delayCounter = 0;
+	this->tick = 0;
+	
 }
 
 SpriteSheet::~SpriteSheet(){
@@ -65,18 +69,19 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ){
 }
 
 void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer ){
+
 	auto x = entity.getX();
 	auto y = entity.getY();
 	auto direction = entity.getDirection();
-	// Todas las entidades del mismo tipo estan usando el mismo fps y delay. 
-	// Revisar esto, para que cada entidad tenga el estado
 
+	auto currentTick = SDL_GetTicks();	//Tiempo actual en milisegundos
 	auto currentFrame = counter % total_sprites;	//Aca se debe usar el frame actual desde el estado de la entidad
-	
-	auto diffTime = GameTimer::getDiffTime();	//Tiempo transcurrido entre render y render
+	auto diffTime = currentTick - this->tick;	//Tiempo transcurrido entre render y render
 
 	x -= owner.focus_x;
 	y -= owner.focus_y;
+
+	// Todas las entidades del mismo tipo tienen el mismo fps y delay. 
 
 	if ( (this->fps == 0) || (diffTime >= (1000 / this->fps ) ) ) {
 
@@ -89,7 +94,7 @@ void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer ){
 
 		//	Parte de la imagen a levantar
 		SDL_Rect clip = { currentFrame * ancho_sprite, direction * alto_sprite, ancho_sprite, alto_sprite };
-		
+
 		//Esto es porque los frame del mago estan en sentido contrario al del chancho
 		//cdo todas las imagenes esten en el mismo sentido esto vuela
 		if (path.compare("resources//mago.png") == 0) {
@@ -102,7 +107,15 @@ void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer ){
 		SDL_RenderCopy( renderer, getLoadedTexture( renderer ), &clip, &renderQuad );
 
 		if ( ( (currentFrame != 0) || (diffTime >= (this->delay * 1000)) ) ) {
+			//	Actualizo el tick
+			this->tick = currentTick;
 			counter++;
 		}
 	}
+}
+
+void SpriteSheet::update(){
+	/*if ( ( (currentFrame != 0) || (GameTimer::getDiffTime() >= (this->delay * 1000)) ) ) {
+		counter++;
+	}*/
 }

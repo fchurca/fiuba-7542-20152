@@ -135,6 +135,10 @@ void GameWindow::init(){
 
 void GameWindow::update(){
 	GameTimer::update();
+	map<std::string, SpriteSheet*>::const_iterator itr;
+	for(itr = spritesSheets.begin(); itr != spritesSheets.end(); ++itr){
+		itr->second->update();
+	}
 	model->update();
 	return;
 }

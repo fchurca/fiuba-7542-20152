@@ -18,8 +18,10 @@ private:
 
 	int fps;	//Animacion
 	int delay;	//Animacion
-	int counter; //esto despues vuela
-
+	int counter; 
+	int tick;
+	int currentFrame;
+	int delayCounter;
 	int pixel_ref_x;
 	int pixel_ref_y;
 	int total_sprites;
@@ -37,6 +39,7 @@ public:
 	SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, int fps, int delay, GameWindow & owner );
 	~SpriteSheet();
 	void render(Entity& entity, int frame, SDL_Renderer* renderer );
+	void update();
 	SDL_Texture* getLoadedTexture( SDL_Renderer* renderer );
 };
 
