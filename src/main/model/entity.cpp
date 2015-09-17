@@ -11,11 +11,10 @@ Entity::Entity(std::string name, Board& board, double x, double y, double sizeX,
 	name(name),
 	board(board),
 	targeted(false),
+	x(x), y(y),
+	speed(1),
 	sizeX(sizeX), sizeY(sizeY)
 {
-	this->x = x;
-	this->y = y;
-	this->speed = 1;
 	adjustPosition();
 	cerr << "Created Entity " << this
 		<< " of kind " << name
