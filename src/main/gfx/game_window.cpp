@@ -134,6 +134,7 @@ void GameWindow::init(){
 }
 
 void GameWindow::update(){
+	GameTimer::update();
 	model->update();
 	return;
 }

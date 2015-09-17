@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 #include <stdio.h>
 #include <string>
+#include "game_timer.h"
 #include "../log/logger.h"
 #include "../model/entity.h"
 #include "../defines/defines.h"
@@ -17,7 +18,6 @@ private:
 
 	int fps;	//Animacion
 	int delay;	//Animacion
-	int tick;
 	int counter; //esto despues vuela
 
 	int pixel_ref_x;

@@ -19,7 +19,6 @@ SpriteSheet::SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int a
 	this->total_sprites = cantSprites;
 	this->fps = fps;	// segundos
 	this->delay = delay;	// segundos
-	this->tick = 0;
 	this->counter = 0;
 }
 
@@ -72,9 +71,8 @@ void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer ){
 	// Todas las entidades del mismo tipo estan usando el mismo fps y delay. 
 	// Revisar esto, para que cada entidad tenga el estado
 
-	auto currentTick = SDL_GetTicks();	//Tiempo actual en milisegundos
 	auto currentFrame = counter % total_sprites;	//Aca se debe usar el frame actual desde el estado de la entidad
-	auto diffTime = currentTick - this->tick;	//Tiempo transcurrido entre render y render
+	auto diffTime = GameTimer::getDiffTime();	//Tiempo transcurrido entre render y render
 
 	x -= owner.focus_x;
 	y -= owner.focus_y;
@@ -102,8 +100,6 @@ void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer ){
 		SDL_RenderCopy( renderer, getLoadedTexture( renderer ), &clip, &renderQuad );
 
 		if ( ( (currentFrame != 0) || (diffTime >= (this->delay * 1000)) ) ) {
-			//	Actualizo el tick
-			this->tick = currentTick;
 			counter++;
 		}
 	}

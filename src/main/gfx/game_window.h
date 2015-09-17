@@ -16,7 +16,6 @@ protected:
 	SDL_Renderer* renderer;// = NULL;
 	std::map<std::string, SpriteSheet*> spritesSheets;
 	bool exit;
-	int tick;
 	static bool sdlInitialized; // = false
 	static bool initialize();
 	bool endOfGame();
