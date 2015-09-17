@@ -27,10 +27,10 @@ SpriteSheet::~SpriteSheet(){
 	std::cerr << "Killing SpriteSheet " << this
 		<< " with path " << path
 		<< " owned by " << &owner << std::endl;
-	free();
+	clear();
 }
 
-void SpriteSheet::free(){
+void SpriteSheet::clear(){
 	if(texture){
 		SDL_DestroyTexture( texture );
 		texture = nullptr;
@@ -45,7 +45,7 @@ SDL_Texture*  SpriteSheet::getLoadedTexture( SDL_Renderer* renderer ){
 
 bool SpriteSheet::loadTexture( SDL_Renderer* renderer ){
 	//	Libera la carga anterior, para poder recargar
-	free();
+	clear();
 
 	//	Carga la imagen desde el path
 	SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
