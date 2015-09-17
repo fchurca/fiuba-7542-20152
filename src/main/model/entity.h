@@ -26,6 +26,8 @@ class Entity {
 		void unsetTarget();
 		const std::string name;
 		const Board& board;
+		double cX();
+		double cY();
 		double getX();
 		double getY();
 		double bearingX();

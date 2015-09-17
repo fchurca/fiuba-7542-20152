@@ -82,7 +82,7 @@ void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer ){
 	if ( (this->fps == 0) || (diffTime >= (1000 / this->fps ) ) ) {
 
 		//	Conversion isometrica 
-		int screenX = ((x - y) * TILE_WIDTH_DEFAULT / 2) + (ANCHO_DEFAULT - TILE_WIDTH_DEFAULT) / 2;
+		int screenX = ((x - y) * TILE_WIDTH_DEFAULT / 2) + (ANCHO_DEFAULT) / 2;
 		int screenY = ((x + y) * TILE_HEIGHT_DEFAULT / 2) + (ALTO_DEFAULT - TILE_HEIGHT_DEFAULT) / 2;
 
 		//	Ubicacion donde dibujar

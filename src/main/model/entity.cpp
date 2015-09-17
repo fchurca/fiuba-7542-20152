@@ -60,7 +60,7 @@ void Entity::unsetTarget() {
 
 void Entity::update() {
 	cerr << "Entity " << this << " of kind " << name
-		<< " is alive at " << x << "," << y;
+		<< " is alive at " << cX() << "," << cY();
 	if (targeted) {
 		auto d = distance();
 		cerr << " heading for " << targetX << "," << targetY
@@ -75,8 +75,8 @@ void Entity::update() {
 			y += dy;
 		} else {
 			cerr << ", reaching target";
-			x = targetX;
-			y = targetY;
+			x = targetX - sizeX/2;
+			y = targetY - sizeY/2;
 			targeted = false;
 		}
 		if (adjustPosition()) {
@@ -90,6 +90,14 @@ void Entity::update() {
 	cerr << endl;
 }
 
+double Entity::cX() {
+	return x + sizeX/2;
+}
+
+double Entity::cY() {
+	return y + sizeY/2;
+}
+
 double Entity::getX() {
 	return this->x;
 }
@@ -99,11 +107,11 @@ double Entity::getY() {
 }
 
 double Entity::bearingX() {
-	return targetX - x;
+	return targetX - cX();
 }
 
 double Entity::bearingY() {
-	return targetY - y;
+	return targetY - cY();
 }
 
 double Entity::bearing() {
