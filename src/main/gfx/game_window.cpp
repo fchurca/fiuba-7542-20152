@@ -129,8 +129,8 @@ void GameWindow::init(){
 	addSpriteSheet("agua", "resources//agua.png", TILE_WIDTH_DEFAULT/2, 0, TILE_HEIGHT_DEFAULT, TILE_WIDTH_DEFAULT,  1, 0, 0);
 	addSpriteSheet("pasto", "resources//pasto_largo.png", TILE_WIDTH_DEFAULT/2, 5, TILE_HEIGHT_DEFAULT+5, TILE_WIDTH_DEFAULT, 1, 0, 0);
 	addSpriteSheet("piedra", "resources//piedra.png", TILE_WIDTH_DEFAULT/2, 0, TILE_HEIGHT_DEFAULT, TILE_WIDTH_DEFAULT, 1, 0, 0);
-	addSpriteSheet("chancho", "resources//chanchos.png", 18, 24, 44, 48, 15, 0, 1);
-	addSpriteSheet("mago", "resources//mago.png", 30, 30, 60, 60, 4, 0, 0);
+	addSpriteSheet("chancho", "resources//chanchos.png", 17, 24, 44, 48, 15, 0, 1);
+	addSpriteSheet("mago", "resources//mago.png", 30, 30, 60, 60, 5, 0, 0);
 }
 
 void GameWindow::update(){
