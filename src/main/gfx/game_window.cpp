@@ -66,7 +66,6 @@ GameWindow::~GameWindow() {
 	Logger::getInstance()->writeInformation("Destroying window");
 	if (window) {
 		SDL_DestroyWindow(window);
-		window;
 	} else {
 		Logger::getInstance()->writeWarning("Window never initialized");
 	}
