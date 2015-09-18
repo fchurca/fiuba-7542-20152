@@ -12,6 +12,9 @@ enum Directions {
 	EAST = 7
 };
 
+//Imagen Default
+#define IMG_DEFAULT  "resources//piedra.png"	// poner una imagen default
+
 //Archivo Configuracion Default
 #define ARCHIVO_CONFIGURACION_DEFAULT  "configuracionDefault.yaml"
 

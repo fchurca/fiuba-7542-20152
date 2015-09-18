@@ -44,22 +44,24 @@ SDL_Texture*  SpriteSheet::getLoadedTexture( SDL_Renderer* renderer ){
 	return texture;
 }
 
-bool SpriteSheet::loadTexture( SDL_Renderer* renderer ){
+bool SpriteSheet::loadTexture( SDL_Renderer* renderer ) {
 	//	Libera la carga anterior, para poder recargar
 	clear();
-
 	//	Carga la imagen desde el path
 	SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
-
+	//	Si no se cargo la imagen, cargo default
 	if(!loadedSurface) {
 		texture = nullptr;
 		Logger::getInstance()->writeError( "No se puede cargar la imagen " + path + "! - " + IMG_GetError() );
-		//	TODO: CARGAR UNA IMAGEN DEFAULT
+		loadedSurface = IMG_Load( IMG_DEFAULT );
 	}
-	else {
+	//	La default siempre deberia poder cargarla
+	if(!loadedSurface) {
+		texture = nullptr;
+		Logger::getInstance()->writeError( "No se puede cargar la imagen Default ! " );
+	} else {
 		//	Textura de la superficie
 		texture = SDL_CreateTextureFromSurface( renderer, loadedSurface );
-
 		//	Libera la superficie
 		SDL_FreeSurface( loadedSurface );
 	}
