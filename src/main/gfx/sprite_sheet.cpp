@@ -21,9 +21,7 @@ SpriteSheet::SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int a
 	this->delay = delay;	// segundos
 	this->currentFrame = 0;
 	this->counter = 0;
-	this->delayCounter = 0;
 	this->tick = 0;
-	
 }
 
 SpriteSheet::~SpriteSheet(){

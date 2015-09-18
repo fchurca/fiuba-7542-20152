@@ -21,7 +21,6 @@ private:
 	int counter; 
 	int tick;
 	int currentFrame;
-	int delayCounter;
 	int pixel_ref_x;
 	int pixel_ref_y;
 	int total_sprites;
