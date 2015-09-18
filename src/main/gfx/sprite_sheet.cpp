@@ -72,9 +72,8 @@ void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer ){
 	auto y = entity.getY();
 	auto direction = entity.getDirection();
 
-	auto currentTick = SDL_GetTicks();	//Tiempo actual en milisegundos
 	currentFrame = counter % total_sprites;	//Aca se debe usar el frame actual desde el estado de la entidad
-	auto diffTime = currentTick - this->tick;	//Tiempo transcurrido entre render y render
+	//auto diffTime = GameTimer::getCurrent() - this->tick;	//Tiempo transcurrido entre render y render
 
 	x -= owner.focus_x;
 	y -= owner.focus_y;
@@ -83,37 +82,36 @@ void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer ){
 
 	//if ( (this->fps == 0) || (diffTime >= (1000 / this->fps ) ) ) {
 
-		//	Conversion isometrica 
-		int screenX = ((x - y) * TILE_WIDTH_DEFAULT / 2) + (ANCHO_DEFAULT) / 2;
-		int screenY = ((x + y) * TILE_HEIGHT_DEFAULT / 2) + (ALTO_DEFAULT - TILE_HEIGHT_DEFAULT) / 2;
+	//	Conversion isometrica 
+	int screenX = ((x - y) * TILE_WIDTH_DEFAULT / 2) + (ANCHO_DEFAULT) / 2;
+	int screenY = ((x + y) * TILE_HEIGHT_DEFAULT / 2) + (ALTO_DEFAULT - TILE_HEIGHT_DEFAULT) / 2;
 
-		//	Ubicacion donde dibujar
-		SDL_Rect renderQuad = { screenX - pixel_ref_x , screenY - pixel_ref_y, ancho_sprite, alto_sprite };
+	//	Ubicacion donde dibujar
+	SDL_Rect renderQuad = { screenX - pixel_ref_x , screenY - pixel_ref_y, ancho_sprite, alto_sprite };
 
-		//	Parte de la imagen a levantar
-		SDL_Rect clip = { currentFrame * ancho_sprite, direction * alto_sprite, ancho_sprite, alto_sprite };
+	//	Parte de la imagen a levantar
+	SDL_Rect clip = { currentFrame * ancho_sprite, direction * alto_sprite, ancho_sprite, alto_sprite };
 
-		//Esto es porque los frame del mago estan en sentido contrario al del chancho
-		//cdo todas las imagenes esten en el mismo sentido esto vuela
-		if (path.compare("resources//mago.png") == 0) {
-			clip.x = direction * ancho_sprite;
-			clip.y = currentFrame * alto_sprite;
-		}
+	//Esto es porque los frame del mago estan en sentido contrario al del chancho
+	//cdo todas las imagenes esten en el mismo sentido esto vuela
+	if (path.compare("resources//mago.png") == 0) {
+		clip.x = direction * ancho_sprite;
+		clip.y = currentFrame * alto_sprite;
+	}
 
-		//	Dibujado
-		//	TODO: Verificar si renderQuad realmente se pisa con la pantalla
-		SDL_RenderCopy( renderer, getLoadedTexture( renderer ), &clip, &renderQuad );
+	//	Dibujado
+	//	TODO: Verificar si renderQuad realmente se pisa con la pantalla
+	SDL_RenderCopy( renderer, getLoadedTexture( renderer ), &clip, &renderQuad );
 
-		
 	//}
 }
 
 void SpriteSheet::update(){
-	auto currentTick = SDL_GetTicks();
+	auto currentTick = GameTimer::getCurrent();
 	auto diffTime = currentTick - this->tick;
 	if ( ( (currentFrame != 0) || (diffTime >= (this->delay * 1000)) ) ) {
-			//	Actualizo el tick
-			this->tick = currentTick;
-			counter++;
-		}
+		//	Actualizo el tick del sprite sheet
+		this->tick = currentTick;
+		counter++;
+	}
 }

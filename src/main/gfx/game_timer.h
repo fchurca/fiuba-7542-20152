@@ -10,6 +10,7 @@ private:
 	static int diffTime;
 public:
 	static int getDiffTime();
+	static int getCurrent();
 	static void update();
 };
 #endif // __GAMETIMER_H__
