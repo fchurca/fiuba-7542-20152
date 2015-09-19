@@ -142,6 +142,8 @@ void ParserYAML::setConfiguracion (const YAML::Node& node, TagConfiguracion& con
 			configuracion.vel_personaje = VELOCIDAD_PERSONAJE_DEFAULT;
 		if(!validarScalarNumericoPositivo(node, "margen_scroll", configuracion.margen_scroll))
 			configuracion.margen_scroll = MARGEN_SCROLL_DEFAULT;
+		if(!validarScalarNumericoPositivo(node, "velocidad_scroll", configuracion.velocidad_scroll))
+			configuracion.velocidad_scroll = VELOCIDAD_SCROLL_DEFAULT;
 	}
 	else{
 		Logger::getInstance()->writeWarning("yaml-cpp:el contenido del tag de configuracion no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
@@ -153,6 +155,7 @@ void ParserYAML::setConfiguracionDefault (TagConfiguracion& configuracion) {
 	Logger::getInstance()->writeInformation("yaml-cpp: se toma configuracion por default.");
 	configuracion.margen_scroll = MARGEN_SCROLL_DEFAULT;
 	configuracion.margen_scroll = VELOCIDAD_PERSONAJE_DEFAULT;
+	configuracion.velocidad_scroll = VELOCIDAD_SCROLL_DEFAULT;
 }
 
 
@@ -184,6 +187,9 @@ void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEnt
 			|| (!validarScalarNumericoPositivo(node, "alto_base", tipoEntidad.alto_base))
 			|| (!validarScalarNumericoPositivo(node, "pixel_ref_x", tipoEntidad.pixel_ref_x))
 			|| (!validarScalarNumericoPositivo(node, "pixel_ref_y", tipoEntidad.pixel_ref_y))
+			|| (!validarScalarNumericoPositivo(node, "ancho_sprite", tipoEntidad.ancho_sprite))
+			|| (!validarScalarNumericoPositivo(node, "alto_sprite", tipoEntidad.alto_sprite))
+			|| (!validarScalarNumericoPositivo(node, "cantidad_sprites", tipoEntidad.cantidad_sprites))
 			|| (!validarScalarNumericoPositivo(node, "fps", tipoEntidad.fps))
 			|| (!validarScalarNumericoPositivo(node, "delay", tipoEntidad.delay))) {
 				Logger::getInstance()->writeInformation("yaml-cpp: datos de la imagen del tipo de entidad invalidos, se toman por default (path, ancho_base, alto_base, pixel_ref_x, pixel_ref_y, fps, delay).");
@@ -194,6 +200,9 @@ void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEnt
 				tipoEntidad.pixel_ref_y = PIXELY_REF_DEFAULT;
 				tipoEntidad.fps = FPS_DEFAULT;
 				tipoEntidad.delay = DELAY_DEFAULT;
+				tipoEntidad.alto_sprite = ALTO_SPRITE_DEFAULT;
+				tipoEntidad.ancho_sprite = ANCHO_SPRITE_DEFAULT;
+				tipoEntidad.cantidad_sprites = CANTIDAD_SPRITES_DEFAULT;
 		}
 	}
 	else{
@@ -212,6 +221,9 @@ void ParserYAML::setTipoEntidadDefault (TagTipoEntidad& tipoEntidad) {
 	tipoEntidad.pixel_ref_y = PIXELY_REF_DEFAULT;
 	tipoEntidad.fps = FPS_DEFAULT;
 	tipoEntidad.delay = DELAY_DEFAULT;
+	tipoEntidad.alto_sprite = ALTO_SPRITE_DEFAULT;
+	tipoEntidad.ancho_sprite = ANCHO_SPRITE_DEFAULT;
+	tipoEntidad.cantidad_sprites = CANTIDAD_SPRITES_DEFAULT;
 }
 
 void ParserYAML::setEntidad(const YAML::Node& node, TagEntidad& entidad) {
@@ -325,6 +337,7 @@ void ParserYAML::setArchivoDefault() {
 
 bool ParserYAML::esNumero(std::string numero) { 
 	int i = 0;
+	int cantDec = 0;
 	int largo = numero.length();
 	if(numero.empty() || ((numero[0] != '-') && (!isdigit(numero[0])))) {
 		return false;
@@ -332,16 +345,55 @@ bool ParserYAML::esNumero(std::string numero) {
 	if(numero[0] == '-') {
 		i = 1;
 	}
-	for(; i < largo; i++) {
-		if(numero[i] < '0' || numero[i] > '9') 
+	for(; i < largo; i++){
+		if((numero[i] < '0' || numero[i] > '9') && numero[i] != '.') 
 			return false; 
+		else 
+			if(numero[i] == '.')
+				cantDec++;
 	}
+	if(cantDec > 1)
+		return false;
 	return true; 
 }
 
 bool ParserYAML::validarScalarNumericoPositivo(const YAML::Node & node, std::string tag, unsigned int & salida) {
 	std::string numero;
-	int num;
+	double num;
+	if(node.FindValue(tag)) {
+		const YAML::Node& nodo_tag = node[tag];
+		if (nodo_tag.Type() == YAML::NodeType::Scalar) {
+			nodo_tag >> numero;
+			if (esNumero(numero)) {
+				nodo_tag >> num;
+				if(num >= 0) {
+					double p_entera; 
+					double p_decimal; 
+					p_decimal = modf(num, &p_entera);
+					if(p_decimal == 0){
+						salida = p_entera;
+						return true;
+					}
+					else
+						Logger::getInstance()->writeWarning("yaml-cpp:el valor del tag: " + tag + " es un numero decimal. Ubicar" + ubicarNodo(nodo_tag.GetMark()));
+				}
+				else
+					Logger::getInstance()->writeWarning("yaml-cpp:el valor del tag: " + tag + " es un numero negativo. Ubicar" + ubicarNodo(nodo_tag.GetMark()));
+			}
+			else
+				Logger::getInstance()->writeWarning("yaml-cpp:el valor del tag: " + tag + " no es un numero. Ubicar" + ubicarNodo(nodo_tag.GetMark()));
+		}
+		else
+			Logger::getInstance()->writeWarning("yaml-cpp:el valor del tag: " + tag + " no es del tipo Scalar. Ubicar" + ubicarNodo(nodo_tag.GetMark()));
+	}
+	else
+		Logger::getInstance()->writeWarning("yaml-cpp:el tag: " + tag + " no existe en el nodo. Ubicar" + ubicarNodo(node.GetMark()));
+	return false;
+}
+
+bool ParserYAML::validarScalarNumericoPositivo(const YAML::Node & node, std::string tag, double & salida) {
+	std::string numero;
+	double num;
 	if(node.FindValue(tag)) {
 		const YAML::Node& nodo_tag = node[tag];
 		if (nodo_tag.Type() == YAML::NodeType::Scalar) {
@@ -381,6 +433,8 @@ bool ParserYAML::validarScalarAlfaNumerico(const YAML::Node & node, std::string 
 		Logger::getInstance()->writeWarning("yaml-cpp:el tag: " + tag + " no existe en el nodo. Ubicar" + ubicarNodo(node.GetMark()));
 	return false;
 }
+
+
 
 std::string ParserYAML::ubicarNodo(const YAML::Mark marca_nodo) {
 	std::stringstream salida;

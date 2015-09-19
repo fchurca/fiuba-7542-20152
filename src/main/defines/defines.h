@@ -31,6 +31,7 @@ enum Directions {
 //Configuracion Default
 #define VELOCIDAD_PERSONAJE_DEFAULT 0
 #define MARGEN_SCROLL_DEFAULT  0
+#define VELOCIDAD_SCROLL_DEFAULT  0
 
 //Tipo Entidad Default
 #define NOMBRE_TIPO_ENTIDAD_DEFAULT  "ENTIDAD"
@@ -39,6 +40,9 @@ enum Directions {
 #define ALTO_BASE_DEFAULT  0
 #define PIXELX_REF_DEFAULT  0
 #define PIXELY_REF_DEFAULT  0
+#define ALTO_SPRITE_DEFAULT  0
+#define ANCHO_SPRITE_DEFAULT  0
+#define CANTIDAD_SPRITES_DEFAULT  0
 #define FPS_DEFAULT  0
 #define DELAY_DEFAULT  0
 

@@ -17,6 +17,7 @@ struct TagPantalla{
 struct TagConfiguracion{
 	unsigned int vel_personaje;
 	unsigned int margen_scroll;
+	unsigned int velocidad_scroll;
 };
 
 struct TagTipoEntidad{
@@ -26,8 +27,11 @@ struct TagTipoEntidad{
 	unsigned int alto_base;
 	unsigned int pixel_ref_x;
 	unsigned int pixel_ref_y;
-    unsigned int fps;
-	unsigned int delay;
+	unsigned int alto_sprite;
+	unsigned int ancho_sprite;
+	unsigned int cantidad_sprites;
+    double fps;
+	double delay;
 };
 
 struct TagEntidad{
@@ -58,6 +62,7 @@ private:
 	std::string intToString(int i);
 	bool esNumero(std::string s);
 	bool validarScalarNumericoPositivo(const YAML::Node & nodo, std::string tag, unsigned int & salida);
+	bool validarScalarNumericoPositivo(const YAML::Node & nodo, std::string tag, double & salida);
 	bool validarScalarAlfaNumerico(const YAML::Node & nodo, std::string tag, std::string & salida);
 	std::string ubicarNodo(const YAML::Mark mark);
 	void setArchivoDefault();

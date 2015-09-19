@@ -4,6 +4,7 @@ pantalla:
 configuracion:
     vel_personaje: 3
     margen_scroll: 45
+    velocidad_scroll: 45
 tipos:
   - nombre: arbol
     imagen:  path/a/imagen.png
@@ -13,10 +14,18 @@ tipos:
     alto_base: 2
     pixel_ref_x: 30
     pixel_ref_y: 30
+    ancho_sprite: 5
   - nombre: juana_de_arco
     imagen: C:/juana.png
-    fps: 15
-    delay: 15
+    ancho_base: 2
+    alto_base: 2
+    pixel_ref_x: 30
+    pixel_ref_y: 30
+    fps: 15.25
+    delay: 15.12
+    ancho_sprite: 5
+    alto_sprite: 5
+    cantidad_sprites: 10
 escenario:
     nombre: orleans
     size_x: 100
