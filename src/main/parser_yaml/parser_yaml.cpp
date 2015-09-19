@@ -189,20 +189,24 @@ void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEnt
 			|| (!validarScalarNumericoPositivo(node, "pixel_ref_y", tipoEntidad.pixel_ref_y))
 			|| (!validarScalarNumericoPositivo(node, "ancho_sprite", tipoEntidad.ancho_sprite))
 			|| (!validarScalarNumericoPositivo(node, "alto_sprite", tipoEntidad.alto_sprite))
-			|| (!validarScalarNumericoPositivo(node, "cantidad_sprites", tipoEntidad.cantidad_sprites))
-			|| (!validarScalarNumericoPositivo(node, "fps", tipoEntidad.fps))
-			|| (!validarScalarNumericoPositivo(node, "delay", tipoEntidad.delay))) {
-				Logger::getInstance()->writeInformation("yaml-cpp: datos de la imagen del tipo de entidad invalidos, se toman por default (path, ancho_base, alto_base, pixel_ref_x, pixel_ref_y, fps, delay).");
+			|| (!validarScalarNumericoPositivo(node, "cantidad_sprites", tipoEntidad.cantidad_sprites))) {
+				Logger::getInstance()->writeWarning("yaml-cpp: datos de la imagen del tipo de entidad invalidos, se toman por default (path, ancho_base, alto_base, pixel_ref_x, pixel_ref_y).");
 				tipoEntidad.imagen = IMAGEN_TIPO_ENTIDAD_DEFAULT;
 				tipoEntidad.ancho_base = ANCHO_BASE_DEFAULT;
 				tipoEntidad.alto_base = ALTO_BASE_DEFAULT;
 				tipoEntidad.pixel_ref_x = PIXELX_REF_DEFAULT;
 				tipoEntidad.pixel_ref_y = PIXELY_REF_DEFAULT;
-				tipoEntidad.fps = FPS_DEFAULT;
-				tipoEntidad.delay = DELAY_DEFAULT;
 				tipoEntidad.alto_sprite = ALTO_SPRITE_DEFAULT;
 				tipoEntidad.ancho_sprite = ANCHO_SPRITE_DEFAULT;
 				tipoEntidad.cantidad_sprites = CANTIDAD_SPRITES_DEFAULT;
+		}
+		if(!validarScalarNumericoPositivo(node, "fps", tipoEntidad.fps)){
+			Logger::getInstance()->writeWarning("yaml-cpp: Se toma por default (fps).");
+			tipoEntidad.fps = FPS_DEFAULT;
+		}
+		if(!validarScalarNumericoPositivo(node, "delay", tipoEntidad.delay)){
+			Logger::getInstance()->writeWarning("yaml-cpp: Se toma por default (delay).");
+			tipoEntidad.delay = DELAY_DEFAULT;
 		}
 	}
 	else{
