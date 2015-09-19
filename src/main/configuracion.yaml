@@ -1,6 +1,6 @@
 pantalla:
-    ancho: 4
-    alto: 4
+    ancho: 640
+    alto: 480
 configuracion:
     vel_personaje: 3
     margen_scroll: 45
@@ -66,11 +66,12 @@ escenario:
     size_x: 100
     size_y: 100
     entidades:
-      - {x: 12, y: 13, tipo: castillo}
+      - {x: 5, y: 5, tipo: chancho}
+      - {x: 10, y: 10, tipo: chancho}
     terrenos:
-      - {x: 10, y: 15, tipo: tierra}
-      - {x: 11, y: 12, tipo: agua}
+      - {x: 1, y: 1, tipo: piedra}
+      - {x: 0, y: 0, tipo: agua}
     protagonista:
-      - tipo: juana_de_arco
-        x: 50
-        y: 60
+      - tipo: mago
+        x: 3
+        y: 3

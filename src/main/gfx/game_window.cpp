@@ -23,17 +23,21 @@ bool GameWindow::initialize() {
 
 GameWindow::GameWindow() {
 	this->parser = new ParserYAML(CONFIG_FILE_PATH);
+	this->parser->parse();
+	TagPantalla tp = this->parser->getPantalla();
 	this->model = nullptr;
 	this->exit = false;
 	this->focus_x = 0;
 	this->focus_y = 0;
+	this->alto_pantalla = tp.alto;
+	this->ancho_pantalla = tp.ancho;
 
 	Logger::getInstance()->writeInformation("Creating window");
 
 	GameWindow::initialize(); 
 	window = SDL_CreateWindow("Trabajo Práctico 7542",
 		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-		ANCHO_DEFAULT, ALTO_DEFAULT,
+		tp.ancho, tp.alto,
 		SDL_WINDOW_SHOWN);
 
 
@@ -84,7 +88,7 @@ void GameWindow::render(){
 	for (size_t x = 0; x < board.sizeX; x++) {
 		for (size_t y = 0; y < board.sizeY; y++) {
 			Entity & tile = board.getTerrain(x, y);
-			spritesSheets[tile.name]->render(tile, 0, renderer);
+			spritesSheets[tile.name]->render(tile, 0, renderer, this->alto_pantalla, this->ancho_pantalla);
 		}
 	}
 	std::vector<std::shared_ptr<Entity>> entities = board.getEntities();
@@ -99,7 +103,7 @@ void GameWindow::render(){
 		it = this->spritesSheets.find(entities[i]->name);
 		if(it != this->spritesSheets.end()){
 			ss = it->second;
-			ss->render(*entities[i], 0, renderer);
+			ss->render(*entities[i], 0, renderer, this->alto_pantalla, this->ancho_pantalla);
 		}
 		else
 			Logger::getInstance()->writeWarning("No existe SpriteSheet para este tipo de entidad" + entities[i]->name);
@@ -121,13 +125,34 @@ void GameWindow::restart(){
 	init();
 }
 
-void GameWindow::init(){
-	this->model = new Game(); // TODO: Esto debería ser parser->build()
-	this->parser->parse();
+void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE REFERENCIAS LLEVARLO AL PARSER
 	std::vector<TagTipoEntidad> tte = this->parser->getTiposEntidades();
+	TagConfiguracion tc = this->parser->getConfiguracion();
+	TagEscenario te = this->parser->getEscenario();
+	this->model = new Game(te.size_x, te.size_y); 
+	Board* board = this->model->getBoard();
 	for (std::size_t i =0; i < tte.size(); ++i){
 		addSpriteSheet(tte[i].nombre, tte[i].imagen, tte[i].pixel_ref_x, tte[i].pixel_ref_y, tte[i].alto_sprite, tte[i].ancho_sprite,  tte[i].cantidad_sprites, tte[i].fps, tte[i].delay);
+		board->createEntityFactory(tte[i].nombre, tte[i].ancho_base, tte[i].alto_base,tc.vel_personaje); // LA VELOCIDAD DEBERIA IR SOLO AL PROTAGONISTA
 	}
+
+	for(std::size_t i =0; i < te.terrenos.size(); ++i){
+		board->setTerrain(te.terrenos[i].tipoEntidad,te.terrenos[i].pos_x,te.terrenos[i].pos_y); // ACA TENDRIA QE VALIDARSE SUPERPOSICION
+	}
+	board->createProtagonist(te.protagonista.tipoEntidad,te.protagonista.pos_x, te.protagonista.pos_y);
+
+	for(std::size_t i =0; i < te.entidades.size(); ++i){
+		board->createEntity(te.entidades[i].tipoEntidad,te.entidades[i].pos_x,te.entidades[i].pos_y); // ACA TENDRIA QE VALIDARSE SUPERPOSICION
+	}
+
+	for(size_t x = 0; x < board->sizeX; x++) {
+		for(size_t y = 0; y < board->sizeY; y++) {
+			if (!&board->getTerrain(x, y)) {
+				board->setTerrain("pasto", x, y); // VER QUE EL PASTO NO DEBERIA VENIR EN EL ARCHIVO
+			}
+		}
+	}
+
 }
 
 void GameWindow::update(){
@@ -171,8 +196,8 @@ void GameWindow::processInput(){
 
 			// Conversion de coordenadas en pantalla a coordenadas mapa
 
-			double XsTerm = (double)(mouse_x_screen - ANCHO_DEFAULT/2)/(double)TILE_WIDTH_DEFAULT;
-			double YsTerm = (double)(mouse_y_screen - ALTO_DEFAULT/2)/(double)TILE_HEIGHT_DEFAULT;
+			double XsTerm = (double)(mouse_x_screen - ancho_pantalla/2)/(double)TILE_WIDTH_DEFAULT;
+			double YsTerm = (double)(mouse_y_screen - alto_pantalla/2)/(double)TILE_HEIGHT_DEFAULT;
 
 			double x_mapa = focus_x + XsTerm + YsTerm + .5;
 			double y_mapa = focus_y - XsTerm + YsTerm + .5;
@@ -207,9 +232,9 @@ void GameWindow::scroll(){
 		focus_y += dsi;
 		Logger::getInstance()->writeInformation("Scrolleando hacia la izquierda");
 	}
-	else if(mouse_x >= ANCHO_DEFAULT - MARGEN_PANTALLA_DEFAULT){
+	else if(mouse_x >= ancho_pantalla - MARGEN_PANTALLA_DEFAULT){
 
-		double dsi = ((double)(mouse_x + MARGEN_PANTALLA_DEFAULT - ANCHO_DEFAULT)/(double)MARGEN_PANTALLA_DEFAULT) * ds;
+		double dsi = ((double)(mouse_x + MARGEN_PANTALLA_DEFAULT - ancho_pantalla)/(double)MARGEN_PANTALLA_DEFAULT) * ds;
 
 		focus_x += dsi;
 		focus_y -= dsi;
@@ -222,9 +247,9 @@ void GameWindow::scroll(){
 		focus_y -= dsi;
 		Logger::getInstance()->writeInformation("Scrolleando hacia arriba");
 	}
-	if(mouse_y >= ALTO_DEFAULT - MARGEN_PANTALLA_DEFAULT)
+	if(mouse_y >= alto_pantalla - MARGEN_PANTALLA_DEFAULT)
 	{
-		double dsi = ((double)(mouse_y + MARGEN_PANTALLA_DEFAULT - ALTO_DEFAULT)/(double)MARGEN_PANTALLA_DEFAULT) * ds;
+		double dsi = ((double)(mouse_y + MARGEN_PANTALLA_DEFAULT - alto_pantalla)/(double)MARGEN_PANTALLA_DEFAULT) * ds;
 
 		focus_x += dsi;
 		focus_y += dsi;

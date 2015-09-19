@@ -341,11 +341,14 @@ void ParserYAML::setEscenario(const YAML::Node& node, TagEscenario& escenario) {
 void ParserYAML::setEscenarioDefault (TagEscenario& escenario) {
 	Logger::getInstance()->writeInformation("yaml-cpp: se toma escenario por default.");
 	std::vector<TagEntidad> entidades;
+	std::vector<TagEntidad> terrenos;
 	TagEntidad protagonista;
 	escenario.nombre = NOMBRE_ESCENARIO_DEFAULT;
 	escenario.size_x = SIZE_X_DEFAULT;
 	escenario.size_y= SIZE_Y_DEFAULT;
 	escenario.entidades = entidades;
+	escenario.terrenos = terrenos;
+
 	
 }
 

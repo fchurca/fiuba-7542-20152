@@ -32,5 +32,7 @@ public:
 	void init();
 	double focus_x;
 	double focus_y;
+	unsigned int alto_pantalla;
+	unsigned int ancho_pantalla;
 };
 #endif // __GFX_GAMEWINDOW_H__
