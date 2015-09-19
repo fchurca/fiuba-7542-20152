@@ -4,7 +4,7 @@
 using namespace std;
 
 //-----------------------------------------------------------------------------
-void Board::buildBoard(ParserYAML* parser) {
+void Board::buildBoard() {
 	terrain.resize(sizeX * sizeY);
 
 	// CARGO MAPA PARA PRUEBA

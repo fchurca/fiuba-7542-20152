@@ -122,15 +122,12 @@ void GameWindow::restart(){
 }
 
 void GameWindow::init(){
+	this->model = new Game(); // TODO: Esto debería ser parser->build()
 	this->parser->parse();
-
-	this->model = new Game(parser); // TODO: Esto debería ser parser->build()
-
-	addSpriteSheet("agua", "resources//agua.png", TILE_WIDTH_DEFAULT/2, 0, TILE_HEIGHT_DEFAULT, TILE_WIDTH_DEFAULT,  1, 0, 0);
-	addSpriteSheet("pasto", "resources//pasto_largo.png", TILE_WIDTH_DEFAULT/2, 5, TILE_HEIGHT_DEFAULT+5, TILE_WIDTH_DEFAULT, 1, 0, 0);
-	addSpriteSheet("piedra", "resources//piedra.png", TILE_WIDTH_DEFAULT/2, 0, TILE_HEIGHT_DEFAULT, TILE_WIDTH_DEFAULT, 1, 0, 0);
-	addSpriteSheet("chancho", "resources//chanchos.png", 17, 24, 44, 48, 15, 0, 1);
-	addSpriteSheet("mago", "resources//mago.png", 30, 30, 60, 60, 5, 0, 0);
+	std::vector<TagTipoEntidad> tte = this->parser->getTiposEntidades();
+	for (std::size_t i =0; i < tte.size(); ++i){
+		addSpriteSheet(tte[i].nombre, tte[i].imagen, tte[i].pixel_ref_x, tte[i].pixel_ref_y, tte[i].alto_sprite, tte[i].ancho_sprite,  tte[i].cantidad_sprites, tte[i].fps, tte[i].delay);
+	}
 }
 
 void GameWindow::update(){
@@ -144,7 +141,14 @@ void GameWindow::update(){
 }
 
 void GameWindow::addSpriteSheet(std::string name, std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay) {
-	spritesSheets[name] = new SpriteSheet(pPath, pixelRefX, pixelRefY, altoSprite, anchoSprite, cantSprites, fps, delay, *this);
+	std::map<std::string,SpriteSheet*>::iterator it;
+	it = this->spritesSheets.find(name);
+	if(it != this->spritesSheets.end())
+		Logger::getInstance()->writeError("Ya existe un spriteSheet para el tipo de entidad con nombre " + name);
+	else{
+		spritesSheets[name] = new SpriteSheet(pPath, pixelRefX, pixelRefY, altoSprite, anchoSprite, cantSprites, fps, delay, *this);
+		Logger::getInstance()->writeInformation("Se agrega spriteSheet para el tipo de entidad con nombre " + name);
+	}
 }
 
 void GameWindow::processInput(){

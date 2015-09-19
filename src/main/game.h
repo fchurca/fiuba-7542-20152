@@ -11,7 +11,7 @@ private:
 	void init();
 	Board* gameBoard;
 public:
-	Game(ParserYAML* parser);
+	Game();
 	~Game();
 	Board* getBoard();
 	void update();

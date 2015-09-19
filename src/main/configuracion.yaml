@@ -6,26 +6,61 @@ configuracion:
     margen_scroll: 45
     velocidad_scroll: 45
 tipos:
-  - nombre: arbol
-    imagen:  path/a/imagen.png
-  - nombre: castillo
-    imagen:  path/a/imagen.png
+  - nombre: agua
+    imagen: resources/agua.png
+    ancho_base: 2
+    alto_base: 2
+    pixel_ref_x: 32
+    pixel_ref_y: 0
+    fps: 0
+    delay: 0
+    ancho_sprite: 64
+    alto_sprite: 32
+    cantidad_sprites: 1
+  - nombre: pasto
+    imagen: resources/pasto.png
+    ancho_base: 2
+    alto_base: 2
+    pixel_ref_x: 32
+    pixel_ref_y: 0
+    fps: 0
+    delay: 0
+    ancho_sprite: 64
+    alto_sprite: 32
+    cantidad_sprites: 1
+  - nombre: piedra
+    imagen: resources/piedra.png
+    ancho_base: 2
+    alto_base: 2
+    pixel_ref_x: 32
+    pixel_ref_y: 0
+    fps: 0
+    delay: 0
+    ancho_sprite: 64
+    alto_sprite: 32
+    cantidad_sprites: 1
+  - nombre: chancho
+    imagen: resources/chanchos.png
+    ancho_base: 2
+    alto_base: 2
+    pixel_ref_x: 17
+    pixel_ref_y: 24
+    fps: 0
+    delay: 1
+    ancho_sprite: 48
+    alto_sprite: 44
+    cantidad_sprites: 15
+  - nombre: mago
+    imagen: resources/mago.png
     ancho_base: 2
     alto_base: 2
     pixel_ref_x: 30
     pixel_ref_y: 30
-    ancho_sprite: 5
-  - nombre: juana_de_arco
-    imagen: C:/juana.png
-    ancho_base: 2
-    alto_base: 2
-    pixel_ref_x: 30
-    pixel_ref_y: 30
-    fps: 15.25
-    delay: 15.12
-    ancho_sprite: 5
-    alto_sprite: 5
-    cantidad_sprites: 10
+    fps: 0
+    delay: 0
+    ancho_sprite: 60
+    alto_sprite: 60
+    cantidad_sprites: 5
 escenario:
     nombre: orleans
     size_x: 100

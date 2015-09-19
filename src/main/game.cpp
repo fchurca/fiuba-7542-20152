@@ -1,8 +1,8 @@
 #include "game.h"
 
-Game::Game(ParserYAML* parser){
+Game::Game(){
 	this->gameBoard = new Board(100, 100);
-	this->gameBoard->buildBoard(parser);
+	this->gameBoard->buildBoard();
 }
 
 Game::~Game(){
