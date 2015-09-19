@@ -3,7 +3,7 @@
 #include "sprite_sheet.h"
 #include "game_window.h"
 
-SpriteSheet::SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, int fps, int delay, GameWindow & owner) : owner(owner){
+SpriteSheet::SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay, GameWindow & owner) : owner(owner){
 	std::cerr << "Creating SpriteSheet " << this
 		<< " with path " << pPath
 		<< " owned by " << &owner << std::endl;

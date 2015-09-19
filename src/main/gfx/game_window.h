@@ -25,7 +25,7 @@ protected:
 	void restart();
 	void scroll();
 public:
-	void addSpriteSheet(std::string name, std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, int fps, int delay);
+	void addSpriteSheet(std::string name, std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay);
 	GameWindow();
 	~GameWindow();
 	int start();

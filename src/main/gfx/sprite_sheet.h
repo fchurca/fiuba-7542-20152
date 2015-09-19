@@ -16,8 +16,8 @@ class SpriteSheet {
 private:
 	std::string path;
 
-	int fps;	//Animacion
-	int delay;	//Animacion
+	double fps;	
+	double delay;
 	int counter; 
 	int tick;
 	int currentFrame;
@@ -35,7 +35,7 @@ private:
 
 public:
 	GameWindow & owner;
-	SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, int fps, int delay, GameWindow & owner );
+	SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay, GameWindow & owner );
 	~SpriteSheet();
 	void render(Entity& entity, int frame, SDL_Renderer* renderer );
 	void update();
