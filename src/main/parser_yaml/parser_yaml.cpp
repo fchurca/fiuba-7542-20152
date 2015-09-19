@@ -290,6 +290,27 @@ void ParserYAML::setEscenario(const YAML::Node& node, TagEscenario& escenario) {
 		}
 		escenario.entidades = entidades;
 
+		std::vector<TagEntidad> terrenos;
+		if(node.FindValue("terrenos")) { 
+			const YAML::Node& ter = node["terrenos"];
+			if(ter.Type() == YAML::NodeType::Sequence) {
+				for(unsigned int i = 0; i < ter.size(); i++) {
+					TagEntidad terreno;
+					setEntidad(ter[i],terreno);
+					terrenos.push_back(terreno);
+				}
+			}
+			else{
+				Logger::getInstance()->writeWarning("yaml-cpp: el tag terrenos no es del tipo secuencia.");
+				Logger::getInstance()->writeInformation("yaml-cpp: No se toman terrenos.");
+			}
+		}
+		else{
+			Logger::getInstance()->writeWarning("yaml-cpp: el tag terrenos no existe en el archivo.");
+			Logger::getInstance()->writeInformation("yaml-cpp: No se toman terrenos.");
+		}
+		escenario.terrenos = terrenos;
+
 		TagEntidad protagonista;
 		if(node.FindValue("protagonista")) { 
 			const YAML::Node& pro = node["protagonista"];

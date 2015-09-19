@@ -23,8 +23,8 @@ struct TagConfiguracion{
 struct TagTipoEntidad{
 	std::string nombre;
 	std::string imagen;
-	unsigned int ancho_base;
-	unsigned int alto_base;
+	double ancho_base;
+	double alto_base;
 	unsigned int pixel_ref_x;
 	unsigned int pixel_ref_y;
 	unsigned int alto_sprite;
@@ -45,6 +45,7 @@ struct TagEscenario{
 	unsigned int size_x;
 	unsigned int size_y;
 	std::vector<TagEntidad> entidades;
+	std::vector<TagEntidad> terrenos;
 	TagEntidad protagonista;
 };
 

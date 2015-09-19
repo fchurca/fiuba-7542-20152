@@ -66,9 +66,10 @@ escenario:
     size_x: 100
     size_y: 100
     entidades:
+      - {x: 12, y: 13, tipo: castillo}
+    terrenos:
       - {x: 10, y: 15, tipo: tierra}
       - {x: 11, y: 12, tipo: agua}
-      - {x: 12, y: 13, tipo: castillo}
     protagonista:
       - tipo: juana_de_arco
         x: 50
