@@ -41,8 +41,8 @@ tipos:
     cantidad_sprites: 1
   - nombre: chancho
     imagen: resources/chanchos.png
-    ancho_base: 1
-    alto_base: 1
+    ancho_base: 0.5
+    alto_base: 0.5
     pixel_ref_x: 17
     pixel_ref_y: 24
     fps: 0
