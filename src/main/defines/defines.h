@@ -13,7 +13,7 @@ enum Directions {
 };
 
 //Imagen Default
-#define IMG_DEFAULT  "resources//piedra.png"	// poner una imagen default
+#define IMG_UNASIGNED  "resources//unasigned.png"	// poner una imagen default
 
 //Archivo Configuracion Default
 #define ARCHIVO_CONFIGURACION_DEFAULT  "configuracionDefault.yaml"

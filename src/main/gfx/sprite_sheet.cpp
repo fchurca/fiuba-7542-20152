@@ -53,7 +53,7 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ) {
 	if(!loadedSurface) {
 		texture = nullptr;
 		Logger::getInstance()->writeError( "No se puede cargar la imagen " + path + "! - " + IMG_GetError() );
-		loadedSurface = IMG_Load( IMG_DEFAULT );
+		loadedSurface = IMG_Load( IMG_UNASIGNED );
 	}
 	//	La default siempre deberia poder cargarla
 	if(!loadedSurface) {
