@@ -322,22 +322,32 @@ void ParserYAML::setEscenario(const YAML::Node& node, TagEscenario& escenario) {
 					escenario.protagonista = protagonista;
 				}
 				else{
+					setProtagonistaDefault(protagonista);
 					Logger::getInstance()->writeWarning("yaml-cpp: el tag protagonista posee mas de un elemento. Ubicar:" + ubicarNodo(pro.GetMark()));
 				}
 			}
 			else{
+				setProtagonistaDefault(protagonista);
 				Logger::getInstance()->writeWarning("yaml-cpp: el tag de protagonista del escenario no es del tipo Sequence. Ubicar:" + ubicarNodo(pro.GetMark()));
 			}
 		}
 		else{
+			setProtagonistaDefault(protagonista);
 			Logger::getInstance()->writeWarning("yaml-cpp: el tag de protagonista del escenario no existe.");
 		}
+		escenario.protagonista=protagonista;
 	}
 	else{
 		Logger::getInstance()->writeWarning("yaml-cpp: el tag de escenario no es del tipo Map. Ubicar:" + ubicarNodo(node.GetMark()));
 		setEscenarioDefault(escenario);
 	}
-		
+}
+
+void ParserYAML::setProtagonistaDefault (TagEntidad& protagonista) {
+	Logger::getInstance()->writeInformation("yaml-cpp: se toma protagonista por default.");
+	protagonista.tipoEntidad = PROTAGONISTA_DEFAULT_NOMBRE;
+	protagonista.pos_x = PROTAGONISTA_DEFAULT_POSX;
+	protagonista.pos_y = PROTAGONISTA_DEFAULT_POSY;
 }
 
 void ParserYAML::setEscenarioDefault (TagEscenario& escenario) {
@@ -345,12 +355,13 @@ void ParserYAML::setEscenarioDefault (TagEscenario& escenario) {
 	std::vector<TagEntidad> entidades;
 	std::vector<TagEntidad> terrenos;
 	TagEntidad protagonista;
+	setProtagonistaDefault(protagonista);
 	escenario.nombre = NOMBRE_ESCENARIO_DEFAULT;
 	escenario.size_x = SIZE_X_DEFAULT;
 	escenario.size_y= SIZE_Y_DEFAULT;
 	escenario.entidades = entidades;
 	escenario.terrenos = terrenos;
-
+	escenario.protagonista=protagonista;
 	
 }
 

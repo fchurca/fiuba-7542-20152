@@ -91,7 +91,7 @@ void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer, uns
 
 	//Esto es porque los frame del mago estan en sentido contrario al del chancho
 	//cdo todas las imagenes esten en el mismo sentido esto vuela
-	if (path.compare("resources/mago.png") == 0) {
+	if ((path.compare("resources/mago.png") == 0)|| (path.compare("resources//mago.png") == 0)){
 		clip.x = direction * ancho_sprite;
 		clip.y = currentFrame * alto_sprite;
 	}

@@ -71,6 +71,7 @@ private:
 	void setPantallaDefault (TagPantalla& pantalla);
 	void setTipoEntidadDefault (TagTipoEntidad& tipoEntidad);
 	void setEscenarioDefault (TagEscenario& escenario);
+	void setProtagonistaDefault (TagEntidad& protagonista);
 	
 	
 
