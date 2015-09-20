@@ -134,6 +134,10 @@ void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE
 	TagEscenario te = this->parser->getEscenario();
 	this->model = new Game(te.size_x, te.size_y); 
 	Board* board = this->model->getBoard();
+	
+	addSpriteSheet(TERRENO_DEFAULT_NOMBRE, TERRENO_DEFAULT_IMAGEN, TERRENO_DEFAULT_PIXEL_REF_X, TERRENO_DEFAULT_PIXEL_REF_Y, TERRENO_DEFAULT_ALTO_SPRITE, TERRENO_DEFAULT_ANCHO_SPRITE, TERRENO_DEFAULT_CANTIDAD_SPRITES, TERRENO_DEFAULT_FPS, TERRENO_DEFAULT_DELAY);
+	board->createEntityFactory(TERRENO_DEFAULT_NOMBRE, TERRENO_DEFAULT_ANCHO_BASE, TERRENO_DEFAULT_ALTO_BASE, 0);
+
 	for (std::size_t i =0; i < tte.size(); ++i){
 		addSpriteSheet(tte[i].nombre, tte[i].imagen, tte[i].pixel_ref_x, tte[i].pixel_ref_y, tte[i].alto_sprite, tte[i].ancho_sprite,  tte[i].cantidad_sprites, tte[i].fps, tte[i].delay);
 		board->createEntityFactory(tte[i].nombre, tte[i].ancho_base, tte[i].alto_base,tc.vel_personaje); // LA VELOCIDAD DEBERIA IR SOLO AL PROTAGONISTA
@@ -151,7 +155,7 @@ void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE
 	for(size_t x = 0; x < board->sizeX; x++) {
 		for(size_t y = 0; y < board->sizeY; y++) {
 			if (!&board->getTerrain(x, y)) {
-				board->setTerrain("pasto", x, y); // VER QUE EL PASTO NO DEBERIA VENIR EN EL ARCHIVO
+				board->setTerrain(TERRENO_DEFAULT_NOMBRE, x, y); // VER QUE EL PASTO NO DEBERIA VENIR EN EL ARCHIVO
 			}
 		}
 	}
