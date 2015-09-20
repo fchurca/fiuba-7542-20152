@@ -182,7 +182,7 @@ void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEnt
 	if(node.Type() == YAML::NodeType::Map) {
 		if(!validarScalarAlfaNumerico(node, "nombre", tipoEntidad.nombre)) {
 			Logger::getInstance()->writeInformation("yaml-cpp: el nombre del tipo de entidad se toma por default.");
-			tipoEntidad.nombre = NOMBRE_TIPO_ENTIDAD_DEFAULT;
+			tipoEntidad.nombre = ENTIDAD_DEFAULT_NOMBRE;
 		}
 		if((!validarScalarAlfaNumerico(node, "imagen", tipoEntidad.imagen))
 			|| (!validarScalarNumericoPositivo(node, "ancho_base", tipoEntidad.ancho_base))
@@ -193,22 +193,22 @@ void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEnt
 			|| (!validarScalarNumericoPositivo(node, "alto_sprite", tipoEntidad.alto_sprite))
 			|| (!validarScalarNumericoPositivo(node, "cantidad_sprites", tipoEntidad.cantidad_sprites))) {
 				Logger::getInstance()->writeWarning("yaml-cpp: datos de la imagen del tipo de entidad invalidos, se toman por default (path, ancho_base, alto_base, pixel_ref_x, pixel_ref_y).");
-				tipoEntidad.imagen = IMAGEN_TIPO_ENTIDAD_DEFAULT;
-				tipoEntidad.ancho_base = ANCHO_BASE_DEFAULT;
-				tipoEntidad.alto_base = ALTO_BASE_DEFAULT;
-				tipoEntidad.pixel_ref_x = PIXELX_REF_DEFAULT;
-				tipoEntidad.pixel_ref_y = PIXELY_REF_DEFAULT;
-				tipoEntidad.alto_sprite = ALTO_SPRITE_DEFAULT;
-				tipoEntidad.ancho_sprite = ANCHO_SPRITE_DEFAULT;
-				tipoEntidad.cantidad_sprites = CANTIDAD_SPRITES_DEFAULT;
+				tipoEntidad.imagen = ENTIDAD_DEFAULT_IMAGEN;
+				tipoEntidad.ancho_base = ENTIDAD_DEFAULT_ANCHO_BASE;
+				tipoEntidad.alto_base = ENTIDAD_DEFAULT_ALTO_BASE;
+				tipoEntidad.pixel_ref_x = ENTIDAD_DEFAULT_PIXEL_REF_X;
+				tipoEntidad.pixel_ref_y = ENTIDAD_DEFAULT_PIXEL_REF_Y;
+				tipoEntidad.alto_sprite = ENTIDAD_DEFAULT_ALTO_SPRITE;
+				tipoEntidad.ancho_sprite = ENTIDAD_DEFAULT_ANCHO_SPRITE;
+				tipoEntidad.cantidad_sprites = ENTIDAD_DEFAULT_CANTIDAD_SPRITES;
 		}
 		if(!validarScalarNumericoPositivo(node, "fps", tipoEntidad.fps)){
 			Logger::getInstance()->writeWarning("yaml-cpp: Se toma por default (fps).");
-			tipoEntidad.fps = FPS_DEFAULT;
+			tipoEntidad.fps = ENTIDAD_DEFAULT_FPS;
 		}
 		if(!validarScalarNumericoPositivo(node, "delay", tipoEntidad.delay)){
 			Logger::getInstance()->writeWarning("yaml-cpp: Se toma por default (delay).");
-			tipoEntidad.delay = DELAY_DEFAULT;
+			tipoEntidad.delay = ENTIDAD_DEFAULT_DELAY;
 		}
 	}
 	else{
@@ -219,17 +219,17 @@ void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEnt
 
 void ParserYAML::setTipoEntidadDefault (TagTipoEntidad& tipoEntidad) {
 	Logger::getInstance()->writeInformation("yaml-cpp: se toma tipo de entidad por default.");
-	tipoEntidad.nombre = NOMBRE_TIPO_ENTIDAD_DEFAULT;
-	tipoEntidad.imagen = IMAGEN_TIPO_ENTIDAD_DEFAULT;
-	tipoEntidad.ancho_base = ANCHO_BASE_DEFAULT;
-	tipoEntidad.alto_base = ALTO_BASE_DEFAULT;
-	tipoEntidad.pixel_ref_x = PIXELX_REF_DEFAULT;
-	tipoEntidad.pixel_ref_y = PIXELY_REF_DEFAULT;
-	tipoEntidad.fps = FPS_DEFAULT;
-	tipoEntidad.delay = DELAY_DEFAULT;
-	tipoEntidad.alto_sprite = ALTO_SPRITE_DEFAULT;
-	tipoEntidad.ancho_sprite = ANCHO_SPRITE_DEFAULT;
-	tipoEntidad.cantidad_sprites = CANTIDAD_SPRITES_DEFAULT;
+	tipoEntidad.nombre = ENTIDAD_DEFAULT_NOMBRE;
+	tipoEntidad.imagen = ENTIDAD_DEFAULT_IMAGEN;
+	tipoEntidad.ancho_base = ENTIDAD_DEFAULT_ANCHO_BASE;
+	tipoEntidad.alto_base = ENTIDAD_DEFAULT_ALTO_BASE;
+	tipoEntidad.pixel_ref_x = ENTIDAD_DEFAULT_PIXEL_REF_X;
+	tipoEntidad.pixel_ref_y = ENTIDAD_DEFAULT_PIXEL_REF_Y;
+	tipoEntidad.fps = ENTIDAD_DEFAULT_FPS;
+	tipoEntidad.delay = ENTIDAD_DEFAULT_DELAY;
+	tipoEntidad.alto_sprite = ENTIDAD_DEFAULT_ALTO_SPRITE;
+	tipoEntidad.ancho_sprite = ENTIDAD_DEFAULT_ANCHO_SPRITE;
+	tipoEntidad.cantidad_sprites = ENTIDAD_DEFAULT_CANTIDAD_SPRITES;
 }
 
 void ParserYAML::setEntidad(const YAML::Node& node, TagEntidad& entidad) {
@@ -244,7 +244,7 @@ void ParserYAML::setEntidad(const YAML::Node& node, TagEntidad& entidad) {
 			entidad.pos_y = POS_Y_DEFAULT;
 		}
 
-		if(!validarScalarAlfaNumerico(node, "tipo", entidad.tipoEntidad)) {
+		if ((!validarScalarAlfaNumerico(node, "tipo", entidad.tipoEntidad))|| (entidad.tipoEntidad.empty())){
 			Logger::getInstance()->writeInformation("yaml-cpp: el tipo de la entidad se toma por defecto.");
 			entidad.tipoEntidad = TIPO_DEFAULT;
 		}
@@ -268,7 +268,7 @@ void ParserYAML::setEscenario(const YAML::Node& node, TagEscenario& escenario) {
 		if((!validarScalarNumericoPositivo(node, "size_x", escenario.size_x))||(!validarScalarNumericoPositivo(node, "size_y", escenario.size_y))) {
 			Logger::getInstance()->writeInformation("yaml-cpp: se toman por default los datos del tamonio del escenario.");
 			escenario.size_x = SIZE_X_DEFAULT;
-			escenario.size_x = SIZE_Y_DEFAULT;
+			escenario.size_y = SIZE_Y_DEFAULT;
 		}
 
 		std::vector<TagEntidad> entidades;
