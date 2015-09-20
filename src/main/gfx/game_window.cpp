@@ -40,12 +40,8 @@ GameWindow::GameWindow() {
 		tp.ancho, tp.alto,
 		SDL_WINDOW_SHOWN);
 
-
 	Logger::getInstance()->writeInformation("Creating renderer");
 	renderer = SDL_CreateRenderer( window, -1, SDL_RENDERER_ACCELERATED );
-
-
-	// TODO: IMG_INIT
 
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Color: negro opaco
 	SDL_RenderClear(renderer); // Limpio pantalla inicialmente
@@ -96,9 +92,9 @@ void GameWindow::render(){
 	SpriteSheet* ss;
 	// Ordenamos las entidades por oclusión
 	std::sort(entities.begin(), entities.end(), [](std::shared_ptr<Entity> a, std::shared_ptr<Entity> b) {
-			return ((a->getX() + a->sizeX < b->getX()) || (a->getY() + a->sizeY < b->getY())) &&
+		return ((a->getX() + a->sizeX < b->getX()) || (a->getY() + a->sizeY < b->getY())) &&
 			!((b->getX() + b->sizeX < a->getX()) || (b->getY() + b->sizeY < a->getY()));
-			});
+	});
 	for (std::size_t i =0; i < entities.size(); ++i){
 		it = this->spritesSheets.find(entities[i]->name);
 		if(it != this->spritesSheets.end()){
@@ -114,15 +110,20 @@ void GameWindow::render(){
 }
 
 void GameWindow::restart(){
-	//model->restart()	PARA NO TENER Q INSTANCIAR UN NUEVO MODEL
 	delete model;
 
 	map<std::string, SpriteSheet*>::const_iterator itr;
 	for(itr = spritesSheets.begin(); itr != spritesSheets.end(); ++itr){
 		delete itr->second;
 	}
+	spritesSheets.clear();
 
 	init();
+	{
+		auto protagonist = model->getBoard()->getProtagonist();
+		focus_x = protagonist.getX();
+		focus_y = protagonist.getY();
+	}
 }
 
 void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE REFERENCIAS LLEVARLO AL PARSER
@@ -152,7 +153,6 @@ void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE
 			}
 		}
 	}
-
 }
 
 void GameWindow::update(){
@@ -291,5 +291,3 @@ int GameWindow::start(){
 	}
 	return 0;
 }
-
-
