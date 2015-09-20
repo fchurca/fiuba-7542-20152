@@ -8,8 +8,8 @@ configuracion:
 tipos:
   - nombre: agua
     imagen: resources/agua.png
-    ancho_base: 2
-    alto_base: 2
+    ancho_base: 1
+    alto_base: 1
     pixel_ref_x: 32
     pixel_ref_y: 0
     fps: 0
@@ -19,8 +19,8 @@ tipos:
     cantidad_sprites: 1
   - nombre: pasto
     imagen: resources/pasto.png
-    ancho_base: 2
-    alto_base: 2
+    ancho_base: 1
+    alto_base: 1
     pixel_ref_x: 32
     pixel_ref_y: 0
     fps: 0
@@ -30,8 +30,8 @@ tipos:
     cantidad_sprites: 1
   - nombre: piedra
     imagen: resources/piedra.png
-    ancho_base: 2
-    alto_base: 2
+    ancho_base: 1
+    alto_base: 1
     pixel_ref_x: 32
     pixel_ref_y: 0
     fps: 0
