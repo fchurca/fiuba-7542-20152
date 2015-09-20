@@ -118,6 +118,8 @@ void GameWindow::restart(){
 	}
 	spritesSheets.clear();
 
+	this->parser->parse();
+	
 	init();
 	{
 		auto protagonist = model->getBoard()->getProtagonist();
