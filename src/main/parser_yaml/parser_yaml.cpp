@@ -1,3 +1,5 @@
+#include <cmath>
+
 #include "parser_yaml.h"
 
 
