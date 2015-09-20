@@ -236,25 +236,25 @@ void ParserYAML::setEntidad(const YAML::Node& node, TagEntidad& entidad) {
 	if(node.Type() == YAML::NodeType::Map) {
 		if(!validarScalarNumericoPositivo(node, "x", entidad.pos_x)) {
 			Logger::getInstance()->writeInformation("yaml-cpp: la posicion x de la entidad se toma por defecto.");
-			entidad.pos_x = POS_X_DEFAULT;
+			entidad.pos_x = ENTIDAD_DEFAULT_POSX;
 		}
 
 		if(!validarScalarNumericoPositivo(node, "y", entidad.pos_y)) {
 			Logger::getInstance()->writeInformation("yaml-cpp: la posicion y de la entidad se toma por defecto.");
-			entidad.pos_y = POS_Y_DEFAULT;
+			entidad.pos_y = ENTIDAD_DEFAULT_POSY;
 		}
 
 		if ((!validarScalarAlfaNumerico(node, "tipo", entidad.tipoEntidad))|| (entidad.tipoEntidad.empty())){
 			Logger::getInstance()->writeInformation("yaml-cpp: el tipo de la entidad se toma por defecto.");
-			entidad.tipoEntidad = TIPO_DEFAULT;
+			entidad.tipoEntidad = ENTIDAD_DEFAULT_NOMBRE;
 		}
 	}
 	else{
 		Logger::getInstance()->writeWarning("yaml-cpp:el contenido de la entidad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
 		Logger::getInstance()->writeInformation("yaml-cpp: se toman valores por default para esa entidad");
-		entidad.tipoEntidad = TIPO_DEFAULT;
-		entidad.pos_y = POS_Y_DEFAULT;
-		entidad.pos_x = POS_X_DEFAULT;
+		entidad.tipoEntidad = ENTIDAD_DEFAULT_NOMBRE;
+		entidad.pos_y = ENTIDAD_DEFAULT_POSY;
+		entidad.pos_x = ENTIDAD_DEFAULT_POSX;
 	}
 }
 

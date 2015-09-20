@@ -13,6 +13,7 @@ Entity & Board::getTerrain(size_t x, size_t y) {
 }
 
 void Board::setTerrain(string name, size_t x, size_t y) {
+	// ACA HAY Q VALIDAR SI NO EXISTE EL FACTORY PARA NAME
 	terrain[(sizeX*y) + x] = entityFactories[name]->createEntity(x, y);
 }
 

@@ -13,7 +13,7 @@ enum Directions {
 };
 
 //Imagen Default
-#define IMG_UNASIGNED  "resources//unasigned.png"	// poner una imagen default
+#define IMG_UNASIGNED  "resources//unasigned.png"	// PONER IMG DEFAULT. TIENE Q EXISTIR
 
 //Archivo Configuracion Default
 #define ARCHIVO_CONFIGURACION_DEFAULT  "configuracionDefault.yaml"
@@ -38,14 +38,11 @@ enum Directions {
 #define SIZE_X_DEFAULT  10
 #define SIZE_Y_DEFAULT  10
 
-//Entidad Default
-#define POS_X_DEFAULT  0
-#define POS_Y_DEFAULT  0
-#define TIPO_DEFAULT  "ENTIDAD"
-
 //Tipo Entidad Default
 #define ENTIDAD_DEFAULT_NOMBRE  "entidad_default"
-#define ENTIDAD_DEFAULT_IMAGEN  "resources//mago.png"
+#define ENTIDAD_DEFAULT_IMAGEN  "resources//mago.png"	// PONER IMG DEFAULT. TIENE Q EXISTIR
+#define ENTIDAD_DEFAULT_POSX  1
+#define ENTIDAD_DEFAULT_POSY  1
 #define ENTIDAD_DEFAULT_ANCHO_BASE  0.5
 #define ENTIDAD_DEFAULT_ALTO_BASE  0.5
 #define ENTIDAD_DEFAULT_PIXEL_REF_X  30
@@ -58,7 +55,7 @@ enum Directions {
 
 //Protagonista Default
 #define PROTAGONISTA_DEFAULT_NOMBRE "protagonista_default"
-#define PROTAGONISTA_DEFAULT_IMAGEN "resources//mago.png"
+#define PROTAGONISTA_DEFAULT_IMAGEN "resources//mago.png"	// PONER IMG DEFAULT. TIENE Q EXISTIR
 #define PROTAGONISTA_DEFAULT_POSX 1
 #define PROTAGONISTA_DEFAULT_POSY 1
 #define PROTAGONISTA_DEFAULT_ANCHO_BASE  0.5
@@ -73,7 +70,7 @@ enum Directions {
 
 //Terreno Default
 #define TERRENO_DEFAULT_NOMBRE "terreno_default"
-#define TERRENO_DEFAULT_IMAGEN "resources//pasto.png"
+#define TERRENO_DEFAULT_IMAGEN "resources//pasto.png"	// PONER IMG DEFAULT. TIENE Q EXISTIR
 #define TERRENO_DEFAULT_ANCHO_BASE  1
 #define TERRENO_DEFAULT_ALTO_BASE  1
 #define TERRENO_DEFAULT_PIXEL_REF_X  32
