@@ -25,12 +25,15 @@ GameWindow::GameWindow() {
 	this->parser = new ParserYAML(CONFIG_FILE_PATH);
 	this->parser->parse();
 	TagPantalla tp = this->parser->getPantalla();
+	TagConfiguracion tc = this->parser->getConfiguracion();
 	this->model = nullptr;
 	this->exit = false;
 	this->focus_x = 0;
 	this->focus_y = 0;
 	this->alto_pantalla = tp.alto;
 	this->ancho_pantalla = tp.ancho;
+	this->margen_pantalla = tc.margen_scroll;
+	this->scroll_speed = tc.velocidad_scroll;
 
 	Logger::getInstance()->writeInformation("Creating window");
 
@@ -231,37 +234,36 @@ void GameWindow::processInput(){
 void GameWindow::scroll(){
 	Uint8 mouse_b;
 	int mouse_x, mouse_y;
-	const double SCROLL_SPEED = 40;
 
-	double ds = SCROLL_SPEED * model->getBoard()->dt / 1000; //deltascroll
+	double ds = scroll_speed * model->getBoard()->dt / 1000; //deltascroll
 	SDL_GetMouseState(&mouse_x, &mouse_y);
 
-	if(mouse_x <= MARGEN_PANTALLA_DEFAULT)
+	if(mouse_x <= margen_pantalla)
 	{
-		double dsi = (1.0 - ((double)mouse_x / (double)MARGEN_PANTALLA_DEFAULT)) * ds; 
+		double dsi = (1.0 - ((double)mouse_x / (double)margen_pantalla)) * ds; 
 
 		focus_x -= dsi;
 		focus_y += dsi;
 		Logger::getInstance()->writeInformation("Scrolleando hacia la izquierda");
 	}
-	else if(mouse_x >= ancho_pantalla - MARGEN_PANTALLA_DEFAULT){
+	else if(mouse_x >= ancho_pantalla - margen_pantalla){
 
-		double dsi = ((double)(mouse_x + MARGEN_PANTALLA_DEFAULT - ancho_pantalla)/(double)MARGEN_PANTALLA_DEFAULT) * ds;
+		double dsi = ((double)(mouse_x + margen_pantalla - ancho_pantalla)/(double)margen_pantalla) * ds;
 
 		focus_x += dsi;
 		focus_y -= dsi;
 		Logger::getInstance()->writeInformation("Scrolleando hacia la derecha");
 	}
-	if(mouse_y <= MARGEN_PANTALLA_DEFAULT)
+	if(mouse_y <= margen_pantalla)
 	{
-		double dsi = (1.0 - ((double)mouse_y / (double)MARGEN_PANTALLA_DEFAULT)) * ds;
+		double dsi = (1.0 - ((double)mouse_y / (double)margen_pantalla)) * ds;
 		focus_x -= dsi;
 		focus_y -= dsi;
 		Logger::getInstance()->writeInformation("Scrolleando hacia arriba");
 	}
-	if(mouse_y >= alto_pantalla - MARGEN_PANTALLA_DEFAULT)
+	if(mouse_y >= alto_pantalla - margen_pantalla)
 	{
-		double dsi = ((double)(mouse_y + MARGEN_PANTALLA_DEFAULT - alto_pantalla)/(double)MARGEN_PANTALLA_DEFAULT) * ds;
+		double dsi = ((double)(mouse_y + margen_pantalla - alto_pantalla)/(double)margen_pantalla) * ds;
 
 		focus_x += dsi;
 		focus_y += dsi;

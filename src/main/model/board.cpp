@@ -21,7 +21,7 @@ void Board::setTerrain(string name, size_t x, size_t y) {
 
 std::shared_ptr<Entity> Board::createEntity(std::string name, double x, double y) {
 	if (entityFactories.find(name) == entityFactories.end()) {
-		throw "Not found!"; // TODO: Moar elegance
+		Logger::getInstance()->writeWarning("No existe el tipo de entidad " + name);
 	}
 	auto pEntity = entityFactories[name]->createEntity(x, y);
 	entities.push_back(pEntity);

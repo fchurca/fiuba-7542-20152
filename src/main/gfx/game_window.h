@@ -16,6 +16,8 @@ protected:
 	SDL_Renderer* renderer;// = NULL;
 	std::map<std::string, SpriteSheet*> spritesSheets;
 	bool exit;
+	unsigned int scroll_speed;
+	unsigned int margen_pantalla;
 	static bool sdlInitialized; // = false
 	static bool initialize();
 	bool endOfGame();
