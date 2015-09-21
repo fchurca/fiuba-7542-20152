@@ -92,7 +92,7 @@ std::vector<TagTipoEntidad> ParserYAML::getTiposEntidades() {
 			for(unsigned int i = 0; i < tipos.size(); i++) {
 				Logger::getInstance()->writeInformation("yaml-cpp: se obtiene informacion del tipo de entidad numero."  + intToString(i));
 				TagTipoEntidad tipoEntidad;
-				setTipoEntidad(tipos[i], tipoEntidad);
+				setTipoEntidad(tipos[i], tipoEntidad, i);
 				tiposDeEntidades.push_back(tipoEntidad);
 			}
 		}
@@ -140,12 +140,18 @@ ParserYAML::~ParserYAML(void) {
 
 void ParserYAML::setConfiguracion (const YAML::Node& node, TagConfiguracion& configuracion) {
 	if(node.Type() == YAML::NodeType::Map) {
-		if(!validarScalarNumericoPositivo(node, "vel_personaje", configuracion.vel_personaje))
+		if(!validarScalarNumericoPositivo(node, "vel_personaje", configuracion.vel_personaje)){
+			Logger::getInstance()->writeWarning("yaml-cpp: Se toma por default (velocidad personaje).");
 			configuracion.vel_personaje = VELOCIDAD_PERSONAJE_DEFAULT;
-		if(!validarScalarNumericoPositivo(node, "margen_scroll", configuracion.margen_scroll))
+		}
+		if(!validarScalarNumericoPositivo(node, "margen_scroll", configuracion.margen_scroll)){
+			Logger::getInstance()->writeWarning("yaml-cpp: Se toma por default (margen scroll).");
 			configuracion.margen_scroll = MARGEN_SCROLL_DEFAULT;
-		if(!validarScalarNumericoPositivo(node, "velocidad_scroll", configuracion.velocidad_scroll))
+		}
+		if(!validarScalarNumericoPositivo(node, "velocidad_scroll", configuracion.velocidad_scroll)){
+			Logger::getInstance()->writeWarning("yaml-cpp: Se toma por default (velocidad scroll).");
 			configuracion.velocidad_scroll = VELOCIDAD_SCROLL_DEFAULT;
+		}
 	}
 	else{
 		Logger::getInstance()->writeWarning("yaml-cpp:el contenido del tag de configuracion no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
@@ -154,7 +160,7 @@ void ParserYAML::setConfiguracion (const YAML::Node& node, TagConfiguracion& con
 }
 
 void ParserYAML::setConfiguracionDefault (TagConfiguracion& configuracion) {
-	Logger::getInstance()->writeInformation("yaml-cpp: se toma configuracion por default.");
+	Logger::getInstance()->writeWarning("yaml-cpp: se toma configuracion por default.");
 	configuracion.margen_scroll = MARGEN_SCROLL_DEFAULT;
 	configuracion.margen_scroll = VELOCIDAD_PERSONAJE_DEFAULT;
 	configuracion.velocidad_scroll = VELOCIDAD_SCROLL_DEFAULT;
@@ -178,11 +184,11 @@ void ParserYAML::setPantallaDefault (TagPantalla& pantalla) {
 	pantalla.ancho = ANCHO_DEFAULT;
 }
 
-void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEntidad) {
+void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEntidad, int i) {
 	if(node.Type() == YAML::NodeType::Map) {
 		if(!validarScalarAlfaNumerico(node, "nombre", tipoEntidad.nombre)) {
 			Logger::getInstance()->writeInformation("yaml-cpp: el nombre del tipo de entidad se toma por default.");
-			tipoEntidad.nombre = ENTIDAD_DEFAULT_NOMBRE;
+			tipoEntidad.nombre = ENTIDAD_DEFAULT_NOMBRE + intToString(i);
 		}
 		if((!validarScalarAlfaNumerico(node, "imagen", tipoEntidad.imagen))
 			|| (!validarScalarNumericoPositivo(node, "pixel_ref_x", tipoEntidad.pixel_ref_x))
@@ -240,17 +246,17 @@ void ParserYAML::setTipoEntidadDefault (TagTipoEntidad& tipoEntidad) {
 void ParserYAML::setEntidad(const YAML::Node& node, TagEntidad& entidad) {
 	if(node.Type() == YAML::NodeType::Map) {
 		if(!validarScalarNumericoPositivo(node, "x", entidad.pos_x)) {
-			Logger::getInstance()->writeInformation("yaml-cpp: la posicion x de la entidad se toma por defecto.");
+			Logger::getInstance()->writeWarning("yaml-cpp: la posicion x de la entidad se toma por defecto.");
 			entidad.pos_x = ENTIDAD_DEFAULT_POSX;
 		}
 
 		if(!validarScalarNumericoPositivo(node, "y", entidad.pos_y)) {
-			Logger::getInstance()->writeInformation("yaml-cpp: la posicion y de la entidad se toma por defecto.");
+			Logger::getInstance()->writeWarning("yaml-cpp: la posicion y de la entidad se toma por defecto.");
 			entidad.pos_y = ENTIDAD_DEFAULT_POSY;
 		}
 
 		if ((!validarScalarAlfaNumerico(node, "tipo", entidad.tipoEntidad))|| (entidad.tipoEntidad.empty())){
-			Logger::getInstance()->writeInformation("yaml-cpp: el tipo de la entidad se toma por defecto.");
+			Logger::getInstance()->writeWarning("yaml-cpp: el tipo de la entidad se toma por defecto.");
 			entidad.tipoEntidad = ENTIDAD_DEFAULT_NOMBRE;
 		}
 	}
@@ -266,12 +272,12 @@ void ParserYAML::setEntidad(const YAML::Node& node, TagEntidad& entidad) {
 void ParserYAML::setEscenario(const YAML::Node& node, TagEscenario& escenario) {
 	if(node.Type() == YAML::NodeType::Map) {
 		if(!validarScalarAlfaNumerico(node, "nombre", escenario.nombre)) {
-			Logger::getInstance()->writeInformation("yaml-cpp: el nombre del escenario se toma por default.");
+			Logger::getInstance()->writeWarning("yaml-cpp: el nombre del escenario se toma por default.");
 			escenario.nombre = ESCENARIO_DEFAULT_NOMBRE;
 		}
 
 		if((!validarScalarNumericoPositivo(node, "size_x", escenario.size_x))||(!validarScalarNumericoPositivo(node, "size_y", escenario.size_y))) {
-			Logger::getInstance()->writeInformation("yaml-cpp: se toman por default los datos del tamonio del escenario.");
+			Logger::getInstance()->writeInformation("yaml-cpp: se toman por default los datos del tamanio del escenario.");
 			escenario.size_x = ESCENARIO_DEFAULT_SIZE_X;
 			escenario.size_y = ESCENARIO_DEFAULT_SIZE_Y;
 		}
@@ -349,14 +355,14 @@ void ParserYAML::setEscenario(const YAML::Node& node, TagEscenario& escenario) {
 }
 
 void ParserYAML::setProtagonistaDefault (TagEntidad& protagonista) {
-	Logger::getInstance()->writeInformation("yaml-cpp: se toma protagonista por default.");
+	Logger::getInstance()->writeWarning("yaml-cpp: se toma protagonista por default.");
 	protagonista.tipoEntidad = PROTAGONISTA_DEFAULT_NOMBRE;
 	protagonista.pos_x = PROTAGONISTA_DEFAULT_POSX;
 	protagonista.pos_y = PROTAGONISTA_DEFAULT_POSY;
 }
 
 void ParserYAML::setEscenarioDefault (TagEscenario& escenario) {
-	Logger::getInstance()->writeInformation("yaml-cpp: se toma escenario por default.");
+	Logger::getInstance()->writeWarning("yaml-cpp: se toma escenario por default.");
 	std::vector<TagEntidad> entidades;
 	std::vector<TagEntidad> terrenos;
 	TagEntidad protagonista;

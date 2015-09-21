@@ -57,7 +57,7 @@ private:
 
 	void setConfiguracion (const YAML::Node& node, TagConfiguracion& configuracion);
 	void setPantalla (const YAML::Node& node, TagPantalla& pantalla);
-	void setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEntidad);
+	void setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEntidad, int i);
 	void setEntidad (const YAML::Node& node, TagEntidad& entidad);
 	void setEscenario(const YAML::Node& node, TagEscenario& escenario);
 	std::string intToString(int i);
