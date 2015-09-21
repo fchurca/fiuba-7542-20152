@@ -35,7 +35,7 @@ tipos_entidades:
     alto_base: 0.5
     pixel_ref_x: 17
     pixel_ref_y: 24
-    fps: 0
+    fps: 20
     delay: 1
     ancho_sprite: 48
     alto_sprite: 44
@@ -46,7 +46,7 @@ tipos_entidades:
     alto_base: 0.5
     pixel_ref_x: 30
     pixel_ref_y: 30
-    fps: 0
+    fps: 10
     delay: 0
     ancho_sprite: 60
     alto_sprite: 60
