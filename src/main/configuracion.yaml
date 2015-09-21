@@ -5,6 +5,7 @@ configuracion:
     vel_personaje: 3
     margen_scroll: 45
     velocidad_scroll: 45
+    dt: 50
 tipos_entidades:
   - nombre: troncoNESW
     imagen: resources/troncoNESW31.png
