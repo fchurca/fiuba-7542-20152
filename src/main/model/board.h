@@ -8,6 +8,7 @@
 //-----------------------------------------------------------------------------
 #include "entity.h"
 #include "entity_factory.h"
+#include "../log/logger.h"
 
 class Entity;
 class EntityFactory;

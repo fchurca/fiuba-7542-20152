@@ -13,8 +13,12 @@ Entity & Board::getTerrain(size_t x, size_t y) {
 }
 
 void Board::setTerrain(string name, size_t x, size_t y) {
-	// ACA HAY Q VALIDAR SI NO EXISTE EL FACTORY PARA NAME
-	terrain[(sizeX*y) + x] = entityFactories[name]->createEntity(x, y);
+	// ACA HAY Q VALIDAR SI NO EXISTE EL FACTORY PARA NAME. VALIDO ASI POR AHORA PARA PROBAR PARSER 
+	std::map<std::string,std::shared_ptr<EntityFactory>>::iterator it = entityFactories.find(name);
+	if(it != this->entityFactories.end())
+		terrain[(sizeX*y) + x] = entityFactories[name]->createEntity(x, y);
+	else
+		Logger::getInstance()->writeWarning("No existe el tipo de entidad " + name);
 }
 
 std::shared_ptr<Entity> Board::createEntity(std::string name, double x, double y) {
