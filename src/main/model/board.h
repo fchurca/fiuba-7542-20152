@@ -25,8 +25,8 @@ private:
 public:
 	const int
 		sizeX, sizeY;
-	unsigned dt;
-	Board(int sizeX, int sizeY);
+	size_t dt;
+	Board(int sizeX, int sizeY, size_t dt);
 	~Board();
 
 	void setTerrain(std::string name, size_t x, size_t y);

@@ -1,7 +1,7 @@
 #include "game.h"
 
 Game::Game(int sizeX, int sizeY){
-	this->gameBoard = new Board(sizeX, sizeY);
+	this->gameBoard = new Board(sizeX, sizeY, 50); // TODO: Traer de configuración
 	this->gameBoard->buildBoard();
 }
 

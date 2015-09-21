@@ -1,11 +1,18 @@
 #include "board.h"
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
 //-----------------------------------------------------------------------------
-void Board::buildBoard() {
+Board::Board(int sizeX, int sizeY, size_t dt) : sizeX(sizeX), sizeY(sizeY), dt(dt) {
+	stringstream message;
+	message << "Creating board " << this << " of size " << sizeX << "x" << sizeY << endl;
+	Logger::getInstance()->writeInformation(message.str());
 	terrain.resize(sizeX * sizeY);
+}
+
+void Board::buildBoard() {
 }
 
 Entity & Board::getTerrain(size_t x, size_t y) {
@@ -43,11 +50,6 @@ shared_ptr<Entity> Board::createProtagonist(string name, double x, double y) {
 		Logger::getInstance()->writeWarning("Protagonista no creado " + name);
 	}
 	return protagonist;
-}
-
-Board::Board(int sizeX, int sizeY) : sizeX(sizeX), sizeY(sizeY) {
-	cerr << "Creating board " << this << " of size " << sizeX << "x" << sizeY << endl;
-	dt = 50; // TRAER DE CONFIGURACIÓN
 }
 
 Board::~Board() {
