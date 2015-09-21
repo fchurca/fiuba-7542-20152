@@ -57,7 +57,8 @@ private:
 
 	void setConfiguracion (const YAML::Node& node, TagConfiguracion& configuracion);
 	void setPantalla (const YAML::Node& node, TagPantalla& pantalla);
-	void setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEntidad);
+	void setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEntidad, int i);
+	void setTipoTerreno (const YAML::Node& node, TagTipoEntidad& tipoTerreno, int i);
 	void setEntidad (const YAML::Node& node, TagEntidad& entidad);
 	void setEscenario(const YAML::Node& node, TagEscenario& escenario);
 	std::string intToString(int i);
@@ -81,6 +82,7 @@ public:
 	TagConfiguracion getConfiguracion();
 	TagPantalla getPantalla();
 	std::vector<TagTipoEntidad> getTiposEntidades();
+	std::vector<TagTipoEntidad> getTiposTerrenos();
 	TagEscenario getEscenario();
 	~ParserYAML(void);
 };

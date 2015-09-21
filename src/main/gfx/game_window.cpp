@@ -128,6 +128,7 @@ void GameWindow::restart(){
 
 void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE REFERENCIAS LLEVARLO AL PARSER
 	std::vector<TagTipoEntidad> tte = this->parser->getTiposEntidades();
+	std::vector<TagTipoEntidad> ttt = this->parser->getTiposTerrenos();
 	TagConfiguracion tc = this->parser->getConfiguracion();
 	TagEscenario te = this->parser->getEscenario();
 	this->model = new Game(te.size_x, te.size_y); 
@@ -145,6 +146,11 @@ void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE
 	for (std::size_t i =0; i < tte.size(); ++i){
 		addSpriteSheet(tte[i].nombre, tte[i].imagen, tte[i].pixel_ref_x, tte[i].pixel_ref_y, tte[i].alto_sprite, tte[i].ancho_sprite,  tte[i].cantidad_sprites, tte[i].fps, tte[i].delay);
 		board->createEntityFactory(tte[i].nombre, tte[i].ancho_base, tte[i].alto_base,tc.vel_personaje); // LA VELOCIDAD DEBERIA IR SOLO AL PROTAGONISTA
+	}
+
+	for (std::size_t i =0; i < ttt.size(); ++i){
+		addSpriteSheet(ttt[i].nombre, ttt[i].imagen, ttt[i].pixel_ref_x, ttt[i].pixel_ref_y, ttt[i].alto_sprite, ttt[i].ancho_sprite,  ttt[i].cantidad_sprites, ttt[i].fps, ttt[i].delay);
+		board->createEntityFactory(ttt[i].nombre, ttt[i].ancho_base, ttt[i].alto_base, 0); 
 	}
 
 	for(std::size_t i =0; i < te.terrenos.size(); ++i){

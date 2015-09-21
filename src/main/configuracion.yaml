@@ -5,40 +5,7 @@ configuracion:
     vel_personaje: 3
     margen_scroll: 45
     velocidad_scroll: 45
-tipos:
-  - nombre: agua
-    imagen: resources/agua.png
-    ancho_base: 1
-    alto_base: 1
-    pixel_ref_x: 32
-    pixel_ref_y: 0
-    fps: 0
-    delay: 0
-    ancho_sprite: 64
-    alto_sprite: 32
-    cantidad_sprites: 1
-  - nombre: pasto
-    imagen: resources/pasto.png
-    ancho_base: 1
-    alto_base: 1
-    pixel_ref_x: 32
-    pixel_ref_y: 0
-    fps: 0
-    delay: 0
-    ancho_sprite: 64
-    alto_sprite: 32
-    cantidad_sprites: 1
-  - nombre: piedra
-    imagen: resources/piedra.png
-    ancho_base: 1
-    alto_base: 1
-    pixel_ref_x: 32
-    pixel_ref_y: 0
-    fps: 0
-    delay: 0
-    ancho_sprite: 64
-    alto_sprite: 32
-    cantidad_sprites: 1
+tipos_entidades:
   - nombre: troncoNESW
     imagen: resources/troncoNESW31.png
     ancho_base: 1
@@ -83,6 +50,34 @@ tipos:
     ancho_sprite: 60
     alto_sprite: 60
     cantidad_sprites: 5
+tipos_terrenos:
+  - nombre: agua
+    imagen: resources/agua.png
+    pixel_ref_x: 32
+    pixel_ref_y: 0
+    fps: 0
+    delay: 0
+    ancho_sprite: 64
+    alto_sprite: 32
+    cantidad_sprites: 1
+  - nombre: pasto
+    imagen: resources/pasto.png
+    pixel_ref_x: 32
+    pixel_ref_y: 0
+    fps: 0
+    delay: 0
+    ancho_sprite: 64
+    alto_sprite: 32
+    cantidad_sprites: 1
+  - nombre: piedra
+    imagen: resources/piedra.png
+    pixel_ref_x: 32
+    pixel_ref_y: 0
+    fps: 0
+    delay: 0
+    ancho_sprite: 64
+    alto_sprite: 32
+    cantidad_sprites: 1
 escenario:
     nombre: orleans
     size_x: 100

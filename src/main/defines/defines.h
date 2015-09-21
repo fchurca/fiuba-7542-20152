@@ -45,6 +45,7 @@ enum Directions {
 #define ENTIDAD_DEFAULT_FPS  0
 #define ENTIDAD_DEFAULT_DELAY  0
 
+
 //Protagonista Default
 #define PROTAGONISTA_DEFAULT_NOMBRE "protagonista_default"
 #define PROTAGONISTA_DEFAULT_IMAGEN "resources//mago.png"	// PONER IMG DEFAULT. TIENE Q EXISTIR
