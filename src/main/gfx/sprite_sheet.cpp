@@ -97,14 +97,7 @@ void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer, uns
 	SDL_Rect renderQuad = { screenX - pixel_ref_x , screenY - pixel_ref_y, ancho_sprite, alto_sprite };
 
 	//	Parte de la imagen a levantar
-	SDL_Rect clip = { currentFrame * ancho_sprite, direction * alto_sprite, ancho_sprite, alto_sprite };
-
-	//Esto es porque los frame del mago estan en sentido contrario al del chancho
-	//cdo todas las imagenes esten en el mismo sentido esto vuela
-	if ((path.compare("resources/mago.png") == 0)|| (path.compare("resources//mago.png") == 0)){
-		clip.x = direction * ancho_sprite;
-		clip.y = currentFrame * alto_sprite;
-	}
+	SDL_Rect clip = { direction * ancho_sprite, currentFrame * alto_sprite, ancho_sprite, alto_sprite };
 
 	//	Dibujado
 	//	TODO: Verificar si renderQuad realmente se pisa con la pantalla
