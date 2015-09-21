@@ -89,32 +89,36 @@ escenario:
     size_y: 100
     entidades:
       - {x: 10, y: 10, tipo: chancho }
-      - {x: 0, y: 6, tipo: chancho }
-      - {x: 0, y: 8, tipo: chancho }
-      - {x: 2, y: 4, tipo: chancho }
-      - {x: 2, y: 6, tipo: chancho }
-      - {x: 2, y: 8, tipo: chancho }
-      - {x: 2, y: 10, tipo: chancho }
-      - {x: 4, y: 4, tipo: chancho }
-      - {x: 4, y: 6, tipo: chancho }
-      - {x: 4, y: 8, tipo: chancho }
-      - {x: 4, y: 10, tipo: chancho }
-      - {x: 6, y: 6, tipo: chancho }
-      - {x: 6, y: 8, tipo: chancho }
+      - {x: 10, y: 11, tipo: chancho }
+      - {x: 11, y: 10, tipo: chancho }
+      - {x: 11, y: 11, tipo: chancho }
+      #- {x: 0, y: 6, tipo: chancho }
+      #- {x: 0, y: 8, tipo: chancho }
+      #- {x: 2, y: 4, tipo: chancho }
+      #- {x: 2, y: 6, tipo: chancho }
+      #- {x: 2, y: 8, tipo: chancho }
+      #- {x: 2, y: 10, tipo: chancho }
+      #- {x: 4, y: 4, tipo: chancho }
+      #- {x: 4, y: 6, tipo: chancho }
+      #- {x: 4, y: 8, tipo: chancho }
+      #- {x: 4, y: 10, tipo: chancho }
+      #- {x: 6, y: 6, tipo: chancho }
+      #- {x: 6, y: 8, tipo: chancho }
       - {x: 3, y: 4, tipo: troncoNESW }
       - {x: 3, y: 8, tipo: troncoNESW }
+      - {x: 3, y: 7, tipo: chancho }
       - {x: 0, y: 7, tipo: troncoNWSE }
       - {x: 4, y: 7, tipo: troncoNWSE }
     terrenos:
-      - {x: 1, y: 1, tipo: piedra }
-      - {x: 2, y: 6, tipo: agua }
-      - {x: 2, y: 8, tipo: agua }
-      - {x: 4, y: 6, tipo: agua }
-      - {x: 4, y: 8, tipo: agua }
-      - {x: 3, y: 4, tipo: agua }
-      - {x: 3, y: 8, tipo: agua }
-      - {x: 0, y: 7, tipo: agua }
-      - {x: 4, y: 7, tipo: agua }
       - {x: 0, y: 0, tipo: agua }
+      - {x: 1, y: 0, tipo: agua }
+      - {x: 2, y: 0, tipo: agua }
+      - {x: 0, y: 1, tipo: agua }
+      - {x: 1, y: 1, tipo: agua }
+      - {x: 0, y: 2, tipo: agua }
+      - {x: 0, y: 3, tipo: piedra }
+      - {x: 2, y: 1, tipo: piedra }
+      - {x: 1, y: 2, tipo: piedra }
+      - {x: 3, y: 0, tipo: piedra }
     protagonista:
       - {x: 3, y: 3, tipo: mago }
