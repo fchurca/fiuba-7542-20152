@@ -21,13 +21,13 @@ Entity::Entity(std::string name, Board& board, double x, double y, double sizeX,
 	message << "Created Entity " << this
 		<< " of kind " << name
 		<< " owned by board " << &board
-		<< " at " << x << "," << y << endl;
+		<< " at " << x << "," << y;
 	Logger::getInstance()->writeInformation(message.str());
 }
 
 Entity::~Entity() {
 	stringstream message;
-	message << "Killing Entity " << this << " of kind " << name << endl;
+	message << "Killing Entity " << this << " of kind " << name;
 	Logger::getInstance()->writeInformation(message.str());
 }
 

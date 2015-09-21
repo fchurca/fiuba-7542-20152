@@ -20,7 +20,7 @@ EntityFactory::EntityFactory(std::string name, double size_x, double size_y, dou
 EntityFactory::~EntityFactory() {
 	std::stringstream message;
 	message << "Killing EntityFactory " << this
-		<< " of kind " << name << std::endl;
+		<< " of kind " << name;
 	Logger::getInstance()->writeInformation(message.str());
 }
 

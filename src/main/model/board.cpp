@@ -6,7 +6,7 @@ using namespace std;
 //-----------------------------------------------------------------------------
 Board::Board(int sizeX, int sizeY, size_t dt) : sizeX(sizeX), sizeY(sizeY), dt(dt) {
 	stringstream message;
-	message << "Creating board " << this << " of size " << sizeX << "x" << sizeY << endl;
+	message << "Creating board " << this << " of size " << sizeX << "x" << sizeY;
 	Logger::getInstance()->writeInformation(message.str());
 	terrain.resize(sizeX * sizeY);
 }
@@ -53,7 +53,7 @@ shared_ptr<Entity> Board::createProtagonist(string name, double x, double y) {
 
 Board::~Board() {
 	stringstream message;
-	message << "Killing Board " << this << endl;
+	message << "Killing Board " << this;
 	Logger::getInstance()->writeInformation(message.str());
 }
 
