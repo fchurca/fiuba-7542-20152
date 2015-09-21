@@ -53,7 +53,17 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ) {
 	if(!loadedSurface) {
 		texture = nullptr;
 		Logger::getInstance()->writeError( "No se puede cargar la imagen " + path + "! - " + IMG_GetError() );
-		loadedSurface = IMG_Load( IMG_UNASIGNED );
+		loadedSurface = IMG_Load( ENTIDAD_DEFAULT_IMAGEN );
+		this->pixel_ref_x = ENTIDAD_DEFAULT_PIXEL_REF_X;
+		this->pixel_ref_y = ENTIDAD_DEFAULT_PIXEL_REF_Y;
+		this->alto_sprite = ENTIDAD_DEFAULT_ALTO_SPRITE;
+		this->ancho_sprite = ENTIDAD_DEFAULT_ANCHO_SPRITE;
+		this->total_sprites = ENTIDAD_DEFAULT_CANTIDAD_SPRITES;
+		this->fps = ENTIDAD_DEFAULT_FPS;	// segundos
+		this->delay = ENTIDAD_DEFAULT_DELAY;	// segundos
+		this->currentFrame = 0;
+		this->counter = 0;
+		this->tick = 0;
 	}
 	//	La default siempre deberia poder cargarla
 	if(!loadedSurface) {
@@ -78,7 +88,7 @@ void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer, uns
 
 	x -= owner.focus_x;
 	y -= owner.focus_y;
-	
+
 	//	Conversion isometrica 
 	int screenX = ((x - y) * TILE_WIDTH_DEFAULT / 2) + (ancho_pantalla) / 2;
 	int screenY = ((x + y) * TILE_HEIGHT_DEFAULT / 2) + (alto_pantalla - TILE_HEIGHT_DEFAULT) / 2;

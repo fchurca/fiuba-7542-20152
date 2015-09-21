@@ -12,9 +12,6 @@ enum Directions {
 	EAST = 7
 };
 
-//Imagen Default
-#define IMG_UNASIGNED  "resources//unasigned.png"	// PONER IMG DEFAULT. TIENE Q EXISTIR
-
 //Archivo Configuracion
 #define CONFIG_FILE_PATH "configuracion.yaml"
 #define CONFIG_FILE_PATH_DEFAULT  "configuracionDefault.yaml"
