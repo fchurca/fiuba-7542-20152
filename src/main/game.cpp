@@ -1,12 +1,19 @@
+#include <sstream>
+
 #include "game.h"
 
 Game::Game(int sizeX, int sizeY){
-	this->gameBoard = new Board(sizeX, sizeY, 50); // TODO: Traer de configuración
-	this->gameBoard->buildBoard();
+	std::stringstream message;
+	message << "Creating Game " << this;
+	Logger::getInstance()->writeInformation(message.str());
+	gameBoard = new Board(sizeX, sizeY, 50); // TODO: Traer de configuración
+	gameBoard->buildBoard();
 }
 
 Game::~Game(){
-	std::cerr << "Killing Game " << this << std::endl;
+	std::stringstream message;
+	message << "Killing Game " << this;
+	Logger::getInstance()->writeInformation(message.str());
 	delete(this->gameBoard);
 }
 
@@ -23,6 +30,6 @@ void Game::update(){
 }
 
 Board* Game::getBoard(){
-	return this->gameBoard;
+	return gameBoard;
 }
 
