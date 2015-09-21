@@ -185,8 +185,6 @@ void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEnt
 			tipoEntidad.nombre = ENTIDAD_DEFAULT_NOMBRE;
 		}
 		if((!validarScalarAlfaNumerico(node, "imagen", tipoEntidad.imagen))
-			|| (!validarScalarNumericoPositivo(node, "ancho_base", tipoEntidad.ancho_base))
-			|| (!validarScalarNumericoPositivo(node, "alto_base", tipoEntidad.alto_base))
 			|| (!validarScalarNumericoPositivo(node, "pixel_ref_x", tipoEntidad.pixel_ref_x))
 			|| (!validarScalarNumericoPositivo(node, "pixel_ref_y", tipoEntidad.pixel_ref_y))
 			|| (!validarScalarNumericoPositivo(node, "ancho_sprite", tipoEntidad.ancho_sprite))
@@ -194,14 +192,21 @@ void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEnt
 			|| (!validarScalarNumericoPositivo(node, "cantidad_sprites", tipoEntidad.cantidad_sprites))) {
 				Logger::getInstance()->writeWarning("yaml-cpp: datos de la imagen del tipo de entidad invalidos, se toman por default (path, ancho_base, alto_base, pixel_ref_x, pixel_ref_y).");
 				tipoEntidad.imagen = ENTIDAD_DEFAULT_IMAGEN;
-				tipoEntidad.ancho_base = ENTIDAD_DEFAULT_ANCHO_BASE;
-				tipoEntidad.alto_base = ENTIDAD_DEFAULT_ALTO_BASE;
 				tipoEntidad.pixel_ref_x = ENTIDAD_DEFAULT_PIXEL_REF_X;
 				tipoEntidad.pixel_ref_y = ENTIDAD_DEFAULT_PIXEL_REF_Y;
 				tipoEntidad.alto_sprite = ENTIDAD_DEFAULT_ALTO_SPRITE;
 				tipoEntidad.ancho_sprite = ENTIDAD_DEFAULT_ANCHO_SPRITE;
 				tipoEntidad.cantidad_sprites = ENTIDAD_DEFAULT_CANTIDAD_SPRITES;
 		}
+		if(!validarScalarNumericoPositivo(node, "ancho_base", tipoEntidad.ancho_base)){
+			Logger::getInstance()->writeWarning("yaml-cpp: Se toma por default (ancho_base).");
+			tipoEntidad.ancho_base = ENTIDAD_DEFAULT_ANCHO_BASE;
+		}
+		if(!validarScalarNumericoPositivo(node, "alto_base", tipoEntidad.alto_base)){
+			Logger::getInstance()->writeWarning("yaml-cpp: Se toma por default (alto_base).");
+			tipoEntidad.alto_base = ENTIDAD_DEFAULT_ALTO_BASE;
+		}
+
 		if(!validarScalarNumericoPositivo(node, "fps", tipoEntidad.fps)){
 			Logger::getInstance()->writeWarning("yaml-cpp: Se toma por default (fps).");
 			tipoEntidad.fps = ENTIDAD_DEFAULT_FPS;
