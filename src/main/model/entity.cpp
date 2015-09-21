@@ -1,9 +1,10 @@
-#include "entity.h"
-#include "board.h"
-#include <iostream>
+#include <sstream>
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <math.h>
+
+#include "entity.h"
+#include "board.h"
 
 using namespace std;
 
@@ -16,14 +17,18 @@ Entity::Entity(std::string name, Board& board, double x, double y, double sizeX,
 	sizeX(sizeX), sizeY(sizeY)
 {
 	adjustPosition();
-	cerr << "Created Entity " << this
+	stringstream message;
+	message << "Created Entity " << this
 		<< " of kind " << name
 		<< " owned by board " << &board
 		<< " at " << x << "," << y << endl;
+	Logger::getInstance()->writeInformation(message.str());
 }
 
 Entity::~Entity() {
-	cerr << "Killing Entity " << this << " of kind " << name << endl;
+	stringstream message;
+	message << "Killing Entity " << this << " of kind " << name << endl;
+	Logger::getInstance()->writeInformation(message.str());
 }
 
 bool Entity::adjustPosition() {
@@ -59,14 +64,8 @@ void Entity::unsetTarget() {
 }
 
 void Entity::update() {
-	cerr << "Entity " << this << " of kind " << name
-		<< " is alive at " << cX() << "," << cY();
 	if (targeted) {
 		auto d = distance();
-		cerr << " heading for " << targetX << "," << targetY
-			<< " (" << getDirection() << ") "
-			<< " at " << speed << " tiles/s"
-			<< " with " << distance() << " tiles to walk";
 		auto dr = speed*board.dt/1000;
 		if (pow(dr, 2) < sqDistance()) {
 			auto dx = cos(bearing())*dr;
@@ -74,20 +73,14 @@ void Entity::update() {
 			x += dx;
 			y += dy;
 		} else {
-			cerr << ", reaching target";
 			x = targetX - sizeX/2;
 			y = targetY - sizeY/2;
 			targeted = false;
 		}
 		if (adjustPosition()) {
-			cerr << ", reaching the end of the map";
 			unsetTarget();
 		}
-		cerr << ", stepping into " << x << "," << y;
-	} else {
-		cerr << ", standing still";
 	}
-	cerr << endl;
 }
 
 double Entity::cX() {
