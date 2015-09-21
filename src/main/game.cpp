@@ -2,11 +2,11 @@
 
 #include "game.h"
 
-Game::Game(int sizeX, int sizeY){
+Game::Game(int sizeX, int sizeY, size_t dt){
 	std::stringstream message;
 	message << "Creating Game " << this;
 	Logger::getInstance()->writeInformation(message.str());
-	gameBoard = new Board(sizeX, sizeY, 50); // TODO: Traer de configuración
+	gameBoard = new Board(sizeX, sizeY, dt); 
 	gameBoard->buildBoard();
 }
 

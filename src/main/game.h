@@ -11,7 +11,7 @@ private:
 	void init();
 	Board* gameBoard;
 public:
-	Game(int sizeX, int sizeY);
+	Game(int sizeX, int sizeY, size_t dt);
 	~Game();
 	Board* getBoard();
 	void update();

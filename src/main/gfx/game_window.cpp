@@ -131,7 +131,7 @@ void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE
 	std::vector<TagTipoEntidad> ttt = this->parser->getTiposTerrenos();
 	TagConfiguracion tc = this->parser->getConfiguracion();
 	TagEscenario te = this->parser->getEscenario();
-	this->model = new Game(te.size_x, te.size_y); 
+	this->model = new Game(te.size_x, te.size_y, tc.dt); 
 	Board* board = this->model->getBoard();
 	
 	addSpriteSheet(ENTIDAD_DEFAULT_NOMBRE, ENTIDAD_DEFAULT_IMAGEN, ENTIDAD_DEFAULT_PIXEL_REF_X, ENTIDAD_DEFAULT_PIXEL_REF_Y, ENTIDAD_DEFAULT_ALTO_SPRITE, ENTIDAD_DEFAULT_ANCHO_SPRITE, ENTIDAD_DEFAULT_CANTIDAD_SPRITES, ENTIDAD_DEFAULT_FPS, ENTIDAD_DEFAULT_DELAY);
