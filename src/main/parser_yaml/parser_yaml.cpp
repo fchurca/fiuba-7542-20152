@@ -86,8 +86,8 @@ TagPantalla ParserYAML::getPantalla() {
 std::vector<TagTipoEntidad> ParserYAML::getTiposEntidades() {
 	Logger::getInstance()->writeInformation("yaml-cpp: se obtiene informacion de los tipos de entidades.");
 	std::vector<TagTipoEntidad> tiposDeEntidades;
-	if(this->doc.FindValue("tipos")) {
-		const YAML::Node& tipos = this->doc["tipos"];
+	if(this->doc.FindValue("tipos_entidades")) {
+		const YAML::Node& tipos = this->doc["tipos_entidades"];
 		if(tipos.Type() == YAML::NodeType::Sequence) {
 			for(unsigned int i = 0; i < tipos.size(); i++) {
 				Logger::getInstance()->writeInformation("yaml-cpp: se obtiene informacion del tipo de entidad numero."  + intToString(i));
@@ -97,21 +97,40 @@ std::vector<TagTipoEntidad> ParserYAML::getTiposEntidades() {
 			}
 		}
 		else{
-			Logger::getInstance()->writeWarning("yaml-cpp:el tag de tipos no es del tipo Sequence. Ubicar" + ubicarNodo(tipos.GetMark()));
-			Logger::getInstance()->writeInformation("yaml-cpp: se toman tipos de entidad por default");
-			TagTipoEntidad tipoEntidadDefault;
-			setTipoEntidadDefault(tipoEntidadDefault);
-			tiposDeEntidades.push_back(tipoEntidadDefault);
+			Logger::getInstance()->writeWarning("yaml-cpp:el tag de tipos de entidad no es del tipo Sequence. Ubicar" + ubicarNodo(tipos.GetMark()));
+			Logger::getInstance()->writeInformation("yaml-cpp: no se toman tipos de entidad");
 		}
 	}
 	else{
 		Logger::getInstance()->writeWarning("yaml-cpp:el tag de tipos no existe en el archivo.");
-		Logger::getInstance()->writeInformation("yaml-cpp: se toman tipos de entidad por default");
-		TagTipoEntidad tipoEntidadDefault;
-		setTipoEntidadDefault(tipoEntidadDefault);
-		tiposDeEntidades.push_back(tipoEntidadDefault);
+		Logger::getInstance()->writeInformation("yaml-cpp: no se toman tipos de entidad");
 	}
 	return tiposDeEntidades;
+}
+
+std::vector<TagTipoEntidad> ParserYAML::getTiposTerrenos() {
+	Logger::getInstance()->writeInformation("yaml-cpp: se obtiene informacion de los tipos de terrenos.");
+	std::vector<TagTipoEntidad> tiposDeTerrenos;
+	if(this->doc.FindValue("tipos_terrenos")) {
+		const YAML::Node& tipos = this->doc["tipos_terrenos"];
+		if(tipos.Type() == YAML::NodeType::Sequence) {
+			for(unsigned int i = 0; i < tipos.size(); i++) {
+				Logger::getInstance()->writeInformation("yaml-cpp: se obtiene informacion del tipo de terreno numero."  + intToString(i));
+				TagTipoEntidad tipoTerreno;
+				setTipoTerreno(tipos[i], tipoTerreno, i);
+				tiposDeTerrenos.push_back(tipoTerreno);
+			}
+		}
+		else{
+			Logger::getInstance()->writeWarning("yaml-cpp:el tag de tipos de terrenos no es del tipo Sequence. Ubicar" + ubicarNodo(tipos.GetMark()));
+			Logger::getInstance()->writeInformation("yaml-cpp: no se toman tipos de terreno");
+		}
+	}
+	else{
+		Logger::getInstance()->writeWarning("yaml-cpp:el tag de tipos de terrenos no existe en el archivo.");
+		Logger::getInstance()->writeInformation("yaml-cpp: no se toman tipos de terreno");
+	}
+	return tiposDeTerrenos;
 }
 
 TagEscenario ParserYAML::getEscenario() {
@@ -203,6 +222,7 @@ void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEnt
 				tipoEntidad.alto_sprite = ENTIDAD_DEFAULT_ALTO_SPRITE;
 				tipoEntidad.ancho_sprite = ENTIDAD_DEFAULT_ANCHO_SPRITE;
 				tipoEntidad.cantidad_sprites = ENTIDAD_DEFAULT_CANTIDAD_SPRITES;
+				//LA IMAGEN DEBERIA SER LA DE TERRENO DEFAULT O LA DE UNDEFINED?
 		}
 		if(!validarScalarNumericoPositivo(node, "ancho_base", tipoEntidad.ancho_base)){
 			Logger::getInstance()->writeWarning("yaml-cpp: Se toma por default (ancho_base).");
@@ -227,6 +247,46 @@ void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEnt
 		setTipoEntidadDefault(tipoEntidad);
 	}
 }
+
+void ParserYAML::setTipoTerreno (const YAML::Node& node, TagTipoEntidad& tipoTerreno, int i) {
+	if(node.Type() == YAML::NodeType::Map) {
+		if(!validarScalarAlfaNumerico(node, "nombre", tipoTerreno.nombre)) {
+			Logger::getInstance()->writeInformation("yaml-cpp: el nombre del tipo de entidad se toma por default.");
+			tipoTerreno.nombre = TERRENO_DEFAULT_NOMBRE + intToString(i);
+		}
+		if((!validarScalarAlfaNumerico(node, "imagen", tipoTerreno.imagen))
+			|| (!validarScalarNumericoPositivo(node, "pixel_ref_x", tipoTerreno.pixel_ref_x))
+			|| (!validarScalarNumericoPositivo(node, "pixel_ref_y", tipoTerreno.pixel_ref_y))
+			|| (!validarScalarNumericoPositivo(node, "ancho_sprite", tipoTerreno.ancho_sprite))
+			|| (!validarScalarNumericoPositivo(node, "alto_sprite", tipoTerreno.alto_sprite))
+			|| (!validarScalarNumericoPositivo(node, "cantidad_sprites", tipoTerreno.cantidad_sprites))) {
+				Logger::getInstance()->writeWarning("yaml-cpp: datos de la imagen del tipo de terreno invalidos, se toman por default (path, pixel_ref_x, pixel_ref_y).");
+				tipoTerreno.imagen = TERRENO_DEFAULT_IMAGEN;
+				tipoTerreno.pixel_ref_x = TERRENO_DEFAULT_PIXEL_REF_X;
+				tipoTerreno.pixel_ref_y = TERRENO_DEFAULT_PIXEL_REF_Y;
+				tipoTerreno.alto_sprite = TERRENO_DEFAULT_ALTO_SPRITE;
+				tipoTerreno.ancho_sprite = TERRENO_DEFAULT_ANCHO_SPRITE;
+				tipoTerreno.cantidad_sprites = TERRENO_DEFAULT_CANTIDAD_SPRITES;
+				//LA IMAGEN DEBERIA SER LA DE TERRENO DEFAULT O LA DE UNDEFINED?
+		}
+		tipoTerreno.ancho_base = TERRENO_DEFAULT_ANCHO_BASE;
+		tipoTerreno.alto_base = TERRENO_DEFAULT_ALTO_BASE;
+
+		if(!validarScalarNumericoPositivo(node, "fps", tipoTerreno.fps)){
+			Logger::getInstance()->writeWarning("yaml-cpp: Se toma por default (fps).");
+			tipoTerreno.fps = TERRENO_DEFAULT_FPS;
+		}
+		if(!validarScalarNumericoPositivo(node, "delay", tipoTerreno.delay)){
+			Logger::getInstance()->writeWarning("yaml-cpp: Se toma por default (delay).");
+			tipoTerreno.delay = TERRENO_DEFAULT_DELAY;
+		}
+	}
+	else{
+		Logger::getInstance()->writeWarning("yaml-cpp:el contenido del tipo de terreno ad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
+		setTipoEntidadDefault(tipoTerreno);
+	}
+}
+
 
 void ParserYAML::setTipoEntidadDefault (TagTipoEntidad& tipoEntidad) {
 	Logger::getInstance()->writeInformation("yaml-cpp: se toma tipo de entidad por default.");
