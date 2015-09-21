@@ -37,11 +37,12 @@ shared_ptr<EntityFactory> Board::createEntityFactory(string name, double size_x,
 	return pFactory;
 }
 
-void Board::createProtagonist(string name, double x, double y) {
+shared_ptr<Entity> Board::createProtagonist(string name, double x, double y) {
 	protagonist = createEntity(name, x, y);
 	if (!protagonist) {
 		Logger::getInstance()->writeWarning("Protagonista no creado " + name);
 	}
+	return protagonist;
 }
 
 Board::Board(int sizeX, int sizeY) : sizeX(sizeX), sizeY(sizeY) {

@@ -33,7 +33,7 @@ public:
 	Entity & getTerrain(size_t x, size_t y);
 	std::shared_ptr<Entity> createEntity(std::string name, double x, double y);
 	std::shared_ptr<EntityFactory> createEntityFactory(std::string name, double size_x, double size_y, double speed);
-	void createProtagonist(std::string name, double x, double y);
+	std::shared_ptr<Entity> createProtagonist(std::string name, double x, double y);
 	void update();
 	void buildBoard();
 	std::vector<std::shared_ptr<Entity>> getEntities();
