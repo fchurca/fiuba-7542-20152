@@ -156,7 +156,10 @@ void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE
 	for(std::size_t i =0; i < te.terrenos.size(); ++i){
 		board->setTerrain(te.terrenos[i].tipoEntidad,te.terrenos[i].pos_x,te.terrenos[i].pos_y); // ACA TENDRIA QE VALIDARSE SUPERPOSICION
 	}
-	board->createProtagonist(te.protagonista.tipoEntidad,te.protagonista.pos_x, te.protagonista.pos_y);
+	if(!board->createProtagonist(te.protagonista.tipoEntidad,te.protagonista.pos_x, te.protagonista.pos_y)){
+		Logger::getInstance()->writeInformation("Se crea un protagonista default");
+		board->createProtagonist(PROTAGONISTA_DEFAULT_NOMBRE,PROTAGONISTA_DEFAULT_POSX, PROTAGONISTA_DEFAULT_POSY);
+	}
 
 	for(std::size_t i =0; i < te.entidades.size(); ++i){
 		board->createEntity(te.entidades[i].tipoEntidad,te.entidades[i].pos_x,te.entidades[i].pos_y); // ACA TENDRIA QE VALIDARSE SUPERPOSICION
