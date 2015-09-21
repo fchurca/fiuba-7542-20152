@@ -262,13 +262,13 @@ void ParserYAML::setEscenario(const YAML::Node& node, TagEscenario& escenario) {
 	if(node.Type() == YAML::NodeType::Map) {
 		if(!validarScalarAlfaNumerico(node, "nombre", escenario.nombre)) {
 			Logger::getInstance()->writeInformation("yaml-cpp: el nombre del escenario se toma por default.");
-			escenario.nombre = NOMBRE_ESCENARIO_DEFAULT;
+			escenario.nombre = ESCENARIO_DEFAULT_NOMBRE;
 		}
 
 		if((!validarScalarNumericoPositivo(node, "size_x", escenario.size_x))||(!validarScalarNumericoPositivo(node, "size_y", escenario.size_y))) {
 			Logger::getInstance()->writeInformation("yaml-cpp: se toman por default los datos del tamonio del escenario.");
-			escenario.size_x = SIZE_X_DEFAULT;
-			escenario.size_y = SIZE_Y_DEFAULT;
+			escenario.size_x = ESCENARIO_DEFAULT_SIZE_X;
+			escenario.size_y = ESCENARIO_DEFAULT_SIZE_Y;
 		}
 
 		std::vector<TagEntidad> entidades;
@@ -356,9 +356,9 @@ void ParserYAML::setEscenarioDefault (TagEscenario& escenario) {
 	std::vector<TagEntidad> terrenos;
 	TagEntidad protagonista;
 	setProtagonistaDefault(protagonista);
-	escenario.nombre = NOMBRE_ESCENARIO_DEFAULT;
-	escenario.size_x = SIZE_X_DEFAULT;
-	escenario.size_y= SIZE_Y_DEFAULT;
+	escenario.nombre = ESCENARIO_DEFAULT_NOMBRE;
+	escenario.size_x = ESCENARIO_DEFAULT_SIZE_X;
+	escenario.size_y= ESCENARIO_DEFAULT_SIZE_Y;
 	escenario.entidades = entidades;
 	escenario.terrenos = terrenos;
 	escenario.protagonista=protagonista;
@@ -367,7 +367,7 @@ void ParserYAML::setEscenarioDefault (TagEscenario& escenario) {
 
 void ParserYAML::setArchivoDefault() {
 	// Este metodo no puede fallar, el archivo default no puede contener errores.
-	this->filename = ARCHIVO_CONFIGURACION_DEFAULT;
+	this->filename = CONFIG_FILE_PATH_DEFAULT;
 	std::ifstream fin(this->filename.c_str());
 	YAML::Parser parser(fin);
 	parser.GetNextDocument(this->doc);

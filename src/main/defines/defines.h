@@ -15,11 +15,9 @@ enum Directions {
 //Imagen Default
 #define IMG_UNASIGNED  "resources//unasigned.png"	// PONER IMG DEFAULT. TIENE Q EXISTIR
 
-//Archivo Configuracion Default
-#define ARCHIVO_CONFIGURACION_DEFAULT  "configuracionDefault.yaml"
-
 //Archivo Configuracion
 #define CONFIG_FILE_PATH "configuracion.yaml"
+#define CONFIG_FILE_PATH_DEFAULT  "configuracionDefault.yaml"
 
 //Pantalla Default
 #define ANCHO_DEFAULT  640
@@ -34,9 +32,9 @@ enum Directions {
 #define VELOCIDAD_SCROLL_DEFAULT  0
 
 //Escenario Default
-#define NOMBRE_ESCENARIO_DEFAULT  "ESCENARIO"
-#define SIZE_X_DEFAULT  10
-#define SIZE_Y_DEFAULT  10
+#define ESCENARIO_DEFAULT_NOMBRE  "escenario_default"
+#define ESCENARIO_DEFAULT_SIZE_X  10
+#define ESCENARIO_DEFAULT_SIZE_Y  10
 
 //Tipo Entidad Default
 #define ENTIDAD_DEFAULT_NOMBRE  "entidad_default"
