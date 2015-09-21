@@ -171,6 +171,10 @@ void ParserYAML::setConfiguracion (const YAML::Node& node, TagConfiguracion& con
 			Logger::getInstance()->writeWarning("yaml-cpp: Se toma por default (velocidad scroll).");
 			configuracion.velocidad_scroll = VELOCIDAD_SCROLL_DEFAULT;
 		}
+		if(!validarScalarNumericoPositivo(node, "dt", configuracion.dt)){
+			Logger::getInstance()->writeWarning("yaml-cpp: Se toma por default (dt).");
+			configuracion.dt = DT_DEFAULT;
+		}
 	}
 	else{
 		Logger::getInstance()->writeWarning("yaml-cpp:el contenido del tag de configuracion no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
@@ -183,6 +187,7 @@ void ParserYAML::setConfiguracionDefault (TagConfiguracion& configuracion) {
 	configuracion.margen_scroll = MARGEN_SCROLL_DEFAULT;
 	configuracion.margen_scroll = VELOCIDAD_PERSONAJE_DEFAULT;
 	configuracion.velocidad_scroll = VELOCIDAD_SCROLL_DEFAULT;
+	configuracion.dt = DT_DEFAULT;
 }
 
 

@@ -24,6 +24,7 @@ enum Directions {
 #define VELOCIDAD_PERSONAJE_DEFAULT 1
 #define MARGEN_SCROLL_DEFAULT  0
 #define VELOCIDAD_SCROLL_DEFAULT  0
+#define DT_DEFAULT 50
 
 //Escenario Default
 #define ESCENARIO_DEFAULT_NOMBRE  "escenario_default"

@@ -18,6 +18,7 @@ struct TagConfiguracion{
 	unsigned int vel_personaje;
 	unsigned int margen_scroll;
 	unsigned int velocidad_scroll;
+	unsigned int dt;
 };
 
 struct TagTipoEntidad{
