@@ -12,9 +12,9 @@ Entity::Entity(std::string name, Board& board, double x, double y, double sizeX,
 	targeted(false),
 	name(name),
 	board(board),
-	x(x), y(y),
+	position(x, y),
 	speed(speed),
-	sizeX(sizeX), sizeY(sizeY)
+	size(sizeX, sizeY)
 {
 	adjustPosition();
 	stringstream message;
@@ -33,21 +33,20 @@ Entity::~Entity() {
 
 bool Entity::adjustPosition() {
 	bool ret = false;
-	int oldX = x, oldY = y;
 	int topX = board.sizeX;
 	int topY = board.sizeY;
-	if (x > topX - sizeX) {
-		x = topX - sizeX;
+	if (position.x > topX - size.x) {
+		position.x = topX - size.x;
 		ret = true;
-	} else if (x < 0) {
-		x = 0;
+	} else if (position.x < 0) {
+		position.x = 0;
 		ret = true;
 	}
-	if (y > topY - sizeY) {
-		y = topY - sizeY;
+	if (position.y > topY - size.y) {
+		position.y = topY - size.y;
 		ret = true;
-	} else if (y < 0) {
-		y = 0;
+	} else if (position.y < 0) {
+		position.y = 0;
 		ret = true;
 	}
 	return ret;
@@ -55,8 +54,8 @@ bool Entity::adjustPosition() {
 
 void Entity::setTarget(double x, double y) {
 	targeted = true;
-	targetX = x;
-	targetY = y;
+	target.x = x;
+	target.y = y;
 }
 
 void Entity::unsetTarget() {
@@ -70,11 +69,11 @@ void Entity::update() {
 		if (pow(dr, 2) < sqDistance()) {
 			auto dx = cos(bearing())*dr;
 			auto dy = sin(bearing())*dr;
-			x += dx;
-			y += dy;
+			position.x += dx;
+			position.y += dy;
 		} else {
-			x = targetX - sizeX/2;
-			y = targetY - sizeY/2;
+			position.x = target.x - size.x/2;
+			position.y = target.y - size.y/2;
 			targeted = false;
 		}
 		if (adjustPosition()) {
@@ -84,27 +83,27 @@ void Entity::update() {
 }
 
 double Entity::cX() {
-	return x + sizeX/2;
+	return position.x + size.x/2;
 }
 
 double Entity::cY() {
-	return y + sizeY/2;
+	return position.y + size.y/2;
 }
 
 double Entity::getX() {
-	return this->x;
+	return position.x;
 }
 
 double Entity::getY() {
-	return this->y;
+	return position.y;
 }
 
 double Entity::bearingX() {
-	return targetX - cX();
+	return target.x - cX();
 }
 
 double Entity::bearingY() {
-	return targetY - cY();
+	return target.y - cY();
 }
 
 double Entity::bearing() {

@@ -28,7 +28,7 @@ bin/controller.o: controllers/event_handler.cpp controllers/event_handler.h
 bin/board.o: model/board.cpp model/board.h model/entity.h model/entity_factory.h
 	${CXXO}
 
-bin/entity.o: model/entity.cpp model/entity.h
+bin/entity.o: model/entity.cpp model/entity.h model/geometry.h
 	${CXXO}
 
 bin/entity_factory.o: model/entity_factory.cpp model/entity_factory.h model/entity.h

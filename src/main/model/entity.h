@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 #include <string>
 #include "../defines/defines.h"
+#include "geometry.h"
 
 //-----------------------------------------------------------------------------
 
@@ -11,17 +12,16 @@ class Board;
 
 class Entity {
 	protected:
-		double x, y;	// Position (tile)
+		r2 position;	// Position (tile)
 		double speed;	// Speed (tiles/s)
 		bool targeted;
-		double targetX, targetY;
+		r2 target;
 
 		Entity();
 		bool adjustPosition();
 
 	public:
-		const double
-			sizeX, sizeY;
+		const r2 size;
 		void setTarget(double x, double y);
 		void unsetTarget();
 		const std::string name;
