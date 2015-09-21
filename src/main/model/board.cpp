@@ -39,7 +39,9 @@ shared_ptr<EntityFactory> Board::createEntityFactory(string name, double size_x,
 
 void Board::createProtagonist(string name, double x, double y) {
 	protagonist = createEntity(name, x, y);
-	// TODO: Warn if protagonist not created
+	if (!protagonist) {
+		Logger::getInstance()->writeWarning("Protagonista no creado " + name);
+	}
 }
 
 Board::Board(int sizeX, int sizeY) : sizeX(sizeX), sizeY(sizeY) {
