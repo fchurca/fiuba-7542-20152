@@ -39,6 +39,28 @@ tipos:
     ancho_sprite: 64
     alto_sprite: 32
     cantidad_sprites: 1
+  - nombre: troncoNESW
+    imagen: resources/troncoNESW31.png
+    ancho_base: 1
+    alto_base: 3
+    pixel_ref_x: 96
+    pixel_ref_y: 22
+    fps: 0
+    delay: 0
+    ancho_sprite: 128
+    alto_sprite: 83
+    cantidad_sprites: 1
+  - nombre: troncoNWSE
+    imagen: resources/troncoNWSE13.png
+    ancho_base: 3
+    alto_base: 1
+    pixel_ref_x: 32
+    pixel_ref_y: 22
+    fps: 0
+    delay: 0
+    ancho_sprite: 128
+    alto_sprite: 83
+    cantidad_sprites: 1
   - nombre: chancho
     imagen: resources/chanchos.png
     ancho_base: 0.5
@@ -66,12 +88,33 @@ escenario:
     size_x: 100
     size_y: 100
     entidades:
-      - {x: 5, y: 5, tipo: chancho}
-      - {x: 10, y: 10, tipo: chancho}
+      - {x: 10, y: 10, tipo: chancho }
+      - {x: 0, y: 6, tipo: chancho }
+      - {x: 0, y: 8, tipo: chancho }
+      - {x: 2, y: 4, tipo: chancho }
+      - {x: 2, y: 6, tipo: chancho }
+      - {x: 2, y: 8, tipo: chancho }
+      - {x: 2, y: 10, tipo: chancho }
+      - {x: 4, y: 4, tipo: chancho }
+      - {x: 4, y: 6, tipo: chancho }
+      - {x: 4, y: 8, tipo: chancho }
+      - {x: 4, y: 10, tipo: chancho }
+      - {x: 6, y: 6, tipo: chancho }
+      - {x: 6, y: 8, tipo: chancho }
+      - {x: 3, y: 4, tipo: troncoNESW }
+      - {x: 3, y: 8, tipo: troncoNESW }
+      - {x: 0, y: 7, tipo: troncoNWSE }
+      - {x: 4, y: 7, tipo: troncoNWSE }
     terrenos:
-      - {x: 1, y: 1, tipo: piedra}
-      - {x: 0, y: 0, tipo: agua}
+      - {x: 1, y: 1, tipo: piedra }
+      - {x: 2, y: 6, tipo: agua }
+      - {x: 2, y: 8, tipo: agua }
+      - {x: 4, y: 6, tipo: agua }
+      - {x: 4, y: 8, tipo: agua }
+      - {x: 3, y: 4, tipo: agua }
+      - {x: 3, y: 8, tipo: agua }
+      - {x: 0, y: 7, tipo: agua }
+      - {x: 4, y: 7, tipo: agua }
+      - {x: 0, y: 0, tipo: agua }
     protagonista:
-      - tipo: mago
-        x: 3
-        y: 3
+      - {x: 3, y: 3, tipo: mago }
