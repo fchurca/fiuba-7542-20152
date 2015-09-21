@@ -13,29 +13,33 @@ Entity & Board::getTerrain(size_t x, size_t y) {
 }
 
 void Board::setTerrain(string name, size_t x, size_t y) {
-	if (entityFactories.find(name) == entityFactories.end()) 
-		Logger::getInstance()->writeWarning("No existe el tipo de entidad " + name);
-	else
-		terrain[(sizeX*y) + x] = entityFactories[name]->createEntity(x, y);
-}
-
-std::shared_ptr<Entity> Board::createEntity(std::string name, double x, double y) {
 	if (entityFactories.find(name) == entityFactories.end()) {
 		Logger::getInstance()->writeWarning("No existe el tipo de entidad " + name);
+	} else {
+		terrain[(sizeX*y) + x] = entityFactories[name]->createEntity(x, y);
 	}
-	auto pEntity = entityFactories[name]->createEntity(x, y);
-	entities.push_back(pEntity);
+}
+
+shared_ptr<Entity> Board::createEntity(string name, double x, double y) {
+	shared_ptr<Entity> pEntity = nullptr;
+	if (entityFactories.find(name) == entityFactories.end()) {
+		Logger::getInstance()->writeWarning("No existe el tipo de entidad " + name);
+	} else {
+		pEntity = entityFactories[name]->createEntity(x, y);
+		entities.push_back(pEntity);
+	}
 	return pEntity;
 }
 
-std::shared_ptr<EntityFactory> Board::createEntityFactory(std::string name, double size_x, double size_y, double speed) {
-	auto pFactory = std::make_shared<EntityFactory>(name, size_x, size_y, speed, *this);
+shared_ptr<EntityFactory> Board::createEntityFactory(string name, double size_x, double size_y, double speed) {
+	auto pFactory = make_shared<EntityFactory>(name, size_x, size_y, speed, *this);
 	entityFactories[name] = pFactory;
 	return pFactory;
 }
 
-void Board::createProtagonist(std::string name, double x, double y) {
+void Board::createProtagonist(string name, double x, double y) {
 	protagonist = createEntity(name, x, y);
+	// TODO: Warn if protagonist not created
 }
 
 Board::Board(int sizeX, int sizeY) : sizeX(sizeX), sizeY(sizeY) {
@@ -48,14 +52,12 @@ Board::~Board() {
 }
 
 void Board::update() {
-	// cerr << "Board " << this << " updating" << endl;
-	for (std::size_t i =0; i < entities.size(); ++i){
+	for (size_t i =0; i < entities.size(); ++i){
 		entities[i]->update();
 	}
-	// cerr << "Board " << this << " updated" << endl;
 }
 
-std::vector<std::shared_ptr<Entity>> Board::getEntities() {
+vector<shared_ptr<Entity>> Board::getEntities() {
 	return entities;
 }
 
