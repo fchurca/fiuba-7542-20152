@@ -1,12 +1,14 @@
-#include <iostream>
+#include <sstream>
 
 #include "sprite_sheet.h"
 #include "game_window.h"
 
 SpriteSheet::SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay, GameWindow & owner) : owner(owner){
-	std::cerr << "Creating SpriteSheet " << this
+	std::stringstream message;
+	message << "Creating SpriteSheet " << this
 		<< " with path " << pPath
-		<< " owned by " << &owner << std::endl;
+		<< " owned by " << &owner;
+	Logger::getInstance()->writeInformation(message.str());
 	this->path = pPath;
 
 	texture = nullptr;
@@ -25,9 +27,11 @@ SpriteSheet::SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int a
 }
 
 SpriteSheet::~SpriteSheet(){
-	std::cerr << "Killing SpriteSheet " << this
+	std::stringstream message;
+	message << "Killing SpriteSheet " << this
 		<< " with path " << path
-		<< " owned by " << &owner << std::endl;
+		<< " owned by " << &owner;
+	Logger::getInstance()->writeInformation(message.str());
 	clear();
 }
 
