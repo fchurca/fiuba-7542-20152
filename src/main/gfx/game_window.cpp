@@ -124,11 +124,6 @@ void GameWindow::restart(){
 	this->parser->parse();
 	
 	init();
-	{
-		auto protagonist = model->getBoard()->getProtagonist();
-		focus_x = protagonist.getX();
-		focus_y = protagonist.getY();
-	}
 }
 
 void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE REFERENCIAS LLEVARLO AL PARSER
@@ -174,6 +169,8 @@ void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE
 			}
 		}
 	}
+
+	focus();
 }
 
 void GameWindow::update(){
@@ -228,7 +225,10 @@ void GameWindow::processInput(){
 			Logger::getInstance()->writeInformation(oss.str().c_str());
 			if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_LEFT ) {
 				Logger::getInstance()->writeInformation("Boton Izquierdo");
-				model->getBoard()->getProtagonist().setTarget(x_mapa, y_mapa);
+				auto protagonist = &(model->getBoard()->getProtagonist());
+				if (protagonist) {
+					protagonist->setTarget(x_mapa, y_mapa);
+				}
 			}
 			if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_RIGHT) {
 				Logger::getInstance()->writeInformation("Boton derecho");
@@ -243,41 +243,46 @@ void GameWindow::scroll(){
 
 	double ds = scroll_speed * model->getBoard()->dt / 1000; //deltascroll
 	SDL_GetMouseState(&mouse_x, &mouse_y);
+	double fx = focus_x, fy = focus_y;
 
 	if(mouse_x <= margen_pantalla)
 	{
 		double dsi = (1.0 - ((double)mouse_x / (double)margen_pantalla)) * ds; 
 
-		focus_x -= dsi;
-		focus_y += dsi;
+		fx -= dsi;
+		fy += dsi;
 		Logger::getInstance()->writeInformation("Scrolleando hacia la izquierda");
 	}
 	else if(mouse_x >= ancho_pantalla - margen_pantalla){
 
 		double dsi = ((double)(mouse_x + margen_pantalla - ancho_pantalla)/(double)margen_pantalla) * ds;
 
-		focus_x += dsi;
-		focus_y -= dsi;
+		fx += dsi;
+		fy -= dsi;
 		Logger::getInstance()->writeInformation("Scrolleando hacia la derecha");
 	}
 	if(mouse_y <= margen_pantalla)
 	{
 		double dsi = (1.0 - ((double)mouse_y / (double)margen_pantalla)) * ds;
-		focus_x -= dsi;
-		focus_y -= dsi;
+		fx -= dsi;
+		fy -= dsi;
 		Logger::getInstance()->writeInformation("Scrolleando hacia arriba");
 	}
 	if(mouse_y >= alto_pantalla - margen_pantalla)
 	{
 		double dsi = ((double)(mouse_y + margen_pantalla - alto_pantalla)/(double)margen_pantalla) * ds;
 
-		focus_x += dsi;
-		focus_y += dsi;
+		fx += dsi;
+		fy += dsi;
 		Logger::getInstance()->writeInformation("Scrolleando hacia abajo");
 	}
+	focus(fx, fy);
+}
 
+void GameWindow::focus(int x, int y) {
+	focus_x = x;
+	focus_y = y;
 	auto & board = *(model->getBoard());
-
 	if(focus_x >= board.sizeX - 1){
 		focus_x = board.sizeX - 1;
 	}
@@ -292,13 +297,15 @@ void GameWindow::scroll(){
 	}
 }
 
+void GameWindow::focus() {
+	auto protagonist = &(model->getBoard()->getProtagonist());
+	if (protagonist) {
+		focus(protagonist->getX(), protagonist->getY());
+	}
+}
+
 int GameWindow::start(){
 	init();
-	{
-		auto protagonist = model->getBoard()->getProtagonist();
-		focus_x = protagonist.getX();
-		focus_y = protagonist.getY();
-	}
 
 	while (!endOfGame())
 	{
