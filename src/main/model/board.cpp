@@ -1,5 +1,4 @@
 #include "board.h"
-#include <iostream>
 #include <sstream>
 
 using namespace std;
@@ -53,7 +52,9 @@ shared_ptr<Entity> Board::createProtagonist(string name, double x, double y) {
 }
 
 Board::~Board() {
-	cerr << "Killing Board " << this << endl;
+	stringstream message;
+	message << "Killing Board " << this << endl;
+	Logger::getInstance()->writeInformation(message.str());
 }
 
 void Board::update() {
