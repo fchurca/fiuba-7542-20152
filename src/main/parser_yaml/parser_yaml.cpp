@@ -227,7 +227,6 @@ void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEnt
 				tipoEntidad.alto_sprite = ENTIDAD_DEFAULT_ALTO_SPRITE;
 				tipoEntidad.ancho_sprite = ENTIDAD_DEFAULT_ANCHO_SPRITE;
 				tipoEntidad.cantidad_sprites = ENTIDAD_DEFAULT_CANTIDAD_SPRITES;
-				//LA IMAGEN DEBERIA SER LA DE TERRENO DEFAULT O LA DE UNDEFINED?
 		}
 		if(!validarScalarNumericoPositivo(node, "ancho_base", tipoEntidad.ancho_base)){
 			Logger::getInstance()->writeWarning("yaml-cpp: Se toma por default (ancho_base).");
@@ -266,13 +265,12 @@ void ParserYAML::setTipoTerreno (const YAML::Node& node, TagTipoEntidad& tipoTer
 			|| (!validarScalarNumericoPositivo(node, "alto_sprite", tipoTerreno.alto_sprite))
 			|| (!validarScalarNumericoPositivo(node, "cantidad_sprites", tipoTerreno.cantidad_sprites))) {
 				Logger::getInstance()->writeWarning("yaml-cpp: datos de la imagen del tipo de terreno invalidos, se toman por default (path, pixel_ref_x, pixel_ref_y).");
-				tipoTerreno.imagen = TERRENO_DEFAULT_IMAGEN;
-				tipoTerreno.pixel_ref_x = TERRENO_DEFAULT_PIXEL_REF_X;
-				tipoTerreno.pixel_ref_y = TERRENO_DEFAULT_PIXEL_REF_Y;
-				tipoTerreno.alto_sprite = TERRENO_DEFAULT_ALTO_SPRITE;
-				tipoTerreno.ancho_sprite = TERRENO_DEFAULT_ANCHO_SPRITE;
-				tipoTerreno.cantidad_sprites = TERRENO_DEFAULT_CANTIDAD_SPRITES;
-				//LA IMAGEN DEBERIA SER LA DE TERRENO DEFAULT O LA DE UNDEFINED?
+				tipoTerreno.imagen = ENTIDAD_DEFAULT_IMAGEN;
+				tipoTerreno.pixel_ref_x = ENTIDAD_DEFAULT_PIXEL_REF_X;
+				tipoTerreno.pixel_ref_y = ENTIDAD_DEFAULT_PIXEL_REF_Y;
+				tipoTerreno.alto_sprite = ENTIDAD_DEFAULT_ALTO_SPRITE;
+				tipoTerreno.ancho_sprite = ENTIDAD_DEFAULT_ANCHO_SPRITE;
+				tipoTerreno.cantidad_sprites = ENTIDAD_DEFAULT_CANTIDAD_SPRITES;
 		}
 		tipoTerreno.ancho_base = TERRENO_DEFAULT_ANCHO_BASE;
 		tipoTerreno.alto_base = TERRENO_DEFAULT_ALTO_BASE;
