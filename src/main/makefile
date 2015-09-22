@@ -4,10 +4,13 @@ CXXO = $(CXX) -o $@ -c $<
 
 all: bin/tp7542
 
-bin/tp7542: bin/main.o bin/parser_yaml.o bin/logger.o bin/game_window.o bin/game_timer.o bin/controller.o bin/board.o bin/entity.o bin/sprite_sheet.o bin/game.o bin/entity_factory.o
+bin/tp7542: bin/main.o bin/geometry.o bin/parser_yaml.o bin/logger.o bin/game_window.o bin/game_timer.o bin/controller.o bin/board.o bin/entity.o bin/sprite_sheet.o bin/game.o bin/entity_factory.o
 	$(CXX) -o $@ -lyaml-cpp -lSDL2 -lSDL2_image $^
 
 bin/main.o: main.cpp
+	${CXXO}
+
+bin/geometry.o: model/geometry.cpp model/geometry.h
 	${CXXO}
 
 bin/game_window.o: gfx/game_window.cpp gfx/game_window.h model/board.h
