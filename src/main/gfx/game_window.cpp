@@ -230,7 +230,7 @@ void GameWindow::processInput(){
 				Logger::getInstance()->writeInformation("Boton Izquierdo");
 				auto protagonist = &(model->getBoard()->getProtagonist());
 				if (protagonist) {
-					protagonist->setTarget(x_mapa, y_mapa);
+					protagonist->setTarget(r2(x_mapa, y_mapa));
 				}
 			}
 			if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_RIGHT) {

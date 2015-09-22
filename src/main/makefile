@@ -13,7 +13,7 @@ bin/main.o: main.cpp
 bin/geometry.o: model/geometry.cpp model/geometry.h
 	${CXXO}
 
-bin/game_window.o: gfx/game_window.cpp gfx/game_window.h model/board.h
+bin/game_window.o: gfx/game_window.cpp gfx/game_window.h model/board.h model/entity.h
 	${CXXO}
 
 bin/game_timer.o: gfx/game_timer.cpp gfx/game_timer.h

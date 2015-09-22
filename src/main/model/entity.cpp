@@ -8,20 +8,20 @@
 
 using namespace std;
 
-Entity::Entity(std::string name, Board& board, double x, double y, double sizeX, double sizeY, double speed) :
+Entity::Entity(std::string name, Board& board, r2 position, r2 size, double speed) :
 	targeted(false),
 	name(name),
 	board(board),
-	position(x, y),
+	position(position),
 	speed(speed),
-	size(sizeX, sizeY)
+	size(size)
 {
 	adjustPosition();
 	stringstream message;
 	message << "Created Entity " << this
 		<< " of kind " << name
 		<< " owned by board " << &board
-		<< " at " << x << "," << y;
+		<< " at " << position.x << "," << position.y;
 	Logger::getInstance()->writeInformation(message.str());
 }
 
@@ -40,9 +40,9 @@ bool Entity::adjustPosition() {
 	return oldpos != position;
 }
 
-void Entity::setTarget(double x, double y) {
+void Entity::setTarget(r2 newTarget) {
 	targeted = true;
-	target = r2(x, y);
+	target = newTarget;
 }
 
 void Entity::unsetTarget() {

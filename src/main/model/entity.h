@@ -22,7 +22,7 @@ class Entity {
 
 	public:
 		r2 size;
-		void setTarget(double x, double y);
+		void setTarget(r2 newTarget);
 		void unsetTarget();
 		const std::string name;
 		const Board& board;
@@ -37,7 +37,7 @@ class Entity {
 		Directions getDirection();
 		bool overlaps(Entity & other);
 
-		Entity(std::string name, Board& board, double x, double y, double sizeX, double sizeY, double speed);
+		Entity(std::string name, Board& board, r2 position, r2 size, double speed);
 		~Entity();
 
 		void update();

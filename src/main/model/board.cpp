@@ -22,7 +22,7 @@ void Board::setTerrain(string name, size_t x, size_t y) {
 	if (entityFactories.find(name) == entityFactories.end()) {
 		Logger::getInstance()->writeError("No existe el tipo de entidad " + name);
 	} else {
-		terrain[(sizeX*y) + x] = entityFactories[name]->createEntity(x, y);
+		terrain[(sizeX*y) + x] = entityFactories[name]->createEntity(r2(x, y));
 	}
 }
 
@@ -44,18 +44,18 @@ shared_ptr<Entity> Board::createEntity(string name, double x, double y) {
 	}
 
 	auto factory = entityFactories[name];
-	if (findEntity(rectangle(r2(x,y), r2(factory->size_x, factory->size_y)))) {
+	if (findEntity(rectangle(r2(x,y), factory->size))) {
 		Logger::getInstance()->writeError("Lugar ya ocupado para entidad " + name);
 		return nullptr;
 	}
 
-	auto pEntity = factory->createEntity(x, y);
+	auto pEntity = factory->createEntity(r2(x, y));
 	entities.push_back(pEntity);
 	return pEntity;
 }
 
 shared_ptr<EntityFactory> Board::createEntityFactory(string name, double size_x, double size_y, double speed) {
-	auto pFactory = make_shared<EntityFactory>(name, size_x, size_y, speed, *this);
+	auto pFactory = make_shared<EntityFactory>(name, r2(size_x, size_y), speed, *this);
 	entityFactories[name] = pFactory;
 	return pFactory;
 }
