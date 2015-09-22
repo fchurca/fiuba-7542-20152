@@ -27,6 +27,7 @@ class Entity {
 		const std::string name;
 		const Board& board;
 		r2 center();
+		r2 getPosition();
 		double getX();
 		double getY();
 		r2 trajectory();
@@ -34,6 +35,7 @@ class Entity {
 		double sqDistance();
 		double distance();
 		Directions getDirection();
+		bool overlaps(Entity & other);
 
 		Entity(std::string name, Board& board, double x, double y, double sizeX, double sizeY, double speed);
 		~Entity();

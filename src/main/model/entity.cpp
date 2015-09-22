@@ -68,6 +68,10 @@ r2 Entity::center() {
 	return position + (size/2);
 }
 
+r2 Entity::getPosition() {
+	return position;
+}
+
 double Entity::getX() {
 	return position.x;
 }
