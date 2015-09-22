@@ -26,5 +26,16 @@ class r2 {
 		bool operator != (r2 b);
 };
 
+
+class rectangle {
+	public:
+		r2 position;
+		r2 size;
+
+		rectangle();
+		rectangle(r2 position, r2 size);
+		bool intersects(rectangle other);
+};
+
 #endif // _MODEL_GEOMETRY_H_
 

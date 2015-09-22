@@ -44,3 +44,17 @@ bool r2::operator != (r2 b) {
 	return ! (*this == b);
 }
 
+
+rectangle::rectangle() {}
+
+rectangle::rectangle(r2 position, r2 size) :
+	position(position), size(size)
+{}
+
+bool rectangle::intersects(rectangle other) {
+	return position.x < other.position.x + other.size.x &&
+		position.x + size.x > other.position.x &&
+		position.y < other.position.y + other.size.y &&
+		position.y + size.y > other.position.y;
+}
+
