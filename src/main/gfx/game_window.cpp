@@ -154,7 +154,7 @@ void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE
 	}
 
 	for(std::size_t i =0; i < te.terrenos.size(); ++i){
-		board->setTerrain(te.terrenos[i].tipoEntidad,te.terrenos[i].pos_x,te.terrenos[i].pos_y); // ACA TENDRIA QE VALIDARSE SUPERPOSICION
+		board->setTerrain(te.terrenos[i].tipoEntidad,te.terrenos[i].pos_x,te.terrenos[i].pos_y);
 	}
 	if(!board->createProtagonist(te.protagonista.tipoEntidad, r2(te.protagonista.pos_x, te.protagonista.pos_y))){
 		Logger::getInstance()->writeInformation("Se crea un protagonista default");
@@ -162,7 +162,7 @@ void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE
 	}
 
 	for(std::size_t i =0; i < te.entidades.size(); ++i){
-		board->createEntity(te.entidades[i].tipoEntidad, r2(te.entidades[i].pos_x,te.entidades[i].pos_y)); // ACA TENDRIA QE VALIDARSE SUPERPOSICION
+		board->createEntity(te.entidades[i].tipoEntidad, r2(te.entidades[i].pos_x,te.entidades[i].pos_y));
 	}
 
 	for(size_t x = 0; x < board->sizeX; x++) {
@@ -283,21 +283,9 @@ void GameWindow::scroll(){
 }
 
 void GameWindow::focus(int x, int y) {
-	focus_x = x;
-	focus_y = y;
 	auto & board = *(model->getBoard());
-	if(focus_x >= board.sizeX - 1){
-		focus_x = board.sizeX - 1;
-	}
-	else if(focus_x < 0){
-		focus_x = 0;
-	}
-
-	if(focus_y >= board.sizeY - 1){
-		focus_y = board.sizeY - 1;
-	}else if(focus_y < 0){
-		focus_y = 0;
-	}
+	focus_x = clip(x, 0, board.sizeX - 1);
+	focus_y = clip(y, 0, board.sizeY - 1);
 }
 
 void GameWindow::focus() {
