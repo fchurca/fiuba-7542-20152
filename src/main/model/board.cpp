@@ -1,5 +1,7 @@
-#include "board.h"
 #include <sstream>
+#include <algorithm>
+
+#include "board.h"
 
 using namespace std;
 
@@ -27,14 +29,10 @@ void Board::setTerrain(string name, size_t x, size_t y) {
 }
 
 shared_ptr<Entity> Board::findEntity(rectangle r) {
-	for (size_t i = 0; i < entities.size(); i++) {
-		auto other = entities[i];
-		rectangle shapeOther(other->getPosition(), other->size);
-		if (r.intersects(shapeOther)) {
-			return other;
-		}
-	}
-	return nullptr;
+	auto it = find_if(entities.begin(), entities.end(), [r](shared_ptr<Entity> e) {
+			return rectangle(e->getPosition(), e->size).intersects(r);
+			});
+	return (it == entities.end())? nullptr : *it;
 }
 
 shared_ptr<Entity> Board::createEntity(string name, double x, double y) {
