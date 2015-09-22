@@ -185,7 +185,7 @@ void ParserYAML::setConfiguracion (const YAML::Node& node, TagConfiguracion& con
 void ParserYAML::setConfiguracionDefault (TagConfiguracion& configuracion) {
 	Logger::getInstance()->writeWarning("yaml-cpp: se toma configuracion por default.");
 	configuracion.margen_scroll = MARGEN_SCROLL_DEFAULT;
-	configuracion.margen_scroll = VELOCIDAD_PERSONAJE_DEFAULT;
+	configuracion.vel_personaje = VELOCIDAD_PERSONAJE_DEFAULT;
 	configuracion.velocidad_scroll = VELOCIDAD_SCROLL_DEFAULT;
 	configuracion.dt = DT_DEFAULT;
 }
