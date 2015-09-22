@@ -135,34 +135,34 @@ void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE
 	Board* board = this->model->getBoard();
 	
 	addSpriteSheet(ENTIDAD_DEFAULT_NOMBRE, ENTIDAD_DEFAULT_IMAGEN, ENTIDAD_DEFAULT_PIXEL_REF_X, ENTIDAD_DEFAULT_PIXEL_REF_Y, ENTIDAD_DEFAULT_ALTO_SPRITE, ENTIDAD_DEFAULT_ANCHO_SPRITE, ENTIDAD_DEFAULT_CANTIDAD_SPRITES, ENTIDAD_DEFAULT_FPS, ENTIDAD_DEFAULT_DELAY);
-	board->createEntityFactory(ENTIDAD_DEFAULT_NOMBRE, ENTIDAD_DEFAULT_ANCHO_BASE, ENTIDAD_DEFAULT_ALTO_BASE, 0);
+	board->createEntityFactory(ENTIDAD_DEFAULT_NOMBRE, r2(ENTIDAD_DEFAULT_ANCHO_BASE, ENTIDAD_DEFAULT_ALTO_BASE), 0);
 
 	addSpriteSheet(TERRENO_DEFAULT_NOMBRE, TERRENO_DEFAULT_IMAGEN, TERRENO_DEFAULT_PIXEL_REF_X, TERRENO_DEFAULT_PIXEL_REF_Y, TERRENO_DEFAULT_ALTO_SPRITE, TERRENO_DEFAULT_ANCHO_SPRITE, TERRENO_DEFAULT_CANTIDAD_SPRITES, TERRENO_DEFAULT_FPS, TERRENO_DEFAULT_DELAY);
-	board->createEntityFactory(TERRENO_DEFAULT_NOMBRE, TERRENO_DEFAULT_ANCHO_BASE, TERRENO_DEFAULT_ALTO_BASE, 0);
+	board->createEntityFactory(TERRENO_DEFAULT_NOMBRE, r2(TERRENO_DEFAULT_ANCHO_BASE, TERRENO_DEFAULT_ALTO_BASE), 0);
 
 	addSpriteSheet(PROTAGONISTA_DEFAULT_NOMBRE, PROTAGONISTA_DEFAULT_IMAGEN, PROTAGONISTA_DEFAULT_PIXEL_REF_X, PROTAGONISTA_DEFAULT_PIXEL_REF_Y, PROTAGONISTA_DEFAULT_ALTO_SPRITE, PROTAGONISTA_DEFAULT_ANCHO_SPRITE, PROTAGONISTA_DEFAULT_CANTIDAD_SPRITES, PROTAGONISTA_DEFAULT_FPS, PROTAGONISTA_DEFAULT_DELAY);
-	board->createEntityFactory(PROTAGONISTA_DEFAULT_NOMBRE, PROTAGONISTA_DEFAULT_ANCHO_BASE, PROTAGONISTA_DEFAULT_ALTO_BASE, VELOCIDAD_PERSONAJE_DEFAULT);
+	board->createEntityFactory(PROTAGONISTA_DEFAULT_NOMBRE, r2(PROTAGONISTA_DEFAULT_ANCHO_BASE, PROTAGONISTA_DEFAULT_ALTO_BASE), VELOCIDAD_PERSONAJE_DEFAULT);
 
 	for (std::size_t i =0; i < tte.size(); ++i){
 		addSpriteSheet(tte[i].nombre, tte[i].imagen, tte[i].pixel_ref_x, tte[i].pixel_ref_y, tte[i].alto_sprite, tte[i].ancho_sprite,  tte[i].cantidad_sprites, tte[i].fps, tte[i].delay);
-		board->createEntityFactory(tte[i].nombre, tte[i].ancho_base, tte[i].alto_base,tc.vel_personaje); // LA VELOCIDAD DEBERIA IR SOLO AL PROTAGONISTA
+		board->createEntityFactory(tte[i].nombre, r2(tte[i].ancho_base, tte[i].alto_base), tc.vel_personaje); // LA VELOCIDAD DEBERIA IR SOLO AL PROTAGONISTA
 	}
 
 	for (std::size_t i =0; i < ttt.size(); ++i){
 		addSpriteSheet(ttt[i].nombre, ttt[i].imagen, ttt[i].pixel_ref_x, ttt[i].pixel_ref_y, ttt[i].alto_sprite, ttt[i].ancho_sprite,  ttt[i].cantidad_sprites, ttt[i].fps, ttt[i].delay);
-		board->createEntityFactory(ttt[i].nombre, ttt[i].ancho_base, ttt[i].alto_base, 0); 
+		board->createEntityFactory(ttt[i].nombre, r2(ttt[i].ancho_base, ttt[i].alto_base), 0); 
 	}
 
 	for(std::size_t i =0; i < te.terrenos.size(); ++i){
 		board->setTerrain(te.terrenos[i].tipoEntidad,te.terrenos[i].pos_x,te.terrenos[i].pos_y); // ACA TENDRIA QE VALIDARSE SUPERPOSICION
 	}
-	if(!board->createProtagonist(te.protagonista.tipoEntidad,te.protagonista.pos_x, te.protagonista.pos_y)){
+	if(!board->createProtagonist(te.protagonista.tipoEntidad, r2(te.protagonista.pos_x, te.protagonista.pos_y))){
 		Logger::getInstance()->writeInformation("Se crea un protagonista default");
-		board->createProtagonist(PROTAGONISTA_DEFAULT_NOMBRE,PROTAGONISTA_DEFAULT_POSX, PROTAGONISTA_DEFAULT_POSY);
+		board->createProtagonist(PROTAGONISTA_DEFAULT_NOMBRE, r2(PROTAGONISTA_DEFAULT_POSX, PROTAGONISTA_DEFAULT_POSY));
 	}
 
 	for(std::size_t i =0; i < te.entidades.size(); ++i){
-		board->createEntity(te.entidades[i].tipoEntidad,te.entidades[i].pos_x,te.entidades[i].pos_y); // ACA TENDRIA QE VALIDARSE SUPERPOSICION
+		board->createEntity(te.entidades[i].tipoEntidad, r2(te.entidades[i].pos_x,te.entidades[i].pos_y)); // ACA TENDRIA QE VALIDARSE SUPERPOSICION
 	}
 
 	for(size_t x = 0; x < board->sizeX; x++) {

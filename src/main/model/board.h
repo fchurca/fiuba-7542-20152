@@ -32,9 +32,9 @@ public:
 	void setTerrain(std::string name, size_t x, size_t y);
 	Entity & getTerrain(size_t x, size_t y);
 	std::shared_ptr<Entity> findEntity(rectangle r);
-	std::shared_ptr<Entity> createEntity(std::string name, double x, double y);
-	std::shared_ptr<EntityFactory> createEntityFactory(std::string name, double size_x, double size_y, double speed);
-	std::shared_ptr<Entity> createProtagonist(std::string name, double x, double y);
+	std::shared_ptr<Entity> createEntity(std::string name, r2 position);
+	std::shared_ptr<EntityFactory> createEntityFactory(std::string name, r2 size, double speed);
+	std::shared_ptr<Entity> createProtagonist(std::string name, r2 position);
 	void update();
 	void buildBoard();
 	std::vector<std::shared_ptr<Entity>> getEntities();

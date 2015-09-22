@@ -35,31 +35,31 @@ shared_ptr<Entity> Board::findEntity(rectangle r) {
 	return (it == entities.end())? nullptr : *it;
 }
 
-shared_ptr<Entity> Board::createEntity(string name, double x, double y) {
+shared_ptr<Entity> Board::createEntity(string name, r2 position) {
 	if (entityFactories.find(name) == entityFactories.end()) {
 		Logger::getInstance()->writeError("No existe el tipo de entidad " + name);
 		return nullptr;
 	}
 
 	auto factory = entityFactories[name];
-	if (findEntity(rectangle(r2(x,y), factory->size))) {
+	if (findEntity(rectangle(position, factory->size))) {
 		Logger::getInstance()->writeError("Lugar ya ocupado para entidad " + name);
 		return nullptr;
 	}
 
-	auto pEntity = factory->createEntity(r2(x, y));
+	auto pEntity = factory->createEntity(position);
 	entities.push_back(pEntity);
 	return pEntity;
 }
 
-shared_ptr<EntityFactory> Board::createEntityFactory(string name, double size_x, double size_y, double speed) {
-	auto pFactory = make_shared<EntityFactory>(name, r2(size_x, size_y), speed, *this);
+shared_ptr<EntityFactory> Board::createEntityFactory(string name, r2 size, double speed) {
+	auto pFactory = make_shared<EntityFactory>(name, size, speed, *this);
 	entityFactories[name] = pFactory;
 	return pFactory;
 }
 
-shared_ptr<Entity> Board::createProtagonist(string name, double x, double y) {
-	protagonist = createEntity(name, x, y);
+shared_ptr<Entity> Board::createProtagonist(string name, r2 position) {
+	protagonist = createEntity(name, position);
 	if (!protagonist) {
 		Logger::getInstance()->writeError("Protagonista no creado " + name);
 	}
