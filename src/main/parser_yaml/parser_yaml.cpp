@@ -458,6 +458,10 @@ bool ParserYAML::esNumero(std::string numero) {
 		return false;
 	}
 	if(numero[0] == '-') {
+		if(largo < 2)
+			return false;
+		if(!isdigit(numero[1]))
+			return false;
 		i = 1;
 	}
 	for(; i < largo; i++){
