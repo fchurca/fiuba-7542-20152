@@ -5,6 +5,7 @@ configuracion:
     vel_personaje: 3
     margen_scroll: 45
     velocidad_scroll: 45
+    dt: 50
 tipos_entidades:
   - nombre: troncoNESW
     imagen: resources/troncoNESW31.png
@@ -34,7 +35,7 @@ tipos_entidades:
     alto_base: 0.5
     pixel_ref_x: 17
     pixel_ref_y: 24
-    fps: 0
+    fps: 20
     delay: 1
     ancho_sprite: 48
     alto_sprite: 44
@@ -45,11 +46,22 @@ tipos_entidades:
     alto_base: 0.5
     pixel_ref_x: 30
     pixel_ref_y: 30
-    fps: 0
+    fps: 10
     delay: 0
     ancho_sprite: 60
     alto_sprite: 60
     cantidad_sprites: 5
+  - nombre: arbol
+    imagen: resources/arbol.png
+    ancho_base: 1
+    alto_base: 1
+    pixel_ref_x: 20
+    pixel_ref_y: 90
+    fps: 0
+    delay: 0
+    ancho_sprite: 88
+    alto_sprite: 121
+    cantidad_sprites: 1
 tipos_terrenos:
   - nombre: agua
     imagen: resources/agua.png
@@ -87,23 +99,16 @@ escenario:
       - {x: 10, y: 11, tipo: chancho }
       - {x: 11, y: 10, tipo: chancho }
       - {x: 11, y: 11, tipo: chancho }
-      #- {x: 0, y: 6, tipo: chancho }
-      #- {x: 0, y: 8, tipo: chancho }
-      #- {x: 2, y: 4, tipo: chancho }
-      #- {x: 2, y: 6, tipo: chancho }
-      #- {x: 2, y: 8, tipo: chancho }
-      #- {x: 2, y: 10, tipo: chancho }
-      #- {x: 4, y: 4, tipo: chancho }
-      #- {x: 4, y: 6, tipo: chancho }
-      #- {x: 4, y: 8, tipo: chancho }
-      #- {x: 4, y: 10, tipo: chancho }
-      #- {x: 6, y: 6, tipo: chancho }
-      #- {x: 6, y: 8, tipo: chancho }
       - {x: 3, y: 4, tipo: troncoNESW }
       - {x: 3, y: 8, tipo: troncoNESW }
       - {x: 3, y: 7, tipo: chancho }
       - {x: 0, y: 7, tipo: troncoNWSE }
       - {x: 4, y: 7, tipo: troncoNWSE }
+      - {x: 3, y: 3, tipo: chancho }
+      - {x: 15, y: 15, tipo: arbol}
+      - {x: 15, y: 16, tipo: arbol}
+      - {x: 16, y: 15, tipo: arbol}
+      - {x: 16, y: 16, tipo: arbol}
     terrenos:
       - {x: 0, y: 0, tipo: agua }
       - {x: 1, y: 0, tipo: agua }

@@ -51,6 +51,17 @@ tipos_entidades:
     ancho_sprite: 60
     alto_sprite: 60
     cantidad_sprites: 5
+  - nombre: arbol
+    imagen: resources/arbol.png
+    ancho_base: 1
+    alto_base: 1
+    pixel_ref_x: 20
+    pixel_ref_y: 90
+    fps: 0
+    delay: 0
+    ancho_sprite: 88
+    alto_sprite: 121
+    cantidad_sprites: 1
 tipos_terrenos:
   - nombre: agua
     imagen: resources/agua.png
@@ -94,6 +105,10 @@ escenario:
       - {x: 0, y: 7, tipo: troncoNWSE }
       - {x: 4, y: 7, tipo: troncoNWSE }
       - {x: 3, y: 3, tipo: chancho }
+      - {x: 15, y: 15, tipo: arbol}
+      - {x: 15, y: 16, tipo: arbol}
+      - {x: 16, y: 15, tipo: arbol}
+      - {x: 16, y: 16, tipo: arbol}
     terrenos:
       - {x: 0, y: 0, tipo: agua }
       - {x: 1, y: 0, tipo: agua }
