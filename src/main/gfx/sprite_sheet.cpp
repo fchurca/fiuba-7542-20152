@@ -82,7 +82,7 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ) {
 	return texture;
 }
 
-void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer, unsigned int alto_pantalla, unsigned int ancho_pantalla ){
+void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer){
 
 	auto x = entity.getX();
 	auto y = entity.getY();
@@ -94,8 +94,8 @@ void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer, uns
 	y -= owner.focus_y;
 
 	//	Conversion isometrica 
-	int screenX = ((x - y) * TILE_WIDTH_DEFAULT / 2) + (ancho_pantalla) / 2;
-	int screenY = ((x + y) * TILE_HEIGHT_DEFAULT / 2) + (alto_pantalla - TILE_HEIGHT_DEFAULT) / 2;
+	int screenX = ((x - y) * TILE_WIDTH_DEFAULT / 2) + (owner.ancho_pantalla) / 2;
+	int screenY = ((x + y) * TILE_HEIGHT_DEFAULT / 2) + (owner.alto_pantalla - TILE_HEIGHT_DEFAULT) / 2;
 
 	//	Ubicacion donde dibujar
 	SDL_Rect renderQuad = { screenX - pixel_ref_x , screenY - pixel_ref_y, ancho_sprite, alto_sprite };
