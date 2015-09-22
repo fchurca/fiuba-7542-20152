@@ -83,17 +83,14 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ) {
 }
 
 void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer){
-
-	auto x = entity.getX();
-	auto y = entity.getY();
 	auto direction = entity.getDirection();
 
 	currentFrame = counter % total_sprites;	//Aca se debe usar el frame actual desde el estado de la entidad
 
-	x -= owner.focus_x;
-	y -= owner.focus_y;
-
 	//	Conversion isometrica 
+	auto pos = entity.getPosition() - owner.getFocus();
+	auto x = pos.x;
+	auto y = pos.y;
 	int screenX = ((x - y) * TILE_WIDTH_DEFAULT / 2) + (owner.ancho_pantalla) / 2;
 	int screenY = ((x + y) * TILE_HEIGHT_DEFAULT / 2) + (owner.alto_pantalla - TILE_HEIGHT_DEFAULT) / 2;
 

@@ -26,7 +26,8 @@ protected:
 	void render();
 	void restart();
 	void scroll();
-	void focus(int x, int y);
+	r2 focusPosition;
+	void focus(r2 position);
 	void focus();
 public:
 	void addSpriteSheet(std::string name, std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay);
@@ -34,8 +35,7 @@ public:
 	~GameWindow();
 	int start();
 	void init();
-	double focus_x;
-	double focus_y;
+	r2 getFocus();
 	unsigned int alto_pantalla;
 	unsigned int ancho_pantalla;
 };

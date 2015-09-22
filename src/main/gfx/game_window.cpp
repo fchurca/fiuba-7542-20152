@@ -28,8 +28,8 @@ GameWindow::GameWindow() {
 	TagConfiguracion tc = this->parser->getConfiguracion();
 	this->model = nullptr;
 	this->exit = false;
-	this->focus_x = 0;
-	this->focus_y = 0;
+	this->focusPosition.x = 0;
+	this->focusPosition.y = 0;
 	this->alto_pantalla = tp.alto;
 	this->ancho_pantalla = tp.ancho;
 	this->margen_pantalla = tc.margen_scroll;
@@ -220,8 +220,8 @@ void GameWindow::processInput(){
 			double XsTerm = (double)((double)mouse_x_screen - ancho_pantalla/2)/(double)TILE_WIDTH_DEFAULT;
 			double YsTerm = (double)((double)mouse_y_screen - alto_pantalla/2)/(double)TILE_HEIGHT_DEFAULT;
 
-			double x_mapa = focus_x + XsTerm + YsTerm + .5;
-			double y_mapa = focus_y - XsTerm + YsTerm + .5;
+			double x_mapa = focusPosition.x + XsTerm + YsTerm + .5;
+			double y_mapa = focusPosition.y - XsTerm + YsTerm + .5;
 
 			oss << "; mapa: " << x_mapa << "," << y_mapa;
 
@@ -246,7 +246,7 @@ void GameWindow::scroll(){
 
 	double ds = scroll_speed * model->getBoard()->dt / 1000; //deltascroll
 	SDL_GetMouseState(&mouse_x, &mouse_y);
-	double fx = focus_x, fy = focus_y;
+	double fx = focusPosition.x, fy = focusPosition.y;
 
 	if(mouse_x <= margen_pantalla)
 	{
@@ -279,20 +279,24 @@ void GameWindow::scroll(){
 		fy += dsi;
 		Logger::getInstance()->writeInformation("Scrolleando hacia abajo");
 	}
-	focus(fx, fy);
+	focus(r2(fx, fy));
 }
 
-void GameWindow::focus(int x, int y) {
+void GameWindow::focus(r2 newFocus) {
 	auto & board = *(model->getBoard());
-	focus_x = clip(x, 0, board.sizeX - 1);
-	focus_y = clip(y, 0, board.sizeY - 1);
+	focusPosition.x = clip(newFocus.x, 0, board.sizeX - 1);
+	focusPosition.y = clip(newFocus.y, 0, board.sizeY - 1);
 }
 
 void GameWindow::focus() {
 	auto protagonist = &(model->getBoard()->getProtagonist());
 	if (protagonist) {
-		focus(protagonist->getX(), protagonist->getY());
+		focus(protagonist->getPosition());
 	}
+}
+
+r2 GameWindow::getFocus() {
+	return focusPosition;
 }
 
 int GameWindow::start(){
