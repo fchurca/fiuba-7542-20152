@@ -32,30 +32,17 @@ Entity::~Entity() {
 }
 
 bool Entity::adjustPosition() {
-	bool ret = false;
-	int topX = board.sizeX;
-	int topY = board.sizeY;
-	if (position.x > topX - size.x) {
-		position.x = topX - size.x;
-		ret = true;
-	} else if (position.x < 0) {
-		position.x = 0;
-		ret = true;
-	}
-	if (position.y > topY - size.y) {
-		position.y = topY - size.y;
-		ret = true;
-	} else if (position.y < 0) {
-		position.y = 0;
-		ret = true;
-	}
-	return ret;
+	double topX = board.sizeX - size.x;
+	double topY = board.sizeY - size.y;
+	r2 oldpos = position;
+	position.x = clip(position.x, 0, topX);
+	position.y = clip(position.y, 0, topY);
+	return oldpos != position;
 }
 
 void Entity::setTarget(double x, double y) {
 	targeted = true;
-	target.x = x;
-	target.y = y;
+	target = r2(x, y);
 }
 
 void Entity::unsetTarget() {
@@ -64,16 +51,11 @@ void Entity::unsetTarget() {
 
 void Entity::update() {
 	if (targeted) {
-		auto d = distance();
 		auto dr = speed*board.dt/1000;
 		if (pow(dr, 2) < sqDistance()) {
-			auto dx = cos(bearing())*dr;
-			auto dy = sin(bearing())*dr;
-			position.x += dx;
-			position.y += dy;
+			position += r2::fromPolar(bearing(), dr);
 		} else {
-			position.x = target.x - size.x/2;
-			position.y = target.y - size.y/2;
+			position = target;
 			targeted = false;
 		}
 		if (adjustPosition()) {
@@ -82,12 +64,8 @@ void Entity::update() {
 	}
 }
 
-double Entity::cX() {
-	return position.x + size.x/2;
-}
-
-double Entity::cY() {
-	return position.y + size.y/2;
+r2 Entity::center() {
+	return position + (size/2);
 }
 
 double Entity::getX() {
@@ -98,20 +76,18 @@ double Entity::getY() {
 	return position.y;
 }
 
-double Entity::bearingX() {
-	return target.x - cX();
-}
-
-double Entity::bearingY() {
-	return target.y - cY();
+r2 Entity::trajectory() {
+	return target - center();
 }
 
 double Entity::bearing() {
-	return atan2(bearingY(), bearingX());
+	auto traj = trajectory();
+	return atan2(traj.y, traj.x);
 }
 
 double Entity::sqDistance() {
-	return pow(bearingX(), 2) + pow(bearingY(), 2);
+	auto b = trajectory();
+	return pow(b.x, 2) + pow(b.y, 2);
 }
 
 double Entity::distance() {
@@ -124,3 +100,4 @@ Directions Entity::getDirection(){
 				(unsigned)floor(4*bearing()/M_PI+.5)%8):
 		SOUTH_EAST;
 }
+

@@ -95,8 +95,8 @@ void GameWindow::render(){
 	SpriteSheet* ss;
 	// Ordenamos las entidades por oclusión
 	std::sort(entities.begin(), entities.end(), [](std::shared_ptr<Entity> a, std::shared_ptr<Entity> b) {
-		return ((a->getX() + a->sizeX <= b->getX()) || (a->getY() + a->sizeY <= b->getY())) &&
-			!((b->getX() + b->sizeX <= a->getX()) || (b->getY() + b->sizeY <= a->getY()));
+		return ((a->getX() + a->size.x <= b->getX()) || (a->getY() + a->size.y <= b->getY())) &&
+			!((b->getX() + b->size.x <= a->getX()) || (b->getY() + b->size.y <= a->getY()));
 	});
 	for (std::size_t i =0; i < entities.size(); ++i){
 		it = this->spritesSheets.find(entities[i]->name);

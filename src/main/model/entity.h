@@ -21,17 +21,15 @@ class Entity {
 		bool adjustPosition();
 
 	public:
-		const r2 size;
+		r2 size;
 		void setTarget(double x, double y);
 		void unsetTarget();
 		const std::string name;
 		const Board& board;
-		double cX();
-		double cY();
+		r2 center();
 		double getX();
 		double getY();
-		double bearingX();
-		double bearingY();
+		r2 trajectory();
 		double bearing();
 		double sqDistance();
 		double distance();

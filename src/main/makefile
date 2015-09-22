@@ -10,7 +10,7 @@ bin/tp7542: bin/main.o bin/parser_yaml.o bin/logger.o bin/game_window.o bin/game
 bin/main.o: main.cpp
 	${CXXO}
 
-bin/game_window.o: gfx/game_window.cpp gfx/game_window.h
+bin/game_window.o: gfx/game_window.cpp gfx/game_window.h model/board.h
 	${CXXO}
 
 bin/game_timer.o: gfx/game_timer.cpp gfx/game_timer.h
