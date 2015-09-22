@@ -2,7 +2,6 @@
 #define _MODEL_GEOMETRY_H_
 
 #include <cmath>
-// TODO: Separar cpp
 
 double clip(double x, double min, double max);
 
