@@ -40,17 +40,6 @@ tipos_entidades:
     ancho_sprite: 48
     alto_sprite: 44
     cantidad_sprites: 15
-  - nombre: chanchoDelay
-    imagen: resources/chanchos.png
-    ancho_base: 0.5
-    alto_base: 0.5
-    pixel_ref_x: 17
-    pixel_ref_y: 24
-    fps: 20
-    delay: 2
-    ancho_sprite: 48
-    alto_sprite: 44
-    cantidad_sprites: 15
   - nombre: mago
     imagen: resources/mago.png
     ancho_base: 0.5
@@ -106,68 +95,30 @@ escenario:
     size_x: 100
     size_y: 100
     entidades:
-      - {x: 10, y: 10, tipo: chanchoDelay }
-      - {x: 10, y: 11, tipo: chanchoDelay }
+      - {x: 10, y: 10, tipo: chancho }
+      - {x: 10, y: 11, tipo: chancho }
       - {x: 11, y: 10, tipo: chancho }
       - {x: 11, y: 11, tipo: chancho }
-      - {x: 3, y: 11, tipo: troncoNESW }
-      - {x: 3, y: 15, tipo: troncoNESW }
-      - {x: 3, y: 14, tipo: chancho }
-      - {x: 0, y: 14, tipo: troncoNWSE }
-      - {x: 4, y: 14, tipo: troncoNWSE }
+      - {x: 3, y: 4, tipo: troncoNESW }
+      - {x: 3, y: 8, tipo: troncoNESW }
+      - {x: 3, y: 7, tipo: chancho }
+      - {x: 0, y: 7, tipo: troncoNWSE }
+      - {x: 4, y: 7, tipo: troncoNWSE }
       - {x: 3, y: 3, tipo: chancho }
       - {x: 15, y: 15, tipo: arbol}
       - {x: 15, y: 16, tipo: arbol}
       - {x: 16, y: 15, tipo: arbol}
       - {x: 16, y: 16, tipo: arbol}
-      - {x: 9, y: 4, tipo: arbol}
-      - {x: 10, y: 4, tipo: arbol}
-      - {x: 11, y: 4, tipo: arbol}
-      - {x: 12, y: 4, tipo: arbol}
-      - {x: 9, y: 5, tipo: arbol}
-      - {x: 10, y: 5, tipo: arbol}
-      - {x: 11, y: 5, tipo: arbol}
-      - {x: 12, y: 5, tipo: arbol}
-      - {x: 9, y: 3, tipo: arbol}
-      - {x: 10, y: 3, tipo: arbol}
-      - {x: 11, y: 3, tipo: arbol}
-      - {x: 12, y: 3, tipo: arbol}
     terrenos:
       - {x: 0, y: 0, tipo: agua }
-      - {x: 0, y: 1, tipo: agua }
-      - {x: 0, y: 2, tipo: agua }
       - {x: 1, y: 0, tipo: agua }
-      - {x: 1, y: 1, tipo: agua }
-      - {x: 1, y: 2, tipo: agua }
       - {x: 2, y: 0, tipo: agua }
-      - {x: 2, y: 1, tipo: agua }
-      - {x: 2, y: 2, tipo: agua }
+      - {x: 0, y: 1, tipo: agua }
+      - {x: 1, y: 1, tipo: agua }
+      - {x: 0, y: 2, tipo: agua }
+      - {x: 0, y: 3, tipo: piedra }
+      - {x: 2, y: 1, tipo: piedra }
+      - {x: 1, y: 2, tipo: piedra }
       - {x: 3, y: 0, tipo: piedra }
-      - {x: 3, y: 1, tipo: piedra }
-      - {x: 3, y: 2, tipo: piedra }
-      - {x: 1, y: 3, tipo: piedra }
-      - {x: 1, y: 4, tipo: piedra }
-      - {x: 1, y: 5, tipo: piedra }
-      - {x: 1, y: 6, tipo: piedra }
-      - {x: 2, y: 3, tipo: piedra }
-      - {x: 2, y: 4, tipo: piedra }
-      - {x: 2, y: 5, tipo: piedra }
-      - {x: 2, y: 6, tipo: piedra }
-      - {x: 3, y: 3, tipo: piedra }
-      - {x: 3, y: 4, tipo: piedra }
-      - {x: 3, y: 5, tipo: piedra }
-      - {x: 3, y: 6, tipo: piedra }
-      - {x: 4, y: 3, tipo: piedra }
-      - {x: 4, y: 4, tipo: piedra }
-      - {x: 4, y: 5, tipo: piedra }
-      - {x: 4, y: 6, tipo: piedra }
-      - {x: 5, y: 3, tipo: piedra }
-      - {x: 5, y: 4, tipo: piedra }
-      - {x: 5, y: 5, tipo: piedra }
-      - {x: 5, y: 6, tipo: piedra }
-      - {x: 6, y: 3, tipo: piedra }
-      - {x: 6, y: 4, tipo: piedra }
-      - {x: 6, y: 5, tipo: piedra }
-      - {x: 6, y: 6, tipo: piedra }
     protagonista:
-      - {x: 5, y: 5, tipo: mago }
+      - {x: 3, y: 3, tipo: mago }
