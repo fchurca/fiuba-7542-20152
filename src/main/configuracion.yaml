@@ -73,6 +73,17 @@ tipos_entidades:
     ancho_sprite: 60
     alto_sprite: 60
     cantidad_sprites: 5
+  - nombre: cubo
+    imagen: resources/cubo_1_2.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 16
+    pixel_ref_y: 16
+    fps: 0
+    delay: 0
+    ancho_sprite: 32
+    alto_sprite: 32
+    cantidad_sprites: 1
   - nombre: arbol
     imagen: resources/arbol.png
     ancho_base: 2
