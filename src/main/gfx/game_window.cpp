@@ -370,8 +370,10 @@ int GameWindow::start(){
 		update();
 		render();
 
-		auto dt = model->getBoard()->dt;
-		GameTimer::wait(GameTimer::getCurrent() + dt);
+		int dt = model->getBoard()->dt;
+		if (!GameTimer::wait(GameTimer::getCurrent() + dt)) {
+			Logger::getInstance()->writeInformation("Estamos laggeando!");
+		}
 	}
 	return 0;
 }

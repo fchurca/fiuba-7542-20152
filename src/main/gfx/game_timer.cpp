@@ -1,4 +1,3 @@
-
 #include "game_timer.h"
 
 int GameTimer::currentTime = 0;
@@ -20,7 +19,7 @@ void GameTimer::update(){
 }
 
 bool GameTimer::wait(int target) {
-	auto dt = target - SDL_GetTicks();
+	int dt = target - SDL_GetTicks();
 	if(dt < 0) {
 		return false;
 	}
