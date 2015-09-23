@@ -158,19 +158,19 @@ ParserYAML::~ParserYAML(void) {
 
 void ParserYAML::setConfiguracion (const YAML::Node& node, TagConfiguracion& configuracion) {
 	if(node.Type() == YAML::NodeType::Map) {
-		if(!validarScalarNumericoPositivo(node, "vel_personaje", configuracion.vel_personaje)){
+		if(!obtenerValorScalarNumericoPositivo(node, "vel_personaje", configuracion.vel_personaje)){
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (velocidad personaje).");
 			configuracion.vel_personaje = VELOCIDAD_PERSONAJE_DEFAULT;
 		}
-		if(!validarScalarNumericoPositivo(node, "margen_scroll", configuracion.margen_scroll)){
+		if(!obtenerValorScalarNumericoPositivo(node, "margen_scroll", configuracion.margen_scroll)){
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (margen scroll).");
 			configuracion.margen_scroll = MARGEN_SCROLL_DEFAULT;
 		}
-		if(!validarScalarNumericoPositivo(node, "velocidad_scroll", configuracion.velocidad_scroll)){
+		if(!obtenerValorScalarNumericoPositivo(node, "velocidad_scroll", configuracion.velocidad_scroll)){
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (velocidad scroll).");
 			configuracion.velocidad_scroll = VELOCIDAD_SCROLL_DEFAULT;
 		}
-		if(!validarScalarNumericoPositivo(node, "dt", configuracion.dt)){
+		if(!obtenerValorScalarNumericoPositivo(node, "dt", configuracion.dt)){
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (dt).");
 			configuracion.dt = DT_DEFAULT;
 		}
@@ -192,7 +192,7 @@ void ParserYAML::setConfiguracionDefault (TagConfiguracion& configuracion) {
 
 void ParserYAML::setPantalla (const YAML::Node& node, TagPantalla& pantalla) {
 	if(node.Type() == YAML::NodeType::Map) {
-		if((!validarScalarNumericoPositivo(node, "ancho", pantalla.ancho)) || (!validarScalarNumericoPositivo(node, "alto", pantalla.alto)))
+		if((!obtenerValorScalarNumericoPositivo(node, "ancho", pantalla.ancho)) || (!obtenerValorScalarNumericoPositivo(node, "alto", pantalla.alto)))
 			setPantallaDefault(pantalla);	
 	}
 	else{
@@ -209,16 +209,16 @@ void ParserYAML::setPantallaDefault (TagPantalla& pantalla) {
 
 void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEntidad, int i) {
 	if(node.Type() == YAML::NodeType::Map) {
-		if(!validarScalarAlfaNumerico(node, "nombre", tipoEntidad.nombre)) {
+		if(!obtenerValorScalarAlfaNumerico(node, "nombre", tipoEntidad.nombre)) {
 			Logger::getInstance()->writeInformation("YAML-CPP:El nombre del tipo de entidad se toma por default.");
 			tipoEntidad.nombre = ENTIDAD_DEFAULT_NOMBRE + intToString(i);
 		}
-		if((!validarScalarAlfaNumerico(node, "imagen", tipoEntidad.imagen))
-			|| (!validarScalarNumericoPositivo(node, "pixel_ref_x", tipoEntidad.pixel_ref_x))
-			|| (!validarScalarNumericoPositivo(node, "pixel_ref_y", tipoEntidad.pixel_ref_y))
-			|| (!validarScalarNumericoPositivo(node, "ancho_sprite", tipoEntidad.ancho_sprite))
-			|| (!validarScalarNumericoPositivo(node, "alto_sprite", tipoEntidad.alto_sprite))
-			|| (!validarScalarNumericoPositivo(node, "cantidad_sprites", tipoEntidad.cantidad_sprites))) {
+		if((!obtenerValorScalarAlfaNumerico(node, "imagen", tipoEntidad.imagen))
+			|| (!obtenerValorScalarNumericoPositivo(node, "pixel_ref_x", tipoEntidad.pixel_ref_x))
+			|| (!obtenerValorScalarNumericoPositivo(node, "pixel_ref_y", tipoEntidad.pixel_ref_y))
+			|| (!obtenerValorScalarNumericoPositivo(node, "ancho_sprite", tipoEntidad.ancho_sprite))
+			|| (!obtenerValorScalarNumericoPositivo(node, "alto_sprite", tipoEntidad.alto_sprite))
+			|| (!obtenerValorScalarNumericoPositivo(node, "cantidad_sprites", tipoEntidad.cantidad_sprites))) {
 				Logger::getInstance()->writeWarning("YAML-CPP:Datos de la imagen del tipo de entidad invalidos, se toman por default (path, pixel_ref_x, pixel_ref_y, ancho_sprite, alto_sprite, cantidad_sprites).");
 				tipoEntidad.imagen = ENTIDAD_DEFAULT_IMAGEN;
 				tipoEntidad.pixel_ref_x = ENTIDAD_DEFAULT_PIXEL_REF_X;
@@ -227,20 +227,20 @@ void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEnt
 				tipoEntidad.ancho_sprite = ENTIDAD_DEFAULT_ANCHO_SPRITE;
 				tipoEntidad.cantidad_sprites = ENTIDAD_DEFAULT_CANTIDAD_SPRITES;
 		}
-		if(!validarScalarNumericoPositivo(node, "ancho_base", tipoEntidad.ancho_base)){
+		if(!obtenerValorScalarNumericoPositivo(node, "ancho_base", tipoEntidad.ancho_base)){
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (ancho_base).");
 			tipoEntidad.ancho_base = ENTIDAD_DEFAULT_ANCHO_BASE;
 		}
-		if(!validarScalarNumericoPositivo(node, "alto_base", tipoEntidad.alto_base)){
+		if(!obtenerValorScalarNumericoPositivo(node, "alto_base", tipoEntidad.alto_base)){
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (alto_base).");
 			tipoEntidad.alto_base = ENTIDAD_DEFAULT_ALTO_BASE;
 		}
 
-		if(!validarScalarNumericoPositivo(node, "fps", tipoEntidad.fps)){
+		if(!obtenerValorScalarNumericoPositivo(node, "fps", tipoEntidad.fps)){
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (fps).");
 			tipoEntidad.fps = ENTIDAD_DEFAULT_FPS;
 		}
-		if(!validarScalarNumericoPositivo(node, "delay", tipoEntidad.delay)){
+		if(!obtenerValorScalarNumericoPositivo(node, "delay", tipoEntidad.delay)){
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (delay).");
 			tipoEntidad.delay = ENTIDAD_DEFAULT_DELAY;
 		}
@@ -253,16 +253,16 @@ void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEnt
 
 void ParserYAML::setTipoTerreno (const YAML::Node& node, TagTipoEntidad& tipoTerreno, int i) {
 	if(node.Type() == YAML::NodeType::Map) {
-		if(!validarScalarAlfaNumerico(node, "nombre", tipoTerreno.nombre)) {
+		if(!obtenerValorScalarAlfaNumerico(node, "nombre", tipoTerreno.nombre)) {
 			Logger::getInstance()->writeInformation("YAML-CPP: el nombre del tipo de entidad se toma por default.");
 			tipoTerreno.nombre = TERRENO_DEFAULT_NOMBRE + intToString(i);
 		}
-		if((!validarScalarAlfaNumerico(node, "imagen", tipoTerreno.imagen))
-			|| (!validarScalarNumericoPositivo(node, "pixel_ref_x", tipoTerreno.pixel_ref_x))
-			|| (!validarScalarNumericoPositivo(node, "pixel_ref_y", tipoTerreno.pixel_ref_y))
-			|| (!validarScalarNumericoPositivo(node, "ancho_sprite", tipoTerreno.ancho_sprite))
-			|| (!validarScalarNumericoPositivo(node, "alto_sprite", tipoTerreno.alto_sprite))
-			|| (!validarScalarNumericoPositivo(node, "cantidad_sprites", tipoTerreno.cantidad_sprites))) {
+		if((!obtenerValorScalarAlfaNumerico(node, "imagen", tipoTerreno.imagen))
+			|| (!obtenerValorScalarNumericoPositivo(node, "pixel_ref_x", tipoTerreno.pixel_ref_x))
+			|| (!obtenerValorScalarNumericoPositivo(node, "pixel_ref_y", tipoTerreno.pixel_ref_y))
+			|| (!obtenerValorScalarNumericoPositivo(node, "ancho_sprite", tipoTerreno.ancho_sprite))
+			|| (!obtenerValorScalarNumericoPositivo(node, "alto_sprite", tipoTerreno.alto_sprite))
+			|| (!obtenerValorScalarNumericoPositivo(node, "cantidad_sprites", tipoTerreno.cantidad_sprites))) {
 				Logger::getInstance()->writeWarning("YAML-CPP:Datos de la imagen del tipo de terreno invalidos, se toman por default (path, pixel_ref_x, pixel_ref_y, ancho_sprite, alto_sprite, cantidad_sprites).");
 				tipoTerreno.imagen = ENTIDAD_DEFAULT_IMAGEN;
 				tipoTerreno.pixel_ref_x = ENTIDAD_DEFAULT_PIXEL_REF_X;
@@ -274,11 +274,11 @@ void ParserYAML::setTipoTerreno (const YAML::Node& node, TagTipoEntidad& tipoTer
 		tipoTerreno.ancho_base = TERRENO_DEFAULT_ANCHO_BASE;
 		tipoTerreno.alto_base = TERRENO_DEFAULT_ALTO_BASE;
 
-		if(!validarScalarNumericoPositivo(node, "fps", tipoTerreno.fps)){
+		if(!obtenerValorScalarNumericoPositivo(node, "fps", tipoTerreno.fps)){
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (fps).");
 			tipoTerreno.fps = TERRENO_DEFAULT_FPS;
 		}
-		if(!validarScalarNumericoPositivo(node, "delay", tipoTerreno.delay)){
+		if(!obtenerValorScalarNumericoPositivo(node, "delay", tipoTerreno.delay)){
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (delay).");
 			tipoTerreno.delay = TERRENO_DEFAULT_DELAY;
 		}
@@ -307,17 +307,17 @@ void ParserYAML::setTipoEntidadDefault (TagTipoEntidad& tipoEntidad) {
 
 void ParserYAML::setEntidad(const YAML::Node& node, TagEntidad& entidad) {
 	if(node.Type() == YAML::NodeType::Map) {
-		if(!validarScalarNumericoPositivo(node, "x", entidad.pos_x)) {
+		if(!obtenerValorScalarNumericoPositivo(node, "x", entidad.pos_x)) {
 			Logger::getInstance()->writeWarning("YAML-CPP:La posicion x de la entidad se toma por defecto.");
 			entidad.pos_x = ENTIDAD_DEFAULT_POSX;
 		}
 
-		if(!validarScalarNumericoPositivo(node, "y", entidad.pos_y)) {
+		if(!obtenerValorScalarNumericoPositivo(node, "y", entidad.pos_y)) {
 			Logger::getInstance()->writeWarning("YAML-CPP:La posicion y de la entidad se toma por defecto.");
 			entidad.pos_y = ENTIDAD_DEFAULT_POSY;
 		}
 
-		if ((!validarScalarAlfaNumerico(node, "tipo", entidad.tipoEntidad))|| (entidad.tipoEntidad.empty())){
+		if ((!obtenerValorScalarAlfaNumerico(node, "tipo", entidad.tipoEntidad))|| (entidad.tipoEntidad.empty())){
 			Logger::getInstance()->writeWarning("YAML-CPP:El tipo de la entidad se toma por defecto.");
 			entidad.tipoEntidad = ENTIDAD_DEFAULT_NOMBRE;
 		}
@@ -333,12 +333,12 @@ void ParserYAML::setEntidad(const YAML::Node& node, TagEntidad& entidad) {
 
 void ParserYAML::setEscenario(const YAML::Node& node, TagEscenario& escenario) {
 	if(node.Type() == YAML::NodeType::Map) {
-		if(!validarScalarAlfaNumerico(node, "nombre", escenario.nombre)) {
+		if(!obtenerValorScalarAlfaNumerico(node, "nombre", escenario.nombre)) {
 			Logger::getInstance()->writeWarning("YAML-CPP:El nombre del escenario se toma por default.");
 			escenario.nombre = ESCENARIO_DEFAULT_NOMBRE;
 		}
 
-		if((!validarScalarNumericoPositivo(node, "size_x", escenario.size_x))||(!validarScalarNumericoPositivo(node, "size_y", escenario.size_y))) {
+		if((!obtenerValorScalarNumericoPositivo(node, "size_x", escenario.size_x))||(!obtenerValorScalarNumericoPositivo(node, "size_y", escenario.size_y))) {
 			Logger::getInstance()->writeInformation("YAML-CPP:Se toman por default los datos del tamanio del escenario.");
 			escenario.size_x = ESCENARIO_DEFAULT_SIZE_X;
 			escenario.size_y = ESCENARIO_DEFAULT_SIZE_Y;
@@ -475,7 +475,7 @@ bool ParserYAML::esNumero(std::string numero) {
 	return true; 
 }
 
-bool ParserYAML::validarScalarNumericoPositivo(const YAML::Node & node, std::string tag, unsigned int & salida) {
+bool ParserYAML::obtenerValorScalarNumericoPositivo(const YAML::Node & node, std::string tag, unsigned int & salida) {
 	std::string numero;
 	double num;
 	if(node.FindValue(tag)) {
@@ -509,7 +509,7 @@ bool ParserYAML::validarScalarNumericoPositivo(const YAML::Node & node, std::str
 	return false;
 }
 
-bool ParserYAML::validarScalarNumericoPositivo(const YAML::Node & node, std::string tag, double & salida) {
+bool ParserYAML::obtenerValorScalarNumericoPositivo(const YAML::Node & node, std::string tag, double & salida) {
 	std::string numero;
 	double num;
 	if(node.FindValue(tag)) {
@@ -536,7 +536,7 @@ bool ParserYAML::validarScalarNumericoPositivo(const YAML::Node & node, std::str
 	return false;
 }
 
-bool ParserYAML::validarScalarAlfaNumerico(const YAML::Node & node, std::string tag, std::string & salida) {
+bool ParserYAML::obtenerValorScalarAlfaNumerico(const YAML::Node & node, std::string tag, std::string & salida) {
 	if(node.FindValue(tag)) {
 		const YAML::Node& nodo_tag = node[tag];
 		if (nodo_tag.Type() == YAML::NodeType::Scalar) {

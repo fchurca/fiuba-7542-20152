@@ -64,9 +64,9 @@ private:
 	void setEscenario(const YAML::Node& node, TagEscenario& escenario);
 	std::string intToString(int i);
 	bool esNumero(std::string s);
-	bool validarScalarNumericoPositivo(const YAML::Node & nodo, std::string tag, unsigned int & salida);
-	bool validarScalarNumericoPositivo(const YAML::Node & nodo, std::string tag, double & salida);
-	bool validarScalarAlfaNumerico(const YAML::Node & nodo, std::string tag, std::string & salida);
+	bool obtenerValorScalarNumericoPositivo(const YAML::Node & nodo, std::string tag, unsigned int & salida);
+	bool obtenerValorScalarNumericoPositivo(const YAML::Node & nodo, std::string tag, double & salida);
+	bool obtenerValorScalarAlfaNumerico(const YAML::Node & nodo, std::string tag, std::string & salida);
 	std::string ubicarNodo(const YAML::Mark mark);
 	void setArchivoDefault();
 	void setConfiguracionDefault(TagConfiguracion& configuracion);
