@@ -15,7 +15,7 @@ void ParserYAML::parse() {
 		Logger::getInstance()->writeInformation("YAML-CPP: se toma un archivo de escenario default.");
 		setArchivoDefault();
 	}
-	else if (fin.peek() == std::ifstream::traits_type::eof()) {
+	else if (fin.peek() == EOF) {
 		Logger::getInstance()->writeError("YAML-CPP:El archivo de configuracion esta vacio.");
 		Logger::getInstance()->writeInformation("YAML-CPP: se toma un archivo de escenario default.");
 		setArchivoDefault();
