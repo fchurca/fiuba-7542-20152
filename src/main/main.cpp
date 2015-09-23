@@ -15,9 +15,9 @@
 int main(int argc, char* args[]) {
 
 	auto & logger = *Logger::getInstance();
-	logger.writeError("Error");
-	logger.getInstance()->writeInformation("Info");
-	logger.getInstance()->writeWarning("Warning");
+	//logger.writeError("Error");
+	logger.getInstance()->writeInformation("Start game");
+	//logger.getInstance()->writeWarning("Warning");
 
 	{
 		GameWindow gameWin = GameWindow();
