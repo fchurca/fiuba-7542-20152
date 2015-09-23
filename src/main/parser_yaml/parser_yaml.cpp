@@ -556,9 +556,9 @@ bool ParserYAML::validarScalarAlfaNumerico(const YAML::Node & node, std::string 
 
 
 std::string ParserYAML::ubicarNodo(const YAML::Mark marca_nodo) {
-	std::stringstream salida;
-    salida << "linea " << marca_nodo.line+1 << ", columna " << marca_nodo.column+1 << " ";
-	return salida.str();
+	std::string salida;
+    salida = " Linea: " + intToString(marca_nodo.line+1) + " Columna: " + intToString(marca_nodo.column+1);
+	return salida;
 }
 
 std::string ParserYAML::intToString(int i) {
