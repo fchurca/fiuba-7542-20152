@@ -55,7 +55,7 @@ void Entity::update() {
 		if (pow(dr, 2) < sqDistance()) {
 			position += r2::fromPolar(bearing(), dr);
 		} else {
-			position = target;
+			position = target - size/2;
 			targeted = false;
 		}
 		if (adjustPosition()) {
