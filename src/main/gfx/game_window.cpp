@@ -143,7 +143,9 @@ void GameWindow::render() {
 			return this->canDraw(*e);});
 	// Ordenamos las entidades por oclusión
 	sort(entities.begin(), entities.end(), [](shared_ptr<Entity> a, shared_ptr<Entity> b) {
-		return ((a->getX() + a->size.x <= b->getX()) || (a->getY() + a->size.y <= b->getY())) &&
+			return (a->size.x == a->size.y && b->size.x == b->size.y)?
+			(a->getX()+a->getY()+a->size.x <= b->getX()+b->getY()+b->size.x):
+			((a->getX() + a->size.x <= b->getX()) || (a->getY() + a->size.y <= b->getY())) &&
 			!((b->getX() + b->size.x <= a->getX()) || (b->getY() + b->size.y <= a->getY()));
 	});
 	for (size_t i =0; i < entities.size(); ++i){
