@@ -18,3 +18,13 @@ void GameTimer::update(){
 	currentTime = SDL_GetTicks();	//Tiempo actual del juego en milisegundos;
 	diffTime = currentTime - lastTime;	
 }
+
+bool GameTimer::wait(int target) {
+	auto dt = target - SDL_GetTicks();
+	if(dt < 0) {
+		return false;
+	}
+	SDL_Delay(dt);
+	return true;
+}
+

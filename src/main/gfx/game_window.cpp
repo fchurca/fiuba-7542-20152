@@ -83,6 +83,9 @@ bool GameWindow::endOfGame(){
 }
 
 bool GameWindow::canDraw(Entity& entity) {
+	if (!(&entity)) {
+		return false;
+	}
 	SDL_Rect screenRect = {0, 0, ancho_pantalla, alto_pantalla};
 	auto it = spriteSheets.find(entity.name);
 	if (it == spriteSheets.end()) {
@@ -114,17 +117,25 @@ void GameWindow::render() {
 		   ld = ul.x - ul.y - 2, // Left diagonal
 		   rd = ur.x - ur.y + 2; // Right diagonal
 	for (size_t x = max(0.0, ul.x),
-			maxx = min((double)board.sizeX, br.x);
+			maxx = min(((double)board.sizeX) - 1, br.x);
 			x < maxx;
 			x++) {
 		for (size_t y = max(max(max(0.0, ur.y), ud - x), x - rd),
-				maxy = min(min(min((double)board.sizeY, bl.y), bd - x), x - ld);
+				maxy = min(min(min(((double)board.sizeY) - 1, bl.y), bd - x), x - ld);
 				y < maxy;
 				y++) {
-			Entity & tile = board.getTerrain(x, y);
-			if (canDraw(tile)) {
-				spriteSheets[tile.name]->render(tile, renderer);
+			if (y >= board.sizeY) {
+				break;
 			}
+			Entity & tile = board.getTerrain(x, y);
+			if (&tile) {
+				if (canDraw(tile)) {
+					spriteSheets[tile.name]->render(tile, renderer);
+				}
+			}
+		}
+		if (x >= board.sizeX) {
+			break;
 		}
 	}
 	// Seleccionamos entidades que se pisan con la pantalla
@@ -353,14 +364,14 @@ r2 GameWindow::getFocus() {
 int GameWindow::start(){
 	init();
 
-	while (!endOfGame())
-	{
+	while (!endOfGame()) {
 		scroll();
 		processInput();
 		update();
 		render();
 
-		SDL_Delay(model->getBoard()->dt); // TODO: Optimizar, sacar hardcodeo
+		auto dt = model->getBoard()->dt;
+		GameTimer::wait(GameTimer::getCurrent() + dt);
 	}
 	return 0;
 }
