@@ -89,7 +89,7 @@ bool GameWindow::canDraw(Entity& entity) {
 	return SDL_HasIntersection(&screenRect, &candidate);
 }
 
-void GameWindow::render(){
+void GameWindow::render() {
 	//	Dibujar
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
@@ -101,19 +101,11 @@ void GameWindow::render(){
 			spriteSheets[tile.name]->render(tile, renderer);
 		}
 	}
-	std::vector<std::shared_ptr<Entity>> entities;
 	// Seleccionamos entidades que se pisan con la pantalla
-	{
-		auto allEntities = board.getEntities();
-		for (size_t i = 0; i < allEntities.size(); i++) {
-			auto e = allEntities[i];
-			if (canDraw(*e)){
-				entities.push_back(e);
-			}
-		}
-	}
+	auto entities = board.selectEntities([this](shared_ptr<Entity> e) {
+			return this->canDraw(*e);});
 	// Ordenamos las entidades por oclusión
-	std::sort(entities.begin(), entities.end(), [](std::shared_ptr<Entity> a, std::shared_ptr<Entity> b) {
+	sort(entities.begin(), entities.end(), [](std::shared_ptr<Entity> a, std::shared_ptr<Entity> b) {
 		return ((a->getX() + a->size.x <= b->getX()) || (a->getY() + a->size.y <= b->getY())) &&
 			!((b->getX() + b->size.x <= a->getX()) || (b->getY() + b->size.y <= a->getY()));
 	});
