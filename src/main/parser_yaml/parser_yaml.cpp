@@ -33,10 +33,9 @@ void ParserYAML::parse() {
 				fin.close();
 		}
 		catch(YAML::ParserException &e) { 
-			std::string mensaje = std::string(e.what());
 			if(fin.is_open())
 				fin.close();
-			Logger::getInstance()->writeError("YAML-CPP:" + mensaje);
+			Logger::getInstance()->writeError("YAML-CPP:" + std::string(e.what()));
 			Logger::getInstance()->writeInformation("YAML-CPP: se toma un archivo de escenario default.");
 			setArchivoDefault();
 		}
