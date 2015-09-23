@@ -85,7 +85,11 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ) {
 void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer){
 	auto direction = entity.getDirection();
 
-	currentFrame = counter % total_sprites;	//Aca se debe usar el frame actual desde el estado de la entidad
+	if (total_sprites == 0){
+		currentFrame = 0;
+		Logger::getInstance()->writeWarning(" La cantidad de sprites debe ser mayor a cero " + path);
+	}else
+		currentFrame = counter % total_sprites;	
 
 	//	Conversion isometrica 
 	auto pos = entity.getPosition() - owner.getFocus();
