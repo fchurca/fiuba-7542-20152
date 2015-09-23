@@ -53,7 +53,7 @@ GameWindow::GameWindow() {
 
 GameWindow::~GameWindow() {
 	map<std::string, SpriteSheet*>::const_iterator itr;
-	for(itr = spritesSheets.begin(); itr != spritesSheets.end(); ++itr){
+	for(itr = spriteSheets.begin(); itr != spriteSheets.end(); ++itr){
 		delete itr->second;
 	}
 
@@ -87,7 +87,7 @@ void GameWindow::render(){
 	for (size_t x = 0; x < board.sizeX; x++) {
 		for (size_t y = 0; y < board.sizeY; y++) {
 			Entity & tile = board.getTerrain(x, y);
-			spritesSheets[tile.name]->render(tile, renderer);
+			spriteSheets[tile.name]->render(tile, renderer);
 		}
 	}
 	std::vector<std::shared_ptr<Entity>> entities;
@@ -97,8 +97,8 @@ void GameWindow::render(){
 		SDL_Rect screenRect = {0, 0, ancho_pantalla, alto_pantalla};
 		for (size_t i = 0; i < allEntities.size(); i++) {
 			auto e = allEntities[i];
-			auto it = spritesSheets.find(e->name);
-			if (it == spritesSheets.end()) {
+			auto it = spriteSheets.find(e->name);
+			if (it == spriteSheets.end()) {
 				Logger::getInstance()->writeWarning("No existe SpriteSheet para este tipo de entidad" + e->name);
 				continue;
 			}
@@ -115,8 +115,8 @@ void GameWindow::render(){
 	});
 	for (std::size_t i =0; i < entities.size(); ++i){
 		auto e = entities[i];
-		auto it = spritesSheets.find(e->name);
-		if(it == spritesSheets.end()){
+		auto it = spriteSheets.find(e->name);
+		if(it == spriteSheets.end()){
 			Logger::getInstance()->writeWarning("No existe SpriteSheet para este tipo de entidad" + e->name);
 			continue;
 		}
@@ -132,10 +132,10 @@ void GameWindow::restart(){
 	delete model;
 
 	map<std::string, SpriteSheet*>::const_iterator itr;
-	for(itr = spritesSheets.begin(); itr != spritesSheets.end(); ++itr){
+	for(itr = spriteSheets.begin(); itr != spriteSheets.end(); ++itr){
 		delete itr->second;
 	}
-	spritesSheets.clear();
+	spriteSheets.clear();
 
 	this->parser->parse();
 	
@@ -195,7 +195,7 @@ void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE
 void GameWindow::update(){
 	GameTimer::update();
 	map<std::string, SpriteSheet*>::const_iterator itr;
-	for(itr = spritesSheets.begin(); itr != spritesSheets.end(); ++itr){
+	for(itr = spriteSheets.begin(); itr != spriteSheets.end(); ++itr){
 		itr->second->update();
 	}
 	model->update();
@@ -204,11 +204,11 @@ void GameWindow::update(){
 
 void GameWindow::addSpriteSheet(std::string name, std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay) {
 	std::map<std::string,SpriteSheet*>::iterator it;
-	it = this->spritesSheets.find(name);
-	if(it != this->spritesSheets.end())
+	it = this->spriteSheets.find(name);
+	if(it != this->spriteSheets.end())
 		Logger::getInstance()->writeError("Ya existe un spriteSheet para el tipo de entidad con nombre " + name);
 	else{
-		spritesSheets[name] = new SpriteSheet(pPath, pixelRefX, pixelRefY, altoSprite, anchoSprite, cantSprites, fps, delay, *this);
+		spriteSheets[name] = new SpriteSheet(pPath, pixelRefX, pixelRefY, altoSprite, anchoSprite, cantSprites, fps, delay, *this);
 		Logger::getInstance()->writeInformation("Se agrega spriteSheet para el tipo de entidad con nombre " + name);
 	}
 }
