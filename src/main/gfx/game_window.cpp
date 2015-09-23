@@ -90,22 +90,38 @@ void GameWindow::render(){
 			spritesSheets[tile.name]->render(tile, renderer);
 		}
 	}
-	std::vector<std::shared_ptr<Entity>> entities = board.getEntities();
-	std::map<std::string,SpriteSheet*>::iterator it;
-	SpriteSheet* ss;
+	std::vector<std::shared_ptr<Entity>> entities;
+	// Seleccionamos entidades que se pisan con la pantalla
+	{
+		auto allEntities = board.getEntities();
+		SDL_Rect screenRect = {0, 0, ancho_pantalla, alto_pantalla};
+		for (size_t i = 0; i < allEntities.size(); i++) {
+			auto e = allEntities[i];
+			auto it = spritesSheets.find(e->name);
+			if (it == spritesSheets.end()) {
+				Logger::getInstance()->writeWarning("No existe SpriteSheet para este tipo de entidad" + e->name);
+				continue;
+			}
+			auto candidate = it->second->targetRect(*e);
+			if (SDL_HasIntersection(&screenRect, &candidate)){
+				entities.push_back(e);
+			}
+		}
+	}
 	// Ordenamos las entidades por oclusión
 	std::sort(entities.begin(), entities.end(), [](std::shared_ptr<Entity> a, std::shared_ptr<Entity> b) {
 		return ((a->getX() + a->size.x <= b->getX()) || (a->getY() + a->size.y <= b->getY())) &&
 			!((b->getX() + b->size.x <= a->getX()) || (b->getY() + b->size.y <= a->getY()));
 	});
 	for (std::size_t i =0; i < entities.size(); ++i){
-		it = this->spritesSheets.find(entities[i]->name);
-		if(it != this->spritesSheets.end()){
-			ss = it->second;
-			ss->render(*entities[i], renderer);
+		auto e = entities[i];
+		auto it = spritesSheets.find(e->name);
+		if(it == spritesSheets.end()){
+			Logger::getInstance()->writeWarning("No existe SpriteSheet para este tipo de entidad" + e->name);
+			continue;
 		}
-		else
-			Logger::getInstance()->writeWarning("No existe SpriteSheet para este tipo de entidad" + entities[i]->name);
+		auto ss = it->second;
+		ss->render(*e, renderer);
 	}
 
 	SDL_RenderPresent( renderer );
