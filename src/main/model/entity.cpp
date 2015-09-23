@@ -9,12 +9,12 @@
 using namespace std;
 
 Entity::Entity(std::string name, Board& board, r2 position, r2 size, double speed) :
-	targeted(false),
-	name(name),
-	board(board),
 	position(position),
 	speed(speed),
-	size(size)
+	targeted(false),
+	size(size),
+	name(name),
+	board(board)
 {
 	adjustPosition();
 	stringstream message;
