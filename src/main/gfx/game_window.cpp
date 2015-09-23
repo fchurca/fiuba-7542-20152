@@ -4,7 +4,7 @@
 
 #include "game_window.h"
 
-use namespace std;
+using namespace std;
 
 bool GameWindow::sdlInitialized = false;
 
