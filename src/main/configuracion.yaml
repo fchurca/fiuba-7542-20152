@@ -86,14 +86,14 @@ tipos_entidades:
     cantidad_sprites: 1
   - nombre: arbol
     imagen: resources/arbol.png
-    ancho_base: 2
-    alto_base: 2
+    ancho_base: 1.9
+    alto_base: 1.9
     pixel_ref_x: 20
     pixel_ref_y: 79
     fps: 0
     delay: 0
     ancho_sprite: 88
-    alto_sprite: 121
+    alto_sprite: 143
     cantidad_sprites: 1
 tipos_terrenos:
   - nombre: agua
