@@ -94,15 +94,10 @@ void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer){
 			counter = 0;
 	}
 
-	//	Conversion isometrica 
-	auto pos = entity.getPosition() - owner.getFocus();
-	auto x = pos.x;
-	auto y = pos.y;
-	int screenX = ((x - y) * TILE_WIDTH_DEFAULT / 2) + (owner.ancho_pantalla) / 2;
-	int screenY = ((x + y) * TILE_HEIGHT_DEFAULT / 2) + (owner.alto_pantalla - TILE_HEIGHT_DEFAULT) / 2;
+	auto screenPos = owner.boardToScreenPosition(entity.getPosition());
 
 	//	Ubicacion donde dibujar
-	SDL_Rect renderQuad = { screenX - pixel_ref_x , screenY - pixel_ref_y, ancho_sprite, alto_sprite };
+	SDL_Rect renderQuad = { screenPos.x - pixel_ref_x , screenPos.y - pixel_ref_y, ancho_sprite, alto_sprite };
 
 	//	Parte de la imagen a levantar
 	SDL_Rect clip = { direction * ancho_sprite, currentFrame * alto_sprite, ancho_sprite, alto_sprite };

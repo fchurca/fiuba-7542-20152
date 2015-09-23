@@ -197,8 +197,21 @@ void GameWindow::addSpriteSheet(std::string name, std::string pPath, int pixelRe
 	}
 }
 
+r2 GameWindow::screenToBoardPosition(SDL_Point screenPos) {
+	double XsTerm = (double)((double)screenPos.x - ancho_pantalla/2)/(double)TILE_WIDTH_DEFAULT;
+	double YsTerm = (double)((double)screenPos.y - alto_pantalla/2)/(double)TILE_HEIGHT_DEFAULT;
+	return focusPosition + r2(XsTerm + YsTerm + .5, -XsTerm + YsTerm + .5);
+}
+
+SDL_Point GameWindow::boardToScreenPosition(r2 boardPos) {
+	boardPos -= focusPosition;
+	SDL_Point ret;
+	ret.x = ((boardPos.x - boardPos.y) * TILE_WIDTH_DEFAULT / 2) + (ancho_pantalla) / 2;
+	ret.y = ((boardPos.x + boardPos.y) * TILE_HEIGHT_DEFAULT / 2) + (alto_pantalla - TILE_HEIGHT_DEFAULT) / 2;
+	return ret;
+}
+
 void GameWindow::processInput(){
-	int mouse_x_screen, mouse_y_screen;
 
 	//	Procesar input del usuario
 	while(SDL_PollEvent(EventHandler::getInstance()->getEvent())) {
@@ -211,26 +224,22 @@ void GameWindow::processInput(){
 			}
 		}
 		if( EventHandler::getInstance()->getEvent()->type == SDL_MOUSEBUTTONUP ){
-			SDL_GetMouseState(&mouse_x_screen, &mouse_y_screen);
+			SDL_Point mouse_screen;
+			SDL_GetMouseState(&mouse_screen.x, &mouse_screen.y);
 			std::ostringstream oss;
-			oss << "Mouse en " << mouse_x_screen << "," << mouse_y_screen;
+			oss << "Mouse en " << mouse_screen.x << "," << mouse_screen.y;
 
 			// Conversion de coordenadas en pantalla a coordenadas mapa
 
-			double XsTerm = (double)((double)mouse_x_screen - ancho_pantalla/2)/(double)TILE_WIDTH_DEFAULT;
-			double YsTerm = (double)((double)mouse_y_screen - alto_pantalla/2)/(double)TILE_HEIGHT_DEFAULT;
-
-			double x_mapa = focusPosition.x + XsTerm + YsTerm + .5;
-			double y_mapa = focusPosition.y - XsTerm + YsTerm + .5;
-
-			oss << "; mapa: " << x_mapa << "," << y_mapa;
+			auto mouseBoard = screenToBoardPosition(mouse_screen);
+			oss << "; mapa: " << mouseBoard.x << "," << mouseBoard.y;
 
 			Logger::getInstance()->writeInformation(oss.str().c_str());
 			if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_LEFT ) {
 				Logger::getInstance()->writeInformation("Boton Izquierdo");
 				auto protagonist = &(model->getBoard()->getProtagonist());
 				if (protagonist) {
-					protagonist->setTarget(r2(x_mapa, y_mapa));
+					protagonist->setTarget(mouseBoard);
 				}
 			}
 			if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_RIGHT) {

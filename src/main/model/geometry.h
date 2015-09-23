@@ -21,6 +21,7 @@ class r2 {
 		r2 operator - (r2 b);
 
 		r2 & operator += (r2 b);
+		r2 & operator -= (r2 b);
 
 		bool operator == (r2 b);
 		bool operator != (r2 b);

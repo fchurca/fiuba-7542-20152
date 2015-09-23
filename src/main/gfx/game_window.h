@@ -38,5 +38,7 @@ public:
 	r2 getFocus();
 	unsigned int alto_pantalla;
 	unsigned int ancho_pantalla;
+	r2 screenToBoardPosition(SDL_Point screenPos);
+	SDL_Point boardToScreenPosition(r2 boardPos);
 };
 #endif // __GFX_GAMEWINDOW_H__

@@ -36,6 +36,10 @@ r2 & r2::operator += (r2 b) {
 	return *this;
 }
 
+r2 & r2::operator -= (r2 b) {
+	return *this += -b;
+}
+
 bool r2::operator == (r2 b) {
 	return (x == b.x) && (y == b.y);
 }
