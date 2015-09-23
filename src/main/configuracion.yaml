@@ -75,8 +75,8 @@ tipos_entidades:
     cantidad_sprites: 5
   - nombre: arbol
     imagen: resources/arbol.png
-    ancho_base: 1
-    alto_base: 1
+    ancho_base: 2
+    alto_base: 2
     pixel_ref_x: 20
     pixel_ref_y: 90
     fps: 0
@@ -131,29 +131,29 @@ escenario:
       - {x: 11, y: 11, tipo: chancho }
       - {x: 5, y: 5, tipo: chancho }
       - {x: 15, y: 15, tipo: arbol}
-      - {x: 15, y: 16, tipo: arbol}
-      - {x: 16, y: 15, tipo: arbol}
-      - {x: 16, y: 16, tipo: arbol}
+      - {x: 15, y: 17, tipo: arbol}
+      - {x: 17, y: 15, tipo: arbol}
+      - {x: 17, y: 17, tipo: arbol}
       - {x: 15, y: 4, tipo: arbol}
-      - {x: 16, y: 4, tipo: arbol}
       - {x: 17, y: 4, tipo: arbol}
-      - {x: 18, y: 4, tipo: arbol}
-      - {x: 15, y: 5, tipo: arbol}
-      - {x: 16, y: 5, tipo: arbol}
-      - {x: 17, y: 5, tipo: arbol}
-      - {x: 18, y: 5, tipo: arbol}
+      - {x: 19, y: 4, tipo: arbol}
+      - {x: 21, y: 4, tipo: arbol}
       - {x: 15, y: 6, tipo: arbol}
-      - {x: 16, y: 6, tipo: arbol}
       - {x: 17, y: 6, tipo: arbol}
-      - {x: 18, y: 6, tipo: arbol}
-      - {x: 15, y: 7, tipo: arbol}
-      - {x: 16, y: 7, tipo: arbol}
-      - {x: 17, y: 7, tipo: arbol}
-      - {x: 18, y: 7, tipo: arbol}
+      - {x: 19, y: 6, tipo: arbol}
+      - {x: 21, y: 6, tipo: arbol}
       - {x: 15, y: 8, tipo: arbol}
-      - {x: 16, y: 8, tipo: arbol}
       - {x: 17, y: 8, tipo: arbol}
-      - {x: 18, y: 8, tipo: arbol}
+      - {x: 19, y: 8, tipo: arbol}
+      - {x: 21, y: 8, tipo: arbol}
+      - {x: 15, y: 10, tipo: arbol}
+      - {x: 17, y: 10, tipo: arbol}
+      - {x: 19, y: 10, tipo: arbol}
+      - {x: 21, y: 10, tipo: arbol}
+      - {x: 15, y: 11, tipo: arbol}
+      - {x: 17, y: 11, tipo: arbol}
+      - {x: 19, y: 11, tipo: arbol}
+      - {x: 21, y: 11, tipo: arbol}
     terrenos:
       - {x: 0, y: 0, tipo: agua }
       - {x: 0, y: 1, tipo: agua }
