@@ -95,10 +95,13 @@ void GameWindow::render() {
 	SDL_RenderClear(renderer);
 	Board & board = *this->model->getBoard();
 	// Dibujamos el terreno
+	// TODO: Recorrer menos tablero
 	for (size_t x = 0; x < board.sizeX; x++) {
 		for (size_t y = 0; y < board.sizeY; y++) {
 			Entity & tile = board.getTerrain(x, y);
-			spriteSheets[tile.name]->render(tile, renderer);
+			if (canDraw(tile)) {
+				spriteSheets[tile.name]->render(tile, renderer);
+			}
 		}
 	}
 	// Seleccionamos entidades que se pisan con la pantalla
