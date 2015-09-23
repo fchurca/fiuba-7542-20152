@@ -100,8 +100,12 @@ void GameWindow::render() {
 	Board & board = *this->model->getBoard();
 	// Dibujamos el terreno
 	// TODO: Recorrer menos tablero
-	for (size_t x = 0; x < board.sizeX; x++) {
-		for (size_t y = 0; y < board.sizeY; y++) {
+	auto ul = screenToBoardPosition({0, 0}); // Upper Left
+	auto ur = screenToBoardPosition({ancho_pantalla, 0}); // Upper Right
+	auto bl = screenToBoardPosition({0, alto_pantalla}); // Bottom Left
+	auto br = screenToBoardPosition({ancho_pantalla, alto_pantalla}); // Bottom Right
+	for (size_t x = max(0.0, ul.x); x < min((double)board.sizeX, br.x); x++) {
+		for (size_t y = max(0.0, ur.y); y < min((double)board.sizeY, bl.y); y++) {
 			Entity & tile = board.getTerrain(x, y);
 			if (canDraw(tile)) {
 				spriteSheets[tile.name]->render(tile, renderer);
