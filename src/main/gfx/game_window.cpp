@@ -1,6 +1,10 @@
-#include "game_window.h"
-#include <sstream>
 #include <algorithm>
+#define NOMINMAX // Para que nadie nos redefina min max
+#include <sstream>
+
+#include "game_window.h"
+
+use namespace std;
 
 bool GameWindow::sdlInitialized = false;
 
@@ -52,7 +56,7 @@ GameWindow::GameWindow() {
 }
 
 GameWindow::~GameWindow() {
-	map<std::string, SpriteSheet*>::const_iterator itr;
+	map<string, SpriteSheet*>::const_iterator itr;
 	for(itr = spriteSheets.begin(); itr != spriteSheets.end(); ++itr){
 		delete itr->second;
 	}
@@ -108,11 +112,11 @@ void GameWindow::render() {
 	auto entities = board.selectEntities([this](shared_ptr<Entity> e) {
 			return this->canDraw(*e);});
 	// Ordenamos las entidades por oclusión
-	sort(entities.begin(), entities.end(), [](std::shared_ptr<Entity> a, std::shared_ptr<Entity> b) {
+	sort(entities.begin(), entities.end(), [](shared_ptr<Entity> a, shared_ptr<Entity> b) {
 		return ((a->getX() + a->size.x <= b->getX()) || (a->getY() + a->size.y <= b->getY())) &&
 			!((b->getX() + b->size.x <= a->getX()) || (b->getY() + b->size.y <= a->getY()));
 	});
-	for (std::size_t i =0; i < entities.size(); ++i){
+	for (size_t i =0; i < entities.size(); ++i){
 		auto e = entities[i];
 		auto it = spriteSheets.find(e->name);
 		if(it == spriteSheets.end()){
@@ -130,7 +134,7 @@ void GameWindow::render() {
 void GameWindow::restart(){
 	delete model;
 
-	map<std::string, SpriteSheet*>::const_iterator itr;
+	map<string, SpriteSheet*>::const_iterator itr;
 	for(itr = spriteSheets.begin(); itr != spriteSheets.end(); ++itr){
 		delete itr->second;
 	}
@@ -142,8 +146,8 @@ void GameWindow::restart(){
 }
 
 void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE REFERENCIAS LLEVARLO AL PARSER
-	std::vector<TagTipoEntidad> tte = this->parser->getTiposEntidades();
-	std::vector<TagTipoEntidad> ttt = this->parser->getTiposTerrenos();
+	vector<TagTipoEntidad> tte = this->parser->getTiposEntidades();
+	vector<TagTipoEntidad> ttt = this->parser->getTiposTerrenos();
 	TagConfiguracion tc = this->parser->getConfiguracion();
 	TagEscenario te = this->parser->getEscenario();
 	this->model = new Game(te.size_x, te.size_y, tc.dt); 
@@ -158,17 +162,17 @@ void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE
 	addSpriteSheet(PROTAGONISTA_DEFAULT_NOMBRE, PROTAGONISTA_DEFAULT_IMAGEN, PROTAGONISTA_DEFAULT_PIXEL_REF_X, PROTAGONISTA_DEFAULT_PIXEL_REF_Y, PROTAGONISTA_DEFAULT_ALTO_SPRITE, PROTAGONISTA_DEFAULT_ANCHO_SPRITE, PROTAGONISTA_DEFAULT_CANTIDAD_SPRITES, PROTAGONISTA_DEFAULT_FPS, PROTAGONISTA_DEFAULT_DELAY);
 	board->createEntityFactory(PROTAGONISTA_DEFAULT_NOMBRE, r2(PROTAGONISTA_DEFAULT_ANCHO_BASE, PROTAGONISTA_DEFAULT_ALTO_BASE), VELOCIDAD_PERSONAJE_DEFAULT);
 
-	for (std::size_t i =0; i < tte.size(); ++i){
+	for (size_t i =0; i < tte.size(); ++i){
 		addSpriteSheet(tte[i].nombre, tte[i].imagen, tte[i].pixel_ref_x, tte[i].pixel_ref_y, tte[i].alto_sprite, tte[i].ancho_sprite,  tte[i].cantidad_sprites, tte[i].fps, tte[i].delay);
 		board->createEntityFactory(tte[i].nombre, r2(tte[i].ancho_base, tte[i].alto_base), tc.vel_personaje); // LA VELOCIDAD DEBERIA IR SOLO AL PROTAGONISTA
 	}
 
-	for (std::size_t i =0; i < ttt.size(); ++i){
+	for (size_t i =0; i < ttt.size(); ++i){
 		addSpriteSheet(ttt[i].nombre, ttt[i].imagen, ttt[i].pixel_ref_x, ttt[i].pixel_ref_y, ttt[i].alto_sprite, ttt[i].ancho_sprite,  ttt[i].cantidad_sprites, ttt[i].fps, ttt[i].delay);
 		board->createEntityFactory(ttt[i].nombre, r2(ttt[i].ancho_base, ttt[i].alto_base), 0); 
 	}
 
-	for(std::size_t i =0; i < te.terrenos.size(); ++i){
+	for(size_t i =0; i < te.terrenos.size(); ++i){
 		board->setTerrain(te.terrenos[i].tipoEntidad,te.terrenos[i].pos_x,te.terrenos[i].pos_y);
 	}
 	if(!board->createProtagonist(te.protagonista.tipoEntidad, r2(te.protagonista.pos_x, te.protagonista.pos_y))){
@@ -176,7 +180,7 @@ void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE
 		board->createProtagonist(PROTAGONISTA_DEFAULT_NOMBRE, r2(PROTAGONISTA_DEFAULT_POSX, PROTAGONISTA_DEFAULT_POSY));
 	}
 
-	for(std::size_t i =0; i < te.entidades.size(); ++i){
+	for(size_t i =0; i < te.entidades.size(); ++i){
 		board->createEntity(te.entidades[i].tipoEntidad, r2(te.entidades[i].pos_x,te.entidades[i].pos_y));
 	}
 
@@ -193,7 +197,7 @@ void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE
 
 void GameWindow::update(){
 	GameTimer::update();
-	map<std::string, SpriteSheet*>::const_iterator itr;
+	map<string, SpriteSheet*>::const_iterator itr;
 	for(itr = spriteSheets.begin(); itr != spriteSheets.end(); ++itr){
 		itr->second->update();
 	}
@@ -201,8 +205,8 @@ void GameWindow::update(){
 	return;
 }
 
-void GameWindow::addSpriteSheet(std::string name, std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay) {
-	std::map<std::string,SpriteSheet*>::iterator it;
+void GameWindow::addSpriteSheet(string name, string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay) {
+	map<string,SpriteSheet*>::iterator it;
 	it = this->spriteSheets.find(name);
 	if(it != this->spriteSheets.end())
 		Logger::getInstance()->writeError("Ya existe un spriteSheet para el tipo de entidad con nombre " + name);
@@ -244,7 +248,7 @@ void GameWindow::processInput(){
 			case SDL_MOUSEBUTTONUP:
 				SDL_Point mouse_screen;
 				SDL_GetMouseState(&mouse_screen.x, &mouse_screen.y);
-				std::ostringstream oss;
+				ostringstream oss;
 				oss << "Mouse en " << mouse_screen.x << "," << mouse_screen.y;
 
 				// Conversion de coordenadas en pantalla a coordenadas mapa
