@@ -11,12 +11,12 @@ void ParserYAML::parse() {
 	Logger::getInstance()->writeInformation("YAML-CPP:Inicia el parseo del archivo de configuracion.");
 	std::ifstream fin(this->filename);
 	if(!fin) {
-		Logger::getInstance()->writeError("YAML-CPP:No existe el archivo de configuracion o no pudo ser abierto.");
+		Logger::getInstance()->writeError("YAML-CPP:El archivo de configuracion no existe o no pudo ser abierto.");
 		Logger::getInstance()->writeInformation("YAML-CPP: se toma un archivo de escenario default.");
 		setArchivoDefault();
 	}
 	else if (fin.peek() == EOF) {
-		Logger::getInstance()->writeError("YAML-CPP:El archivo de configuracion esta vacio.");
+		Logger::getInstance()->writeError("YAML-CPP:El archivo de configuracion se encuentra vacio.");
 		Logger::getInstance()->writeInformation("YAML-CPP: se toma un archivo de escenario default.");
 		setArchivoDefault();
 	} 
