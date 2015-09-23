@@ -40,6 +40,17 @@ tipos_entidades:
     ancho_sprite: 48
     alto_sprite: 44
     cantidad_sprites: 15
+  - nombre: cartel
+    imagen: resources/cartel.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 17
+    pixel_ref_y: 24
+    fps: 0
+    delay: 0
+    ancho_sprite: 60
+    alto_sprite: 32
+    cantidad_sprites: 1
   - nombre: chanchoDelay
     imagen: resources/chanchos.png
     ancho_base: 0.5
@@ -106,6 +117,8 @@ escenario:
     size_x: 100
     size_y: 100
     entidades:
+      - {x: 5, y: 2, tipo: cartel }
+      - {x: 5, y: 8, tipo: cartel }
       - {x: 10, y: 10, tipo: chanchoDelay }
       - {x: 10, y: 11, tipo: chanchoDelay }
       - {x: 11, y: 10, tipo: chancho }
