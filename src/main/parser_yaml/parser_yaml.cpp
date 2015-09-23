@@ -465,7 +465,7 @@ bool ParserYAML::esNumero(std::string numero) {
 		i = 1;
 	}
 	for(; i < largo; i++){
-		if((numero[i] < '0' || numero[i] > '9') && numero[i] != '.') 
+		if(!isdigit(numero[i]) && numero[i] != '.') 
 			return false; 
 		else 
 			if(numero[i] == '.')
