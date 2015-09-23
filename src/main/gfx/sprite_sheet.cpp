@@ -82,7 +82,7 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ) {
 	return texture;
 }
 
-void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer){
+void SpriteSheet::render(Entity & entity, SDL_Renderer* renderer){
 	if (total_sprites == 0){
 		currentFrame = 0;
 		Logger::getInstance()->writeWarning(" La cantidad de sprites debe ser mayor a cero " + path);

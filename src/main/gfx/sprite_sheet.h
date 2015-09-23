@@ -37,7 +37,7 @@ public:
 	GameWindow & owner;
 	SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay, GameWindow & owner );
 	~SpriteSheet();
-	void render(Entity& entity, int frame, SDL_Renderer* renderer);
+	void render(Entity& entity, SDL_Renderer* renderer);
 	void update();
 	SDL_Texture* getLoadedTexture( SDL_Renderer* renderer );
 	SDL_Rect targetRect(Entity& entity);

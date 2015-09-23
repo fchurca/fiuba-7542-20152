@@ -87,7 +87,7 @@ void GameWindow::render(){
 	for (size_t x = 0; x < board.sizeX; x++) {
 		for (size_t y = 0; y < board.sizeY; y++) {
 			Entity & tile = board.getTerrain(x, y);
-			spritesSheets[tile.name]->render(tile, 0, renderer);
+			spritesSheets[tile.name]->render(tile, renderer);
 		}
 	}
 	std::vector<std::shared_ptr<Entity>> entities = board.getEntities();
@@ -102,7 +102,7 @@ void GameWindow::render(){
 		it = this->spritesSheets.find(entities[i]->name);
 		if(it != this->spritesSheets.end()){
 			ss = it->second;
-			ss->render(*entities[i], 0, renderer);
+			ss->render(*entities[i], renderer);
 		}
 		else
 			Logger::getInstance()->writeWarning("No existe SpriteSheet para este tipo de entidad" + entities[i]->name);
