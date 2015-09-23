@@ -78,6 +78,17 @@ bool GameWindow::endOfGame(){
 	return this->exit;
 }
 
+bool GameWindow::canDraw(Entity& entity) {
+	SDL_Rect screenRect = {0, 0, ancho_pantalla, alto_pantalla};
+	auto it = spriteSheets.find(entity.name);
+	if (it == spriteSheets.end()) {
+		Logger::getInstance()->writeWarning("No existe SpriteSheet para este tipo de entidad" + entity.name);
+		return false;
+	}
+	auto candidate = it->second->targetRect(entity);
+	return SDL_HasIntersection(&screenRect, &candidate);
+}
+
 void GameWindow::render(){
 	//	Dibujar
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
@@ -94,16 +105,9 @@ void GameWindow::render(){
 	// Seleccionamos entidades que se pisan con la pantalla
 	{
 		auto allEntities = board.getEntities();
-		SDL_Rect screenRect = {0, 0, ancho_pantalla, alto_pantalla};
 		for (size_t i = 0; i < allEntities.size(); i++) {
 			auto e = allEntities[i];
-			auto it = spriteSheets.find(e->name);
-			if (it == spriteSheets.end()) {
-				Logger::getInstance()->writeWarning("No existe SpriteSheet para este tipo de entidad" + e->name);
-				continue;
-			}
-			auto candidate = it->second->targetRect(*e);
-			if (SDL_HasIntersection(&screenRect, &candidate)){
+			if (canDraw(*e)){
 				entities.push_back(e);
 			}
 		}

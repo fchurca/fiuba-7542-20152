@@ -29,6 +29,7 @@ protected:
 	r2 focusPosition;
 	void focus(r2 position);
 	void focus();
+	bool canDraw(Entity& entity);
 public:
 	void addSpriteSheet(std::string name, std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay);
 	GameWindow();
