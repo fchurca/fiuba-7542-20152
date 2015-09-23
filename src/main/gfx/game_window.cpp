@@ -99,13 +99,28 @@ void GameWindow::render() {
 	SDL_RenderClear(renderer);
 	Board & board = *this->model->getBoard();
 	// Dibujamos el terreno
-	// TODO: Recorrer menos tablero
-	auto ul = screenToBoardPosition({0, 0}); // Upper Left
-	auto ur = screenToBoardPosition({ancho_pantalla, 0}); // Upper Right
-	auto bl = screenToBoardPosition({0, alto_pantalla}); // Bottom Left
-	auto br = screenToBoardPosition({ancho_pantalla, alto_pantalla}); // Bottom Right
-	for (size_t x = max(0.0, ul.x); x < min((double)board.sizeX, br.x); x++) {
-		for (size_t y = max(0.0, ur.y); y < min((double)board.sizeY, bl.y); y++) {
+	SDL_Point ulS, urS, blS, brS; // Screen corners
+	ulS.x = 0, ulS.y = 0;
+	urS.x = ancho_pantalla, urS.y = 0;
+	blS.x = 0, blS.y = alto_pantalla;
+	brS.x = ancho_pantalla, brS.y = alto_pantalla;
+	r2 margin(1,1),
+	   ul = screenToBoardPosition(ulS) - margin, // Upper Left
+	   ur = screenToBoardPosition(urS) - margin, // Upper Right
+	   bl = screenToBoardPosition(blS) + margin, // Bottom Left
+	   br = screenToBoardPosition(brS) + margin; // Bottom Right
+	double ud = ul.x + ul.y - 2, // Upper diagonal
+		   bd = bl.x + bl.y + 2, // Bottom diagonal
+		   ld = ul.x - ul.y - 2, // Left diagonal
+		   rd = ur.x - ur.y + 2; // Right diagonal
+	for (size_t x = max(0.0, ul.x),
+			maxx = min((double)board.sizeX, br.x);
+			x < maxx;
+			x++) {
+		for (size_t y = max(max(max(0.0, ur.y), ud - x), x - rd),
+				maxy = min(min(min((double)board.sizeY, bl.y), bd - x), x - ld);
+				y < maxy;
+				y++) {
 			Entity & tile = board.getTerrain(x, y);
 			if (canDraw(tile)) {
 				spriteSheets[tile.name]->render(tile, renderer);
