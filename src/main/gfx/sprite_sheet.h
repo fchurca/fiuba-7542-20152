@@ -40,6 +40,7 @@ public:
 	void render(Entity& entity, int frame, SDL_Renderer* renderer);
 	void update();
 	SDL_Texture* getLoadedTexture( SDL_Renderer* renderer );
+	SDL_Rect targetRect(Entity& entity);
 };
 
 #endif // __SPRITESHEET_H__

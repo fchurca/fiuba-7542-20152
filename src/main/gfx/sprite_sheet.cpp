@@ -83,8 +83,6 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ) {
 }
 
 void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer){
-	auto direction = entity.getDirection();
-
 	if (total_sprites == 0){
 		currentFrame = 0;
 		Logger::getInstance()->writeWarning(" La cantidad de sprites debe ser mayor a cero " + path);
@@ -94,13 +92,10 @@ void SpriteSheet::render(Entity & entity, int frame, SDL_Renderer* renderer){
 			counter = 0;
 	}
 
-	auto screenPos = owner.boardToScreenPosition(entity.getPosition());
-
 	//	Ubicacion donde dibujar
-	SDL_Rect renderQuad = { screenPos.x - pixel_ref_x , screenPos.y - pixel_ref_y, ancho_sprite, alto_sprite };
-
+	auto renderQuad = targetRect(entity);
 	//	Parte de la imagen a levantar
-	SDL_Rect clip = { direction * ancho_sprite, currentFrame * alto_sprite, ancho_sprite, alto_sprite };
+	SDL_Rect clip = { entity.getDirection() * ancho_sprite, currentFrame * alto_sprite, ancho_sprite, alto_sprite };
 
 	//	Dibujado
 	//	TODO: Verificar si renderQuad realmente se pisa con la pantalla
@@ -118,4 +113,10 @@ void SpriteSheet::update(){
 			counter++;
 		}
 	}
+}
+
+SDL_Rect SpriteSheet::targetRect(Entity& entity) {
+	auto screenPos = owner.boardToScreenPosition(entity.getPosition());
+	SDL_Rect renderQuad = { screenPos.x - pixel_ref_x , screenPos.y - pixel_ref_y, ancho_sprite, alto_sprite };
+	return renderQuad;
 }
