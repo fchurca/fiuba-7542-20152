@@ -305,7 +305,7 @@ void GameWindow::processInput(){
 }
 
 void GameWindow::scroll(){
-	double ds = scroll_speed * model->getBoard()->dt / 1000; //deltascroll
+	double ds = (double)scroll_speed * (double)(model->getBoard()->dt) / 1000.0; //deltascroll
 	r2 df;
 
 	int mouse_x, mouse_y;
