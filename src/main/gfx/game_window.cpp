@@ -293,6 +293,9 @@ void GameWindow::processInput(){
 					Logger::getInstance()->writeInformation("Boton Izquierdo");
 					auto protagonist = &(model->getBoard()->getProtagonist());
 					if (protagonist) {
+						if (!(SDL_GetModState()&KMOD_SHIFT)) {
+							protagonist->unsetTarget();
+						}
 						protagonist->addTarget(mouseBoard);
 					}
 				}
