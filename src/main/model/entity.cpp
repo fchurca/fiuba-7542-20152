@@ -11,7 +11,6 @@ using namespace std;
 Entity::Entity(std::string name, Board& board, r2 position, r2 size, double speed) :
 	position(position),
 	speed(speed),
-	targeted(false),
 	size(size),
 	name(name),
 	board(board)
@@ -40,23 +39,32 @@ bool Entity::adjustPosition() {
 	return oldpos != position;
 }
 
-void Entity::setTarget(r2 newTarget) {
-	targeted = true;
-	target = newTarget;
+void Entity::addTarget(r2 newTarget) {
+	targets.push_back(newTarget);
 }
 
 void Entity::unsetTarget() {
-	targeted = false;
+	targets.clear();
+}
+
+r2 Entity::target() {
+	return targets.size() > 0?
+		targets.front():
+		r2(0,0);
+}
+
+bool Entity::targeted() {
+	return targets.size() > 0;
 }
 
 void Entity::update() {
-	if (targeted) {
+	if (targeted()) {
 		auto dr = speed*board.dt/1000;
 		if (pow(dr, 2) < sqDistance()) {
 			position += r2::fromPolar(bearing(), dr);
 		} else {
-			position = target - size/2;
-			targeted = false;
+			position = target() - size/2;
+			targets.pop_front();
 		}
 		if (adjustPosition()) {
 			unsetTarget();
@@ -81,7 +89,7 @@ double Entity::getY() {
 }
 
 r2 Entity::trajectory() {
-	return target - center();
+	return target() - center();
 }
 
 double Entity::bearing() {
@@ -99,7 +107,7 @@ double Entity::distance() {
 }
 
 Directions Entity::getDirection(){
-	return targeted?
+	return targeted()?
 		static_cast<Directions>(
 				(unsigned)floor(4*bearing()/M_PI+.5)%8):
 		SOUTH_EAST;

@@ -3,6 +3,8 @@
 #define _MODEL_ENTITY_H_
 //-----------------------------------------------------------------------------
 #include <string>
+#include <deque>
+
 #include "../defines/defines.h"
 #include "geometry.h"
 
@@ -14,16 +16,17 @@ class Entity {
 	protected:
 		r2 position;	// Position (tile)
 		double speed;	// Speed (tiles/s)
-		bool targeted;
-		r2 target;
+		std::deque<r2> targets;
 
 		Entity();
 		bool adjustPosition();
 
 	public:
 		r2 size;
-		void setTarget(r2 newTarget);
+		void addTarget(r2 newTarget);
 		void unsetTarget();
+		r2 target();
+		bool targeted();
 		const std::string name;
 		const Board& board;
 		r2 center();
