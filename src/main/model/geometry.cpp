@@ -6,7 +6,11 @@ double clip(double x, double min, double max) {
 		x;
 }
 
-r2::r2(){}
+double interpolate(double x, double xa, double xb, double ya, double yb) {
+	return ya + (yb - ya) * (x - xa) / (xb - xa);
+}
+
+r2::r2():x(0),y(0){}
 
 r2::r2(double x, double y):x(x),y(y){};
 

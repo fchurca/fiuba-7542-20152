@@ -305,44 +305,32 @@ void GameWindow::processInput(){
 }
 
 void GameWindow::scroll(){
-	int mouse_x, mouse_y;
-
 	double ds = scroll_speed * model->getBoard()->dt / 1000; //deltascroll
+	r2 df;
+
+	int mouse_x, mouse_y;
 	SDL_GetMouseState(&mouse_x, &mouse_y);
-	double fx = focusPosition.x, fy = focusPosition.y;
-
-	if(mouse_x <= margen_pantalla)
-	{
-		double dsi = (1.0 - ((double)mouse_x / (double)margen_pantalla)) * ds; 
-
-		fx -= dsi;
-		fy += dsi;
+	if(mouse_x <= margen_pantalla) {
+		auto dsi = interpolate(mouse_x, 0, margen_pantalla, ds, 0);
+		df += r2(-dsi, dsi);
 		Logger::getInstance()->writeInformation("Scrolleando hacia la izquierda");
 	}
-	else if(mouse_x >= ancho_pantalla - margen_pantalla){
-
-		double dsi = ((double)(mouse_x + margen_pantalla - ancho_pantalla)/(double)margen_pantalla) * ds;
-
-		fx += dsi;
-		fy -= dsi;
+	if(mouse_x >= ancho_pantalla - margen_pantalla){
+		auto dsi = interpolate(mouse_x, ancho_pantalla - margen_pantalla, ancho_pantalla, 0, ds);
+		df += r2(dsi, -dsi);
 		Logger::getInstance()->writeInformation("Scrolleando hacia la derecha");
 	}
-	if(mouse_y <= margen_pantalla)
-	{
-		double dsi = (1.0 - ((double)mouse_y / (double)margen_pantalla)) * ds;
-		fx -= dsi;
-		fy -= dsi;
+	if(mouse_y <= margen_pantalla) {
+		auto dsi = interpolate(mouse_y, 0, margen_pantalla, ds, 0);
+		df += r2(-dsi, -dsi);
 		Logger::getInstance()->writeInformation("Scrolleando hacia arriba");
 	}
-	if(mouse_y >= alto_pantalla - margen_pantalla)
-	{
-		double dsi = ((double)(mouse_y + margen_pantalla - alto_pantalla)/(double)margen_pantalla) * ds;
-
-		fx += dsi;
-		fy += dsi;
+	if(mouse_y >= alto_pantalla - margen_pantalla) {
+		auto dsi = interpolate(mouse_y, alto_pantalla - margen_pantalla, alto_pantalla, 0, ds);
+		df += r2(dsi, dsi);
 		Logger::getInstance()->writeInformation("Scrolleando hacia abajo");
 	}
-	focus(r2(fx, fy));
+	focus(focusPosition + df);
 }
 
 void GameWindow::focus(r2 newFocus) {

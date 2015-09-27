@@ -5,6 +5,9 @@
 
 double clip(double x, double min, double max);
 
+double interpolate(double x, double xa, double xb, double ya, double yb);
+
+
 class r2 {
 	public:
 		double x;
