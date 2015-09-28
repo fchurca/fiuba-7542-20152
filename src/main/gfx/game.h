@@ -3,8 +3,8 @@
 
 #include <SDL2/SDL.h>
 
-#include "log/logger.h"
-#include "model/board.h"
+#include "../log/logger.h"
+#include "../model/board.h"
 
 class Game {
 private:

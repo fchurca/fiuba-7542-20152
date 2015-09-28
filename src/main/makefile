@@ -2,12 +2,12 @@ CFLAGS += -std=c++11 -g
 CXX += $(CFLAGS)
 CXXO = $(CXX) -o $@ -c $<
 
-all: bin/tp7542
+all: bin/tp7542_standalone
 
-bin/tp7542: bin/main.o bin/geometry.o bin/parser_yaml.o bin/logger.o bin/game_window.o bin/game_timer.o bin/controller.o bin/board.o bin/entity.o bin/sprite_sheet.o bin/game.o bin/entity_factory.o
+bin/tp7542_standalone: bin/standalone_main.o bin/geometry.o bin/parser_yaml.o bin/logger.o bin/game_window.o bin/game_timer.o bin/controller.o bin/board.o bin/entity.o bin/sprite_sheet.o bin/game.o bin/entity_factory.o
 	$(CXX) -o $@ -lyaml-cpp -lSDL2 -lSDL2_image $^
 
-bin/main.o: main.cpp
+bin/standalone_main.o: standalone/main.cpp
 	${CXXO}
 
 bin/geometry.o: model/geometry.cpp model/geometry.h
@@ -40,11 +40,11 @@ bin/entity_factory.o: model/entity_factory.cpp model/entity_factory.h model/enti
 bin/sprite_sheet.o: gfx/sprite_sheet.cpp gfx/sprite_sheet.h
 	${CXXO}
 
-bin/game.o: game.cpp game.h
+bin/game.o: gfx/game.cpp gfx/game.h
 	${CXXO}
 
 clean: cleanobj
-	rm -f bin/tp7542
+	rm -f bin/tp7542_standalone
 
 cleanobj:
 	rm -rf bin/*.o
@@ -52,7 +52,7 @@ cleanobj:
 force: clean all
 
 run: all
-	bin/tp7542
+	bin/tp7542_standalone
 
 cppcheck:
 	cppcheck `find . -name '*.cpp'`

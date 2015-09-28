@@ -5,10 +5,10 @@
 //-----------------------------------------------------------------------------
 #include <SDL2/SDL.h>
 //-----------------------------------------------------------------------------
-#include "parser_yaml/parser_yaml.h"
-#include "log/logger.h"
-#include "game.h"
-#include "gfx/game_window.h"
+#include "../parser_yaml/parser_yaml.h"
+#include "../log/logger.h"
+#include "../gfx/game.h"
+#include "../gfx/game_window.h"
 //-----------------------------------------------------------------------------
 
 //-----------------------------------------------------------------------------
