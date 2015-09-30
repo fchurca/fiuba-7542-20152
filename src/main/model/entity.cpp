@@ -34,8 +34,7 @@ bool Entity::adjustPosition() {
 	double topX = board.sizeX - size.x;
 	double topY = board.sizeY - size.y;
 	r2 oldpos = position;
-	position.x = clip(position.x, 0, topX);
-	position.y = clip(position.y, 0, topY);
+	position = {clip(position.x, 0, topX),clip(position.y, 0, topY)};
 	return oldpos != position;
 }
 
@@ -50,7 +49,7 @@ void Entity::unsetTarget() {
 r2 Entity::target() {
 	return targets.size() > 0?
 		targets.front():
-		r2(0,0);
+		r2(0, 0);
 }
 
 bool Entity::targeted() {
@@ -80,10 +79,12 @@ r2 Entity::getPosition() {
 	return position;
 }
 
+// TODO: Deprecar
 double Entity::getX() {
 	return position.x;
 }
 
+// TODO: Deprecar
 double Entity::getY() {
 	return position.y;
 }

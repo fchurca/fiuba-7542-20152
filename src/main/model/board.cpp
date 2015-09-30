@@ -24,7 +24,7 @@ void Board::setTerrain(string name, size_t x, size_t y) {
 	if (entityFactories.find(name) == entityFactories.end()) {
 		Logger::getInstance()->writeError("No existe el tipo de entidad " + name);
 	} else {
-		terrain[(sizeX*y) + x] = entityFactories[name]->createEntity(r2(x, y));
+		terrain[(sizeX*y) + x] = entityFactories[name]->createEntity({(double)x, (double)y});
 	}
 }
 

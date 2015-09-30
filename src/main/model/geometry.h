@@ -37,7 +37,7 @@ class rectangle {
 		r2 size;
 
 		rectangle();
-		rectangle(r2 position, r2 size);
+		explicit rectangle(r2 position, r2 size);
 		bool intersects(rectangle other);
 };
 
