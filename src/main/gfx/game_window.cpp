@@ -102,16 +102,11 @@ void GameWindow::render() {
 	SDL_RenderClear(renderer);
 	Board & board = *this->model->getBoard();
 	// Dibujamos el terreno
-	SDL_Point ulS, urS, blS, brS; // Screen corners
-	ulS.x = 0, ulS.y = 0;
-	urS.x = ancho_pantalla, urS.y = 0;
-	blS.x = 0, blS.y = alto_pantalla;
-	brS.x = ancho_pantalla, brS.y = alto_pantalla;
 	r2 margin(1,1),
-	   ul = screenToBoardPosition(ulS) - margin, // Upper Left
-	   ur = screenToBoardPosition(urS) - margin, // Upper Right
-	   bl = screenToBoardPosition(blS) + margin, // Bottom Left
-	   br = screenToBoardPosition(brS) + margin; // Bottom Right
+	   ul = screenToBoardPosition({0, 0}) - margin, // Upper Left
+	   ur = screenToBoardPosition({ancho_pantalla, 0}) - margin, // Upper Right
+	   bl = screenToBoardPosition({0, alto_pantalla}) + margin, // Bottom Left
+	   br = screenToBoardPosition({ancho_pantalla, alto_pantalla}) + margin; // Bottom Right
 	double ud = ul.x + ul.y - 2, // Upper diagonal
 		   bd = bl.x + bl.y + 2, // Bottom diagonal
 		   ld = ul.x - ul.y - 2, // Left diagonal
@@ -256,9 +251,9 @@ r2 GameWindow::screenToBoardPosition(SDL_Point screenPos) {
 
 SDL_Point GameWindow::boardToScreenPosition(r2 boardPos) {
 	boardPos -= focusPosition;
-	SDL_Point ret;
-	ret.x = ((boardPos.x - boardPos.y) * TILE_WIDTH_DEFAULT / 2) + (ancho_pantalla) / 2;
-	ret.y = ((boardPos.x + boardPos.y) * TILE_HEIGHT_DEFAULT / 2) + (alto_pantalla - TILE_HEIGHT_DEFAULT) / 2;
+	SDL_Point ret = {
+		(int)((boardPos.x - boardPos.y) * TILE_WIDTH_DEFAULT / 2) + (ancho_pantalla) / 2,
+		(int)((boardPos.x + boardPos.y) * TILE_HEIGHT_DEFAULT / 2) + (alto_pantalla - TILE_HEIGHT_DEFAULT) / 2};
 	return ret;
 }
 
