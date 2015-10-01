@@ -138,9 +138,9 @@ void GameWindow::render() {
 			return this->canDraw(*e);});
 	// Ordenamos las entidades por oclusión
 	sort(entities.begin(), entities.end(), [](shared_ptr<Entity> a, shared_ptr<Entity> b) {
-			return (a->size.x == a->size.y && b->size.x == b->size.y)?
-			(a->getX()+a->getY()+a->size.x <= b->getX()+b->getY()+b->size.x):
-			((a->getX() + a->size.x <= b->getX()) || (a->getY() + a->size.y <= b->getY())) &&
+		return (a->size.x == a->size.y && b->size.x == b->size.y) ?
+			(a->getX() + a->getY() + a->size.x < b->getX() + b->getY() + b->size.x) :
+			((a->getX() + a->size.x < b->getX()) || (a->getY() + a->size.y < b->getY())) &&
 			!((b->getX() + b->size.x <= a->getX()) || (b->getY() + b->size.y <= a->getY()));
 	});
 	for (size_t i =0; i < entities.size(); ++i){
@@ -202,13 +202,13 @@ void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE
 	for(size_t i =0; i < te.terrenos.size(); ++i){
 		board->setTerrain(te.terrenos[i].tipoEntidad,te.terrenos[i].pos_x,te.terrenos[i].pos_y);
 	}
-	if(!board->createProtagonist(te.protagonista.tipoEntidad, {te.protagonista.pos_x, te.protagonista.pos_y})){
+	if(!board->createProtagonist(te.protagonista.tipoEntidad, {(double)te.protagonista.pos_x, (double)te.protagonista.pos_y})){
 		Logger::getInstance()->writeInformation("Se crea un protagonista default");
 		board->createProtagonist(PROTAGONISTA_DEFAULT_NOMBRE, {PROTAGONISTA_DEFAULT_POSX, PROTAGONISTA_DEFAULT_POSY});
 	}
 
 	for(size_t i =0; i < te.entidades.size(); ++i){
-		board->createEntity(te.entidades[i].tipoEntidad, {te.entidades[i].pos_x,te.entidades[i].pos_y});
+		board->createEntity(te.entidades[i].tipoEntidad, {(double)te.entidades[i].pos_x,(double)te.entidades[i].pos_y});
 	}
 
 	for(size_t x = 0; x < board->sizeX; x++) {
