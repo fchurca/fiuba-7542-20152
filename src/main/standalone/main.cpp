@@ -20,8 +20,7 @@ int main(int argc, char* args[]) {
 	//logger.getInstance()->writeWarning("Warning");
 
 	{
-		GameWindow gameWin = GameWindow();
-		gameWin.start();
+		GameWindow().start();
 	}
 
 	logger.getInstance()->writeInformation("Closing down");

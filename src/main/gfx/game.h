@@ -9,11 +9,11 @@
 class Game {
 private:
 	void init();
-	Board* gameBoard;
+	std::shared_ptr<Board> gameBoard;
 public:
 	Game(int sizeX, int sizeY, size_t dt);
 	~Game();
-	Board* getBoard();
+	std::shared_ptr<Board> getBoard();
 	void update();
 };
 #endif //__GAME_H__
