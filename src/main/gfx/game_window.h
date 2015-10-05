@@ -4,14 +4,11 @@
 #include "game.h"
 #include "../log/logger.h"
 #include "../defines/defines.h"
-#include "../parser_yaml/parser_yaml.h"
 #include "../controllers/event_handler.h"
 #include "sprite_sheet.h"
 
 class GameWindow {
 protected:
-	std::shared_ptr<Game> model; //= NULL;
-	std::shared_ptr<ParserYAML> parser; //= NULL;
 	SDL_Window* window; //= NULL;
 	SDL_Renderer* renderer;// = NULL;
 	std::map<std::string, std::shared_ptr<SpriteSheet>> spriteSheets;
@@ -30,18 +27,20 @@ protected:
 	void focus(r2 position);
 	void focus();
 	bool canDraw(Entity& entity);
+	Board& board;
 public:
 	void addSpriteSheet(std::string name, std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay);
-	GameWindow();
+	GameWindow(Board& board, int sizeX, int sizeY, int scrollMargin, int scrollSpeed);
 	~GameWindow();
 	int start();
 	void init();
 	r2 getFocus();
 	Board & getBoard();
-	ParserYAML & getParser();
 	int alto_pantalla;
 	int ancho_pantalla;
 	r2 screenToBoardPosition(SDL_Point screenPos);
 	SDL_Point boardToScreenPosition(r2 boardPos);
+
+	friend Game;
 };
 #endif // __GFX_GAMEWINDOW_H__

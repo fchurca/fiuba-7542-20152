@@ -15,12 +15,10 @@
 int main(int argc, char* args[]) {
 
 	auto & logger = *Logger::getInstance();
-	//logger.writeError("Error");
-	logger.getInstance()->writeInformation("Start game");
-	//logger.getInstance()->writeWarning("Warning");
+	logger.writeInformation("Start game");
 
 	{
-		GameWindow().start();
+		Game().start();
 	}
 
 	logger.getInstance()->writeInformation("Closing down");

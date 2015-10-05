@@ -11,12 +11,13 @@ class GameWindow;
 class Game {
 private:
 	void init();
-	std::shared_ptr<Board> gameBoard;
-	GameWindow* gameWindow;
+	std::shared_ptr<Board> board;
+	std::shared_ptr<GameWindow> gameWindow;
 public:
-	Game(GameWindow * gameWindow);
+	Game();
 	~Game();
 	std::shared_ptr<Board> getBoard();
+	void start();
 	void update();
 };
 #endif //__GAME_H__
