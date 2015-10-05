@@ -17,25 +17,23 @@ protected:
 	unsigned int margen_pantalla;
 	static bool sdlInitialized; // = false
 	static bool initialize();
-	bool endOfGame();
 	void processInput();
-	void update();
-	void render();
-	void restart();
 	void scroll();
 	r2 focusPosition;
 	void focus(r2 position);
 	void focus();
 	bool canDraw(Entity& entity);
 	Board& board;
+	Game& owner;
 public:
 	void addSpriteSheet(std::string name, std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay);
-	GameWindow(Board& board, int sizeX, int sizeY, int scrollMargin, int scrollSpeed);
+	GameWindow(Game& owner, Board& board, int sizeX, int sizeY, int scrollMargin, int scrollSpeed);
 	~GameWindow();
 	int start();
 	void init();
+	void update();
+	void render();
 	r2 getFocus();
-	Board & getBoard();
 	int alto_pantalla;
 	int ancho_pantalla;
 	r2 screenToBoardPosition(SDL_Point screenPos);

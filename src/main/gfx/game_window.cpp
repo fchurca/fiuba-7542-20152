@@ -25,8 +25,9 @@ bool GameWindow::initialize() {
 	return GameWindow::sdlInitialized;
 }
 
-GameWindow::GameWindow(Board& board, int sizeX, int sizeY, int scrollMargin, int scrollSpeed) :
-	board(board), ancho_pantalla(sizeX), alto_pantalla(sizeY),
+GameWindow::GameWindow(Game& owner, Board& board, int sizeX, int sizeY, int scrollMargin, int scrollSpeed) :
+	owner(owner), board(board),
+	ancho_pantalla(sizeX), alto_pantalla(sizeY),
 	margen_pantalla(scrollMargin), scroll_speed(scrollSpeed)
 {
 	exit = false;
@@ -57,13 +58,10 @@ GameWindow::~GameWindow() {
 	Logger::getInstance()->writeInformation("Destroying window");
 	if (window) {
 		SDL_DestroyWindow(window);
+		window = nullptr;
 	} else {
 		Logger::getInstance()->writeWarning("Window never initialized");
 	}
-}
-
-bool GameWindow::endOfGame(){
-	return exit;
 }
 
 bool GameWindow::canDraw(Entity& entity) {
@@ -139,12 +137,7 @@ void GameWindow::render() {
 	return;
 }
 
-void GameWindow::restart(){
-	spriteSheets.clear();
-	init();
-}
-
-void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE REFERENCIAS LLEVARLO AL PARSER
+void GameWindow::init(){
 	focus();
 }
 
@@ -154,7 +147,7 @@ void GameWindow::update(){
 	for(auto & kv : spriteSheets) {
 		kv.second->update();
 	}
-	board.update();
+	processInput();
 	return;
 }
 
@@ -189,12 +182,12 @@ void GameWindow::processInput(){
 		auto & e = *(EventHandler::getInstance()->getEvent());
 		switch(e.type) {
 			case SDL_QUIT:
-				exit = true;
+				owner.exit();
 				break;
 			case SDL_KEYDOWN:
 				Logger::getInstance()->writeInformation("Teclado");
 				if(e.key.keysym.sym == SDLK_r){
-					restart();
+					owner.restart();
 				}
 				break;
 			case SDL_MOUSEBUTTONUP:
@@ -272,18 +265,3 @@ r2 GameWindow::getFocus() {
 	return focusPosition;
 }
 
-int GameWindow::start(){
-	init();
-
-	while (!endOfGame()) {
-		processInput();
-		update();
-		render();
-
-		int dt = board.dt;
-		if (!GameTimer::wait(GameTimer::getCurrent() + dt)) {
-			Logger::getInstance()->writeInformation("Estamos laggeando!");
-		}
-	}
-	return 0;
-}

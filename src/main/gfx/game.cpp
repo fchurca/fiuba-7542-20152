@@ -4,10 +4,31 @@
 #include "game_window.h"
 #include "../parser_yaml/parser_yaml.h"
 
-Game::Game() {
+Game::Game() :
+	exit_p(false), restart_p(false)
+{
+	init();
+}
+
+Game::~Game(){
+	std::stringstream message;
+	message << "Killing Game " << this;
+	Logger::getInstance()->writeInformation(message.str());
+	clear();
+}
+
+void Game::clear() {
+	board = nullptr;
+	gameWindow = nullptr;
+}
+
+void Game::init(){
 	std::stringstream message;
 	message << "Creating Game " << this;
 	Logger::getInstance()->writeInformation(message.str());
+
+	clear();
+	restart_p = false;
 
 	ParserYAML parser(CONFIG_FILE_PATH);
 	parser.parse();
@@ -16,7 +37,7 @@ Game::Game() {
 	board = make_shared<Board>(te.size_x, te.size_y, tc.dt); 
 	board->buildBoard();
 	auto tp = parser.getPantalla();
-	gameWindow = make_shared<GameWindow>(*board, tp.ancho, tp.alto, tc.margen_scroll, tc.velocidad_scroll);
+	gameWindow = make_shared<GameWindow>(*this, *board, tp.ancho, tp.alto, tc.margen_scroll, tc.velocidad_scroll);
 
 	gameWindow->addSpriteSheet(ENTIDAD_DEFAULT_NOMBRE, ENTIDAD_DEFAULT_IMAGEN, ENTIDAD_DEFAULT_PIXEL_REF_X, ENTIDAD_DEFAULT_PIXEL_REF_Y, ENTIDAD_DEFAULT_ALTO_SPRITE, ENTIDAD_DEFAULT_ANCHO_SPRITE, ENTIDAD_DEFAULT_CANTIDAD_SPRITES, ENTIDAD_DEFAULT_FPS, ENTIDAD_DEFAULT_DELAY);
 	board->createEntityFactory(ENTIDAD_DEFAULT_NOMBRE, {ENTIDAD_DEFAULT_ANCHO_BASE, ENTIDAD_DEFAULT_ALTO_BASE}, 0);
@@ -57,33 +78,30 @@ Game::Game() {
 			}
 		}
 	}
-}
 
-Game::~Game(){
-	std::stringstream message;
-	message << "Killing Game " << this;
-	Logger::getInstance()->writeInformation(message.str());
-	board = nullptr;
-	gameWindow = nullptr;
-}
-
-void Game::init(){
-	//	Cargar recusos, configuracion, pantalla, etc
-
-	return;
+	gameWindow->init();
 }
 
 void Game::start() {
-	gameWindow->start();
+	while (!exit_p) {
+		if(restart_p) {
+			init();
+		}
+		gameWindow->update(); // Controller
+		board->update(); // Model
+		gameWindow->render(); // View
+
+		if (!GameTimer::wait(GameTimer::getCurrent() + board->dt)) {
+			Logger::getInstance()->writeInformation("Estamos laggeando!");
+		}
+	}
 }
 
-void Game::update(){
-	//	Actualizar juego
-	board->update();
-	return;
+void Game::restart() {
+	restart_p = true;
 }
 
-shared_ptr<Board> Game::getBoard(){
-	return board;
+void Game::exit() {
+	exit_p = true;
 }
 
