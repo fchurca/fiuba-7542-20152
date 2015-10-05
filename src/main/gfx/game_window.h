@@ -11,7 +11,7 @@
 class GameWindow {
 protected:
 	std::shared_ptr<Game> model; //= NULL;
-	ParserYAML* parser; //= NULL;
+	std::shared_ptr<ParserYAML> parser; //= NULL;
 	SDL_Window* window; //= NULL;
 	SDL_Renderer* renderer;// = NULL;
 	std::map<std::string, std::shared_ptr<SpriteSheet>> spriteSheets;

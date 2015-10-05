@@ -26,18 +26,18 @@ bool GameWindow::initialize() {
 }
 
 GameWindow::GameWindow() {
-	this->parser = new ParserYAML(CONFIG_FILE_PATH);
-	this->parser->parse();
-	TagPantalla tp = this->parser->getPantalla();
-	TagConfiguracion tc = this->parser->getConfiguracion();
-	this->model = nullptr;
-	this->exit = false;
-	this->focusPosition.x = 0;
-	this->focusPosition.y = 0;
-	this->alto_pantalla = tp.alto;
-	this->ancho_pantalla = tp.ancho;
-	this->margen_pantalla = tc.margen_scroll;
-	this->scroll_speed = tc.velocidad_scroll;
+	parser = make_shared<ParserYAML>(CONFIG_FILE_PATH);
+	parser->parse();
+	TagPantalla tp = parser->getPantalla();
+	TagConfiguracion tc = parser->getConfiguracion();
+	model = nullptr;
+	exit = false;
+	focusPosition.x = 0;
+	focusPosition.y = 0;
+	alto_pantalla = tp.alto;
+	ancho_pantalla = tp.ancho;
+	margen_pantalla = tc.margen_scroll;
+	scroll_speed = tc.velocidad_scroll;
 
 	Logger::getInstance()->writeInformation("Creating window");
 
@@ -58,7 +58,7 @@ GameWindow::GameWindow() {
 GameWindow::~GameWindow() {
 	spriteSheets.clear();
 
-	delete parser;
+	parser = nullptr;
 	Logger::getInstance()->writeInformation("Destroying renderer");
 	if (renderer) {
 		SDL_DestroyRenderer(renderer);
@@ -74,7 +74,7 @@ GameWindow::~GameWindow() {
 }
 
 bool GameWindow::endOfGame(){
-	return this->exit;
+	return exit;
 }
 
 bool GameWindow::canDraw(Entity& entity) {
@@ -130,7 +130,7 @@ void GameWindow::render() {
 	}
 	// Seleccionamos entidades que se pisan con la pantalla
 	auto entities = board.selectEntities([this](shared_ptr<Entity> e) {
-			return this->canDraw(*e);});
+			return canDraw(*e);});
 	// Ordenamos las entidades por oclusión
 	sort(entities.begin(), entities.end(), [](shared_ptr<Entity> a, shared_ptr<Entity> b) {
 		return (a->size.x == a->size.y && b->size.x == b->size.y) ?
@@ -157,7 +157,7 @@ void GameWindow::restart(){
 
 	spriteSheets.clear();
 
-	this->parser->parse();
+	parser->parse();
 	
 	init();
 }
@@ -253,7 +253,7 @@ void GameWindow::processInput(){
 		auto & e = *(EventHandler::getInstance()->getEvent());
 		switch(e.type) {
 			case SDL_QUIT:
-				this->exit = true;
+				exit = true;
 				break;
 			case SDL_KEYDOWN:
 				Logger::getInstance()->writeInformation("Teclado");
