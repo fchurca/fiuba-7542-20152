@@ -165,7 +165,7 @@ void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE
 	auto tc = parser->getConfiguracion();
 	auto te = parser->getEscenario();
 
-	model = make_shared<Game>(te.size_x, te.size_y, tc.dt); 
+	model = make_shared<Game>(this); 
 	auto& board = getBoard();
 	
 	addSpriteSheet(ENTIDAD_DEFAULT_NOMBRE, ENTIDAD_DEFAULT_IMAGEN, ENTIDAD_DEFAULT_PIXEL_REF_X, ENTIDAD_DEFAULT_PIXEL_REF_Y, ENTIDAD_DEFAULT_ALTO_SPRITE, ENTIDAD_DEFAULT_ANCHO_SPRITE, ENTIDAD_DEFAULT_CANTIDAD_SPRITES, ENTIDAD_DEFAULT_FPS, ENTIDAD_DEFAULT_DELAY);
@@ -338,6 +338,10 @@ r2 GameWindow::getFocus() {
 
 Board& GameWindow::getBoard() {
 	return *(model->getBoard());
+}
+
+ParserYAML& GameWindow::getParser() {
+	return *parser;
 }
 
 int GameWindow::start(){

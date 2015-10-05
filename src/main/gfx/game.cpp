@@ -1,12 +1,16 @@
 #include <sstream>
 
 #include "game.h"
+#include "game_window.h"
 
-Game::Game(int sizeX, int sizeY, size_t dt){
+Game::Game(GameWindow* gameWindow) : gameWindow(gameWindow) {
 	std::stringstream message;
 	message << "Creating Game " << this;
 	Logger::getInstance()->writeInformation(message.str());
-	gameBoard = make_shared<Board>(sizeX, sizeY, dt); 
+	auto& parser = gameWindow->getParser();
+	auto te = parser.getEscenario();
+	auto tc = parser.getConfiguracion();
+	gameBoard = make_shared<Board>(te.size_x, te.size_y, tc.dt); 
 	gameBoard->buildBoard();
 }
 
@@ -15,6 +19,7 @@ Game::~Game(){
 	message << "Killing Game " << this;
 	Logger::getInstance()->writeInformation(message.str());
 	gameBoard = nullptr;
+	gameWindow = nullptr;
 }
 
 void Game::init(){
