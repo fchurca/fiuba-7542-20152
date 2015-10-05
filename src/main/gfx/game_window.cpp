@@ -59,8 +59,6 @@ GameWindow::~GameWindow() {
 	spriteSheets.clear();
 
 	delete parser;
-	delete model;
-
 	Logger::getInstance()->writeInformation("Destroying renderer");
 	if (renderer) {
 		SDL_DestroyRenderer(renderer);
@@ -97,7 +95,7 @@ void GameWindow::render() {
 	//	Dibujar
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
-	Board & board = *this->model->getBoard();
+	Board & board = *model->getBoard();
 	// Dibujamos el terreno
 	r2 margin(1,1),
 	   ul = screenToBoardPosition({0, 0}) - margin, // Upper Left
@@ -155,7 +153,7 @@ void GameWindow::render() {
 }
 
 void GameWindow::restart(){
-	delete model;
+	model = nullptr;
 
 	spriteSheets.clear();
 
@@ -168,7 +166,7 @@ void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE
 	auto tc = parser->getConfiguracion();
 	auto te = parser->getEscenario();
 
-	model = new Game(te.size_x, te.size_y, tc.dt); 
+	model = make_shared<Game>(te.size_x, te.size_y, tc.dt); 
 	auto board = model->getBoard();
 	
 	addSpriteSheet(ENTIDAD_DEFAULT_NOMBRE, ENTIDAD_DEFAULT_IMAGEN, ENTIDAD_DEFAULT_PIXEL_REF_X, ENTIDAD_DEFAULT_PIXEL_REF_Y, ENTIDAD_DEFAULT_ALTO_SPRITE, ENTIDAD_DEFAULT_ANCHO_SPRITE, ENTIDAD_DEFAULT_CANTIDAD_SPRITES, ENTIDAD_DEFAULT_FPS, ENTIDAD_DEFAULT_DELAY);

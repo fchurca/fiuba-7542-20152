@@ -10,7 +10,7 @@
 
 class GameWindow {
 protected:
-	Game* model; //= NULL;
+	std::shared_ptr<Game> model; //= NULL;
 	ParserYAML* parser; //= NULL;
 	SDL_Window* window; //= NULL;
 	SDL_Renderer* renderer;// = NULL;
