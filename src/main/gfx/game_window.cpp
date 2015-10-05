@@ -95,7 +95,7 @@ void GameWindow::render() {
 	//	Dibujar
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
-	Board & board = *model->getBoard();
+	auto& board = getBoard();
 	// Dibujamos el terreno
 	r2 margin(1,1),
 	   ul = screenToBoardPosition({0, 0}) - margin, // Upper Left
@@ -167,44 +167,44 @@ void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE
 	auto te = parser->getEscenario();
 
 	model = make_shared<Game>(te.size_x, te.size_y, tc.dt); 
-	auto board = model->getBoard();
+	auto& board = getBoard();
 	
 	addSpriteSheet(ENTIDAD_DEFAULT_NOMBRE, ENTIDAD_DEFAULT_IMAGEN, ENTIDAD_DEFAULT_PIXEL_REF_X, ENTIDAD_DEFAULT_PIXEL_REF_Y, ENTIDAD_DEFAULT_ALTO_SPRITE, ENTIDAD_DEFAULT_ANCHO_SPRITE, ENTIDAD_DEFAULT_CANTIDAD_SPRITES, ENTIDAD_DEFAULT_FPS, ENTIDAD_DEFAULT_DELAY);
-	board->createEntityFactory(ENTIDAD_DEFAULT_NOMBRE, {ENTIDAD_DEFAULT_ANCHO_BASE, ENTIDAD_DEFAULT_ALTO_BASE}, 0);
+	board.createEntityFactory(ENTIDAD_DEFAULT_NOMBRE, {ENTIDAD_DEFAULT_ANCHO_BASE, ENTIDAD_DEFAULT_ALTO_BASE}, 0);
 
 	addSpriteSheet(TERRENO_DEFAULT_NOMBRE, TERRENO_DEFAULT_IMAGEN, TERRENO_DEFAULT_PIXEL_REF_X, TERRENO_DEFAULT_PIXEL_REF_Y, TERRENO_DEFAULT_ALTO_SPRITE, TERRENO_DEFAULT_ANCHO_SPRITE, TERRENO_DEFAULT_CANTIDAD_SPRITES, TERRENO_DEFAULT_FPS, TERRENO_DEFAULT_DELAY);
-	board->createEntityFactory(TERRENO_DEFAULT_NOMBRE, {TERRENO_DEFAULT_ANCHO_BASE, TERRENO_DEFAULT_ALTO_BASE}, 0);
+	board.createEntityFactory(TERRENO_DEFAULT_NOMBRE, {TERRENO_DEFAULT_ANCHO_BASE, TERRENO_DEFAULT_ALTO_BASE}, 0);
 
 	addSpriteSheet(PROTAGONISTA_DEFAULT_NOMBRE, PROTAGONISTA_DEFAULT_IMAGEN, PROTAGONISTA_DEFAULT_PIXEL_REF_X, PROTAGONISTA_DEFAULT_PIXEL_REF_Y, PROTAGONISTA_DEFAULT_ALTO_SPRITE, PROTAGONISTA_DEFAULT_ANCHO_SPRITE, PROTAGONISTA_DEFAULT_CANTIDAD_SPRITES, PROTAGONISTA_DEFAULT_FPS, PROTAGONISTA_DEFAULT_DELAY);
-	board->createEntityFactory(PROTAGONISTA_DEFAULT_NOMBRE, {PROTAGONISTA_DEFAULT_ANCHO_BASE, PROTAGONISTA_DEFAULT_ALTO_BASE}, VELOCIDAD_PERSONAJE_DEFAULT);
+	board.createEntityFactory(PROTAGONISTA_DEFAULT_NOMBRE, {PROTAGONISTA_DEFAULT_ANCHO_BASE, PROTAGONISTA_DEFAULT_ALTO_BASE}, VELOCIDAD_PERSONAJE_DEFAULT);
 
 	for(auto& t : parser->getTiposEntidades()) {
 		addSpriteSheet(t.nombre, t.imagen, t.pixel_ref_x, t.pixel_ref_y, t.alto_sprite, t.ancho_sprite,  t.cantidad_sprites, t.fps, t.delay);
-		board->createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, tc.vel_personaje); // LA VELOCIDAD DEBERIA IR SOLO AL PROTAGONISTA
+		board.createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, tc.vel_personaje); // LA VELOCIDAD DEBERIA IR SOLO AL PROTAGONISTA
 	}
 
 	for(auto& t : parser->getTiposTerrenos()) {
 		addSpriteSheet(t.nombre, t.imagen, t.pixel_ref_x, t.pixel_ref_y, t.alto_sprite, t.ancho_sprite,  t.cantidad_sprites, t.fps, t.delay);
-		board->createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, 0); 
+		board.createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, 0); 
 	}
 
 	for(auto& t : te.terrenos) {
-		board->setTerrain(t.tipoEntidad, t.pos_x, t.pos_y);
+		board.setTerrain(t.tipoEntidad, t.pos_x, t.pos_y);
 	}
 
-	if(!board->createProtagonist(te.protagonista.tipoEntidad, {(double)te.protagonista.pos_x, (double)te.protagonista.pos_y})){
+	if(!board.createProtagonist(te.protagonista.tipoEntidad, {(double)te.protagonista.pos_x, (double)te.protagonista.pos_y})){
 		Logger::getInstance()->writeInformation("Se crea un protagonista default");
-		board->createProtagonist(PROTAGONISTA_DEFAULT_NOMBRE, {PROTAGONISTA_DEFAULT_POSX, PROTAGONISTA_DEFAULT_POSY});
+		board.createProtagonist(PROTAGONISTA_DEFAULT_NOMBRE, {PROTAGONISTA_DEFAULT_POSX, PROTAGONISTA_DEFAULT_POSY});
 	}
 
 	for(auto& t : te.entidades) {
-		board->createEntity(t.tipoEntidad, {(double)t.pos_x,(double)t.pos_y});
+		board.createEntity(t.tipoEntidad, {(double)t.pos_x,(double)t.pos_y});
 	}
 
-	for(size_t x = 0; x < board->sizeX; x++) {
-		for(size_t y = 0; y < board->sizeY; y++) {
-			if (!&board->getTerrain(x, y)) {
-				board->setTerrain(TERRENO_DEFAULT_NOMBRE, x, y); // VER QUE EL PASTO NO DEBERIA VENIR EN EL ARCHIVO
+	for(size_t x = 0; x < board.sizeX; x++) {
+		for(size_t y = 0; y < board.sizeY; y++) {
+			if (!&board.getTerrain(x, y)) {
+				board.setTerrain(TERRENO_DEFAULT_NOMBRE, x, y); // VER QUE EL PASTO NO DEBERIA VENIR EN EL ARCHIVO
 			}
 		}
 	}
@@ -275,7 +275,7 @@ void GameWindow::processInput(){
 				Logger::getInstance()->writeInformation(oss.str().c_str());
 				if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_LEFT ) {
 					Logger::getInstance()->writeInformation("Boton Izquierdo");
-					auto protagonist = &(model->getBoard()->getProtagonist());
+					auto protagonist = &(getBoard().getProtagonist());
 					if (protagonist) {
 						if (!(SDL_GetModState()&KMOD_SHIFT)) {
 							protagonist->unsetTarget();
@@ -292,7 +292,7 @@ void GameWindow::processInput(){
 }
 
 void GameWindow::scroll(){
-	double ds = (double)scroll_speed * (double)(model->getBoard()->dt) / 1000.0; //deltascroll
+	double ds = (double)scroll_speed * (double)(getBoard().dt) / 1000.0; //deltascroll
 	r2 df;
 
 	int mouse_x, mouse_y;
@@ -321,13 +321,13 @@ void GameWindow::scroll(){
 }
 
 void GameWindow::focus(r2 newFocus) {
-	auto & board = *(model->getBoard());
+	auto & board = getBoard();
 	focusPosition.x = clip(newFocus.x, 0, board.sizeX - 1);
 	focusPosition.y = clip(newFocus.y, 0, board.sizeY - 1);
 }
 
 void GameWindow::focus() {
-	auto protagonist = &(model->getBoard()->getProtagonist());
+	auto protagonist = &(getBoard().getProtagonist());
 	if (protagonist) {
 		focus(protagonist->getPosition());
 	}
@@ -335,6 +335,10 @@ void GameWindow::focus() {
 
 r2 GameWindow::getFocus() {
 	return focusPosition;
+}
+
+Board& GameWindow::getBoard() {
+	return *(model->getBoard());
 }
 
 int GameWindow::start(){
@@ -346,7 +350,7 @@ int GameWindow::start(){
 		update();
 		render();
 
-		int dt = model->getBoard()->dt;
+		int dt = getBoard().dt;
 		if (!GameTimer::wait(GameTimer::getCurrent() + dt)) {
 			Logger::getInstance()->writeInformation("Estamos laggeando!");
 		}

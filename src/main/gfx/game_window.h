@@ -37,6 +37,7 @@ public:
 	int start();
 	void init();
 	r2 getFocus();
+	Board & getBoard();
 	int alto_pantalla;
 	int ancho_pantalla;
 	r2 screenToBoardPosition(SDL_Point screenPos);
