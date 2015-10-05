@@ -144,8 +144,7 @@ void GameWindow::render() {
 			Logger::getInstance()->writeWarning("No existe SpriteSheet para este tipo de entidad" + e->name);
 			continue;
 		}
-		auto ss = it->second;
-		ss->render(*e, renderer);
+		it->second->render(*e, renderer);
 	}
 
 	SDL_RenderPresent( renderer );
