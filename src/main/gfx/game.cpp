@@ -87,6 +87,7 @@ void Game::start() {
 		if(restart_p) {
 			init();
 		}
+		GameTimer::update();
 		gameWindow->update(); // Controller
 		board->update(); // Model
 		gameWindow->render(); // View
