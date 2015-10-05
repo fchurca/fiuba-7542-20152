@@ -183,7 +183,7 @@ SDL_Point GameWindow::boardToScreenPosition(r2 boardPos) {
 }
 
 void GameWindow::processInput(){
-
+	scroll();
 	//	Procesar input del usuario
 	while(SDL_PollEvent(EventHandler::getInstance()->getEvent())) {
 		auto & e = *(EventHandler::getInstance()->getEvent());
@@ -276,7 +276,6 @@ int GameWindow::start(){
 	init();
 
 	while (!endOfGame()) {
-		scroll();
 		processInput();
 		update();
 		render();
