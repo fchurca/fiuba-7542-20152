@@ -56,10 +56,7 @@ GameWindow::GameWindow() {
 }
 
 GameWindow::~GameWindow() {
-	map<string, SpriteSheet*>::const_iterator itr;
-	for(itr = spriteSheets.begin(); itr != spriteSheets.end(); ++itr){
-		delete itr->second;
-	}
+	spriteSheets.clear();
 
 	delete parser;
 	delete model;
@@ -161,10 +158,6 @@ void GameWindow::render() {
 void GameWindow::restart(){
 	delete model;
 
-	map<string, SpriteSheet*>::const_iterator itr;
-	for(itr = spriteSheets.begin(); itr != spriteSheets.end(); ++itr){
-		delete itr->second;
-	}
 	spriteSheets.clear();
 
 	this->parser->parse();
@@ -225,20 +218,19 @@ void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE
 void GameWindow::update(){
 	GameTimer::update();
 	map<string, SpriteSheet*>::const_iterator itr;
-	for(itr = spriteSheets.begin(); itr != spriteSheets.end(); ++itr){
-		itr->second->update();
+	for(auto & kv : spriteSheets) {
+		kv.second->update();
 	}
 	model->update();
 	return;
 }
 
 void GameWindow::addSpriteSheet(string name, string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay) {
-	map<string,SpriteSheet*>::iterator it;
-	it = this->spriteSheets.find(name);
-	if(it != this->spriteSheets.end())
+	auto it = spriteSheets.find(name);
+	if(it != spriteSheets.end())
 		Logger::getInstance()->writeError("Ya existe un spriteSheet para el tipo de entidad con nombre " + name);
 	else{
-		spriteSheets[name] = new SpriteSheet(pPath, pixelRefX, pixelRefY, altoSprite, anchoSprite, cantSprites, fps, delay, *this);
+		spriteSheets[name] = make_shared<SpriteSheet>(pPath, pixelRefX, pixelRefY, altoSprite, anchoSprite, cantSprites, fps, delay, *this);
 		Logger::getInstance()->writeInformation("Se agrega spriteSheet para el tipo de entidad con nombre " + name);
 	}
 }

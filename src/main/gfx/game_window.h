@@ -14,7 +14,7 @@ protected:
 	ParserYAML* parser; //= NULL;
 	SDL_Window* window; //= NULL;
 	SDL_Renderer* renderer;// = NULL;
-	std::map<std::string, SpriteSheet*> spriteSheets;
+	std::map<std::string, std::shared_ptr<SpriteSheet>> spriteSheets;
 	bool exit;
 	unsigned int scroll_speed;
 	unsigned int margen_pantalla;
