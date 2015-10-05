@@ -140,8 +140,7 @@ void GameWindow::render() {
 			((a->getX() + a->size.x < b->getX()) || (a->getY() + a->size.y < b->getY())) &&
 			!((b->getX() + b->size.x <= a->getX()) || (b->getY() + b->size.y <= a->getY()));
 	});
-	for (size_t i =0; i < entities.size(); ++i){
-		auto e = entities[i];
+	for(auto& e : entities) {
 		auto it = spriteSheets.find(e->name);
 		if(it == spriteSheets.end()){
 			Logger::getInstance()->writeWarning("No existe SpriteSheet para este tipo de entidad" + e->name);
@@ -166,12 +165,11 @@ void GameWindow::restart(){
 }
 
 void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE REFERENCIAS LLEVARLO AL PARSER
-	vector<TagTipoEntidad> tte = this->parser->getTiposEntidades();
-	vector<TagTipoEntidad> ttt = this->parser->getTiposTerrenos();
-	TagConfiguracion tc = this->parser->getConfiguracion();
-	TagEscenario te = this->parser->getEscenario();
-	this->model = new Game(te.size_x, te.size_y, tc.dt); 
-	Board* board = this->model->getBoard();
+	auto tc = parser->getConfiguracion();
+	auto te = parser->getEscenario();
+
+	model = new Game(te.size_x, te.size_y, tc.dt); 
+	auto board = model->getBoard();
 	
 	addSpriteSheet(ENTIDAD_DEFAULT_NOMBRE, ENTIDAD_DEFAULT_IMAGEN, ENTIDAD_DEFAULT_PIXEL_REF_X, ENTIDAD_DEFAULT_PIXEL_REF_Y, ENTIDAD_DEFAULT_ALTO_SPRITE, ENTIDAD_DEFAULT_ANCHO_SPRITE, ENTIDAD_DEFAULT_CANTIDAD_SPRITES, ENTIDAD_DEFAULT_FPS, ENTIDAD_DEFAULT_DELAY);
 	board->createEntityFactory(ENTIDAD_DEFAULT_NOMBRE, {ENTIDAD_DEFAULT_ANCHO_BASE, ENTIDAD_DEFAULT_ALTO_BASE}, 0);
@@ -182,26 +180,27 @@ void GameWindow::init(){ //NO DEBERIA INICIALIZARSE TODO ACA, ME DIO PROBLEMA DE
 	addSpriteSheet(PROTAGONISTA_DEFAULT_NOMBRE, PROTAGONISTA_DEFAULT_IMAGEN, PROTAGONISTA_DEFAULT_PIXEL_REF_X, PROTAGONISTA_DEFAULT_PIXEL_REF_Y, PROTAGONISTA_DEFAULT_ALTO_SPRITE, PROTAGONISTA_DEFAULT_ANCHO_SPRITE, PROTAGONISTA_DEFAULT_CANTIDAD_SPRITES, PROTAGONISTA_DEFAULT_FPS, PROTAGONISTA_DEFAULT_DELAY);
 	board->createEntityFactory(PROTAGONISTA_DEFAULT_NOMBRE, {PROTAGONISTA_DEFAULT_ANCHO_BASE, PROTAGONISTA_DEFAULT_ALTO_BASE}, VELOCIDAD_PERSONAJE_DEFAULT);
 
-	for (size_t i =0; i < tte.size(); ++i){
-		addSpriteSheet(tte[i].nombre, tte[i].imagen, tte[i].pixel_ref_x, tte[i].pixel_ref_y, tte[i].alto_sprite, tte[i].ancho_sprite,  tte[i].cantidad_sprites, tte[i].fps, tte[i].delay);
-		board->createEntityFactory(tte[i].nombre, {tte[i].ancho_base, tte[i].alto_base}, tc.vel_personaje); // LA VELOCIDAD DEBERIA IR SOLO AL PROTAGONISTA
+	for(auto& t : parser->getTiposEntidades()) {
+		addSpriteSheet(t.nombre, t.imagen, t.pixel_ref_x, t.pixel_ref_y, t.alto_sprite, t.ancho_sprite,  t.cantidad_sprites, t.fps, t.delay);
+		board->createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, tc.vel_personaje); // LA VELOCIDAD DEBERIA IR SOLO AL PROTAGONISTA
 	}
 
-	for (size_t i =0; i < ttt.size(); ++i){
-		addSpriteSheet(ttt[i].nombre, ttt[i].imagen, ttt[i].pixel_ref_x, ttt[i].pixel_ref_y, ttt[i].alto_sprite, ttt[i].ancho_sprite,  ttt[i].cantidad_sprites, ttt[i].fps, ttt[i].delay);
-		board->createEntityFactory(ttt[i].nombre, {ttt[i].ancho_base, ttt[i].alto_base}, 0); 
+	for(auto& t : parser->getTiposTerrenos()) {
+		addSpriteSheet(t.nombre, t.imagen, t.pixel_ref_x, t.pixel_ref_y, t.alto_sprite, t.ancho_sprite,  t.cantidad_sprites, t.fps, t.delay);
+		board->createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, 0); 
 	}
 
-	for(size_t i =0; i < te.terrenos.size(); ++i){
-		board->setTerrain(te.terrenos[i].tipoEntidad,te.terrenos[i].pos_x,te.terrenos[i].pos_y);
+	for(auto& t : te.terrenos) {
+		board->setTerrain(t.tipoEntidad, t.pos_x, t.pos_y);
 	}
+
 	if(!board->createProtagonist(te.protagonista.tipoEntidad, {(double)te.protagonista.pos_x, (double)te.protagonista.pos_y})){
 		Logger::getInstance()->writeInformation("Se crea un protagonista default");
 		board->createProtagonist(PROTAGONISTA_DEFAULT_NOMBRE, {PROTAGONISTA_DEFAULT_POSX, PROTAGONISTA_DEFAULT_POSY});
 	}
 
-	for(size_t i =0; i < te.entidades.size(); ++i){
-		board->createEntity(te.entidades[i].tipoEntidad, {(double)te.entidades[i].pos_x,(double)te.entidades[i].pos_y});
+	for(auto& t : te.entidades) {
+		board->createEntity(t.tipoEntidad, {(double)t.pos_x,(double)t.pos_y});
 	}
 
 	for(size_t x = 0; x < board->sizeX; x++) {
