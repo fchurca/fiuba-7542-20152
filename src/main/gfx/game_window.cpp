@@ -30,8 +30,6 @@ GameWindow::GameWindow(Game& owner, Board& board, int sizeX, int sizeY, int scro
 	ancho_pantalla(sizeX), alto_pantalla(sizeY),
 	margen_pantalla(scrollMargin), scroll_speed(scrollSpeed)
 {
-	exit = false;
-
 	GameWindow::initialize(); 
 	window = SDL_CreateWindow("Trabajo Práctico 7542",
 		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
