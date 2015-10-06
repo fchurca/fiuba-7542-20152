@@ -25,20 +25,23 @@ private:
 	struct addrinfo serv_addr;
 	//analizar si es necesario
 	struct sockaddr_in cli_addr;
+
+private:
 	bool status;
+	unsigned int port;
+	std::string ip;
 
 public:
-	Socket(unsigned int port);
+	Socket(unsigned int uiPort);
 	virtual ~Socket();
 
 public:
-	void connect(std::string hostIP, int hostPort);
-	void listen(int maxConnections, int port, std::string ip);
-	Socket* accept();
-	int send(const void* data, int dataLenght);
-	int recv(const void* data, int dataLenght);
-	int close();
-	bool isActive();
+	void Connect(std::string hostIP, int hostPort);
+	bool Listen(int maxConnections);
+	Socket* Accept();
+	int Send(const void* data, int dataLenght);
+	int Recv(const void* data, int dataLenght);
+	bool IsActive();
 
 };
 //-----------------------------------------------------------------------------
