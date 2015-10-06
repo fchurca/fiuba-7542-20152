@@ -44,7 +44,7 @@ shared_ptr<Entity> Board::findEntity(rectangle r) {
 	return (it == entities.end())? nullptr : *it;
 }
 
-shared_ptr<Entity> Board::createEntity(string name, r2 position) {
+shared_ptr<Entity> Board::createEntity(string name, string playerName, r2 position) {
 	if (entityFactories.find(name) == entityFactories.end()) {
 		Logger::getInstance()->writeError("No existe el tipo de entidad " + name);
 		return nullptr;
@@ -56,7 +56,7 @@ shared_ptr<Entity> Board::createEntity(string name, r2 position) {
 		return nullptr;
 	}
 
-	auto pEntity = factory->createEntity(*players[DEFAULT_PLAYER_NAME], position);
+	auto pEntity = factory->createEntity(*players[playerName], position);
 	entities.push_back(pEntity);
 	return pEntity;
 }
@@ -73,14 +73,6 @@ shared_ptr<EntityFactory> Board::createEntityFactory(string name, r2 size, doubl
 	auto pFactory = make_shared<EntityFactory>(name, size, speed, *this);
 	entityFactories[name] = pFactory;
 	return pFactory;
-}
-
-shared_ptr<Entity> Board::createProtagonist(string name, r2 position) {
-	protagonist = createEntity(name, position);
-	if (!protagonist) {
-		Logger::getInstance()->writeError("Protagonista no creado " + name);
-	}
-	return protagonist;
 }
 
 Board::~Board() {
@@ -100,6 +92,6 @@ vector<shared_ptr<Entity>> Board::getEntities() {
 }
 
 Entity & Board::getProtagonist() {
-	return * protagonist;
+	return *entities.front();
 }
 

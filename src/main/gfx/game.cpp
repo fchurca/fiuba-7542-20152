@@ -63,13 +63,16 @@ void Game::init(){
 
 	board->init();
 
-	if(!board->createProtagonist(te.protagonista.tipoEntidad, {(double)te.protagonista.pos_x, (double)te.protagonista.pos_y})){
+	// TODO: Levantar jugadores/facciones
+	board->createPlayer("Franceses");
+	if(!board->createEntity(te.protagonista.tipoEntidad, "Franceses", {(double)te.protagonista.pos_x, (double)te.protagonista.pos_y})){
 		Logger::getInstance()->writeInformation("Se crea un protagonista default");
-		board->createProtagonist(PROTAGONISTA_DEFAULT_NOMBRE, {PROTAGONISTA_DEFAULT_POSX, PROTAGONISTA_DEFAULT_POSY});
+		board->createEntity(PROTAGONISTA_DEFAULT_NOMBRE, "Franceses", {PROTAGONISTA_DEFAULT_POSX, PROTAGONISTA_DEFAULT_POSY});
 	}
 
+	// TODO: Revisar, por ahora todo el resto va para Gaia
 	for(auto& t : te.entidades) {
-		board->createEntity(t.tipoEntidad, {(double)t.pos_x,(double)t.pos_y});
+		board->createEntity(t.tipoEntidad, DEFAULT_PLAYER_NAME, {(double)t.pos_x,(double)t.pos_y});
 	}
 	gameWindow->init();
 }

@@ -18,11 +18,10 @@ class Entity {
 		r2 position;	// Position (tile)
 		double speed;	// Speed (tiles/s)
 		std::deque<r2> targets;
-		Player& owner;
-
-		Entity();
 		bool adjustPosition();
+		Entity();
 	public:
+		Player& owner;
 		r2 size;
 		void addTarget(r2 newTarget);
 		void unsetTarget();
