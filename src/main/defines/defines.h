@@ -46,6 +46,8 @@ enum Directions {
 #define ENTIDAD_DEFAULT_FPS  0
 #define ENTIDAD_DEFAULT_DELAY  0
 
+//Nombre de jugador inicial (terreno, etc)
+#define DEFAULT_PLAYER_NAME "Gaia"
 
 //Protagonista Default
 #define PROTAGONISTA_DEFAULT_NOMBRE "protagonista_default"

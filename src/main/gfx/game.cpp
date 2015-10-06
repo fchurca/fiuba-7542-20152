@@ -35,7 +35,6 @@ void Game::init(){
 	auto te = parser.getEscenario();
 	auto tc = parser.getConfiguracion();
 	board = make_shared<Board>(te.size_x, te.size_y, tc.dt); 
-	board->buildBoard();
 	auto tp = parser.getPantalla();
 	gameWindow = make_shared<GameWindow>(*this, *board, tp.ancho, tp.alto, tc.margen_scroll, tc.velocidad_scroll);
 
@@ -61,6 +60,8 @@ void Game::init(){
 	for(auto& t : te.terrenos) {
 		board->setTerrain(t.tipoEntidad, t.pos_x, t.pos_y);
 	}
+
+	board->init();
 
 	if(!board->createProtagonist(te.protagonista.tipoEntidad, {(double)te.protagonista.pos_x, (double)te.protagonista.pos_y})){
 		Logger::getInstance()->writeInformation("Se crea un protagonista default");

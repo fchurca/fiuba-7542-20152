@@ -11,9 +11,10 @@ Board::Board(int sizeX, int sizeY, size_t dt) : sizeX(sizeX), sizeY(sizeY), dt(d
 	message << "Creating board " << this << " of size " << sizeX << "x" << sizeY;
 	Logger::getInstance()->writeInformation(message.str());
 	terrain.resize(sizeX * sizeY);
+	createPlayer("GAIA"); // TODO: define o jugador default
 }
 
-void Board::buildBoard() {
+void Board::init() {
 }
 
 Entity & Board::getTerrain(size_t x, size_t y) {
@@ -52,6 +53,14 @@ shared_ptr<Entity> Board::createEntity(string name, r2 position) {
 	return pEntity;
 }
 
+shared_ptr<Player> Board::createPlayer(string name) {
+	if (players.find(name) != players.end()) {
+		Logger::getInstance()->writeError("Jugador " + name + " ya existe");
+		return nullptr;
+	}
+	return (players[name] = make_shared<Player>(name));
+}
+
 shared_ptr<EntityFactory> Board::createEntityFactory(string name, r2 size, double speed) {
 	auto pFactory = make_shared<EntityFactory>(name, size, speed, *this);
 	entityFactories[name] = pFactory;
@@ -73,8 +82,8 @@ Board::~Board() {
 }
 
 void Board::update() {
-	for (size_t i =0; i < entities.size(); ++i){
-		entities[i]->update();
+	for(auto& e : entities) {
+		e->update();
 	}
 }
 
