@@ -10,7 +10,7 @@
 #include <string>
 //-----------------------------------------------------------------------------
 #ifdef _WIN32
-	#include <windows.h>
+	//#include <windows.h>
 	#include <winsock2.h>
 	#include <ws2tcpip.h>
 
@@ -38,7 +38,7 @@ public:
 public:
 	void Connect(std::string hostIP, int hostPort);
 	bool Listen(int maxConnections);
-	Socket* Accept();
+	bool Accept();
 	int Send(const void* data, int dataLenght);
 	int Recv(const void* data, int dataLenght);
 	bool IsActive();
