@@ -91,7 +91,6 @@ vector<shared_ptr<Entity>> Board::getEntities() {
 	return entities;
 }
 
-Entity & Board::getProtagonist() {
-	return *entities.front();
+Player& Board::findPlayer(string name) {
+	return *(players.find(name)->second);
 }
-

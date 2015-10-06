@@ -36,7 +36,9 @@ void Game::init(){
 	auto tc = parser.getConfiguracion();
 	board = make_shared<Board>(te.size_x, te.size_y, tc.dt); 
 	auto tp = parser.getPantalla();
-	gameWindow = make_shared<GameWindow>(*this, *board, tp.ancho, tp.alto, tc.margen_scroll, tc.velocidad_scroll);
+	// TODO: Levantar jugadores/facciones
+	board->createPlayer("Franceses");
+	gameWindow = make_shared<GameWindow>(*this, board->findPlayer("Franceses"), tp.ancho, tp.alto, tc.margen_scroll, tc.velocidad_scroll);
 
 	gameWindow->addSpriteSheet(ENTIDAD_DEFAULT_NOMBRE, ENTIDAD_DEFAULT_IMAGEN, ENTIDAD_DEFAULT_PIXEL_REF_X, ENTIDAD_DEFAULT_PIXEL_REF_Y, ENTIDAD_DEFAULT_ALTO_SPRITE, ENTIDAD_DEFAULT_ANCHO_SPRITE, ENTIDAD_DEFAULT_CANTIDAD_SPRITES, ENTIDAD_DEFAULT_FPS, ENTIDAD_DEFAULT_DELAY);
 	board->createEntityFactory(ENTIDAD_DEFAULT_NOMBRE, {ENTIDAD_DEFAULT_ANCHO_BASE, ENTIDAD_DEFAULT_ALTO_BASE}, 0);
@@ -64,7 +66,6 @@ void Game::init(){
 	board->init();
 
 	// TODO: Levantar jugadores/facciones
-	board->createPlayer("Franceses");
 	if(!board->createEntity(te.protagonista.tipoEntidad, "Franceses", {(double)te.protagonista.pos_x, (double)te.protagonista.pos_y})){
 		Logger::getInstance()->writeInformation("Se crea un protagonista default");
 		board->createEntity(PROTAGONISTA_DEFAULT_NOMBRE, "Franceses", {PROTAGONISTA_DEFAULT_POSX, PROTAGONISTA_DEFAULT_POSY});

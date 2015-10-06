@@ -42,7 +42,7 @@ public:
 	std::vector<std::shared_ptr<Entity>> getEntities();
 	template<typename Pred>
 		std::vector<std::shared_ptr<Entity>> selectEntities(Pred pred);
-	Entity & getProtagonist();
+	Player& findPlayer(std::string name);
 };
 
 #include "board.cxx"

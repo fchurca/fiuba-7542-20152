@@ -22,11 +22,12 @@ protected:
 	void focus(r2 position);
 	void focus();
 	bool canDraw(Entity& entity);
-	Board& board;
 	Game& owner;
+	Player& player;
+	Board& board;
 public:
 	void addSpriteSheet(std::string name, std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay);
-	GameWindow(Game& owner, Board& board, int sizeX, int sizeY, int scrollMargin, int scrollSpeed);
+	GameWindow(Game& owner, Player& player, int sizeX, int sizeY, int scrollMargin, int scrollSpeed);
 	~GameWindow();
 	int start();
 	void init();
@@ -37,5 +38,6 @@ public:
 	int ancho_pantalla;
 	r2 screenToBoardPosition(SDL_Point screenPos);
 	SDL_Point boardToScreenPosition(r2 boardPos);
+	shared_ptr<Entity> getProtagonist();
 };
 #endif // __GFX_GAMEWINDOW_H__

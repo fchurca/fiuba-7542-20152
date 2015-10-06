@@ -25,8 +25,8 @@ bool GameWindow::initialize() {
 	return GameWindow::sdlInitialized;
 }
 
-GameWindow::GameWindow(Game& owner, Board& board, int sizeX, int sizeY, int scrollMargin, int scrollSpeed) :
-	owner(owner), board(board),
+GameWindow::GameWindow(Game& owner, Player& player, int sizeX, int sizeY, int scrollMargin, int scrollSpeed) :
+	owner(owner), player(player), board(player.board),
 	ancho_pantalla(sizeX), alto_pantalla(sizeY),
 	margen_pantalla(scrollMargin), scroll_speed(scrollSpeed)
 {
@@ -201,7 +201,7 @@ void GameWindow::processInput(){
 				Logger::getInstance()->writeInformation(oss.str().c_str());
 				if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_LEFT ) {
 					Logger::getInstance()->writeInformation("Boton Izquierdo");
-					auto protagonist = &(board.getProtagonist());
+					auto protagonist = getProtagonist();
 					if (protagonist) {
 						if (!(SDL_GetModState()&KMOD_SHIFT)) {
 							protagonist->unsetTarget();
@@ -252,7 +252,7 @@ void GameWindow::focus(r2 newFocus) {
 }
 
 void GameWindow::focus() {
-	auto protagonist = &(board.getProtagonist());
+	auto protagonist = getProtagonist();
 	if (protagonist) {
 		focus(protagonist->getPosition());
 	}
@@ -260,5 +260,9 @@ void GameWindow::focus() {
 
 r2 GameWindow::getFocus() {
 	return focusPosition;
+}
+
+shared_ptr<Entity> GameWindow::getProtagonist() {
+	return player.entities().front();
 }
 

@@ -11,9 +11,9 @@ class Entity;
 class Player {
 	protected:
 		std::string name;
-		Board& board;
 	public:
 		Player(Board& board, std::string name);
+		Board& board;
 		std::vector<std::shared_ptr<Entity>> entities();
 };
 
