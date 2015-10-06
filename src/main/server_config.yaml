@@ -1,6 +1,8 @@
-server:
+configuration:
     ip: localhost
     port: 8001
     max_clients: 10
-game:
+paths:
+    original_path: C://original.yaml
+    default_path: C://default.yaml
  
