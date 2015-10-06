@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-#include "configuration.h"
+#include "../configuration.h"
 //-----------------------------------------------------------------------------
 Configuration::Configuration() {
 	// TODO Auto-generated constructor stub
