@@ -24,7 +24,7 @@ EntityFactory::~EntityFactory() {
 	Logger::getInstance()->writeInformation(message.str());
 }
 
-std::shared_ptr<Entity> EntityFactory::createEntity(r2 position) {
-	return std::make_shared<Entity>(name, board, position, size, speed);
+std::shared_ptr<Entity> EntityFactory::createEntity(Player& player, r2 position) {
+	return std::make_shared<Entity>(name, board, player, position, size, speed);
 }
 

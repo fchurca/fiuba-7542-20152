@@ -3,11 +3,16 @@
 
 #include <string>
 
+class Board;
+
 class Player {
 	protected:
 		std::string name;
+		Board& board;
 	public:
-		Player(std::string name) : name(name) {};
+		Player(Board& board, std::string name) :
+			board(board),
+			name(name) {};
 };
 
 #endif

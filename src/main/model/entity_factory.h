@@ -17,7 +17,7 @@ class EntityFactory {
 		EntityFactory(std::string name, r2 size, double speed, Board& board);
 		~EntityFactory();
 
-		std::shared_ptr<Entity> createEntity(r2 position);
+		std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 };
 
 #endif // _MODEL_ENTITY_FACTORY_H_

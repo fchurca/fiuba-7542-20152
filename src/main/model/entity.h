@@ -7,6 +7,7 @@
 
 #include "../defines/defines.h"
 #include "geometry.h"
+#include "player.h"
 
 //-----------------------------------------------------------------------------
 
@@ -17,10 +18,10 @@ class Entity {
 		r2 position;	// Position (tile)
 		double speed;	// Speed (tiles/s)
 		std::deque<r2> targets;
+		Player& owner;
 
 		Entity();
 		bool adjustPosition();
-
 	public:
 		r2 size;
 		void addTarget(r2 newTarget);
@@ -40,7 +41,7 @@ class Entity {
 		Directions getDirection();// TODO: Pertenece a vista
 		bool overlaps(Entity & other);
 
-		Entity(std::string name, Board& board, r2 position, r2 size, double speed);
+		Entity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed);
 		~Entity();
 
 		void update();

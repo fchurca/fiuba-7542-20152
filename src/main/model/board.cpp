@@ -33,7 +33,7 @@ void Board::setTerrain(string name, size_t x, size_t y) {
 	if (entityFactories.find(name) == entityFactories.end()) {
 		Logger::getInstance()->writeError("No existe el tipo de entidad " + name);
 	} else {
-		terrain[(sizeX*y) + x] = entityFactories[name]->createEntity({(double)x, (double)y});
+		terrain[(sizeX*y) + x] = entityFactories[name]->createEntity(*players[DEFAULT_PLAYER_NAME], {(double)x, (double)y});
 	}
 }
 
@@ -56,7 +56,7 @@ shared_ptr<Entity> Board::createEntity(string name, r2 position) {
 		return nullptr;
 	}
 
-	auto pEntity = factory->createEntity(position);
+	auto pEntity = factory->createEntity(*players[DEFAULT_PLAYER_NAME], position);
 	entities.push_back(pEntity);
 	return pEntity;
 }
@@ -66,7 +66,7 @@ shared_ptr<Player> Board::createPlayer(string name) {
 		Logger::getInstance()->writeError("Jugador " + name + " ya existe");
 		return nullptr;
 	}
-	return (players[name] = make_shared<Player>(name));
+	return (players[name] = make_shared<Player>(*this, name));
 }
 
 shared_ptr<EntityFactory> Board::createEntityFactory(string name, r2 size, double speed) {
