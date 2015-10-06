@@ -11,7 +11,7 @@ Board::Board(int sizeX, int sizeY, size_t dt) : sizeX(sizeX), sizeY(sizeY), dt(d
 	message << "Creating board " << this << " of size " << sizeX << "x" << sizeY;
 	Logger::getInstance()->writeInformation(message.str());
 	terrain.resize(sizeX * sizeY);
-	createPlayer("GAIA"); // TODO: define o jugador default
+	createPlayer(DEFAULT_PLAYER_NAME); // TODO: define o jugador default
 }
 
 void Board::init() {
