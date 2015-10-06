@@ -1,8 +1,8 @@
 //-----------------------------------------------------------------------------
 #include "configuration.h"
-#include "../server.h"
+#include "server.h"
 
-#include "../configuration.h"
+#include "configuration.h"
 //-----------------------------------------------------------------------------
 Server::Server() {
 	// TODO Auto-generated constructor stub

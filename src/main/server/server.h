@@ -2,11 +2,11 @@
 #ifndef MAIN_SERVER_SRC_SERVER_H_
 #define MAIN_SERVER_SRC_SERVER_H_
 //-----------------------------------------------------------------------------
-#include <SDL2/SDL.h>
+
 #include <thread>
 //-----------------------------------------------------------------------------
 
-#include "../configuration.h"
+#include "configuration.h"
 //-----------------------------------------------------------------------------
 class Server {
 
