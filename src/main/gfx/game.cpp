@@ -71,15 +71,6 @@ void Game::init(){
 	for(auto& t : te.entidades) {
 		board->createEntity(t.tipoEntidad, {(double)t.pos_x,(double)t.pos_y});
 	}
-
-	for(size_t x = 0; x < board->sizeX; x++) {
-		for(size_t y = 0; y < board->sizeY; y++) {
-			if (!&board->getTerrain(x, y)) {
-				board->setTerrain(TERRENO_DEFAULT_NOMBRE, x, y); // VER QUE EL PASTO NO DEBERIA VENIR EN EL ARCHIVO
-			}
-		}
-	}
-
 	gameWindow->init();
 }
 

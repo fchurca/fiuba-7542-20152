@@ -15,6 +15,14 @@ Board::Board(int sizeX, int sizeY, size_t dt) : sizeX(sizeX), sizeY(sizeY), dt(d
 }
 
 void Board::init() {
+	// Relleno con TERRENO_DEFAULT
+	for(size_t x = 0; x < sizeX; x++) {
+		for(size_t y = 0; y < sizeY; y++) {
+			if (!&getTerrain(x, y)) {
+				setTerrain(TERRENO_DEFAULT_NOMBRE, x, y); // VER QUE EL PASTO NO DEBERIA VENIR EN EL ARCHIVO
+			}
+		}
+	}
 }
 
 Entity & Board::getTerrain(size_t x, size_t y) {
