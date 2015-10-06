@@ -24,7 +24,10 @@ Socket::Socket(unsigned int port)
 }
 //-----------------------------------------------------------------------------
 Socket::~Socket() {
-	// TODO Auto-generated destructor stub
+
+	if (sockfd)
+		closesocket(sockfd);
+	WSACleanup(); //Clean up Winsock
 }
 //-----------------------------------------------------------------------------
 
