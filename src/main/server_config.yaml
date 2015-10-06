@@ -1,0 +1,6 @@
+server:
+    ip: localhost
+    port: 8001
+    max_clients: 10
+game:
+ 
