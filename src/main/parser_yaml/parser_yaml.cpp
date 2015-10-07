@@ -244,6 +244,10 @@ void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEnt
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (delay).");
 			tipoEntidad.delay = ENTIDAD_DEFAULT_DELAY;
 		}
+		if (!obtenerValorScalarNumericoPositivo(node, "radius", tipoEntidad.radius)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (radius).");
+			tipoEntidad.radius = ENTIDAD_DEFAULT_RADIUS;
+		}
 	}
 	else{
 		Logger::getInstance()->writeWarning("YAML-CPP:el contenido del tipo de entidad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
@@ -303,6 +307,7 @@ void ParserYAML::setTipoEntidadDefault (TagTipoEntidad& tipoEntidad) {
 	tipoEntidad.alto_sprite = ENTIDAD_DEFAULT_ALTO_SPRITE;
 	tipoEntidad.ancho_sprite = ENTIDAD_DEFAULT_ANCHO_SPRITE;
 	tipoEntidad.cantidad_sprites = ENTIDAD_DEFAULT_CANTIDAD_SPRITES;
+	tipoEntidad.radius = ENTIDAD_DEFAULT_RADIUS;
 }
 
 void ParserYAML::setEntidad(const YAML::Node& node, TagEntidad& entidad) {

@@ -36,7 +36,7 @@ public:
 	std::shared_ptr<Entity> findEntity(rectangle r);
 	std::shared_ptr<Entity> createEntity(std::string name, std::string playerName, r2 position);
 	std::shared_ptr<Player> createPlayer(std::string name);
-	std::shared_ptr<EntityFactory> createEntityFactory(std::string name, r2 size, double speed);
+	std::shared_ptr<EntityFactory> createEntityFactory(std::string name, r2 size, double speed, int radius);
 	void init();
 	void update();
 	std::vector<std::shared_ptr<Entity>> getEntities();

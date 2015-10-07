@@ -69,8 +69,8 @@ shared_ptr<Player> Board::createPlayer(string name) {
 	return (players[name] = make_shared<Player>(*this, name));
 }
 
-shared_ptr<EntityFactory> Board::createEntityFactory(string name, r2 size, double speed) {
-	auto pFactory = make_shared<EntityFactory>(name, size, speed, *this);
+shared_ptr<EntityFactory> Board::createEntityFactory(string name, r2 size, double speed, int radius) {
+	auto pFactory = make_shared<EntityFactory>(name, size, speed, radius, *this);
 	entityFactories[name] = pFactory;
 	return pFactory;
 }

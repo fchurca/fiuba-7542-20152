@@ -33,6 +33,7 @@ struct TagTipoEntidad{
 	unsigned int cantidad_sprites;
     double fps;
 	double delay;
+	unsigned int radius;
 };
 
 struct TagEntidad{

@@ -2,11 +2,12 @@
 
 #include "entity_factory.h"
 
-EntityFactory::EntityFactory(std::string name, r2 size, double speed, Board& board):
+EntityFactory::EntityFactory(std::string name, r2 size, double speed, int radius, Board& board):
 	name(name),
 	size(size),
 	speed(speed),
-	board(board)
+	board(board),
+	radius(radius)
 {
 	std::stringstream message;
 	message << "Created EntityFactory " << this
@@ -25,6 +26,6 @@ EntityFactory::~EntityFactory() {
 }
 
 std::shared_ptr<Entity> EntityFactory::createEntity(Player& player, r2 position) {
-	return std::make_shared<Entity>(name, board, player, position, size, speed);
+	return std::make_shared<Entity>(name, board, player, position, size, speed, radius);
 }
 
