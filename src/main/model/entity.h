@@ -30,7 +30,7 @@ class Entity {
 		const std::string name;
 		const Board& board;
 		r2 center();
-		int radius;
+		int sight_radius;
 		r2 getPosition();
 		double getX();// TODO: Deprecar
 		double getY();// TODO: Deprecar
@@ -41,7 +41,7 @@ class Entity {
 		Directions getDirection();// TODO: Pertenece a vista
 		bool overlaps(Entity & other);
 
-		Entity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int radius);
+		Entity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int sight_radius);
 		~Entity();
 
 		void update();
