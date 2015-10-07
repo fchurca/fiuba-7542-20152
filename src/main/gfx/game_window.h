@@ -9,6 +9,7 @@
 
 class GameWindow {
 protected:
+	SDL_Point mouse;
 	SDL_Window* window; //= NULL;
 	SDL_Renderer* renderer;// = NULL;
 	std::map<std::string, std::shared_ptr<SpriteSheet>> spriteSheets;
