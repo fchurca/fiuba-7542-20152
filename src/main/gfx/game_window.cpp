@@ -140,7 +140,6 @@ void GameWindow::init(){
 }
 
 void GameWindow::update(){
-	map<string, SpriteSheet*>::const_iterator itr;
 	for(auto & kv : spriteSheets) {
 		kv.second->update();
 	}
