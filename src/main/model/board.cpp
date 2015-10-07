@@ -15,6 +15,12 @@ Board::Board(int sizeX, int sizeY, size_t dt) :
 	message << "Creating board " << this << " of size " << sizeX << "x" << sizeY;
 	Logger::getInstance()->writeInformation(message.str());
 	terrain.resize(sizeX * sizeY);
+
+	// TODO: Levantar jugadores/facciones
+	createPlayer("Franceses");
+	createEntityFactory(PROTAGONISTA_DEFAULT_NOMBRE, {PROTAGONISTA_DEFAULT_ANCHO_BASE, PROTAGONISTA_DEFAULT_ALTO_BASE}, VELOCIDAD_PERSONAJE_DEFAULT, ENTIDAD_DEFAULT_SIGHT_RADIUS);
+	createEntityFactory(ENTIDAD_DEFAULT_NOMBRE, {ENTIDAD_DEFAULT_ANCHO_BASE, ENTIDAD_DEFAULT_ALTO_BASE}, 0, ENTIDAD_DEFAULT_SIGHT_RADIUS);
+	createEntityFactory(TERRENO_DEFAULT_NOMBRE, {TERRENO_DEFAULT_ANCHO_BASE, TERRENO_DEFAULT_ALTO_BASE}, 0, 0);
 	createPlayer(DEFAULT_PLAYER_NAME);
 }
 
