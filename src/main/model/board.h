@@ -27,6 +27,7 @@ private:
 public:
 	const int
 		sizeX, sizeY;
+	const long maxResources;
 	size_t dt;
 	Board(int sizeX, int sizeY, size_t dt);
 	~Board();

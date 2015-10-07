@@ -6,12 +6,16 @@
 using namespace std;
 
 //-----------------------------------------------------------------------------
-Board::Board(int sizeX, int sizeY, size_t dt) : sizeX(sizeX), sizeY(sizeY), dt(dt) {
+Board::Board(int sizeX, int sizeY, size_t dt) :
+	sizeX(sizeX), sizeY(sizeY),
+	dt(dt),
+	maxResources(999999) // TODO: Define + config
+{
 	stringstream message;
 	message << "Creating board " << this << " of size " << sizeX << "x" << sizeY;
 	Logger::getInstance()->writeInformation(message.str());
 	terrain.resize(sizeX * sizeY);
-	createPlayer(DEFAULT_PLAYER_NAME); // TODO: define o jugador default
+	createPlayer(DEFAULT_PLAYER_NAME);
 }
 
 void Board::init() {

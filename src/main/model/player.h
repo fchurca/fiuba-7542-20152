@@ -18,12 +18,17 @@ class Player {
 	protected:
 		std::string name;
 		std::vector<Visibility> map_visibility;
+		long resources;
+
 	public:
 		Player(Board& board, std::string name);
 		Board& board;
 		std::vector<std::shared_ptr<Entity>> entities();
 		void update();
 		Visibility getVisibility(int x, int y);
+		long getResources();
+		bool canGrantResources(long r);
+		bool grantResources(long r);
 };
 
 #endif
