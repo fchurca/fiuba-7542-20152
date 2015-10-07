@@ -75,13 +75,13 @@ void Entity::update() {
 					});
 			for(size_t i = 0; i < colliders.size();) {
 				auto& c = *colliders[i];
+				// TODO: pasar a e.collide()
 				if(c.name == "carne") {
 					cerr << "Un " << name << " de " << owner.name << " encontró carne!" << endl;
 					colliders.erase(colliders.begin() + i);
 					c.setDeletable();
 					owner.grantResources(100);
 					cerr << owner.name << " tiene " << owner.getResources() << " carne" << endl;
-					// TODO: Grant resources to this->owner
 				} else {
 					i++;
 				}
