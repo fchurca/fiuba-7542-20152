@@ -12,6 +12,7 @@ using namespace std;
 Entity::Entity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int sight_radius) :
 	position(position),
 	speed(speed),
+	deletable(false),
 	size(size),
 	name(name),
 	owner(owner),
@@ -70,10 +71,13 @@ void Entity::update() {
 					(rectangle(newPos, size).intersects(rectangle(e->position, e->size)));
 					});
 			for(size_t i = 0; i < colliders.size();) {
-				if(colliders[i]->name == "carne") {
-					cerr << "Carne!" << endl;
-					colliders.erase(colliders.begin()+i);
-					// TODO: Quitar de tablero
+				auto& c = *colliders[i];
+				if(c.name == "carne") {
+					cerr << "Un " << name << " de " << owner.name << " encontró carne!" << endl;
+					colliders.erase(colliders.begin() + i);
+					c.setDeletable();
+					owner.grantResources(100);
+					cerr << owner.name << " tiene " << owner.getResources() << " carne" << endl;
 					// TODO: Grant resources to this->owner
 				} else {
 					i++;
@@ -134,6 +138,14 @@ Directions Entity::getDirection(){
 		static_cast<Directions>(
 				(unsigned)floor(4*bearing()/M_PI+.5)%8):
 		SOUTH_EAST;
+}
+
+void Entity::setDeletable() {
+	deletable = true;
+}
+
+bool Entity::getDeletable() {
+	return deletable;
 }
 
 bool Entity::operator==(Entity& other) {

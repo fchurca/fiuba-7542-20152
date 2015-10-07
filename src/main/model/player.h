@@ -16,11 +16,10 @@ typedef enum {
 
 class Player {
 	protected:
-		std::string name;
 		std::vector<Visibility> map_visibility;
 		long resources;
-
 	public:
+		const std::string name;
 		Player(Board& board, std::string name);
 		Board& board;
 		std::vector<std::shared_ptr<Entity>> entities();

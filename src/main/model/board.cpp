@@ -86,6 +86,13 @@ Board::~Board() {
 }
 
 void Board::update() {
+	for(size_t i = 0; i < entities.size();) {
+		if (entities[i]->getDeletable()) {
+			entities.erase(entities.begin() + i);
+		} else {
+			i++;
+		}
+	}
 	for(auto& e : entities) {
 		e->update();
 	}

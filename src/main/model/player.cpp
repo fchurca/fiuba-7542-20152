@@ -8,7 +8,7 @@ using namespace std;
 Player::Player(Board& board, std::string name) :
 	board(board),
 	name(name),
-	resources(100)
+	resources(0) // TODO: Resources iniciales
 {
 	for (int i = 0; i < board.sizeX * board.sizeY; i++)
 		map_visibility.push_back(INVISIBLE);
