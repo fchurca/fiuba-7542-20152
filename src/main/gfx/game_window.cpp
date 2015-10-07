@@ -173,6 +173,7 @@ SDL_Point GameWindow::boardToScreenPosition(r2 boardPos) {
 }
 
 void GameWindow::processInput(){
+	SDL_GetMouseState(&mouse.x, &mouse.y);
 	scroll();
 	//	Procesar input del usuario
 	while(SDL_PollEvent(EventHandler::getInstance()->getEvent())) {
@@ -188,14 +189,12 @@ void GameWindow::processInput(){
 				}
 				break;
 			case SDL_MOUSEBUTTONUP:
-				SDL_Point mouse_screen;
-				SDL_GetMouseState(&mouse_screen.x, &mouse_screen.y);
 				ostringstream oss;
-				oss << "Mouse en " << mouse_screen.x << "," << mouse_screen.y;
+				oss << "Mouse en " << mouse.x << "," << mouse.y;
 
 				// Conversion de coordenadas en pantalla a coordenadas mapa
 
-				auto mouseBoard = screenToBoardPosition(mouse_screen);
+				auto mouseBoard = screenToBoardPosition(mouse);
 				oss << "; mapa: " << mouseBoard.x << "," << mouseBoard.y;
 
 				Logger::getInstance()->writeInformation(oss.str().c_str());
@@ -221,25 +220,23 @@ void GameWindow::scroll(){
 	double ds = (double)scroll_speed * (double)(board.dt) / 1000.0; //deltascroll
 	r2 df;
 
-	int mouse_x, mouse_y;
-	SDL_GetMouseState(&mouse_x, &mouse_y);
-	if(mouse_x <= margen_pantalla) {
-		auto dsi = interpolate(mouse_x, 0, margen_pantalla, ds, 0);
+	if(mouse.x <= margen_pantalla) {
+		auto dsi = interpolate(mouse.x, 0, margen_pantalla, ds, 0);
 		df += {-dsi, dsi};
 		Logger::getInstance()->writeInformation("Scrolleando hacia la izquierda");
 	}
-	if(mouse_x >= ancho_pantalla - margen_pantalla){
-		auto dsi = interpolate(mouse_x, ancho_pantalla - margen_pantalla, ancho_pantalla, 0, ds);
+	if(mouse.x >= ancho_pantalla - margen_pantalla){
+		auto dsi = interpolate(mouse.x, ancho_pantalla - margen_pantalla, ancho_pantalla, 0, ds);
 		df += {dsi, -dsi};
 		Logger::getInstance()->writeInformation("Scrolleando hacia la derecha");
 	}
-	if(mouse_y <= margen_pantalla) {
-		auto dsi = interpolate(mouse_y, 0, margen_pantalla, ds, 0);
+	if(mouse.y <= margen_pantalla) {
+		auto dsi = interpolate(mouse.y, 0, margen_pantalla, ds, 0);
 		df += {-dsi, -dsi};
 		Logger::getInstance()->writeInformation("Scrolleando hacia arriba");
 	}
-	if(mouse_y >= alto_pantalla - margen_pantalla) {
-		auto dsi = interpolate(mouse_y, alto_pantalla - margen_pantalla, alto_pantalla, 0, ds);
+	if(mouse.y >= alto_pantalla - margen_pantalla) {
+		auto dsi = interpolate(mouse.y, alto_pantalla - margen_pantalla, alto_pantalla, 0, ds);
 		df += {dsi, dsi};
 		Logger::getInstance()->writeInformation("Scrolleando hacia abajo");
 	}
