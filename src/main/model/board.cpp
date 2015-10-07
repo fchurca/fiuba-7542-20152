@@ -85,6 +85,9 @@ void Board::update() {
 	for(auto& e : entities) {
 		e->update();
 	}
+	for(auto& p : players) {
+		p.second->update();
+	}
 }
 
 vector<shared_ptr<Entity>> Board::getEntities() {

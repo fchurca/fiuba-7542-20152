@@ -16,3 +16,6 @@ vector<shared_ptr<Entity>> Player::entities() {
 			[this](shared_ptr<Entity> e) { return (&(e->owner) == this);});
 }
 
+void Player::update() {
+}
+

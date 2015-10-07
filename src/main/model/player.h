@@ -15,6 +15,7 @@ class Player {
 		Player(Board& board, std::string name);
 		Board& board;
 		std::vector<std::shared_ptr<Entity>> entities();
+		void update();
 };
 
 #endif
