@@ -38,6 +38,6 @@ public:
 	int ancho_pantalla;
 	r2 screenToBoardPosition(SDL_Point screenPos);
 	SDL_Point boardToScreenPosition(r2 boardPos);
-	shared_ptr<Entity> getProtagonist();
+	shared_ptr<Entity> getSelection();
 };
 #endif // __GFX_GAMEWINDOW_H__

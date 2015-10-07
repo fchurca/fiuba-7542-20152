@@ -201,7 +201,7 @@ void GameWindow::processInput(){
 				Logger::getInstance()->writeInformation(oss.str().c_str());
 				if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_LEFT ) {
 					Logger::getInstance()->writeInformation("Boton Izquierdo");
-					auto protagonist = getProtagonist();
+					auto protagonist = getSelection();
 					if (protagonist) {
 						if (!(SDL_GetModState()&KMOD_SHIFT)) {
 							protagonist->unsetTarget();
@@ -252,7 +252,7 @@ void GameWindow::focus(r2 newFocus) {
 }
 
 void GameWindow::focus() {
-	auto protagonist = getProtagonist();
+	auto protagonist = getSelection();
 	if (protagonist) {
 		focus(protagonist->getPosition());
 	}
@@ -262,7 +262,7 @@ r2 GameWindow::getFocus() {
 	return focusPosition;
 }
 
-shared_ptr<Entity> GameWindow::getProtagonist() {
+shared_ptr<Entity> GameWindow::getSelection() {
 	return player.entities().front();
 }
 
