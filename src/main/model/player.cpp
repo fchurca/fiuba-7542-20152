@@ -9,6 +9,8 @@ Player::Player(Board& board, std::string name) :
 	board(board),
 	name(name)
 {
+	for (int i = 0; i < board.sizeX * board.sizeY; i++)
+		map_visibility.push_back(INVISIBLE);
 };
 
 vector<shared_ptr<Entity>> Player::entities() {
@@ -17,5 +19,10 @@ vector<shared_ptr<Entity>> Player::entities() {
 }
 
 void Player::update() {
+
+}
+
+Visibility Player::getVisibility(int x, int y) {
+	return map_visibility[y * board.sizeY + x];
 }
 
