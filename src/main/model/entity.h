@@ -22,6 +22,7 @@ class Entity {
 		size_t id;
 		bool adjustPosition();
 		Entity();
+		void collide(Entity& other);
 	public:
 		Player& owner;
 		r2 size;

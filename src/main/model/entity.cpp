@@ -63,25 +63,34 @@ bool Entity::targeted() {
 	return targets.size() > 0;
 }
 
+void Entity::collide(Entity& other) {
+	if(!deletable &&
+			!other.deletable &&
+			name != "carne" &&
+			other.name == "carne") {
+		cerr << "Un " << name << " de " << owner.name << " encontró carne!" << endl;
+		other.setDeletable();
+		owner.grantResources(100);
+		cerr << owner.name << " tiene " << owner.getResources() << " carne" << endl;
+	}
+}
+
 void Entity::update() {
 	if (targeted()) {
 		auto dr = speed*board.dt/1000;
 		if (pow(dr, 2) < sqDistance()) {
 			auto newPos = position + r2::fromPolar(bearing(), dr);
 			// TODO: colisionar
-			auto colliders = board.selectEntities([this, newPos](shared_ptr<Entity> e) {
+			rectangle shapeCandidate(newPos, size);
+			auto colliders = board.selectEntities([this, shapeCandidate](shared_ptr<Entity> e) {
 					return (*e != *this) &&
-					(rectangle(newPos, size).intersects(rectangle(e->position, e->size)));
+					(rectangle(e->position, e->size).intersects(shapeCandidate));
 					});
 			for(size_t i = 0; i < colliders.size();) {
 				auto& c = *colliders[i];
-				// TODO: pasar a e.collide()
-				if(c.name == "carne") {
-					cerr << "Un " << name << " de " << owner.name << " encontró carne!" << endl;
+				collide(c);
+				if(c.getDeletable()) {
 					colliders.erase(colliders.begin() + i);
-					c.setDeletable();
-					owner.grantResources(100);
-					cerr << owner.name << " tiene " << owner.getResources() << " carne" << endl;
 				} else {
 					i++;
 				}
