@@ -62,7 +62,16 @@ void Entity::update() {
 	if (targeted()) {
 		auto dr = speed*board.dt/1000;
 		if (pow(dr, 2) < sqDistance()) {
-			position += r2::fromPolar(bearing(), dr);
+			auto newPos = position + r2::fromPolar(bearing(), dr);
+			// TODO: colisionar
+			auto colliders = board.selectEntities([this, newPos](shared_ptr<Entity> e) {
+					return (*e != *this) &&
+					(rectangle(newPos, size).intersects(rectangle(e->position, e->size)));
+					});
+			if (colliders.size() > 0) {
+				return;
+			}
+			position = newPos;
 		} else {
 			position = target() - size/2;
 			targets.pop_front();
@@ -114,5 +123,13 @@ Directions Entity::getDirection(){
 		static_cast<Directions>(
 				(unsigned)floor(4*bearing()/M_PI+.5)%8):
 		SOUTH_EAST;
+}
+
+bool Entity::operator==(Entity& other) {
+	return this == &other;
+}
+
+bool Entity::operator!=(Entity& other) {
+	return this != &other;
 }
 

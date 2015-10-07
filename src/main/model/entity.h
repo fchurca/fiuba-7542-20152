@@ -28,7 +28,7 @@ class Entity {
 		r2 target();
 		bool targeted();
 		const std::string name;
-		const Board& board;
+		Board& board;
 		r2 center();
 		int sight_radius;
 		r2 getPosition();
@@ -39,12 +39,14 @@ class Entity {
 		double sqDistance();
 		double distance();
 		Directions getDirection();// TODO: Pertenece a vista
-		bool overlaps(Entity & other);
 
 		Entity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int sight_radius);
 		~Entity();
 
 		void update();
+
+		bool operator==(Entity& other);
+		bool operator!=(Entity& other);
 };
 //-----------------------------------------------------------------------------
 #endif /* _MODEL_ENTITY_H_ */
