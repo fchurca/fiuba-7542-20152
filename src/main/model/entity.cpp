@@ -8,14 +8,14 @@
 
 using namespace std;
 
-Entity::Entity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int radius) :
+Entity::Entity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int sight_radius) :
 	position(position),
 	speed(speed),
 	size(size),
 	name(name),
 	owner(owner),
 	board(board),
-	radius(radius)
+	sight_radius(sight_radius)
 {
 	adjustPosition();
 	stringstream message;

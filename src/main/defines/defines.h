@@ -45,7 +45,7 @@ enum Directions {
 #define ENTIDAD_DEFAULT_CANTIDAD_SPRITES  1
 #define ENTIDAD_DEFAULT_FPS  0
 #define ENTIDAD_DEFAULT_DELAY  0
-#define ENTIDAD_DEFAULT_RADIUS  5
+#define ENTIDAD_DEFAULT_SIGHT_RADIUS  5
 
 //Nombre de jugador inicial (terreno, etc)
 #define DEFAULT_PLAYER_NAME "Gaia"
