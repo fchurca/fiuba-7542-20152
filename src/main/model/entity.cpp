@@ -19,9 +19,12 @@ Entity::Entity(std::string name, Board& board, Player& owner, r2 position, r2 si
 	board(board),
 	sight_radius(sight_radius)
 {
+	static size_t idCount = 0;
+	id = idCount++;
 	adjustPosition();
 	stringstream message;
 	message << "Created Entity " << this
+		<< " with ID " << id
 		<< " of kind " << name
 		<< " owned by board " << &board
 		<< " at " << position.x << "," << position.y;
@@ -146,6 +149,10 @@ void Entity::setDeletable() {
 
 bool Entity::getDeletable() {
 	return deletable;
+}
+
+size_t Entity::getId() {
+	return id;
 }
 
 bool Entity::operator==(Entity& other) {

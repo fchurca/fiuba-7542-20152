@@ -19,6 +19,7 @@ class Entity {
 		double speed;	// Speed (tiles/s)
 		std::deque<r2> targets;
 		bool deletable;
+		size_t id;
 		bool adjustPosition();
 		Entity();
 	public:
@@ -42,6 +43,7 @@ class Entity {
 		Directions getDirection();// TODO: Pertenece a vista
 		void setDeletable();
 		bool getDeletable();
+		size_t getId();
 
 		Entity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int sight_radius);
 		~Entity();
