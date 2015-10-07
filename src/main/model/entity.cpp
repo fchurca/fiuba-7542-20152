@@ -1,3 +1,4 @@
+#include <iostream>
 #include <sstream>
 #define _USE_MATH_DEFINES
 #include <cmath>
@@ -68,6 +69,16 @@ void Entity::update() {
 					return (*e != *this) &&
 					(rectangle(newPos, size).intersects(rectangle(e->position, e->size)));
 					});
+			for(size_t i = 0; i < colliders.size();) {
+				if(colliders[i]->name == "carne") {
+					cerr << "Carne!" << endl;
+					colliders.erase(colliders.begin()+i);
+					// TODO: Quitar de tablero
+					// TODO: Grant resources to this->owner
+				} else {
+					i++;
+				}
+			}
 			if (colliders.size() > 0) {
 				return;
 			}
