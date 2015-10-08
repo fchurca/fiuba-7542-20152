@@ -20,26 +20,20 @@ vector<shared_ptr<Entity>> Player::entities() {
 }
 
 void Player::update() {
-	for (int i = 0; i < board.sizeX * board.sizeY; i++) {
-		if (map_visibility[i] == VISIBLE)
-			map_visibility[i] = SEEN;
+	for (auto& v : map_visibility) {
+		if (v == VISIBLE) {
+			v = SEEN;
+		}
 	}
 	vector<shared_ptr<Entity>> entitites = entities();
 	for (auto& e : entitites) {
-		int x = e->center().x;
-		int y = e->center().y;
-		int j = y * board.sizeX + x;
-		for (int rx = -e->sight_radius; rx <= e->sight_radius; rx++) {
-			for (int ry = -e->sight_radius; ry <= e->sight_radius; ry++) {
-				if ((y + ry) < board.sizeY && (x + rx) < board.sizeX && (y + ry) >= 0 && (x + rx) >= 0) {
-					map_visibility[(y + ry) * board.sizeX + (x + rx)] = VISIBLE;
-					if (name == "Franceses")
-						Logger::getInstance()->writeError("Visible" + std::to_string((y + ry) * board.sizeX + (x + rx)));
-				}
+		auto c = e->center();
+		auto r = e->sight_radius;
+		for (int x = max(0, (int)floor(c.x - r)); x < min(board.sizeX, (int)ceil(c.x + r)); x++) {
+			for (int y = max(0, (int)floor(c.y - r)); y < min(board.sizeY, (int)ceil(c.y + r)); y++) {
+				map_visibility[y* board.sizeX + x] = VISIBLE;
 			}
 		}
-		if (name == "Franceses")
-			Logger::getInstance()->writeError("-----------------------------------");
 	}
 }
 
