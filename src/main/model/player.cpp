@@ -38,7 +38,13 @@ void Player::update() {
 }
 
 Visibility Player::getVisibility(Entity& e) {
-	return getVisibility(e.center());
+	Visibility ret = INVISIBLE;
+	for(int x = 0; x < e.size.x; x++) {
+		for(int y = 0; y < e.size.y; y++) {
+			ret = max(ret, getVisibility(e.getPosition() + r2(x, y)));
+		}
+	}
+	return ret;
 }
 
 Visibility Player::getVisibility(r2 pos) {
