@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
-#include "socket.h"
+#include "winSocket.h"
 //-----------------------------------------------------------------------------
-Socket::Socket(unsigned int uiPort)
+WinSocket::WinSocket(unsigned int uiPort)
 :status(false),
  port(uiPort)
 {
@@ -31,7 +31,7 @@ Socket::Socket(unsigned int uiPort)
 	}
 }
 //-----------------------------------------------------------------------------
-Socket::~Socket() {
+WinSocket::~WinSocket() {
 
 	if (sockfd)
 		closesocket(sockfd);
@@ -50,7 +50,7 @@ bool Socket::Listen(int maxConnections){
 	return true;
 }
 //-----------------------------------------------------------------------------
-bool Socket::Accept(){
+bool WinSocket::Accept(){
 
 
 
