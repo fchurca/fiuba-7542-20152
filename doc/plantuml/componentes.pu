@@ -1,0 +1,26 @@
+@startuml
+
+package "Server" {
+component SmartBoard
+component Game as sGame
+component NetworkClient
+component GraphicClient as sGraphicClient
+
+SmartBoard - sGame
+sGame - sGraphicClient
+sGame -- NetworkClient
+}
+
+package "Client" {
+component RemoteBoard
+component Game as cGame
+component GraphicClient as cGraphicClient
+
+RemoteBoard - cGame
+cGame - cGraphicClient
+}
+
+NetworkClient .. RemoteBoard
+
+@enduml
+

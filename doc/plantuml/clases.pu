@@ -1,70 +1,61 @@
 @startuml
-
 package AACCG{
-class Juego {
-vel_personaje
-size_x
-size_y
-nombre
-}
-class GameWindow {
-margen_scroll
-}
-class Jugador
-class Tile
-class EntidadFactory {
-nombre
-ancho_base
-alto_base
-crear(jugador,coordenada)
-}
-class SpriteSheet {
-imagen
-pixel_ref_x
-pixel_ref_y
-fps
-delay
-crear(entidad)
-}
-class Entidad {
-nombre
-ancho_base
-alto_base
-}
-class Sprite {
-imagen
-pixel_ref_x
-pixel_ref_y
-fps
-delay
-}
-class CoordenadaMapa {
-x
-y
-}
+class Game
+
+abstract class Board
+class SmartBoard
+class RemoteBoard
+
+abstract class Entity
+class SmartEntity
+class DumbEntity
+
+abstract class Player
+class SmartPlayer
+class DumbPlayer
+
+abstract class Client
+class GraphicClient
+class NetworkClient
+
+class IsoView
+class Minimap
+class Hud
+
+class Socket
 }
 
-package SDL {
-class SDL_Window
-class SDL_Point
-}
+Game o-- Board
+Game *-- Client
+Client --> Player
 
-Juego *-- GameWindow
-GameWindow *-- CoordenadaMapa
-GameWindow *-- SDL_Point : size >
-Juego o-- EntidadFactory
-Juego *-- Tile
-Tile o-- Entidad
-EntidadFactory --> Entidad
-EntidadFactory --> Jugador
-EntidadFactory --> CoordenadaMapa
-GameWindow *-- SpriteSheet
-SpriteSheet --> Sprite
-Juego o-- Jugador
-Jugador o-- Entidad
-Entidad *-- CoordenadaMapa
-Sprite *-- SDL_Point
+Board o-- Entity : Terreno
+Board *-- Entity : Entidades
+Board o-- Player
 
-GameWindow --> SDL_Window
+Client <|-- GraphicClient
+Client <|-- NetworkClient
+
+Board <|-- SmartBoard
+Board <|-- RemoteBoard
+
+Entity <|-- SmartEntity
+SmartBoard ..> SmartEntity
+Entity <|-- DumbEntity
+RemoteBoard ..> DumbEntity
+
+Player <|-- SmartPlayer
+SmartBoard ..> SmartPlayer
+Player <|-- DumbPlayer
+RemoteBoard ..> DumbPlayer
+
+NetworkClient o-- Socket
+RemoteBoard o-- Socket
+Socket .. Socket
+
+GraphicClient o-- IsoView
+GraphicClient o-- Minimap
+GraphicClient o-- Hud
 
 @enduml
+
