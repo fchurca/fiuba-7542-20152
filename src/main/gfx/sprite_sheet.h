@@ -29,17 +29,18 @@ private:
 
 	bool initialized;//= FALSE;
 	SDL_Texture* texture;// = NULL;
+	SDL_Texture* textureFOG;// = NULL; //Creamos para prueba de fog un nuevo texture
 	int getFrameDirection(Directions direction);
-	bool loadTexture( SDL_Renderer* renderer );
+	bool loadTexture(SDL_Renderer* renderer);
 	void clear();
 
 public:
 	GameWindow & owner;
 	SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay, GameWindow & owner );
 	~SpriteSheet();
-	void render(Entity& entity, SDL_Renderer* renderer);
+	void render(Entity& entity, SDL_Renderer* renderer, Visibility state);
 	void update();
-	SDL_Texture* getLoadedTexture( SDL_Renderer* renderer );
+	SDL_Texture* getLoadedTexture(SDL_Renderer* renderer, Visibility state);
 	SDL_Rect targetRect(Entity& entity);
 };
 

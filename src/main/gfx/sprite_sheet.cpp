@@ -12,6 +12,7 @@ SpriteSheet::SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int a
 	this->path = pPath;
 
 	texture = nullptr;
+	textureFOG = nullptr; //Creamos para prueba de fog un nuevo texture
 	initialized = false;
 
 	this->pixel_ref_x = pixelRefX;
@@ -40,12 +41,19 @@ void SpriteSheet::clear(){
 		SDL_DestroyTexture( texture );
 		texture = nullptr;
 	}
+	if (textureFOG) {
+		SDL_DestroyTexture(textureFOG);
+		textureFOG = nullptr;
+	}
 }
 
-SDL_Texture*  SpriteSheet::getLoadedTexture( SDL_Renderer* renderer ){
+SDL_Texture*  SpriteSheet::getLoadedTexture( SDL_Renderer* renderer, Visibility state ){
 	if( !initialized )
 		initialized = loadTexture( renderer );
-	return texture;
+
+	if(state==VISIBLE)
+		return texture;
+	return textureFOG;
 }
 
 bool SpriteSheet::loadTexture( SDL_Renderer* renderer ) {
@@ -56,6 +64,7 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ) {
 	//	Si no se cargo la imagen, cargo default
 	if(!loadedSurface) {
 		texture = nullptr;
+		textureFOG = nullptr;
 		Logger::getInstance()->writeError( "No se puede cargar la imagen " + path + "! - " + IMG_GetError() );
 		loadedSurface = IMG_Load( ENTIDAD_DEFAULT_IMAGEN );
 		this->pixel_ref_x = ENTIDAD_DEFAULT_PIXEL_REF_X;
@@ -72,17 +81,20 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ) {
 	//	La default siempre deberia poder cargarla
 	if(!loadedSurface) {
 		texture = nullptr;
+		textureFOG = nullptr;
 		Logger::getInstance()->writeError( "No se puede cargar la imagen Default ! " );
 	} else {
 		//	Textura de la superficie
-		texture = SDL_CreateTextureFromSurface( renderer, loadedSurface );
+		texture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
+		textureFOG = SDL_CreateTextureFromSurface(renderer, loadedSurface);
+		SDL_SetTextureAlphaMod(textureFOG, 100);
 		//	Libera la superficie
 		SDL_FreeSurface( loadedSurface );
 	}
-	return texture;
+	return texture && textureFOG;
 }
 
-void SpriteSheet::render(Entity & entity, SDL_Renderer* renderer){
+void SpriteSheet::render(Entity & entity, SDL_Renderer* renderer, Visibility state){
 	if (total_sprites == 0){
 		currentFrame = 0;
 		Logger::getInstance()->writeWarning(" La cantidad de sprites debe ser mayor a cero " + path);
@@ -99,7 +111,9 @@ void SpriteSheet::render(Entity & entity, SDL_Renderer* renderer){
 
 	//	Dibujado
 	//	TODO: Verificar si renderQuad realmente se pisa con la pantalla
-	SDL_RenderCopy( renderer, getLoadedTexture( renderer ), &clip, &renderQuad );
+	if(state != INVISIBLE) //Aca hay que usar el canDraw
+		SDL_RenderCopy( renderer, getLoadedTexture( renderer, state ), &clip, &renderQuad );
+
 }
 
 void SpriteSheet::update(){
