@@ -2,25 +2,25 @@
 #ifndef MAIN_SERVER_SRC_SERVER_H_
 #define MAIN_SERVER_SRC_SERVER_H_
 //-----------------------------------------------------------------------------
-
 #include <thread>
 //-----------------------------------------------------------------------------
-
 #include "configuration.h"
 //-----------------------------------------------------------------------------
 class Server {
 
 private:
 	std::thread t;
-	int port;
 	bool status;
+	std::string ip;
+	int port;
+	int max_clients;
 
 public:
-	Server();
+	Server(Configuration config);
 	virtual ~Server();
 
 public:
-	void init(Configuration config);
+	void init();
 	void stop();
 	void run();
 

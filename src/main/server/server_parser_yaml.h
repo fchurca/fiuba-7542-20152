@@ -5,7 +5,7 @@
 #include <fstream>
 #include "yaml-cpp/yaml.h"
 
-#include "server_defines.h"
+#include "defines.h"
 //#include "../log/logger.h"
 
 using namespace std;
