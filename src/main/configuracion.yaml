@@ -1,6 +1,6 @@
 pantalla:
-    ancho: 640
-    alto: 480
+    ancho: 1024
+    alto: 600
 configuracion:
     vel_personaje: 3
     margen_scroll: 45
@@ -196,12 +196,12 @@ escenario:
       - {x: 9, y: 6, tipo: piedra }
       - {x: 9, y: 7, tipo: piedra }
     entidades:
-      - {x: 0, y: 0, tipo: carne }
-      - {x: 0, y: 1, tipo: carne }
-      - {x: 0, y: 2, tipo: carne }
-      - {x: 1, y: 0, tipo: carne }
-      - {x: 1, y: 1, tipo: carne }
-      - {x: 2, y: 0, tipo: carne }
+      - {x: 3, y: 0, tipo: carne }
+      - {x: 3, y: 1, tipo: carne }
+      - {x: 3, y: 2, tipo: carne }
+      - {x: 4, y: 0, tipo: carne }
+      - {x: 4, y: 1, tipo: carne }
+      - {x: 5, y: 0, tipo: carne }
       - {x: 2, y: 9, tipo: cartel }
       - {x: 5, y: 3, tipo: cartel }
       - {x: 5, y: 9, tipo: cartel }

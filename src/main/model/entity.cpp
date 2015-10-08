@@ -21,7 +21,8 @@ Entity::Entity(std::string name, Board& board, Player& owner, r2 position, r2 si
 {
 	solid = name != "carne" &&
 		name != "pasto" &&
-		name != "piedra";
+		name != "piedra" &&
+		name != TERRENO_DEFAULT_NOMBRE;
 	static size_t idCount = 0;
 	id = idCount++;
 	adjustPosition();
@@ -103,14 +104,8 @@ void Entity::update() {
 					return (*e != *this) &&
 					(rectangle(e->position, e->size).intersects(shapeCandidate));
 					});
-			for(auto it = colliders.begin(); it != colliders.end();) {
-				auto& c = *(*it);
-				collide(c);
-				if(c.getDeletable()) {
-					colliders.erase(it);
-				} else {
-					it++;
-				}
+			for(auto c : colliders) {
+				collide(*c);
 			}
 			if (!canEnter(newPos)) {
 				unsetTarget();
