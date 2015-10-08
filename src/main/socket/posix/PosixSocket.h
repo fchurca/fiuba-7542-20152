@@ -5,18 +5,27 @@
 #include <string>
 #include "../socket.h"
 //-----------------------------------------------------------------------------
+#include <sys/socket.h>
+#include <sys/types.h>
+#include <netinet/in.h>
+//-----------------------------------------------------------------------------
 class PosixSocket : public Socket {
+private:
+	int sockfd;
+	struct sockaddr_in sockaddr;			// Dirección del socket.
+	bool status;
+	int port;
+
 public:
 	PosixSocket();
 	virtual ~PosixSocket();
 public:
 	void Connect(std::string hostIP, int hostPort);
 	bool Listen(int maxConnections);
-	bool Accept();
+	Socket* Accept();
 	int Send(const void* data, int dataLenght);
 	int Recv(const void* data, int dataLenght);
 	bool IsActive();
-
 
 };
 //-----------------------------------------------------------------------------
