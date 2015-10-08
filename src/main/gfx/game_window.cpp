@@ -187,10 +187,14 @@ void GameWindow::processInput(){
 				break;
 			case SDL_KEYDOWN:
 				Logger::getInstance()->writeInformation("Teclado");
-				if(e.key.keysym.sym == SDLK_r){
-					owner.restart();
+				switch(e.key.keysym.sym) {
+					case SDLK_r:
+						owner.restart();
+						break;
+					case SDLK_SPACE:
+						focus();
+						break;
 				}
-				break;
 			case SDL_MOUSEBUTTONUP:
 				ostringstream oss;
 				oss << "Mouse en " << mouse.x << "," << mouse.y;
