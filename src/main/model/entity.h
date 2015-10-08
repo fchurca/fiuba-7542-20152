@@ -23,6 +23,8 @@ class Entity {
 		bool adjustPosition();
 		Entity();
 		void collide(Entity& other);
+		bool solid;
+		bool canEnter(r2 newPosition);
 	public:
 		Player& owner;
 		r2 size;

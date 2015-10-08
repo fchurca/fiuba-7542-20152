@@ -19,6 +19,9 @@ Entity::Entity(std::string name, Board& board, Player& owner, r2 position, r2 si
 	board(board),
 	sight_radius(sight_radius)
 {
+	solid = name != "carne" &&
+		name != "pasto" &&
+		name != "piedra";
 	static size_t idCount = 0;
 	id = idCount++;
 	adjustPosition();
@@ -75,6 +78,20 @@ void Entity::collide(Entity& other) {
 	}
 }
 
+bool Entity::canEnter(r2 newPosition) {
+	auto newCenter = newPosition + size / 2;
+	if(board.getTerrain(floor(newCenter.x), floor(newCenter.y)).solid) {
+		return false;
+	}
+	rectangle shapeCandidate(newPosition, size);
+	auto colliders = board.selectEntities([this, shapeCandidate](shared_ptr<Entity> e) {
+			return (*e != *this) &&
+			e->solid &&
+			(rectangle(e->position, e->size).intersects(shapeCandidate));
+			});
+	return colliders.size() == 0;
+}
+
 void Entity::update() {
 	if (targeted()) {
 		auto dr = speed*board.dt/1000;
@@ -86,16 +103,17 @@ void Entity::update() {
 					return (*e != *this) &&
 					(rectangle(e->position, e->size).intersects(shapeCandidate));
 					});
-			for(size_t i = 0; i < colliders.size();) {
-				auto& c = *colliders[i];
+			for(auto it = colliders.begin(); it != colliders.end();) {
+				auto& c = *(*it);
 				collide(c);
 				if(c.getDeletable()) {
-					colliders.erase(colliders.begin() + i);
+					colliders.erase(it);
 				} else {
-					i++;
+					it++;
 				}
 			}
-			if (colliders.size() > 0) {
+			if (!canEnter(newPos)) {
+				unsetTarget();
 				return;
 			}
 			position = newPos;
