@@ -50,7 +50,7 @@ bool Socket::Listen(int maxConnections){
 	return true;
 }
 //-----------------------------------------------------------------------------
-bool WinSocket::Accept(){
+Socket* WinSocket::Accept(){
 
 
 

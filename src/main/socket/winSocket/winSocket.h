@@ -36,7 +36,7 @@ public:
 public:
 	void Connect(std::string hostIP, int hostPort);
 	bool Listen(int maxConnections);
-	bool Accept();
+	Socket* Accept();
 	int Send(const void* data, int dataLenght);
 	int Recv(const void* data, int dataLenght);
 	bool IsActive();
