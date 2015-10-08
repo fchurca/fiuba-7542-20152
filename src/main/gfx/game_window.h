@@ -40,5 +40,6 @@ public:
 	r2 screenToBoardPosition(SDL_Point screenPos);
 	SDL_Point boardToScreenPosition(r2 boardPos);
 	shared_ptr<Entity> getSelection();
+friend SpriteSheet;
 };
 #endif // __GFX_GAMEWINDOW_H__

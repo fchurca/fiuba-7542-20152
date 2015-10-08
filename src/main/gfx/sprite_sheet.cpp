@@ -94,7 +94,9 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ) {
 	return texture && textureFOG;
 }
 
-void SpriteSheet::render(Entity & entity, SDL_Renderer* renderer, Visibility state){
+void SpriteSheet::render(Entity & entity, SDL_Renderer* renderer){
+	Visibility state = owner.player.getVisibility(entity);
+
 	if (total_sprites == 0){
 		currentFrame = 0;
 		Logger::getInstance()->writeWarning(" La cantidad de sprites debe ser mayor a cero " + path);
@@ -110,7 +112,6 @@ void SpriteSheet::render(Entity & entity, SDL_Renderer* renderer, Visibility sta
 	SDL_Rect clip = { entity.getDirection() * ancho_sprite, currentFrame * alto_sprite, ancho_sprite, alto_sprite };
 
 	//	Dibujado
-	//	TODO: Verificar si renderQuad realmente se pisa con la pantalla
 	if(state != INVISIBLE) //Aca hay que usar el canDraw
 		SDL_RenderCopy( renderer, getLoadedTexture( renderer, state ), &clip, &renderQuad );
 

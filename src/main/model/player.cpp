@@ -37,8 +37,12 @@ void Player::update() {
 	}
 }
 
-Visibility Player::getVisibility(int x, int y) {
-	return map_visibility[y * board.sizeX + x];
+Visibility Player::getVisibility(Entity& e) {
+	return getVisibility(e.center());
+}
+
+Visibility Player::getVisibility(r2 pos) {
+	return map_visibility[(int)floor(pos.y) * board.sizeX + (int)floor(pos.x)];
 }
 
 long Player::getResources() {

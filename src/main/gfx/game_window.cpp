@@ -108,7 +108,7 @@ void GameWindow::render() {
 			Entity & tile = board.getTerrain(x, y);
 			if (&tile) {
 				if (canDraw(tile)) {
-					spriteSheets[tile.name]->render(tile, renderer, player.getVisibility(tile.center().x,tile.center().y));
+					spriteSheets[tile.name]->render(tile, renderer);
 				}
 			}
 		}
@@ -132,7 +132,7 @@ void GameWindow::render() {
 			Logger::getInstance()->writeWarning("No existe SpriteSheet para este tipo de entidad" + e->name);
 			continue;
 		}
-		it->second->render(*e, renderer, player.getVisibility(e->center().x, e->center().y));
+		it->second->render(*e, renderer);
 	}
 
 	SDL_RenderPresent( renderer );

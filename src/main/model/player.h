@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#include "geometry.h"
+
 class Board;
 class Entity;
 
@@ -24,7 +26,8 @@ class Player {
 		Board& board;
 		std::vector<std::shared_ptr<Entity>> entities();
 		void update();
-		Visibility getVisibility(int x, int y);
+		Visibility getVisibility(r2 pos);
+		Visibility getVisibility(Entity& e);
 		long getResources();
 		bool canGrantResources(long r);
 		bool grantResources(long r);
