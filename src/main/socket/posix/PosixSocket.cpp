@@ -10,7 +10,7 @@ PosixSocket::~PosixSocket() {
 	// TODO Auto-generated destructor stub
 }
 //-----------------------------------------------------------------------------
-void PosixSocket::Connect(std::string hostIP, int hostPort){
+void PosixSocket::Connect(std::string hostIP,int hostPort){
 
 }
 //-----------------------------------------------------------------------------
