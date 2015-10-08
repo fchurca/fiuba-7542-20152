@@ -50,21 +50,21 @@ bool Entity::adjustPosition() {
 }
 
 void Entity::addTarget(r2 newTarget) {
-	targets.push_back(newTarget);
+	waypoints.push_back(newTarget);
 }
 
 void Entity::unsetTarget() {
-	targets.clear();
+	waypoints.clear();
 }
 
 r2 Entity::target() {
-	return targets.size() > 0?
-		targets.front():
+	return waypoints.size() > 0?
+		waypoints.front():
 		r2(0, 0);
 }
 
 bool Entity::targeted() {
-	return targets.size() > 0;
+	return waypoints.size() > 0;
 }
 
 void Entity::collide(Entity& other) {
@@ -114,7 +114,7 @@ void Entity::update() {
 			position = newPos;
 		} else {
 			position = target() - size/2;
-			targets.pop_front();
+			waypoints.pop_front();
 		}
 		if (adjustPosition()) {
 			unsetTarget();
@@ -128,16 +128,6 @@ r2 Entity::center() {
 
 r2 Entity::getPosition() {
 	return position;
-}
-
-// TODO: Deprecar
-double Entity::getX() {
-	return position.x;
-}
-
-// TODO: Deprecar
-double Entity::getY() {
-	return position.y;
 }
 
 r2 Entity::trajectory() {

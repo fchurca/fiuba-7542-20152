@@ -17,7 +17,7 @@ class Entity {
 	protected:
 		r2 position;	// Position (tile)
 		double speed;	// Speed (tiles/s)
-		std::deque<r2> targets;
+		std::deque<r2> waypoints;
 		bool deletable;
 		size_t id;
 		bool adjustPosition();

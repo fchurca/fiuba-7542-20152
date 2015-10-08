@@ -122,9 +122,9 @@ void GameWindow::render() {
 	// Ordenamos las entidades por oclusión
 	sort(entities.begin(), entities.end(), [](shared_ptr<Entity> a, shared_ptr<Entity> b) {
 		return (a->size.x == a->size.y && b->size.x == b->size.y) ?
-			(a->getX() + a->getY() + a->size.x < b->getX() + b->getY() + b->size.x) :
-			((a->getX() + a->size.x < b->getX()) || (a->getY() + a->size.y < b->getY())) &&
-			!((b->getX() + b->size.x <= a->getX()) || (b->getY() + b->size.y <= a->getY()));
+			(a->getPosition().x + a->getPosition().y + a->size.x < b->getPosition().x + b->getPosition().y + b->size.x) :
+			((a->getPosition().x + a->size.x < b->getPosition().x) || (a->getPosition().y + a->size.y < b->getPosition().y)) &&
+			!((b->getPosition().x + b->size.x <= a->getPosition().x) || (b->getPosition().y + b->size.y <= a->getPosition().y));
 	});
 	for(auto& e : entities) {
 		auto it = spriteSheets.find(e->name);
