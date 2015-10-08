@@ -13,6 +13,7 @@ Entity::Entity(std::string name, Board& board, Player& owner, r2 position, r2 si
 	position(position),
 	speed(speed),
 	deletable(false),
+	orientation(0),
 	size(size),
 	name(name),
 	owner(owner),
@@ -95,9 +96,11 @@ bool Entity::canEnter(r2 newPosition) {
 
 void Entity::update() {
 	if (targeted()) {
+		auto traj = trajectory();
+		orientation = atan2(traj.y, traj.x);
 		auto dr = speed*board.dt/1000;
 		if (pow(dr, 2) < sqDistance()) {
-			auto newPos = position + r2::fromPolar(bearing(), dr);
+			auto newPos = position + r2::fromPolar(orientation, dr);
 			// TODO: colisionar
 			rectangle shapeCandidate(newPos, size);
 			auto colliders = board.selectEntities([this, shapeCandidate](shared_ptr<Entity> e) {
@@ -134,11 +137,6 @@ r2 Entity::trajectory() {
 	return target() - center();
 }
 
-double Entity::bearing() {
-	auto traj = trajectory();
-	return atan2(traj.y, traj.x);
-}
-
 double Entity::sqDistance() {
 	auto b = trajectory();
 	return pow(b.x, 2) + pow(b.y, 2);
@@ -149,10 +147,7 @@ double Entity::distance() {
 }
 
 Directions Entity::getDirection(){
-	return targeted()?
-		static_cast<Directions>(
-				(unsigned)floor(4*bearing()/M_PI+.5)%8):
-		SOUTH_EAST;
+	return static_cast<Directions>((unsigned)floor(4*orientation/M_PI+.5)%8);
 }
 
 void Entity::setDeletable() {
