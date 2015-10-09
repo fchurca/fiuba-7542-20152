@@ -206,6 +206,7 @@ void GameWindow::processInput(){
 						focus();
 						break;
 				}
+				break;
 			case SDL_MOUSEBUTTONUP:
 				ostringstream oss;
 				oss << "Mouse en " << mouse.x << "," << mouse.y;
