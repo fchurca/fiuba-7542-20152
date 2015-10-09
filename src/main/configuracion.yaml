@@ -38,7 +38,7 @@ tipos_entidades:
     delay: 0
     ancho_sprite: 64
     alto_sprite: 32
-    cantidad_sprites: 0
+    cantidad_sprites: 1
   - nombre: chancho
     imagen: resources/chanchos.png
     ancho_base: 0.5

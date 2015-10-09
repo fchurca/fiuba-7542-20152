@@ -27,7 +27,6 @@ Board::Board(ParserYAML& parser) :
 	createEntityFactory(TERRENO_DEFAULT_NOMBRE, {TERRENO_DEFAULT_ANCHO_BASE, TERRENO_DEFAULT_ALTO_BASE}, 0, 0);
 	createPlayer(DEFAULT_PLAYER_NAME);
 
-	auto tc = parser.getConfiguracion();
 	for(auto& t : parser.getTiposEntidades()) {
 		createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, t.speed, t.sight_radius); // LA VELOCIDAD DEBERIA VENIR DE CADA ENTIDAD
 	}

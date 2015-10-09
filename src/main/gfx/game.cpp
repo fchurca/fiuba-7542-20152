@@ -47,6 +47,7 @@ void Game::start() {
 		board->update(); // Model
 		gameWindow->render(); // View
 
+		Logger::getInstance()->flush();
 		if (!GameTimer::wait(GameTimer::getCurrent() + board->dt)) {
 			Logger::getInstance()->writeInformation("Estamos laggeando!");
 		}
