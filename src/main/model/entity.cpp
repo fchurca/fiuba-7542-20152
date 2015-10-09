@@ -1,4 +1,3 @@
-#include <iostream>
 #include <sstream>
 #define _USE_MATH_DEFINES
 #include <cmath>
@@ -73,10 +72,13 @@ void Entity::collide(Entity& other) {
 			!other.deletable &&
 			name != "carne" &&
 			other.name == "carne") {
-		cerr << "Un " << name << " de " << owner.name << " encontró carne!" << endl;
+		stringstream message;
+		message << "Un " << name << " de " << owner.name << " encontró carne!";
+		// TODO: corroborar que se le puede otorgar
 		other.setDeletable();
 		owner.grantResources(100);
-		cerr << owner.name << " tiene " << owner.getResources() << " carne" << endl;
+		message << " " << owner.name << " tiene " << owner.getResources() << " carne";
+		Logger::getInstance()->writeInformation(message.str());
 	}
 }
 
