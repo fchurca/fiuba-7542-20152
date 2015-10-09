@@ -21,6 +21,7 @@ public:
 	~Game();
 	std::shared_ptr<Board> getBoard();
 	bool setBoard(std::shared_ptr<Board> newBoard);
+	std::shared_ptr<Player> getAvailablePlayer();
 	bool addClient(std::shared_ptr<GameWindow> newClient);
 	void start();
 	void restart();

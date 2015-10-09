@@ -138,3 +138,12 @@ vector<shared_ptr<Entity>> Board::getEntities() {
 Player& Board::findPlayer(string name) {
 	return *(players.find(name)->second);
 }
+
+std::vector<std::shared_ptr<Player>> Board::getPlayers() {
+	std::vector<std::shared_ptr<Player>> ret;
+	for(auto& i : players) {
+		ret.push_back(i.second);
+	}
+	return ret;
+}
+

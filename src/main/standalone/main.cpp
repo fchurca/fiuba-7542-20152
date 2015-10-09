@@ -22,7 +22,7 @@ int main(int argc, char* args[]) {
 		ParserYAML parser(CONFIG_FILE_PATH);
 		parser.parse();
 		game.setBoard(make_shared<Board>(parser));
-		game.addClient(make_shared<GameWindow>(game, game.getBoard()->findPlayer("Franceses"), parser));
+		game.addClient(make_shared<GameWindow>(game, *(game.getAvailablePlayer()), parser));
 		game.start();
 	}
 

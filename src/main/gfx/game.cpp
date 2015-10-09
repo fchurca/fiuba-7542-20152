@@ -34,6 +34,16 @@ std::shared_ptr<Board> Game::getBoard() {
 	return board;
 }
 
+std::shared_ptr<Player> Game::getAvailablePlayer() {
+	auto players = board->getPlayers();
+	for(auto& p : players) {
+		if(p->name == "Franceses") {
+			return p;
+		}
+	}
+	return nullptr;
+}
+
 bool Game::addClient(std::shared_ptr<GameWindow> newClient) {
 	gameWindow = newClient;
 }
