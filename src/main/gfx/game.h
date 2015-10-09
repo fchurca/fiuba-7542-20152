@@ -20,8 +20,12 @@ public:
 	Game();
 	~Game();
 	std::shared_ptr<Board> getBoard();
+	bool setBoard(std::shared_ptr<Board> newBoard);
+	bool addClient(std::shared_ptr<GameWindow> newClient);
 	void start();
 	void restart();
+	bool willRestart();
 	void exit();
+	bool willExit();
 };
 #endif //__GAME_H__

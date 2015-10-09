@@ -158,6 +158,7 @@ void GameWindow::update(){
 		kv.second->update();
 	}
 	processInput();
+	render();
 	return;
 }
 

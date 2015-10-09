@@ -18,7 +18,12 @@ int main(int argc, char* args[]) {
 	logger.writeInformation("Start game");
 
 	{
-		Game().start();
+		Game game;
+		ParserYAML parser(CONFIG_FILE_PATH);
+		parser.parse();
+		game.setBoard(make_shared<Board>(parser));
+		game.addClient(make_shared<GameWindow>(game, game.getBoard()->findPlayer("Franceses"), parser));
+		game.start();
 	}
 
 	logger.getInstance()->writeInformation("Closing down");

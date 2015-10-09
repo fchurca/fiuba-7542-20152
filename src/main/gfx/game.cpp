@@ -7,7 +7,9 @@
 Game::Game() :
 	exit_p(false), restart_p(false)
 {
-	init();
+	std::stringstream message;
+	message << "Creating Game " << this;
+	Logger::getInstance()->writeInformation(message.str());
 }
 
 Game::~Game(){
@@ -20,32 +22,27 @@ Game::~Game(){
 void Game::clear() {
 	board = nullptr;
 	gameWindow = nullptr;
+	restart_p = false;
+	exit_p = false;
 }
 
-void Game::init(){
-	std::stringstream message;
-	message << "Creating Game " << this;
-	Logger::getInstance()->writeInformation(message.str());
+bool Game::setBoard(std::shared_ptr<Board> newBoard) {
+	board = newBoard;
+}
 
-	clear();
-	restart_p = false;
+std::shared_ptr<Board> Game::getBoard() {
+	return board;
+}
 
-	ParserYAML parser(CONFIG_FILE_PATH);
-	parser.parse();
-	board = make_shared<Board>(parser); 
-	gameWindow = make_shared<GameWindow>(*this, board->findPlayer("Franceses"), parser);
-
+bool Game::addClient(std::shared_ptr<GameWindow> newClient) {
+	gameWindow = newClient;
 }
 
 void Game::start() {
-	while (!exit_p) {
-		if(restart_p) {
-			init();
-		}
+	while (!willExit()) {
 		GameTimer::update();
-		gameWindow->update(); // Controller
 		board->update(); // Model
-		gameWindow->render(); // View
+		gameWindow->update(); // Controller
 
 		Logger::getInstance()->flush();
 		if (!GameTimer::wait(GameTimer::getCurrent() + board->dt)) {
@@ -58,7 +55,15 @@ void Game::restart() {
 	restart_p = true;
 }
 
+bool Game::willRestart() {
+	return restart_p;
+}
+
 void Game::exit() {
 	exit_p = true;
+}
+
+bool Game::willExit() {
+	return exit_p or restart_p;
 }
 
