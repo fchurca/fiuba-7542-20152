@@ -95,11 +95,14 @@ void GameWindow::render() {
 		   ld = ul.x - ul.y - 2, // Left diagonal
 		   rd = ur.x - ur.y + 2; // Right diagonal
 	for (size_t x = max(0.0, ul.x),
-			maxx = min(((double)board.sizeX) - 1, br.x);
+			maxx = min(((double)board.sizeX), br.x);
 			x < maxx;
 			x++) {
+		if (x >= board.sizeX) {
+			break;
+		}
 		for (size_t y = max(max(max(0.0, ur.y), ud - x), x - rd),
-				maxy = min(min(min(((double)board.sizeY) - 1, bl.y), bd - x), x - ld);
+				maxy = min(min(min(((double)board.sizeY), bl.y), bd - x), x - ld);
 				y < maxy;
 				y++) {
 			if (y >= board.sizeY) {
@@ -111,9 +114,6 @@ void GameWindow::render() {
 					spriteSheets[tile.name]->render(tile, renderer);
 				}
 			}
-		}
-		if (x >= board.sizeX) {
-			break;
 		}
 	}
 	// Seleccionamos entidades que se pisan con la pantalla
