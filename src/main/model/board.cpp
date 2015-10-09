@@ -3,6 +3,9 @@
 
 #include "board.h"
 
+#include "entity.h"
+#include "entity_factory.h"
+
 using namespace std;
 
 //-----------------------------------------------------------------------------
