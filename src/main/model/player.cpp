@@ -27,7 +27,7 @@ void Player::update() {
 	}
 	vector<shared_ptr<Entity>> entitites = entities();
 	for (auto& e : entitites) {
-		e->applyVisible([this](r2 pos) {
+		e->mapVisible([this](r2 pos) {
 					map_visibility[(int)pos.y* board.sizeX + (int)pos.x] = VISIBLE;
 				});
 	}

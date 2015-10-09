@@ -1,7 +1,7 @@
 #include "board.h"
 
 template<typename L>
-void Entity::applyVisible(L fun) {
+void Entity::mapVisible(L fun) {
 	auto c = center();
 	c = r2(floor(c.x), floor(c.y));
 	auto r = sight_radius + .5;
