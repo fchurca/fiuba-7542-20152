@@ -138,12 +138,11 @@ r2 Entity::trajectory() {
 }
 
 double Entity::sqDistance() {
-	auto b = trajectory();
-	return pow(b.x, 2) + pow(b.y, 2);
+	return trajectory().sqLength();
 }
 
 double Entity::distance() {
-	return sqrt(sqDistance());
+	return trajectory().length();
 }
 
 Directions Entity::getDirection(){

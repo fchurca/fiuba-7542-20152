@@ -28,10 +28,13 @@ void Player::update() {
 	vector<shared_ptr<Entity>> entitites = entities();
 	for (auto& e : entitites) {
 		auto c = e->center();
-		auto r = e->sight_radius;
-		for (int x = max(0, (int)floor(c.x - r)); x < min(board.sizeX, (int)ceil(c.x + r)); x++) {
-			for (int y = max(0, (int)floor(c.y - r)); y < min(board.sizeY, (int)ceil(c.y + r)); y++) {
-				map_visibility[y* board.sizeX + x] = VISIBLE;
+		c = r2(floor(c.x), floor(c.y));
+		auto r = e->sight_radius + .5;
+		for (int x = max(0, (int)floor(c.x - r - 1)); x <= min(board.sizeX - 1, (int)ceil(c.x + r + 1)); x++) {
+			for (int y = max(0, (int)floor(c.y - r - 1)); y <= min(board.sizeY - 1, (int)ceil(c.y + r + 1)); y++) {
+				if ((r2((double)x, (double)y) - c).sqLength() < r*r) {
+					map_visibility[y* board.sizeX + x] = VISIBLE;
+				}
 			}
 		}
 	}

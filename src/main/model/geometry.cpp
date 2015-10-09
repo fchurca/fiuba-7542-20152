@@ -52,6 +52,14 @@ bool r2::operator != (r2 b) {
 	return ! (*this == b);
 }
 
+double r2::sqLength() {
+	return x*x + y*y;
+}
+
+double r2::length() {
+	return sqrt(sqLength());
+}
+
 
 rectangle::rectangle() {}
 
