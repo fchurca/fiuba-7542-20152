@@ -12,12 +12,12 @@ using namespace std;
 struct TagPantalla{
 	unsigned int ancho;
 	unsigned int alto;
+	unsigned int margen_scroll;
+	unsigned int velocidad_scroll;
 };
 
 struct TagConfiguracion{
 	unsigned int vel_personaje;
-	unsigned int margen_scroll;
-	unsigned int velocidad_scroll;
 	unsigned int dt;
 };
 

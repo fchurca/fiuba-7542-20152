@@ -36,7 +36,7 @@ void Game::init(){
 	auto tc = parser.getConfiguracion();
 	board = make_shared<Board>(te.size_x, te.size_y, tc.dt); 
 	auto tp = parser.getPantalla();
-	gameWindow = make_shared<GameWindow>(*this, board->findPlayer("Franceses"), tp.ancho, tp.alto, tc.margen_scroll, tc.velocidad_scroll);
+	gameWindow = make_shared<GameWindow>(*this, board->findPlayer("Franceses"), tp.ancho, tp.alto, tp.margen_scroll, tp.velocidad_scroll);
 
 	for(auto& t : parser.getTiposEntidades()) {
 		gameWindow->addSpriteSheet(t.nombre, t.imagen, t.pixel_ref_x, t.pixel_ref_y, t.alto_sprite, t.ancho_sprite,  t.cantidad_sprites, t.fps, t.delay);
