@@ -9,11 +9,19 @@
 #include "player.h"
 #include "../log/logger.h"
 
+class ABoard {
+	public:
+		virtual void update() = 0;
+		virtual std::vector<std::shared_ptr<Player>> getPlayers() = 0;
+		size_t dt;
+		ABoard(size_t dt);
+};
+
 class Entity;
 class EntityFactory;
 class ParserYAML;
 
-class Board {
+class Board : public ABoard {
 
 private:
 	std::vector<std::shared_ptr<Entity>> entities;
@@ -26,7 +34,6 @@ public:
 	const int
 		sizeX, sizeY;
 	const long maxResources;
-	size_t dt;
 	Board(ParserYAML& parser);
 	~Board();
 

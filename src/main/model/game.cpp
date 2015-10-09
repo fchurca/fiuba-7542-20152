@@ -26,7 +26,7 @@ void Game::clear() {
 	exit_p = false;
 }
 
-bool Game::setBoard(std::shared_ptr<Board> newBoard) {
+bool Game::setBoard(std::shared_ptr<ABoard> newBoard) {
 	if (board) {
 		return false;
 	}
@@ -34,7 +34,7 @@ bool Game::setBoard(std::shared_ptr<Board> newBoard) {
 	return true;
 }
 
-std::shared_ptr<Board> Game::getBoard() {
+std::shared_ptr<ABoard> Game::getBoard() {
 	return board;
 }
 

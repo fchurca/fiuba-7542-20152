@@ -11,7 +11,7 @@ class GameWindow;
 class Game {
 private:
 	void init();
-	std::shared_ptr<Board> board;
+	std::shared_ptr<ABoard> board;
 	std::shared_ptr<GameWindow> gameWindow;
 	bool exit_p;
 	bool restart_p;
@@ -19,8 +19,8 @@ private:
 public:
 	Game();
 	~Game();
-	std::shared_ptr<Board> getBoard();
-	bool setBoard(std::shared_ptr<Board> newBoard);
+	std::shared_ptr<ABoard> getBoard();
+	bool setBoard(std::shared_ptr<ABoard> newBoard);
 	std::shared_ptr<Player> getAvailablePlayer();
 	bool addClient(std::shared_ptr<GameWindow> newClient);
 	void start();
