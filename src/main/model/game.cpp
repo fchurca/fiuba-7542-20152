@@ -27,7 +27,11 @@ void Game::clear() {
 }
 
 bool Game::setBoard(std::shared_ptr<Board> newBoard) {
+	if (board) {
+		return false;
+	}
 	board = newBoard;
+	return true;
 }
 
 std::shared_ptr<Board> Game::getBoard() {
@@ -47,6 +51,7 @@ std::shared_ptr<Player> Game::getAvailablePlayer() {
 
 bool Game::addClient(std::shared_ptr<GameWindow> newClient) {
 	gameWindow = newClient;
+	return true;
 }
 
 void Game::start() {
