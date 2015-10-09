@@ -20,7 +20,6 @@ private:
 	std::map<std::string, std::shared_ptr<Player>> players;
 	std::map<std::string, std::shared_ptr<EntityFactory>> entityFactories;
 	Board();
-	std::shared_ptr<Entity> protagonist;
 	std::vector<std::shared_ptr<Entity>> terrain;
 
 public:

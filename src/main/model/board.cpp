@@ -20,15 +20,13 @@ Board::Board(ParserYAML& parser) :
 	Logger::getInstance()->writeInformation(message.str());
 	terrain.resize(sizeX * sizeY);
 
-	// TODO: Levantar jugadores/facciones
-	//createPlayer("Franceses");
 	createEntityFactory(PROTAGONISTA_DEFAULT_NOMBRE, {PROTAGONISTA_DEFAULT_ANCHO_BASE, PROTAGONISTA_DEFAULT_ALTO_BASE}, VELOCIDAD_PERSONAJE_DEFAULT, ENTIDAD_DEFAULT_SIGHT_RADIUS);
 	createEntityFactory(ENTIDAD_DEFAULT_NOMBRE, {ENTIDAD_DEFAULT_ANCHO_BASE, ENTIDAD_DEFAULT_ALTO_BASE}, 0, ENTIDAD_DEFAULT_SIGHT_RADIUS);
 	createEntityFactory(TERRENO_DEFAULT_NOMBRE, {TERRENO_DEFAULT_ANCHO_BASE, TERRENO_DEFAULT_ALTO_BASE}, 0, 0);
 	createPlayer(DEFAULT_PLAYER_NAME);
 
 	for(auto& t : parser.getTiposEntidades()) {
-		createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, t.speed, t.sight_radius); // LA VELOCIDAD DEBERIA VENIR DE CADA ENTIDAD
+		createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, t.speed, t.sight_radius);
 	}
 	for(auto& t : parser.getTiposTerrenos()) {
 		createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, 0, 0); 
@@ -45,7 +43,7 @@ Board::Board(ParserYAML& parser) :
 			}
 		}
 	}
-	// TODO: Levantar jugadores/facciones
+
 	for (auto& jugador : te.jugadores) {
 		createPlayer(jugador.name);
 		for (auto& entidadJugador : jugador.entidades) {
@@ -56,7 +54,6 @@ Board::Board(ParserYAML& parser) :
 		}
 	}
 
-	// TODO: Revisar, por ahora todo el resto va para Gaia
 	for(auto& t : te.entidades) {
 		createEntity(t.tipoEntidad, DEFAULT_PLAYER_NAME, {(double)t.pos_x,(double)t.pos_y});
 	}
