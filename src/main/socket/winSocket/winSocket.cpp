@@ -2,8 +2,6 @@
 #include "winSocket.h"
 //-----------------------------------------------------------------------------
 WinSocket::WinSocket(unsigned int uiPort)
-:status(false),
- port(uiPort)
 {
 	int error = WSAStartup (0x0202, &wsaData);   // Fill in WSA info
 	SOCKADDR_IN addr; // The address structure for a TCP socket
@@ -40,7 +38,7 @@ WinSocket::~WinSocket() {
 //-----------------------------------------------------------------------------
 bool Socket::Listen(int maxConnections){
 
-	if (bind(sockfd, (LPSOCKADDR)&serv_addr, sizeof(serv_addr)) == SOCKET_ERROR)
+	if (bind(sockfd, (LPSOCKADDR)&sockaddr, sizeof(sockaddr)) == SOCKET_ERROR)
 	{
 	   //We couldn't bind (this will happen if you try to bind to the same
 	   //socket more than once)

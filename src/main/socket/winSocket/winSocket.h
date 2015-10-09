@@ -1,19 +1,17 @@
 //-----------------------------------------------------------------------------
-#ifndef SRC_SOCKET_SOCKET_H_
-#define SRC_SOCKET_SOCKET_H_
+#ifndef SRC_SOCKET_WINSOCKET_H_
+#define SRC_SOCKET_WINSOCKET_H_
 //-----------------------------------------------------------------------------
 /*
  * Interfaz comun para utilzar sockets. *
  */
 //-----------------------------------------------------------------------------
 #include <string>
+#include "../socket.h"
 //-----------------------------------------------------------------------------
 #ifdef _WIN32
 	#include <winsock2.h>
 	#include <ws2tcpip.h>
-
-
-
 
 class WinSocket : Socket {
 
@@ -30,7 +28,7 @@ private:
 	std::string ip;
 
 public:
-	Socket(unsigned int uiPort);
+	WinSocket(unsigned int uiPort);
 	virtual ~Socket();
 
 public:
@@ -44,5 +42,5 @@ public:
 };
 #endif
 //-----------------------------------------------------------------------------
-#endif /* SRC_SOCKET_SOCKET_H_ */
+#endif /* SRC_SOCKET_WINSOCKET_H_ */
 //-----------------------------------------------------------------------------

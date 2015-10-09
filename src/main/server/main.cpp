@@ -12,9 +12,9 @@ int main(int argc, char* args[]) {
 
 
 	ServerParserYAML parser(CONFIG_FILE_PATH);
-	Configuration config(ServerParserYAML parser);
+	Configuration config(parser);
 
-	//Server server(config);
+	Server server(config);
 
 	return 0;
 }
