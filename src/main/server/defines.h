@@ -3,10 +3,7 @@
 
 //Archivo deConfiguracion del server
 #define CONFIG_FILE_PATH  "server_config.yaml"
-#define CONFIG_FILE_PATH_DEFAULT  "default//server_config_default.yaml"
-
-//Archivo Configuracion Default
-#define CONFIG_FILE_PATH_DEFAULT  "default//configuracionDefault.yaml"
+#define CONFIG_FILE_PATH_DEFAULT  "default/server_config_default.yaml"
 
 // Configuracion Server DEFAULT
 #define SERVER_IP_DEFAULT "localhost"
