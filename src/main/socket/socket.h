@@ -5,15 +5,14 @@
 #include <string>
 //-----------------------------------------------------------------------------
 class Socket {
-private:
+protected:
 	int sockfd;
-	struct sockaddr_in sockaddr;			// Dirección del socket.
 	bool status;
 	int port;
 
 public:
-	Socket(unsigned int uiPort);
-	virtual ~Socket();
+	Socket(){};
+	virtual ~Socket() {};
 public:
 	virtual void Connect(std::string hostIP, int hostPort) = 0;
 	virtual bool Listen(int maxConnections) = 0;

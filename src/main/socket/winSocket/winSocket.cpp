@@ -18,7 +18,7 @@ WinSocket::WinSocket(unsigned int uiPort)
 	}
 
 	addr.sin_family = AF_INET;      // Address family
-	addr.sin_port = htons (port);   // Assign port to this socket
+	addr.sin_port = htons (uiPort);   // Assign port to this socket
 	addr.sin_addr.s_addr = htonl (INADDR_ANY);
 	sockfd = socket (AF_INET, SOCK_STREAM, IPPROTO_TCP); // Create socket
 
@@ -36,9 +36,9 @@ WinSocket::~WinSocket() {
 	WSACleanup(); //Clean up Winsock
 }
 //-----------------------------------------------------------------------------
-bool Socket::Listen(int maxConnections){
+bool WinSocket::Listen(int maxConnections){
 
-	if (bind(sockfd, (LPSOCKADDR)&sockaddr, sizeof(sockaddr)) == SOCKET_ERROR)
+	if (bind(sockfd, (LPSOCKADDR)&serv_addr, sizeof(serv_addr)) == SOCKET_ERROR)
 	{
 	   //We couldn't bind (this will happen if you try to bind to the same
 	   //socket more than once)
@@ -50,9 +50,7 @@ bool Socket::Listen(int maxConnections){
 //-----------------------------------------------------------------------------
 Socket* WinSocket::Accept(){
 
-
-
-	return true;
+	return 0;
 
 }
 //-----------------------------------------------------------------------------

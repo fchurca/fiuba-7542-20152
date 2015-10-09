@@ -9,27 +9,21 @@
 #include <string>
 #include "../socket.h"
 //-----------------------------------------------------------------------------
-#ifdef _WIN32
-	#include <winsock2.h>
-	#include <ws2tcpip.h>
+#include <winsock2.h>
+#include <ws2tcpip.h>
+//-----------------------------------------------------------------------------
 
 class WinSocket : Socket {
 
 private:
 	WSADATA wsaData;
-	int sockfd;							// Filedescriptor del socket.
 	struct addrinfo serv_addr;
 	//analizar si es necesario
 	struct sockaddr_in cli_addr;
 
-private:
-	bool status;
-	unsigned int port;
-	std::string ip;
-
 public:
 	WinSocket(unsigned int uiPort);
-	virtual ~Socket();
+	virtual ~WinSocket();
 
 public:
 	void Connect(std::string hostIP, int hostPort);
@@ -40,7 +34,6 @@ public:
 	bool IsActive();
 
 };
-#endif
 //-----------------------------------------------------------------------------
 #endif /* SRC_SOCKET_WINSOCKET_H_ */
 //-----------------------------------------------------------------------------
