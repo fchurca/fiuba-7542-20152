@@ -32,20 +32,9 @@ void Game::init(){
 
 	ParserYAML parser(CONFIG_FILE_PATH);
 	parser.parse();
-	auto tc = parser.getConfiguracion();
 	board = make_shared<Board>(parser); 
-	auto tp = parser.getPantalla();
-	gameWindow = make_shared<GameWindow>(*this, board->findPlayer("Franceses"), tp.ancho, tp.alto, tc.margen_scroll, tc.velocidad_scroll);
+	gameWindow = make_shared<GameWindow>(*this, board->findPlayer("Franceses"), parser);
 
-	for(auto& t : parser.getTiposEntidades()) {
-		gameWindow->addSpriteSheet(t.nombre, t.imagen, t.pixel_ref_x, t.pixel_ref_y, t.alto_sprite, t.ancho_sprite,  t.cantidad_sprites, t.fps, t.delay);
-	}
-
-	for(auto& t : parser.getTiposTerrenos()) {
-		gameWindow->addSpriteSheet(t.nombre, t.imagen, t.pixel_ref_x, t.pixel_ref_y, t.alto_sprite, t.ancho_sprite,  t.cantidad_sprites, t.fps, t.delay);
-	}
-
-	gameWindow->init();
 }
 
 void Game::start() {

@@ -4,6 +4,8 @@
 
 #include "game_window.h"
 
+#include "../parser_yaml/parser_yaml.h"
+
 using namespace std;
 
 bool GameWindow::sdlInitialized = false;
@@ -25,10 +27,10 @@ bool GameWindow::initialize() {
 	return GameWindow::sdlInitialized;
 }
 
-GameWindow::GameWindow(Game& owner, Player& player, int sizeX, int sizeY, int scrollMargin, int scrollSpeed) :
+GameWindow::GameWindow(Game& owner, Player& player, ParserYAML& parser) :
 	owner(owner), player(player), board(player.board),
-	ancho_pantalla(sizeX), alto_pantalla(sizeY),
-	margen_pantalla(scrollMargin), scroll_speed(scrollSpeed)
+	ancho_pantalla(parser.getPantalla().ancho), alto_pantalla(parser.getPantalla().alto),
+	margen_pantalla(parser.getConfiguracion().margen_scroll), scroll_speed(parser.getConfiguracion().velocidad_scroll)
 {
 	GameWindow::initialize(); 
 	window = SDL_CreateWindow("Trabajo Práctico 7542",
@@ -46,6 +48,18 @@ GameWindow::GameWindow(Game& owner, Player& player, int sizeX, int sizeY, int sc
 	addSpriteSheet(ENTIDAD_DEFAULT_NOMBRE, ENTIDAD_DEFAULT_IMAGEN, ENTIDAD_DEFAULT_PIXEL_REF_X, ENTIDAD_DEFAULT_PIXEL_REF_Y, ENTIDAD_DEFAULT_ALTO_SPRITE, ENTIDAD_DEFAULT_ANCHO_SPRITE, ENTIDAD_DEFAULT_CANTIDAD_SPRITES, ENTIDAD_DEFAULT_FPS, ENTIDAD_DEFAULT_DELAY);
 	addSpriteSheet(TERRENO_DEFAULT_NOMBRE, TERRENO_DEFAULT_IMAGEN, TERRENO_DEFAULT_PIXEL_REF_X, TERRENO_DEFAULT_PIXEL_REF_Y, TERRENO_DEFAULT_ALTO_SPRITE, TERRENO_DEFAULT_ANCHO_SPRITE, TERRENO_DEFAULT_CANTIDAD_SPRITES, TERRENO_DEFAULT_FPS, TERRENO_DEFAULT_DELAY);
 	addSpriteSheet(PROTAGONISTA_DEFAULT_NOMBRE, PROTAGONISTA_DEFAULT_IMAGEN, PROTAGONISTA_DEFAULT_PIXEL_REF_X, PROTAGONISTA_DEFAULT_PIXEL_REF_Y, PROTAGONISTA_DEFAULT_ALTO_SPRITE, PROTAGONISTA_DEFAULT_ANCHO_SPRITE, PROTAGONISTA_DEFAULT_CANTIDAD_SPRITES, PROTAGONISTA_DEFAULT_FPS, PROTAGONISTA_DEFAULT_DELAY);
+
+	auto tp = parser.getPantalla();
+	auto tc = parser.getConfiguracion();
+	for(auto& t : parser.getTiposEntidades()) {
+		addSpriteSheet(t.nombre, t.imagen, t.pixel_ref_x, t.pixel_ref_y, t.alto_sprite, t.ancho_sprite,  t.cantidad_sprites, t.fps, t.delay);
+	}
+
+	for(auto& t : parser.getTiposTerrenos()) {
+		addSpriteSheet(t.nombre, t.imagen, t.pixel_ref_x, t.pixel_ref_y, t.alto_sprite, t.ancho_sprite,  t.cantidad_sprites, t.fps, t.delay);
+	}
+
+	focus();
 }
 
 GameWindow::~GameWindow() {
@@ -137,10 +151,6 @@ void GameWindow::render() {
 
 	SDL_RenderPresent( renderer );
 	return;
-}
-
-void GameWindow::init(){
-	focus();
 }
 
 void GameWindow::update(){

@@ -7,6 +7,8 @@
 #include "../controllers/event_handler.h"
 #include "sprite_sheet.h"
 
+class ParserYAML;
+
 class GameWindow {
 protected:
 	SDL_Point mouse;
@@ -28,10 +30,9 @@ protected:
 	Board& board;
 public:
 	void addSpriteSheet(std::string name, std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay);
-	GameWindow(Game& owner, Player& player, int sizeX, int sizeY, int scrollMargin, int scrollSpeed);
+	GameWindow(Game& owner, Player& player, ParserYAML& parser);
 	~GameWindow();
 	int start();
-	void init();
 	void update();
 	void render();
 	r2 getFocus();
