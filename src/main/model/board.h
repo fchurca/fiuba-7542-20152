@@ -6,8 +6,6 @@
 #include <map>
 #include <memory>
 //-----------------------------------------------------------------------------
-#include "entity.h"
-#include "entity_factory.h"
 #include "player.h"
 #include "../log/logger.h"
 

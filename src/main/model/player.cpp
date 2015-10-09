@@ -27,13 +27,9 @@ void Player::update() {
 	}
 	vector<shared_ptr<Entity>> entitites = entities();
 	for (auto& e : entitites) {
-		auto c = e->center();
-		auto r = e->sight_radius;
-		for (int x = max(0, (int)floor(c.x - r)); x < min(board.sizeX, (int)ceil(c.x + r)); x++) {
-			for (int y = max(0, (int)floor(c.y - r)); y < min(board.sizeY, (int)ceil(c.y + r)); y++) {
-				map_visibility[y* board.sizeX + x] = VISIBLE;
-			}
-		}
+		e->mapVisible([this](r2 pos) {
+					map_visibility[(int)pos.y* board.sizeX + (int)pos.x] = VISIBLE;
+				});
 	}
 }
 

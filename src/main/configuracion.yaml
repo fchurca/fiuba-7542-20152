@@ -84,6 +84,7 @@ tipos_entidades:
     ancho_sprite: 60
     alto_sprite: 60
     cantidad_sprites: 5
+    sight_radius: 3
   - nombre: cubo
     imagen: resources/cubo_1_2.png
     ancho_base: 0.5
