@@ -3,7 +3,9 @@
 
 #include <iostream>
 #include <fstream>
+#include <string>
 #include "yaml-cpp/yaml.h"
+
 
 #include "defines.h"
 //#include "../log/logger.h"
@@ -21,8 +23,7 @@ struct TagServerPaths {
 	std::string default_path;
 };
 
-class ServerParserYAML
-{
+class ServerParserYAML {
 private:
 	std::string filename;
 	YAML::Node doc;
