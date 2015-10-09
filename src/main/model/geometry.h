@@ -28,6 +28,9 @@ class r2 {
 
 		bool operator == (r2 b);
 		bool operator != (r2 b);
+
+		double sqLength();
+		double length();
 };
 
 
