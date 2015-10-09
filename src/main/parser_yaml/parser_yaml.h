@@ -17,7 +17,6 @@ struct TagPantalla{
 };
 
 struct TagConfiguracion{
-	unsigned int vel_personaje;
 	unsigned int dt;
 };
 
@@ -34,6 +33,7 @@ struct TagTipoEntidad{
     double fps;
 	double delay;
 	unsigned int sight_radius;
+	unsigned int speed;
 };
 
 struct TagEntidad{

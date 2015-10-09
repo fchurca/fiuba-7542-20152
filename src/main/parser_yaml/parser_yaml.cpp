@@ -158,10 +158,6 @@ ParserYAML::~ParserYAML(void) {
 
 void ParserYAML::setConfiguracion (const YAML::Node& node, TagConfiguracion& configuracion) {
 	if(node.Type() == YAML::NodeType::Map) {
-		if(!obtenerValorScalarNumericoPositivo(node, "vel_personaje", configuracion.vel_personaje)){
-			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (velocidad personaje).");
-			configuracion.vel_personaje = VELOCIDAD_PERSONAJE_DEFAULT;
-		}
 		if(!obtenerValorScalarNumericoPositivo(node, "dt", configuracion.dt)){
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (dt).");
 			configuracion.dt = DT_DEFAULT;
@@ -175,7 +171,6 @@ void ParserYAML::setConfiguracion (const YAML::Node& node, TagConfiguracion& con
 
 void ParserYAML::setConfiguracionDefault (TagConfiguracion& configuracion) {
 	Logger::getInstance()->writeWarning("YAML-CPP:Se toma configuracion por default.");
-	configuracion.vel_personaje = VELOCIDAD_PERSONAJE_DEFAULT;
 	configuracion.dt = DT_DEFAULT;
 }
 
@@ -251,6 +246,10 @@ void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEnt
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (sight_radius).");
 			tipoEntidad.sight_radius = ENTIDAD_DEFAULT_SIGHT_RADIUS;
 		}
+		if (!obtenerValorScalarNumericoPositivo(node, "speed", tipoEntidad.speed)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (velocidad personaje).");
+			tipoEntidad.speed = VELOCIDAD_PERSONAJE_DEFAULT;
+		}
 	}
 	else{
 		Logger::getInstance()->writeWarning("YAML-CPP:el contenido del tipo de entidad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
@@ -311,6 +310,7 @@ void ParserYAML::setTipoEntidadDefault (TagTipoEntidad& tipoEntidad) {
 	tipoEntidad.ancho_sprite = ENTIDAD_DEFAULT_ANCHO_SPRITE;
 	tipoEntidad.cantidad_sprites = ENTIDAD_DEFAULT_CANTIDAD_SPRITES;
 	tipoEntidad.sight_radius = ENTIDAD_DEFAULT_SIGHT_RADIUS;
+	tipoEntidad.speed = VELOCIDAD_PERSONAJE_DEFAULT;
 }
 
 void ParserYAML::setEntidad(const YAML::Node& node, TagEntidad& entidad) {

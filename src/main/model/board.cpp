@@ -29,7 +29,7 @@ Board::Board(ParserYAML& parser) :
 
 	auto tc = parser.getConfiguracion();
 	for(auto& t : parser.getTiposEntidades()) {
-		createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, tc.vel_personaje, t.sight_radius); // LA VELOCIDAD DEBERIA VENIR DE CADA ENTIDAD
+		createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, t.speed, t.sight_radius); // LA VELOCIDAD DEBERIA VENIR DE CADA ENTIDAD
 	}
 	for(auto& t : parser.getTiposTerrenos()) {
 		createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, 0, 0); 
