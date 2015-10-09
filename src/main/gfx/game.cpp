@@ -35,9 +35,10 @@ std::shared_ptr<Board> Game::getBoard() {
 }
 
 std::shared_ptr<Player> Game::getAvailablePlayer() {
+	// TODO: Trazar jugadores disponibles
 	auto players = board->getPlayers();
 	for(auto& p : players) {
-		if(p->name == "Franceses") {
+		if(p->human) {
 			return p;
 		}
 	}

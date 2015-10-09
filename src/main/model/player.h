@@ -22,7 +22,8 @@ class Player {
 		long resources;
 	public:
 		const std::string name;
-		Player(Board& board, std::string name);
+		const bool human;
+		Player(Board& board, std::string name, bool human);
 		Board& board;
 		std::vector<std::shared_ptr<Entity>> entities();
 		void update();

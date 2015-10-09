@@ -23,7 +23,7 @@ Board::Board(ParserYAML& parser) :
 	createEntityFactory(PROTAGONISTA_DEFAULT_NOMBRE, {PROTAGONISTA_DEFAULT_ANCHO_BASE, PROTAGONISTA_DEFAULT_ALTO_BASE}, VELOCIDAD_PERSONAJE_DEFAULT, ENTIDAD_DEFAULT_SIGHT_RADIUS);
 	createEntityFactory(ENTIDAD_DEFAULT_NOMBRE, {ENTIDAD_DEFAULT_ANCHO_BASE, ENTIDAD_DEFAULT_ALTO_BASE}, 0, ENTIDAD_DEFAULT_SIGHT_RADIUS);
 	createEntityFactory(TERRENO_DEFAULT_NOMBRE, {TERRENO_DEFAULT_ANCHO_BASE, TERRENO_DEFAULT_ALTO_BASE}, 0, 0);
-	createPlayer(DEFAULT_PLAYER_NAME);
+	createPlayer(DEFAULT_PLAYER_NAME, false);
 
 	for(auto& t : parser.getTiposEntidades()) {
 		createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, t.speed, t.sight_radius);
@@ -45,7 +45,7 @@ Board::Board(ParserYAML& parser) :
 	}
 
 	for (auto& jugador : te.jugadores) {
-		createPlayer(jugador.name);
+		createPlayer(jugador.name, jugador.isHuman);
 		for (auto& entidadJugador : jugador.entidades) {
 			if (!createEntity(entidadJugador.tipoEntidad,jugador.name , { (double)entidadJugador.pos_x, (double)entidadJugador.pos_y })) {
 				Logger::getInstance()->writeInformation("Se crea un protagonista default");
@@ -95,12 +95,12 @@ shared_ptr<Entity> Board::createEntity(string name, string playerName, r2 positi
 	return pEntity;
 }
 
-shared_ptr<Player> Board::createPlayer(string name) {
+shared_ptr<Player> Board::createPlayer(string name, bool human) {
 	if (players.find(name) != players.end()) {
 		Logger::getInstance()->writeError("Jugador " + name + " ya existe");
 		return nullptr;
 	}
-	return (players[name] = make_shared<Player>(*this, name));
+	return (players[name] = make_shared<Player>(*this, name, human));
 }
 
 shared_ptr<EntityFactory> Board::createEntityFactory(string name, r2 size, double speed, int sight_radius) {
