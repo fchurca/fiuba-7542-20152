@@ -33,8 +33,7 @@ void Game::init(){
 	ParserYAML parser(CONFIG_FILE_PATH);
 	parser.parse();
 	auto tc = parser.getConfiguracion();
-	auto te = parser.getEscenario();
-	board = make_shared<Board>(te.size_x, te.size_y, tc.dt, parser); 
+	board = make_shared<Board>(parser); 
 	auto tp = parser.getPantalla();
 	gameWindow = make_shared<GameWindow>(*this, board->findPlayer("Franceses"), tp.ancho, tp.alto, tc.margen_scroll, tc.velocidad_scroll);
 
