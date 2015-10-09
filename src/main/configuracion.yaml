@@ -240,5 +240,8 @@ escenario:
       - {x: 17, y: 11, tipo: arbol }
       - {x: 19, y: 11, tipo: arbol }
       - {x: 21, y: 11, tipo: arbol }
-    protagonista:
-      - {x: 5, y: 5, tipo: mago }
+    jugadores:
+      - name: Franceses
+        isHuman: true
+        entidades:
+          - {x: 3, y: 3, tipo: mago }

@@ -121,5 +121,8 @@ escenario:
       - {x: 2, y: 1, tipo: piedra }
       - {x: 1, y: 2, tipo: piedra }
       - {x: 3, y: 0, tipo: piedra }
-    protagonista:
-      - {x: 3, y: 3, tipo: mago }
+    jugadores:
+      name: Franceses
+      isHuman: true
+      entidades:
+        - {x: 3, y: 3, tipo: mago }

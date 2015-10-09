@@ -3,6 +3,8 @@
 #include "board.h"
 #include "entity.h"
 
+#include <algorithm>
+
 using namespace std;
 
 Player::Player(Board& board, std::string name) :

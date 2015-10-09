@@ -394,33 +394,99 @@ void ParserYAML::setEscenario(const YAML::Node& node, TagEscenario& escenario) {
 		}
 		escenario.terrenos = terrenos;
 
-		TagEntidad protagonista;
-		if(node.FindValue("protagonista")) { 
-			const YAML::Node& pro = node["protagonista"];
-			if(pro.Type() == YAML::NodeType::Sequence) {
-				if(pro.size() == 1) {
-					setEntidad(pro[0], protagonista);
-					escenario.protagonista = protagonista;
-				}
-				else{
-					setProtagonistaDefault(protagonista);
-					Logger::getInstance()->writeWarning("YAML-CPP: El tag protagonista posee mas de un elemento. Ubicar:" + ubicarNodo(pro.GetMark()));
+		//TagEntidad protagonista;
+		//if(node.FindValue("protagonista")) { 
+		//	const YAML::Node& pro = node["protagonista"];
+		//	if(pro.Type() == YAML::NodeType::Sequence) {
+		//		if(pro.size() == 1) {
+		//			setEntidad(pro[0], protagonista);
+		//			escenario.protagonista = protagonista;
+		//		}
+		//		else{
+		//			setProtagonistaDefault(protagonista);
+		//			Logger::getInstance()->writeWarning("YAML-CPP: El tag protagonista posee mas de un elemento. Ubicar:" + ubicarNodo(pro.GetMark()));
+		//		}
+		//	}
+		//	else{
+		//		setProtagonistaDefault(protagonista);
+		//		Logger::getInstance()->writeWarning("YAML-CPP: El tag de protagonista del escenario no es del tipo Sequence. Ubicar:" + ubicarNodo(pro.GetMark()));
+		//	}
+		//}
+		//else{
+		//	setProtagonistaDefault(protagonista);
+		//	Logger::getInstance()->writeWarning("YAML-CPP: El tag de protagonista del escenario no existe.");
+		//}
+		//escenario.protagonista=protagonista;
+		std::vector<TagJugador> jugadores;
+		if (node.FindValue("jugadores")) {
+			const YAML::Node& jugs = node["jugadores"];
+			if (jugs.Type() == YAML::NodeType::Sequence) {
+				for (unsigned int i = 0; i < jugs.size(); i++) {
+					TagJugador jugador;
+					setJugador(jugs[i], jugador, i);
+					jugadores.push_back(jugador);
 				}
 			}
-			else{
-				setProtagonistaDefault(protagonista);
-				Logger::getInstance()->writeWarning("YAML-CPP: El tag de protagonista del escenario no es del tipo Sequence. Ubicar:" + ubicarNodo(pro.GetMark()));
+			else {
+				Logger::getInstance()->writeWarning("YAML-CPP:El tag jugadores no es del tipo secuencia.");
+				Logger::getInstance()->writeInformation("YAML-CPP: No se toman jugadores.");
 			}
 		}
-		else{
-			setProtagonistaDefault(protagonista);
-			Logger::getInstance()->writeWarning("YAML-CPP: El tag de protagonista del escenario no existe.");
+		else {
+			Logger::getInstance()->writeWarning("YAML-CPP:El tag jugadores no existe en el archivo.");
+			Logger::getInstance()->writeInformation("YAML-CPP: No se toman jugadores.");
 		}
-		escenario.protagonista=protagonista;
+		escenario.jugadores = jugadores;
 	}
 	else{
 		Logger::getInstance()->writeWarning("YAML-CPP: El tag de escenario no es del tipo Map. Ubicar:" + ubicarNodo(node.GetMark()));
 		setEscenarioDefault(escenario);
+	}
+}
+
+void ParserYAML::setJugador(const YAML::Node& node, TagJugador& jugador, int i) {
+	if (node.Type() == YAML::NodeType::Map) {
+		if (!obtenerValorScalarAlfaNumerico(node, "name", jugador.name)) {
+			Logger::getInstance()->writeWarning("YAML-CPP:El nombre del jugador se toma por defecto.");
+			jugador.name = DEFAULT_PLAYER_NAME + intToString(i);
+		}
+
+		std::string isHuman;
+		if (!obtenerValorScalarAlfaNumerico(node, "isHuman", isHuman) || (isHuman != "true")){
+			Logger::getInstance()->writeWarning("YAML-CPP:El isHuman del jugador se toma por defecto false.");
+			jugador.isHuman = false;
+		}
+		else
+			jugador.isHuman = true;
+
+		std::vector<TagEntidad> entidades;
+		if (node.FindValue("entidades")) {
+			const YAML::Node& ent = node["entidades"];
+			if (ent.Type() == YAML::NodeType::Sequence) {
+				for (unsigned int i = 0; i < ent.size(); i++) {
+					TagEntidad entidad;
+					setEntidad(ent[i], entidad);
+					entidades.push_back(entidad);
+				}
+			}
+			else {
+				Logger::getInstance()->writeWarning("YAML-CPP:El tag entidades no es del tipo secuencia.");
+				Logger::getInstance()->writeInformation("YAML-CPP: No se toman entidades.");
+			}
+		}
+		else {
+			Logger::getInstance()->writeWarning("YAML-CPP:El tag entidades no existe en el archivo.");
+			Logger::getInstance()->writeInformation("YAML-CPP: No se toman entidades.");
+		}
+		jugador.entidades = entidades;
+	}
+	else {
+		Logger::getInstance()->writeWarning("YAML-CPP:El contenido del jugador no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
+		Logger::getInstance()->writeInformation("YAML-CPP:Se toman valores por default para ese jugador");
+		jugador.name = DEFAULT_PLAYER_NAME + intToString(i);
+		jugador.isHuman = false;
+		std::vector<TagEntidad> entitiesDefault;
+		jugador.entidades = entitiesDefault;
 	}
 }
 
@@ -435,15 +501,18 @@ void ParserYAML::setEscenarioDefault (TagEscenario& escenario) {
 	Logger::getInstance()->writeWarning("YAML-CPP: Se toma escenario por default.");
 	std::vector<TagEntidad> entidades;
 	std::vector<TagEntidad> terrenos;
-	TagEntidad protagonista;
-	setProtagonistaDefault(protagonista);
+	std::vector<TagJugador> jugadores;
+
+	//TagEntidad protagonista;
+	//escenario.protagonista = protagonista;
+	//setProtagonistaDefault(protagonista);
+
 	escenario.nombre = ESCENARIO_DEFAULT_NOMBRE;
 	escenario.size_x = ESCENARIO_DEFAULT_SIZE_X;
 	escenario.size_y= ESCENARIO_DEFAULT_SIZE_Y;
 	escenario.entidades = entidades;
 	escenario.terrenos = terrenos;
-	escenario.protagonista=protagonista;
-	
+	escenario.jugadores = jugadores;
 }
 
 void ParserYAML::setArchivoDefault() {
