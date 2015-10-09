@@ -1,10 +1,10 @@
 pantalla:
     ancho: 640
     alto: 480
-configuracion:
-    vel_personaje: 3
     margen_scroll: 45
     velocidad_scroll: 45
+configuracion:
+    vel_personaje: 3
     dt: 50
 tipos_entidades:
   - nombre: troncoNESW
