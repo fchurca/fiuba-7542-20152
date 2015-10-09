@@ -7,7 +7,7 @@
 //-----------------------------------------------------------------------------
 #include "../parser_yaml/parser_yaml.h"
 #include "../log/logger.h"
-#include "../gfx/game.h"
+#include "../model/game.h"
 #include "../gfx/game_window.h"
 //-----------------------------------------------------------------------------
 

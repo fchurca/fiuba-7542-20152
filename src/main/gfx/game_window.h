@@ -1,7 +1,7 @@
 #ifndef __GFX_GAMEWINDOW_H__
 
 #include <SDL2/SDL.h>
-#include "game.h"
+#include "../model/game.h"
 #include "../log/logger.h"
 #include "../defines/defines.h"
 #include "../controllers/event_handler.h"

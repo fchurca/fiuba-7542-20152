@@ -13,7 +13,7 @@ bin/standalone_main.o: standalone/main.cpp
 bin/geometry.o: model/geometry.cpp model/geometry.h
 	${CXXO}
 
-bin/game_window.o: gfx/game_window.cpp gfx/game_window.h gfx/game.h model/board.h model/entity.h
+bin/game_window.o: gfx/game_window.cpp gfx/game_window.h model/game.h model/board.h model/entity.h
 	${CXXO}
 
 bin/game_timer.o: gfx/game_timer.cpp gfx/game_timer.h
@@ -40,7 +40,7 @@ bin/entity_factory.o: model/entity_factory.cpp model/entity_factory.h model/enti
 bin/sprite_sheet.o: gfx/sprite_sheet.cpp gfx/sprite_sheet.h
 	${CXXO}
 
-bin/game.o: gfx/game.cpp gfx/game.h
+bin/game.o: model/game.cpp model/game.h
 	${CXXO}
 
 bin/player.o: model/player.cpp model/player.h

@@ -1,7 +1,7 @@
 #include <sstream>
 
 #include "game.h"
-#include "game_window.h"
+#include "../gfx/game_window.h"
 #include "../parser_yaml/parser_yaml.h"
 
 Game::Game() :
