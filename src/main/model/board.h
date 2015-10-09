@@ -11,6 +11,7 @@
 
 class Entity;
 class EntityFactory;
+class ParserYAML;
 
 class Board {
 
@@ -27,7 +28,7 @@ public:
 		sizeX, sizeY;
 	const long maxResources;
 	size_t dt;
-	Board(int sizeX, int sizeY, size_t dt);
+	Board(int sizeX, int sizeY, size_t dt, ParserYAML& parser);
 	~Board();
 
 	void setTerrain(std::string name, size_t x, size_t y);
@@ -36,7 +37,6 @@ public:
 	std::shared_ptr<Entity> createEntity(std::string name, std::string playerName, r2 position);
 	std::shared_ptr<Player> createPlayer(std::string name);
 	std::shared_ptr<EntityFactory> createEntityFactory(std::string name, r2 size, double speed, int sight_radius);
-	void init();
 	void update();
 	std::vector<std::shared_ptr<Entity>> getEntities();
 	template<typename Pred>
