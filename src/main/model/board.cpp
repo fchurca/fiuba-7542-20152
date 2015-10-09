@@ -21,7 +21,7 @@ Board::Board(ParserYAML& parser) :
 	terrain.resize(sizeX * sizeY);
 
 	// TODO: Levantar jugadores/facciones
-	createPlayer("Franceses");
+	//createPlayer("Franceses");
 	createEntityFactory(PROTAGONISTA_DEFAULT_NOMBRE, {PROTAGONISTA_DEFAULT_ANCHO_BASE, PROTAGONISTA_DEFAULT_ALTO_BASE}, VELOCIDAD_PERSONAJE_DEFAULT, ENTIDAD_DEFAULT_SIGHT_RADIUS);
 	createEntityFactory(ENTIDAD_DEFAULT_NOMBRE, {ENTIDAD_DEFAULT_ANCHO_BASE, ENTIDAD_DEFAULT_ALTO_BASE}, 0, ENTIDAD_DEFAULT_SIGHT_RADIUS);
 	createEntityFactory(TERRENO_DEFAULT_NOMBRE, {TERRENO_DEFAULT_ANCHO_BASE, TERRENO_DEFAULT_ALTO_BASE}, 0, 0);
@@ -47,9 +47,14 @@ Board::Board(ParserYAML& parser) :
 		}
 	}
 	// TODO: Levantar jugadores/facciones
-	if(!createEntity(te.protagonista.tipoEntidad, "Franceses", {(double)te.protagonista.pos_x, (double)te.protagonista.pos_y})){
-		Logger::getInstance()->writeInformation("Se crea un protagonista default");
-		createEntity(PROTAGONISTA_DEFAULT_NOMBRE, "Franceses", {PROTAGONISTA_DEFAULT_POSX, PROTAGONISTA_DEFAULT_POSY});
+	for (auto& jugador : te.jugadores) {
+		createPlayer(jugador.name);
+		for (auto& entidadJugador : jugador.entidades) {
+			if (!createEntity(entidadJugador.tipoEntidad,jugador.name , { (double)entidadJugador.pos_x, (double)entidadJugador.pos_y })) {
+				Logger::getInstance()->writeInformation("Se crea un protagonista default");
+				createEntity(PROTAGONISTA_DEFAULT_NOMBRE, jugador.name, { PROTAGONISTA_DEFAULT_POSX, PROTAGONISTA_DEFAULT_POSY });
+			}
+		}
 	}
 
 	// TODO: Revisar, por ahora todo el resto va para Gaia

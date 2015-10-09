@@ -42,13 +42,19 @@ struct TagEntidad{
 	std::string tipoEntidad;
 };
 
+struct TagJugador {
+	std::string name;
+	bool isHuman;
+	std::vector<TagEntidad> entidades;
+};
+
 struct TagEscenario{
 	std::string nombre;
 	unsigned int size_x;
 	unsigned int size_y;
 	std::vector<TagEntidad> entidades;
 	std::vector<TagEntidad> terrenos;
-	TagEntidad protagonista;
+	std::vector<TagJugador> jugadores;
 };
 
 class ParserYAML
@@ -63,6 +69,7 @@ private:
 	void setTipoTerreno (const YAML::Node& node, TagTipoEntidad& tipoTerreno, int i);
 	void setEntidad (const YAML::Node& node, TagEntidad& entidad);
 	void setEscenario(const YAML::Node& node, TagEscenario& escenario);
+	void setJugador(const YAML::Node& node, TagJugador& jugador , int i);
 	std::string intToString(int i);
 	bool esNumero(std::string s);
 	bool obtenerValorScalarNumericoPositivo(const YAML::Node & nodo, std::string tag, unsigned int & salida);
