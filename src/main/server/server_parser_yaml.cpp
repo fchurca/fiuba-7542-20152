@@ -1,7 +1,6 @@
 #include <cmath>
-
 #include "server_parser_yaml.h"
-
+#include <cstdio>
 
 ServerParserYAML::ServerParserYAML(std::string filename) {
 	this->filename = filename;

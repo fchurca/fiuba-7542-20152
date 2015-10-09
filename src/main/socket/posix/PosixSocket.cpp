@@ -2,8 +2,12 @@
 #include "PosixSocket.h"
 #include <stdlib.h>
 //-----------------------------------------------------------------------------
-PosixSocket::PosixSocket() {
+PosixSocket::PosixSocket(unsigned int uiPort) {
 	// TODO Auto-generated constructor stub
+
+}
+//-----------------------------------------------------------------------------
+PosixSocket::PosixSocket(){
 
 }
 //-----------------------------------------------------------------------------

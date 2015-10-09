@@ -3,10 +3,11 @@
 #define SRC_CONFIGURATION_H_
 //-----------------------------------------------------------------------------
 #include "server_parser_yaml.h"
+#include <string>
 //-----------------------------------------------------------------------------
 class Configuration {
 public:
-	Configuration(ServerParserYAML parser);
+	Configuration(ServerParserYAML* parser);
 	virtual ~Configuration();
 public:
 	std::string ip;

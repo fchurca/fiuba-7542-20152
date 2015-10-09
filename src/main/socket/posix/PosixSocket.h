@@ -17,6 +17,7 @@ private:
 	int port;
 
 public:
+	PosixSocket(unsigned int uiPort);
 	PosixSocket();
 	virtual ~PosixSocket();
 public:
@@ -28,7 +29,6 @@ public:
 	bool IsActive();
 
 };
-#endif
 //-----------------------------------------------------------------------------
 #endif /* SRC_MAIN_SOCKET_POSIX_POSIXSOCKET_H_ */
 //-----------------------------------------------------------------------------
