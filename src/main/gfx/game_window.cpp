@@ -33,7 +33,7 @@ GameWindow::GameWindow(Game& owner, Player& player, ParserYAML& parser) :
 	margen_pantalla(parser.getPantalla().margen_scroll), scroll_speed(parser.getPantalla().velocidad_scroll)
 {
 	GameWindow::initialize(); 
-	window = SDL_CreateWindow("Trabajo Práctico 7542",
+	window = SDL_CreateWindow(("Trabajo Práctico 7542: " + owner.getBoard()->name).c_str(),
 		SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 		ancho_pantalla, alto_pantalla,
 		SDL_WINDOW_SHOWN);

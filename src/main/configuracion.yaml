@@ -136,7 +136,7 @@ tipos_terrenos:
     alto_sprite: 32
     cantidad_sprites: 1
 escenario:
-    nombre: orleans
+    nombre: Orleans
     size_x: 100
     size_y: 100
     terrenos:

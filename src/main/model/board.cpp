@@ -10,11 +10,11 @@
 using namespace std;
 
 //-----------------------------------------------------------------------------
-ABoard::ABoard(size_t dt) : dt(dt) {}
+ABoard::ABoard(string name, size_t dt) : name(name), dt(dt) {}
 
 Board::Board(ParserYAML& parser) :
 	sizeX(parser.getEscenario().size_x), sizeY(parser.getEscenario().size_y),
-	ABoard(parser.getConfiguracion().dt),
+	ABoard(parser.getEscenario().nombre, parser.getConfiguracion().dt),
 	maxResources(999999) // TODO: Define + config
 {
 	stringstream message;

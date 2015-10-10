@@ -11,10 +11,11 @@
 
 class ABoard {
 	public:
+		const std::string name;
 		virtual void update() = 0;
 		virtual std::vector<std::shared_ptr<Player>> getPlayers() = 0;
 		size_t dt;
-		ABoard(size_t dt);
+		ABoard(std::string name, size_t dt);
 };
 
 class Entity;
