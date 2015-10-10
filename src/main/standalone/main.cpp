@@ -18,12 +18,16 @@ int main(int argc, char* args[]) {
 	logger.writeInformation("Start game");
 
 	{
-		Game game;
-		ParserYAML parser(CONFIG_FILE_PATH);
-		parser.parse();
-		game.setBoard(make_shared<Board>(parser));
-		game.addClient(make_shared<GameWindow>(game, *(game.getAvailablePlayer()), parser));
-		game.start();
+		bool restart = true;
+		do {
+			Game game;
+			ParserYAML parser(CONFIG_FILE_PATH);
+			parser.parse();
+			game.setBoard(make_shared<Board>(parser));
+			game.addClient(make_shared<GameWindow>(game, *(game.getAvailablePlayer()), parser));
+			game.start();
+			restart = game.willRestart();
+		} while (restart);
 	}
 
 	logger.getInstance()->writeInformation("Closing down");
