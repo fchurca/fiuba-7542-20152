@@ -1,8 +1,8 @@
 #include <sstream>
 
 #include "game.h"
-#include "../gfx/game_window.h"
 #include "../parser_yaml/parser_yaml.h"
+#include "../gfx/game_timer.h"
 
 Game::Game() :
 	exit_p(false), restart_p(false)
@@ -21,7 +21,7 @@ Game::~Game(){
 
 void Game::clear() {
 	board = nullptr;
-	gameWindow = nullptr;
+	client = nullptr;
 	restart_p = false;
 	exit_p = false;
 }
@@ -49,8 +49,8 @@ std::shared_ptr<Player> Game::getAvailablePlayer() {
 	return nullptr;
 }
 
-bool Game::addClient(std::shared_ptr<GameWindow> newClient) {
-	gameWindow = newClient;
+bool Game::addClient(std::shared_ptr<AClient> newClient) {
+	client = newClient;
 	return true;
 }
 
@@ -58,7 +58,7 @@ void Game::start() {
 	while (!willExit()) {
 		GameTimer::update();
 		board->update(); // Model
-		gameWindow->update(); // Controller
+		client->update(); // Controller
 
 		Logger::getInstance()->flush();
 		if (!GameTimer::wait(GameTimer::getCurrent() + board->dt)) {

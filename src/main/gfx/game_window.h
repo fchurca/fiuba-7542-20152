@@ -1,15 +1,16 @@
 #ifndef __GFX_GAMEWINDOW_H__
 
 #include <SDL2/SDL.h>
+#include "sprite_sheet.h"
+#include "../model/abstract_client.h"
 #include "../model/game.h"
 #include "../log/logger.h"
 #include "../defines/defines.h"
 #include "../controllers/event_handler.h"
-#include "sprite_sheet.h"
 
 class ParserYAML;
 
-class GameWindow {
+class GameWindow : public AClient {
 protected:
 	SDL_Point mouse;
 	SDL_Window* window; //= NULL;
