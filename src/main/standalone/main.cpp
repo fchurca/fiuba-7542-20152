@@ -2,16 +2,12 @@
 #include <fstream>
 #include <string>
 #include <vector>
-//-----------------------------------------------------------------------------
-#include <SDL2/SDL.h>
-//-----------------------------------------------------------------------------
+
 #include "../parser_yaml/parser_yaml.h"
 #include "../log/logger.h"
 #include "../model/game.h"
 #include "../gfx/game_window.h"
-//-----------------------------------------------------------------------------
 
-//-----------------------------------------------------------------------------
 int main(int argc, char* args[]) {
 
 	auto & logger = *Logger::getInstance();
@@ -30,8 +26,8 @@ int main(int argc, char* args[]) {
 		} while (restart);
 	}
 
-	logger.getInstance()->writeInformation("Closing down");
+	logger.writeInformation("Closing down");
 
 	exit(0);
 }
-//-----------------------------------------------------------------------------
+
