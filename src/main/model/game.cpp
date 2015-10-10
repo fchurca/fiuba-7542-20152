@@ -80,6 +80,6 @@ void Game::exit() {
 }
 
 bool Game::willExit() {
-	return exit_p or restart_p;
+	return exit_p || restart_p;
 }
 
