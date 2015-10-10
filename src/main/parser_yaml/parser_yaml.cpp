@@ -250,6 +250,7 @@ void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEnt
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (velocidad personaje).");
 			tipoEntidad.speed = VELOCIDAD_PERSONAJE_DEFAULT;
 		}
+		tipoEntidad.solid = true;
 	}
 	else{
 		Logger::getInstance()->writeWarning("YAML-CPP:el contenido del tipo de entidad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
@@ -288,11 +289,38 @@ void ParserYAML::setTipoTerreno (const YAML::Node& node, TagTipoEntidad& tipoTer
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (delay).");
 			tipoTerreno.delay = TERRENO_DEFAULT_DELAY;
 		}
+		tipoTerreno.sight_radius = 0;
+		tipoTerreno.speed = 0;
+		string solid;
+		if (!obtenerValorScalarAlfaNumerico(node, "solid", solid) || (solid != "true")) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default valor false(solid).");
+			tipoTerreno.solid = false;
+		}
+		else
+			tipoTerreno.solid = true;
 	}
 	else{
 		Logger::getInstance()->writeWarning("YAML-CPP:El contenido del tipo de terreno ad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
-		setTipoEntidadDefault(tipoTerreno);
+		setTipoTerrenoDefault(tipoTerreno);
 	}
+}
+
+void ParserYAML::setTipoTerrenoDefault(TagTipoEntidad& tipoEntidad) {
+	Logger::getInstance()->writeInformation("YAML-CPP:Se toma tipo de terreno por default.");
+	tipoEntidad.nombre = TERRENO_DEFAULT_NOMBRE;
+	tipoEntidad.imagen = TERRENO_DEFAULT_IMAGEN;
+	tipoEntidad.ancho_base = TERRENO_DEFAULT_ANCHO_BASE;
+	tipoEntidad.alto_base = TERRENO_DEFAULT_ALTO_BASE;
+	tipoEntidad.pixel_ref_x = TERRENO_DEFAULT_PIXEL_REF_X;
+	tipoEntidad.pixel_ref_y = TERRENO_DEFAULT_PIXEL_REF_Y;
+	tipoEntidad.fps = TERRENO_DEFAULT_FPS;
+	tipoEntidad.delay = TERRENO_DEFAULT_DELAY;
+	tipoEntidad.alto_sprite = TERRENO_DEFAULT_ALTO_SPRITE;
+	tipoEntidad.ancho_sprite = TERRENO_DEFAULT_ANCHO_SPRITE;
+	tipoEntidad.cantidad_sprites = TERRENO_DEFAULT_CANTIDAD_SPRITES;
+	tipoEntidad.sight_radius = TERRENO_DEFAULT_SIGHT_RADIUS;
+	tipoEntidad.speed = TERRENO_DEFAULT_SPEED;
+	tipoEntidad.solid = false;
 }
 
 
@@ -311,6 +339,7 @@ void ParserYAML::setTipoEntidadDefault (TagTipoEntidad& tipoEntidad) {
 	tipoEntidad.cantidad_sprites = ENTIDAD_DEFAULT_CANTIDAD_SPRITES;
 	tipoEntidad.sight_radius = ENTIDAD_DEFAULT_SIGHT_RADIUS;
 	tipoEntidad.speed = VELOCIDAD_PERSONAJE_DEFAULT;
+	tipoEntidad.solid = true;
 }
 
 void ParserYAML::setEntidad(const YAML::Node& node, TagEntidad& entidad) {

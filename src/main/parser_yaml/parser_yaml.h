@@ -34,6 +34,7 @@ struct TagTipoEntidad{
 	double delay;
 	unsigned int sight_radius;
 	unsigned int speed;
+	bool solid;
 };
 
 struct TagEntidad{
@@ -80,6 +81,7 @@ private:
 	void setConfiguracionDefault(TagConfiguracion& configuracion);
 	void setPantallaDefault (TagPantalla& pantalla);
 	void setTipoEntidadDefault (TagTipoEntidad& tipoEntidad);
+	void setTipoTerrenoDefault(TagTipoEntidad& tipoTerreno);
 	void setEscenarioDefault (TagEscenario& escenario);
 	void setProtagonistaDefault (TagEntidad& protagonista);
 	

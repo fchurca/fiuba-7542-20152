@@ -50,7 +50,7 @@ class Entity {
 
 		template<typename L> void mapVisible(L fun);
 
-		Entity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int sight_radius);
+		Entity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid);
 		~Entity();
 
 		void update();

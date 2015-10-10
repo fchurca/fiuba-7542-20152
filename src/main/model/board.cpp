@@ -22,16 +22,16 @@ Board::Board(ParserYAML& parser) :
 	Logger::getInstance()->writeInformation(message.str());
 	terrain.resize(sizeX * sizeY);
 
-	createEntityFactory(PROTAGONISTA_DEFAULT_NOMBRE, {PROTAGONISTA_DEFAULT_ANCHO_BASE, PROTAGONISTA_DEFAULT_ALTO_BASE}, VELOCIDAD_PERSONAJE_DEFAULT, ENTIDAD_DEFAULT_SIGHT_RADIUS);
-	createEntityFactory(ENTIDAD_DEFAULT_NOMBRE, {ENTIDAD_DEFAULT_ANCHO_BASE, ENTIDAD_DEFAULT_ALTO_BASE}, 0, ENTIDAD_DEFAULT_SIGHT_RADIUS);
-	createEntityFactory(TERRENO_DEFAULT_NOMBRE, {TERRENO_DEFAULT_ANCHO_BASE, TERRENO_DEFAULT_ALTO_BASE}, 0, 0);
+	createEntityFactory(PROTAGONISTA_DEFAULT_NOMBRE, {PROTAGONISTA_DEFAULT_ANCHO_BASE, PROTAGONISTA_DEFAULT_ALTO_BASE}, VELOCIDAD_PERSONAJE_DEFAULT, ENTIDAD_DEFAULT_SIGHT_RADIUS,true);
+	createEntityFactory(ENTIDAD_DEFAULT_NOMBRE, {ENTIDAD_DEFAULT_ANCHO_BASE, ENTIDAD_DEFAULT_ALTO_BASE}, ENTIDAD_DEFAULT_SPEED, ENTIDAD_DEFAULT_SIGHT_RADIUS, true);
+	createEntityFactory(TERRENO_DEFAULT_NOMBRE, {TERRENO_DEFAULT_ANCHO_BASE, TERRENO_DEFAULT_ALTO_BASE}, TERRENO_DEFAULT_SPEED, TERRENO_DEFAULT_SIGHT_RADIUS, false);
 	createPlayer(DEFAULT_PLAYER_NAME, false);
 
 	for(auto& t : parser.getTiposEntidades()) {
-		createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, t.speed, t.sight_radius);
+		createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, t.speed, t.sight_radius, t.solid);
 	}
 	for(auto& t : parser.getTiposTerrenos()) {
-		createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, 0, 0); 
+		createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, 0, 0, t.solid); 
 	}
 	auto te = parser.getEscenario();
 	for(auto& t : te.terrenos) {
@@ -105,8 +105,8 @@ shared_ptr<Player> Board::createPlayer(string name, bool human) {
 	return (players[name] = make_shared<Player>(*this, name, human));
 }
 
-shared_ptr<EntityFactory> Board::createEntityFactory(string name, r2 size, double speed, int sight_radius) {
-	auto pFactory = make_shared<EntityFactory>(name, size, speed, sight_radius, *this);
+shared_ptr<EntityFactory> Board::createEntityFactory(string name, r2 size, double speed, int sight_radius, bool solid) {
+	auto pFactory = make_shared<EntityFactory>(name, size, speed, sight_radius, solid, *this);
 	entityFactories[name] = pFactory;
 	return pFactory;
 }

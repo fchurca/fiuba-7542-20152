@@ -73,6 +73,7 @@ tipos_terrenos:
     ancho_sprite: 64
     alto_sprite: 32
     cantidad_sprites: 1
+    solid: true
   - nombre: pasto
     imagen: resources/pasto.png
     pixel_ref_x: 32
