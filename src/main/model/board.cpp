@@ -15,7 +15,7 @@ ABoard::ABoard(string name, size_t dt) : name(name), dt(dt) {}
 Board::Board(ParserYAML& parser) :
 	sizeX(parser.getEscenario().size_x), sizeY(parser.getEscenario().size_y),
 	ABoard(parser.getEscenario().nombre, parser.getConfiguracion().dt),
-	maxResources(999999) // TODO: Define + config
+	maxResources(parser.getEscenario().max_resources) 
 {
 	stringstream message;
 	message << "Creating board " << this << " of size " << sizeX << "x" << sizeY;

@@ -53,6 +53,7 @@ struct TagEscenario{
 	std::string nombre;
 	unsigned int size_x;
 	unsigned int size_y;
+	long max_resources;
 	std::vector<TagEntidad> entidades;
 	std::vector<TagEntidad> terrenos;
 	std::vector<TagJugador> jugadores;
@@ -74,6 +75,7 @@ private:
 	std::string intToString(int i);
 	bool esNumero(std::string s);
 	bool obtenerValorScalarNumericoPositivo(const YAML::Node & nodo, std::string tag, unsigned int & salida);
+	bool obtenerValorScalarNumericoPositivo(const YAML::Node & nodo, std::string tag, long & salida);
 	bool obtenerValorScalarNumericoPositivo(const YAML::Node & nodo, std::string tag, double & salida);
 	bool obtenerValorScalarAlfaNumerico(const YAML::Node & nodo, std::string tag, std::string & salida);
 	std::string ubicarNodo(const YAML::Mark mark);

@@ -140,6 +140,7 @@ escenario:
     nombre: Orleans
     size_x: 100
     size_y: 100
+    max_resources: 25000
     terrenos:
       - {x: 0, y: 0, tipo: agua }
       - {x: 0, y: 1, tipo: agua }

@@ -380,6 +380,10 @@ void ParserYAML::setEscenario(const YAML::Node& node, TagEscenario& escenario) {
 			escenario.size_x = ESCENARIO_DEFAULT_SIZE_X;
 			escenario.size_y = ESCENARIO_DEFAULT_SIZE_Y;
 		}
+		if (!obtenerValorScalarNumericoPositivo(node, "max_resources", escenario.max_resources)) {
+			Logger::getInstance()->writeWarning("YAML-CPP:Max_resources del escenario se toma por default.");
+			escenario.max_resources = ESCENARIO_DEFAULT_MAXRESOURCES;
+		}
 
 		std::vector<TagEntidad> entidades;
 		if(node.FindValue("entidades")) { 
@@ -539,6 +543,7 @@ void ParserYAML::setEscenarioDefault (TagEscenario& escenario) {
 	escenario.nombre = ESCENARIO_DEFAULT_NOMBRE;
 	escenario.size_x = ESCENARIO_DEFAULT_SIZE_X;
 	escenario.size_y= ESCENARIO_DEFAULT_SIZE_Y;
+	escenario.max_resources = ESCENARIO_DEFAULT_MAXRESOURCES;
 	escenario.entidades = entidades;
 	escenario.terrenos = terrenos;
 	escenario.jugadores = jugadores;
@@ -595,6 +600,39 @@ bool ParserYAML::obtenerValorScalarNumericoPositivo(const YAML::Node & node, std
 					double p_decimal; 
 					p_decimal = modf(num, &p_entera);
 					if(p_decimal == 0){
+						salida = p_entera;
+						return true;
+					}
+					else
+						Logger::getInstance()->writeWarning("YAML-CPP:El contenido ubicado en: " + tag + " es un numero decimal. Ubicar" + ubicarNodo(nodo_tag.GetMark()));
+				}
+				else
+					Logger::getInstance()->writeWarning("YAML-CPP:El contenido ubicado en: " + tag + " es un numero negativo. Ubicar" + ubicarNodo(nodo_tag.GetMark()));
+			}
+			else
+				Logger::getInstance()->writeWarning("YAML-CPP:El contenido ubicado en: " + tag + " no es un numero. Ubicar" + ubicarNodo(nodo_tag.GetMark()));
+		}
+		else
+			Logger::getInstance()->writeWarning("YAML-CPP:El contenido ubicado en: " + tag + " no es del tipo Scalar. Ubicar" + ubicarNodo(nodo_tag.GetMark()));
+	}
+	else
+		Logger::getInstance()->writeWarning("YAML-CPP:El: " + tag + " no existe en el nodo. Ubicar" + ubicarNodo(node.GetMark()));
+	return false;
+}
+bool ParserYAML::obtenerValorScalarNumericoPositivo(const YAML::Node & node, std::string tag, long & salida) {
+	std::string numero;
+	double num;
+	if (node.FindValue(tag)) {
+		const YAML::Node& nodo_tag = node[tag];
+		if (nodo_tag.Type() == YAML::NodeType::Scalar) {
+			nodo_tag >> numero;
+			if (esNumero(numero)) {
+				nodo_tag >> num;
+				if (num >= 0) {
+					double p_entera;
+					double p_decimal;
+					p_decimal = modf(num, &p_entera);
+					if (p_decimal == 0) {
 						salida = p_entera;
 						return true;
 					}

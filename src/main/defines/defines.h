@@ -30,6 +30,7 @@ enum Directions {
 #define ESCENARIO_DEFAULT_NOMBRE  "escenario_default"
 #define ESCENARIO_DEFAULT_SIZE_X  10
 #define ESCENARIO_DEFAULT_SIZE_Y  10
+#define ESCENARIO_DEFAULT_MAXRESOURCES  999999
 
 //Tipo Entidad Default
 #define ENTIDAD_DEFAULT_NOMBRE  "entidad_default"
