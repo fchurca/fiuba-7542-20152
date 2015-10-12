@@ -88,6 +88,7 @@ bool Entity::canEnter(r2 newPosition) {
 	auto colliders = board.selectEntities([this, shapeCandidate](shared_ptr<Entity> e) {
 			return (*e != *this) &&
 			e->solid &&
+			!e->deletable &&
 			(rectangle(e->position, e->size).intersects(shapeCandidate));
 			});
 	return colliders.size() == 0;
