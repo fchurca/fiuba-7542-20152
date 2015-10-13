@@ -40,6 +40,12 @@ void Logger::setLevel(int level){
 	enabledInformation =  (level >= LOG_LEVEL_INFORMATION);;
 }
 
+void Logger::flush() {
+	if(file.is_open()) {
+		file.flush();
+	}
+}
+
 /**
 *	@return: Fecha y Hora actual
 */

@@ -1,10 +1,9 @@
 pantalla:
     ancho: 640
     alto: 480
-configuracion:
-    vel_personaje: 3
     margen_scroll: 45
     velocidad_scroll: 45
+configuracion:
     dt: 50
 tipos_entidades:
   - nombre: troncoNESW
@@ -51,6 +50,8 @@ tipos_entidades:
     ancho_sprite: 60
     alto_sprite: 60
     cantidad_sprites: 5
+    sight_radius: 3
+    speed: 3
   - nombre: arbol
     imagen: resources/arbol.png
     ancho_base: 1
@@ -72,6 +73,7 @@ tipos_terrenos:
     ancho_sprite: 64
     alto_sprite: 32
     cantidad_sprites: 1
+    solid: true
   - nombre: pasto
     imagen: resources/pasto.png
     pixel_ref_x: 32
@@ -120,5 +122,8 @@ escenario:
       - {x: 2, y: 1, tipo: piedra }
       - {x: 1, y: 2, tipo: piedra }
       - {x: 3, y: 0, tipo: piedra }
-    protagonista:
-      - {x: 3, y: 3, tipo: mago }
+    jugadores:
+      name: Franceses
+      isHuman: true
+      entidades:
+        - {x: 3, y: 3, tipo: mago }

@@ -1,10 +1,9 @@
 pantalla:
     ancho: 1024
     alto: 600
-configuracion:
-    vel_personaje: 3
     margen_scroll: 45
     velocidad_scroll: 45
+configuracion:
     dt: 20
 tipos_entidades:
   - nombre: troncoNESW
@@ -39,7 +38,7 @@ tipos_entidades:
     delay: 0
     ancho_sprite: 64
     alto_sprite: 32
-    cantidad_sprites: 0
+    cantidad_sprites: 1
   - nombre: chancho
     imagen: resources/chanchos.png
     ancho_base: 0.5
@@ -85,6 +84,7 @@ tipos_entidades:
     alto_sprite: 60
     cantidad_sprites: 5
     sight_radius: 3
+    speed: 3
   - nombre: cubo
     imagen: resources/cubo_1_2.png
     ancho_base: 0.5
@@ -117,6 +117,7 @@ tipos_terrenos:
     ancho_sprite: 64
     alto_sprite: 32
     cantidad_sprites: 1
+    solid: true
   - nombre: pasto
     imagen: resources/pasto.png
     pixel_ref_x: 32
@@ -136,9 +137,10 @@ tipos_terrenos:
     alto_sprite: 32
     cantidad_sprites: 1
 escenario:
-    nombre: orleans
+    nombre: Orleans
     size_x: 100
     size_y: 100
+    max_resources: 25000
     terrenos:
       - {x: 0, y: 0, tipo: agua }
       - {x: 0, y: 1, tipo: agua }
@@ -240,5 +242,8 @@ escenario:
       - {x: 17, y: 11, tipo: arbol }
       - {x: 19, y: 11, tipo: arbol }
       - {x: 21, y: 11, tipo: arbol }
-    protagonista:
-      - {x: 5, y: 5, tipo: mago }
+    jugadores:
+      - name: Franceses
+        isHuman: true
+        entidades:
+          - {x: 3, y: 3, tipo: mago }

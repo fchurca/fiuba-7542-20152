@@ -1,4 +1,3 @@
-#include <iostream>
 #include <sstream>
 #define _USE_MATH_DEFINES
 #include <cmath>
@@ -9,7 +8,7 @@
 
 using namespace std;
 
-Entity::Entity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int sight_radius) :
+Entity::Entity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid) :
 	position(position),
 	speed(speed),
 	deletable(false),
@@ -18,12 +17,9 @@ Entity::Entity(std::string name, Board& board, Player& owner, r2 position, r2 si
 	name(name),
 	owner(owner),
 	board(board),
-	sight_radius(sight_radius)
+	sight_radius(sight_radius),
+	solid(solid)
 {
-	solid = name != "carne" &&
-		name != "pasto" &&
-		name != "piedra" &&
-		name != TERRENO_DEFAULT_NOMBRE;
 	static size_t idCount = 0;
 	id = idCount++;
 	adjustPosition();
@@ -73,10 +69,13 @@ void Entity::collide(Entity& other) {
 			!other.deletable &&
 			name != "carne" &&
 			other.name == "carne") {
-		cerr << "Un " << name << " de " << owner.name << " encontró carne!" << endl;
+		stringstream message;
+		message << "Un " << name << " de " << owner.name << " encontró carne!";
+		// TODO: corroborar que se le puede otorgar
 		other.setDeletable();
 		owner.grantResources(100);
-		cerr << owner.name << " tiene " << owner.getResources() << " carne" << endl;
+		message << " " << owner.name << " tiene " << owner.getResources() << " carne";
+		Logger::getInstance()->writeInformation(message.str());
 	}
 }
 
@@ -89,6 +88,7 @@ bool Entity::canEnter(r2 newPosition) {
 	auto colliders = board.selectEntities([this, shapeCandidate](shared_ptr<Entity> e) {
 			return (*e != *this) &&
 			e->solid &&
+			!e->deletable &&
 			(rectangle(e->position, e->size).intersects(shapeCandidate));
 			});
 	return colliders.size() == 0;

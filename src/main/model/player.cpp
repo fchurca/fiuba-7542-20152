@@ -3,11 +3,14 @@
 #include "board.h"
 #include "entity.h"
 
+#include <algorithm>
+
 using namespace std;
 
-Player::Player(Board& board, std::string name) :
+Player::Player(Board& board, std::string name, bool human) :
 	board(board),
 	name(name),
+	human(human),
 	resources(0) // TODO: Resources iniciales
 {
 	for (int i = 0; i < board.sizeX * board.sizeY; i++)

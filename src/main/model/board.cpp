@@ -2,39 +2,62 @@
 #include <algorithm>
 
 #include "board.h"
-
 #include "entity.h"
 #include "entity_factory.h"
+
+#include "../parser_yaml/parser_yaml.h"
 
 using namespace std;
 
 //-----------------------------------------------------------------------------
-Board::Board(int sizeX, int sizeY, size_t dt) :
-	sizeX(sizeX), sizeY(sizeY),
-	dt(dt),
-	maxResources(999999) // TODO: Define + config
+ABoard::ABoard(string name, size_t dt) : name(name), dt(dt) {}
+
+Board::Board(ParserYAML& parser) :
+	sizeX(parser.getEscenario().size_x), sizeY(parser.getEscenario().size_y),
+	ABoard(parser.getEscenario().nombre, parser.getConfiguracion().dt),
+	maxResources(parser.getEscenario().max_resources) 
 {
 	stringstream message;
 	message << "Creating board " << this << " of size " << sizeX << "x" << sizeY;
 	Logger::getInstance()->writeInformation(message.str());
 	terrain.resize(sizeX * sizeY);
 
-	// TODO: Levantar jugadores/facciones
-	createPlayer("Franceses");
-	createEntityFactory(PROTAGONISTA_DEFAULT_NOMBRE, {PROTAGONISTA_DEFAULT_ANCHO_BASE, PROTAGONISTA_DEFAULT_ALTO_BASE}, VELOCIDAD_PERSONAJE_DEFAULT, ENTIDAD_DEFAULT_SIGHT_RADIUS);
-	createEntityFactory(ENTIDAD_DEFAULT_NOMBRE, {ENTIDAD_DEFAULT_ANCHO_BASE, ENTIDAD_DEFAULT_ALTO_BASE}, 0, ENTIDAD_DEFAULT_SIGHT_RADIUS);
-	createEntityFactory(TERRENO_DEFAULT_NOMBRE, {TERRENO_DEFAULT_ANCHO_BASE, TERRENO_DEFAULT_ALTO_BASE}, 0, 0);
-	createPlayer(DEFAULT_PLAYER_NAME);
-}
+	createEntityFactory(PROTAGONISTA_DEFAULT_NOMBRE, {PROTAGONISTA_DEFAULT_ANCHO_BASE, PROTAGONISTA_DEFAULT_ALTO_BASE}, VELOCIDAD_PERSONAJE_DEFAULT, ENTIDAD_DEFAULT_SIGHT_RADIUS,true);
+	createEntityFactory(ENTIDAD_DEFAULT_NOMBRE, {ENTIDAD_DEFAULT_ANCHO_BASE, ENTIDAD_DEFAULT_ALTO_BASE}, ENTIDAD_DEFAULT_SPEED, ENTIDAD_DEFAULT_SIGHT_RADIUS, true);
+	createEntityFactory(TERRENO_DEFAULT_NOMBRE, {TERRENO_DEFAULT_ANCHO_BASE, TERRENO_DEFAULT_ALTO_BASE}, TERRENO_DEFAULT_SPEED, TERRENO_DEFAULT_SIGHT_RADIUS, false);
+	createPlayer(DEFAULT_PLAYER_NAME, false);
 
-void Board::init() {
+	for(auto& t : parser.getTiposEntidades()) {
+		createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, t.speed, t.sight_radius, t.solid);
+	}
+	for(auto& t : parser.getTiposTerrenos()) {
+		createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, 0, 0, t.solid); 
+	}
+	auto te = parser.getEscenario();
+	for(auto& t : te.terrenos) {
+		setTerrain(t.tipoEntidad, t.pos_x, t.pos_y);
+	}
 	// Relleno con TERRENO_DEFAULT
 	for(size_t x = 0; x < sizeX; x++) {
 		for(size_t y = 0; y < sizeY; y++) {
 			if (!&getTerrain(x, y)) {
-				setTerrain(TERRENO_DEFAULT_NOMBRE, x, y); // VER QUE EL PASTO NO DEBERIA VENIR EN EL ARCHIVO
+				setTerrain(TERRENO_DEFAULT_NOMBRE, x, y);
 			}
 		}
+	}
+
+	for (auto& jugador : te.jugadores) {
+		createPlayer(jugador.name, jugador.isHuman);
+		for (auto& entidadJugador : jugador.entidades) {
+			if (!createEntity(entidadJugador.tipoEntidad,jugador.name , { (double)entidadJugador.pos_x, (double)entidadJugador.pos_y })) {
+				Logger::getInstance()->writeInformation("Se crea un protagonista default");
+				createEntity(PROTAGONISTA_DEFAULT_NOMBRE, jugador.name, { PROTAGONISTA_DEFAULT_POSX, PROTAGONISTA_DEFAULT_POSY });
+			}
+		}
+	}
+
+	for(auto& t : te.entidades) {
+		createEntity(t.tipoEntidad, DEFAULT_PLAYER_NAME, {(double)t.pos_x,(double)t.pos_y});
 	}
 }
 
@@ -74,16 +97,16 @@ shared_ptr<Entity> Board::createEntity(string name, string playerName, r2 positi
 	return pEntity;
 }
 
-shared_ptr<Player> Board::createPlayer(string name) {
+shared_ptr<Player> Board::createPlayer(string name, bool human) {
 	if (players.find(name) != players.end()) {
 		Logger::getInstance()->writeError("Jugador " + name + " ya existe");
 		return nullptr;
 	}
-	return (players[name] = make_shared<Player>(*this, name));
+	return (players[name] = make_shared<Player>(*this, name, human));
 }
 
-shared_ptr<EntityFactory> Board::createEntityFactory(string name, r2 size, double speed, int sight_radius) {
-	auto pFactory = make_shared<EntityFactory>(name, size, speed, sight_radius, *this);
+shared_ptr<EntityFactory> Board::createEntityFactory(string name, r2 size, double speed, int sight_radius, bool solid) {
+	auto pFactory = make_shared<EntityFactory>(name, size, speed, sight_radius, solid, *this);
 	entityFactories[name] = pFactory;
 	return pFactory;
 }
@@ -117,3 +140,12 @@ vector<shared_ptr<Entity>> Board::getEntities() {
 Player& Board::findPlayer(string name) {
 	return *(players.find(name)->second);
 }
+
+std::vector<std::shared_ptr<Player>> Board::getPlayers() {
+	std::vector<std::shared_ptr<Player>> ret;
+	for(auto& i : players) {
+		ret.push_back(i.second);
+	}
+	return ret;
+}
+

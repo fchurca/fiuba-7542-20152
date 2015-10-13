@@ -158,18 +158,6 @@ ParserYAML::~ParserYAML(void) {
 
 void ParserYAML::setConfiguracion (const YAML::Node& node, TagConfiguracion& configuracion) {
 	if(node.Type() == YAML::NodeType::Map) {
-		if(!obtenerValorScalarNumericoPositivo(node, "vel_personaje", configuracion.vel_personaje)){
-			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (velocidad personaje).");
-			configuracion.vel_personaje = VELOCIDAD_PERSONAJE_DEFAULT;
-		}
-		if(!obtenerValorScalarNumericoPositivo(node, "margen_scroll", configuracion.margen_scroll)){
-			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (margen scroll).");
-			configuracion.margen_scroll = MARGEN_SCROLL_DEFAULT;
-		}
-		if(!obtenerValorScalarNumericoPositivo(node, "velocidad_scroll", configuracion.velocidad_scroll)){
-			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (velocidad scroll).");
-			configuracion.velocidad_scroll = VELOCIDAD_SCROLL_DEFAULT;
-		}
 		if(!obtenerValorScalarNumericoPositivo(node, "dt", configuracion.dt)){
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (dt).");
 			configuracion.dt = DT_DEFAULT;
@@ -183,17 +171,25 @@ void ParserYAML::setConfiguracion (const YAML::Node& node, TagConfiguracion& con
 
 void ParserYAML::setConfiguracionDefault (TagConfiguracion& configuracion) {
 	Logger::getInstance()->writeWarning("YAML-CPP:Se toma configuracion por default.");
-	configuracion.margen_scroll = MARGEN_SCROLL_DEFAULT;
-	configuracion.vel_personaje = VELOCIDAD_PERSONAJE_DEFAULT;
-	configuracion.velocidad_scroll = VELOCIDAD_SCROLL_DEFAULT;
 	configuracion.dt = DT_DEFAULT;
 }
 
 
 void ParserYAML::setPantalla (const YAML::Node& node, TagPantalla& pantalla) {
 	if(node.Type() == YAML::NodeType::Map) {
-		if((!obtenerValorScalarNumericoPositivo(node, "ancho", pantalla.ancho)) || (!obtenerValorScalarNumericoPositivo(node, "alto", pantalla.alto)))
-			setPantallaDefault(pantalla);	
+		if ((!obtenerValorScalarNumericoPositivo(node, "ancho", pantalla.ancho)) || (!obtenerValorScalarNumericoPositivo(node, "alto", pantalla.alto))) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (ancho y alto pantalla).");
+			pantalla.alto = ALTO_DEFAULT;
+			pantalla.ancho = ANCHO_DEFAULT;
+		}
+		if (!obtenerValorScalarNumericoPositivo(node, "margen_scroll", pantalla.margen_scroll)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (margen scroll).");
+			pantalla.margen_scroll = MARGEN_SCROLL_DEFAULT;
+		}
+		if (!obtenerValorScalarNumericoPositivo(node, "velocidad_scroll", pantalla.velocidad_scroll)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (velocidad scroll).");
+			pantalla.velocidad_scroll = VELOCIDAD_SCROLL_DEFAULT;
+		}
 	}
 	else{
 		Logger::getInstance()->writeWarning("YAML-CPP:El contenido del tag de pantalla no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
@@ -205,6 +201,8 @@ void ParserYAML::setPantallaDefault (TagPantalla& pantalla) {
 	Logger::getInstance()->writeInformation("YAML-CPP:Se toma pantalla por default.");
 	pantalla.alto = ALTO_DEFAULT;
 	pantalla.ancho = ANCHO_DEFAULT;
+	pantalla.velocidad_scroll = VELOCIDAD_SCROLL_DEFAULT;
+	pantalla.margen_scroll = MARGEN_SCROLL_DEFAULT;
 }
 
 void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEntidad, int i) {
@@ -248,6 +246,11 @@ void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEnt
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (sight_radius).");
 			tipoEntidad.sight_radius = ENTIDAD_DEFAULT_SIGHT_RADIUS;
 		}
+		if (!obtenerValorScalarNumericoPositivo(node, "speed", tipoEntidad.speed)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (velocidad personaje).");
+			tipoEntidad.speed = VELOCIDAD_PERSONAJE_DEFAULT;
+		}
+		tipoEntidad.solid = true;
 	}
 	else{
 		Logger::getInstance()->writeWarning("YAML-CPP:el contenido del tipo de entidad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
@@ -286,11 +289,38 @@ void ParserYAML::setTipoTerreno (const YAML::Node& node, TagTipoEntidad& tipoTer
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (delay).");
 			tipoTerreno.delay = TERRENO_DEFAULT_DELAY;
 		}
+		tipoTerreno.sight_radius = 0;
+		tipoTerreno.speed = 0;
+		string solid;
+		if (!obtenerValorScalarAlfaNumerico(node, "solid", solid) || (solid != "true")) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default valor false(solid).");
+			tipoTerreno.solid = false;
+		}
+		else
+			tipoTerreno.solid = true;
 	}
 	else{
 		Logger::getInstance()->writeWarning("YAML-CPP:El contenido del tipo de terreno ad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
-		setTipoEntidadDefault(tipoTerreno);
+		setTipoTerrenoDefault(tipoTerreno);
 	}
+}
+
+void ParserYAML::setTipoTerrenoDefault(TagTipoEntidad& tipoEntidad) {
+	Logger::getInstance()->writeInformation("YAML-CPP:Se toma tipo de terreno por default.");
+	tipoEntidad.nombre = TERRENO_DEFAULT_NOMBRE;
+	tipoEntidad.imagen = TERRENO_DEFAULT_IMAGEN;
+	tipoEntidad.ancho_base = TERRENO_DEFAULT_ANCHO_BASE;
+	tipoEntidad.alto_base = TERRENO_DEFAULT_ALTO_BASE;
+	tipoEntidad.pixel_ref_x = TERRENO_DEFAULT_PIXEL_REF_X;
+	tipoEntidad.pixel_ref_y = TERRENO_DEFAULT_PIXEL_REF_Y;
+	tipoEntidad.fps = TERRENO_DEFAULT_FPS;
+	tipoEntidad.delay = TERRENO_DEFAULT_DELAY;
+	tipoEntidad.alto_sprite = TERRENO_DEFAULT_ALTO_SPRITE;
+	tipoEntidad.ancho_sprite = TERRENO_DEFAULT_ANCHO_SPRITE;
+	tipoEntidad.cantidad_sprites = TERRENO_DEFAULT_CANTIDAD_SPRITES;
+	tipoEntidad.sight_radius = TERRENO_DEFAULT_SIGHT_RADIUS;
+	tipoEntidad.speed = TERRENO_DEFAULT_SPEED;
+	tipoEntidad.solid = false;
 }
 
 
@@ -308,6 +338,8 @@ void ParserYAML::setTipoEntidadDefault (TagTipoEntidad& tipoEntidad) {
 	tipoEntidad.ancho_sprite = ENTIDAD_DEFAULT_ANCHO_SPRITE;
 	tipoEntidad.cantidad_sprites = ENTIDAD_DEFAULT_CANTIDAD_SPRITES;
 	tipoEntidad.sight_radius = ENTIDAD_DEFAULT_SIGHT_RADIUS;
+	tipoEntidad.speed = VELOCIDAD_PERSONAJE_DEFAULT;
+	tipoEntidad.solid = true;
 }
 
 void ParserYAML::setEntidad(const YAML::Node& node, TagEntidad& entidad) {
@@ -347,6 +379,10 @@ void ParserYAML::setEscenario(const YAML::Node& node, TagEscenario& escenario) {
 			Logger::getInstance()->writeInformation("YAML-CPP:Se toman por default los datos del tamanio del escenario.");
 			escenario.size_x = ESCENARIO_DEFAULT_SIZE_X;
 			escenario.size_y = ESCENARIO_DEFAULT_SIZE_Y;
+		}
+		if (!obtenerValorScalarNumericoPositivo(node, "max_resources", escenario.max_resources)) {
+			Logger::getInstance()->writeWarning("YAML-CPP:Max_resources del escenario se toma por default.");
+			escenario.max_resources = ESCENARIO_DEFAULT_MAXRESOURCES;
 		}
 
 		std::vector<TagEntidad> entidades;
@@ -391,33 +427,99 @@ void ParserYAML::setEscenario(const YAML::Node& node, TagEscenario& escenario) {
 		}
 		escenario.terrenos = terrenos;
 
-		TagEntidad protagonista;
-		if(node.FindValue("protagonista")) { 
-			const YAML::Node& pro = node["protagonista"];
-			if(pro.Type() == YAML::NodeType::Sequence) {
-				if(pro.size() == 1) {
-					setEntidad(pro[0], protagonista);
-					escenario.protagonista = protagonista;
-				}
-				else{
-					setProtagonistaDefault(protagonista);
-					Logger::getInstance()->writeWarning("YAML-CPP: El tag protagonista posee mas de un elemento. Ubicar:" + ubicarNodo(pro.GetMark()));
+		//TagEntidad protagonista;
+		//if(node.FindValue("protagonista")) { 
+		//	const YAML::Node& pro = node["protagonista"];
+		//	if(pro.Type() == YAML::NodeType::Sequence) {
+		//		if(pro.size() == 1) {
+		//			setEntidad(pro[0], protagonista);
+		//			escenario.protagonista = protagonista;
+		//		}
+		//		else{
+		//			setProtagonistaDefault(protagonista);
+		//			Logger::getInstance()->writeWarning("YAML-CPP: El tag protagonista posee mas de un elemento. Ubicar:" + ubicarNodo(pro.GetMark()));
+		//		}
+		//	}
+		//	else{
+		//		setProtagonistaDefault(protagonista);
+		//		Logger::getInstance()->writeWarning("YAML-CPP: El tag de protagonista del escenario no es del tipo Sequence. Ubicar:" + ubicarNodo(pro.GetMark()));
+		//	}
+		//}
+		//else{
+		//	setProtagonistaDefault(protagonista);
+		//	Logger::getInstance()->writeWarning("YAML-CPP: El tag de protagonista del escenario no existe.");
+		//}
+		//escenario.protagonista=protagonista;
+		std::vector<TagJugador> jugadores;
+		if (node.FindValue("jugadores")) {
+			const YAML::Node& jugs = node["jugadores"];
+			if (jugs.Type() == YAML::NodeType::Sequence) {
+				for (unsigned int i = 0; i < jugs.size(); i++) {
+					TagJugador jugador;
+					setJugador(jugs[i], jugador, i);
+					jugadores.push_back(jugador);
 				}
 			}
-			else{
-				setProtagonistaDefault(protagonista);
-				Logger::getInstance()->writeWarning("YAML-CPP: El tag de protagonista del escenario no es del tipo Sequence. Ubicar:" + ubicarNodo(pro.GetMark()));
+			else {
+				Logger::getInstance()->writeWarning("YAML-CPP:El tag jugadores no es del tipo secuencia.");
+				Logger::getInstance()->writeInformation("YAML-CPP: No se toman jugadores.");
 			}
 		}
-		else{
-			setProtagonistaDefault(protagonista);
-			Logger::getInstance()->writeWarning("YAML-CPP: El tag de protagonista del escenario no existe.");
+		else {
+			Logger::getInstance()->writeWarning("YAML-CPP:El tag jugadores no existe en el archivo.");
+			Logger::getInstance()->writeInformation("YAML-CPP: No se toman jugadores.");
 		}
-		escenario.protagonista=protagonista;
+		escenario.jugadores = jugadores;
 	}
 	else{
 		Logger::getInstance()->writeWarning("YAML-CPP: El tag de escenario no es del tipo Map. Ubicar:" + ubicarNodo(node.GetMark()));
 		setEscenarioDefault(escenario);
+	}
+}
+
+void ParserYAML::setJugador(const YAML::Node& node, TagJugador& jugador, int i) {
+	if (node.Type() == YAML::NodeType::Map) {
+		if (!obtenerValorScalarAlfaNumerico(node, "name", jugador.name)) {
+			Logger::getInstance()->writeWarning("YAML-CPP:El nombre del jugador se toma por defecto.");
+			jugador.name = DEFAULT_PLAYER_NAME + intToString(i);
+		}
+
+		std::string isHuman;
+		if (!obtenerValorScalarAlfaNumerico(node, "isHuman", isHuman) || (isHuman != "true")){
+			Logger::getInstance()->writeWarning("YAML-CPP:El isHuman del jugador se toma por defecto false.");
+			jugador.isHuman = false;
+		}
+		else
+			jugador.isHuman = true;
+
+		std::vector<TagEntidad> entidades;
+		if (node.FindValue("entidades")) {
+			const YAML::Node& ent = node["entidades"];
+			if (ent.Type() == YAML::NodeType::Sequence) {
+				for (unsigned int i = 0; i < ent.size(); i++) {
+					TagEntidad entidad;
+					setEntidad(ent[i], entidad);
+					entidades.push_back(entidad);
+				}
+			}
+			else {
+				Logger::getInstance()->writeWarning("YAML-CPP:El tag entidades no es del tipo secuencia.");
+				Logger::getInstance()->writeInformation("YAML-CPP: No se toman entidades.");
+			}
+		}
+		else {
+			Logger::getInstance()->writeWarning("YAML-CPP:El tag entidades no existe en el archivo.");
+			Logger::getInstance()->writeInformation("YAML-CPP: No se toman entidades.");
+		}
+		jugador.entidades = entidades;
+	}
+	else {
+		Logger::getInstance()->writeWarning("YAML-CPP:El contenido del jugador no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
+		Logger::getInstance()->writeInformation("YAML-CPP:Se toman valores por default para ese jugador");
+		jugador.name = DEFAULT_PLAYER_NAME + intToString(i);
+		jugador.isHuman = false;
+		std::vector<TagEntidad> entitiesDefault;
+		jugador.entidades = entitiesDefault;
 	}
 }
 
@@ -432,15 +534,19 @@ void ParserYAML::setEscenarioDefault (TagEscenario& escenario) {
 	Logger::getInstance()->writeWarning("YAML-CPP: Se toma escenario por default.");
 	std::vector<TagEntidad> entidades;
 	std::vector<TagEntidad> terrenos;
-	TagEntidad protagonista;
-	setProtagonistaDefault(protagonista);
+	std::vector<TagJugador> jugadores;
+
+	//TagEntidad protagonista;
+	//escenario.protagonista = protagonista;
+	//setProtagonistaDefault(protagonista);
+
 	escenario.nombre = ESCENARIO_DEFAULT_NOMBRE;
 	escenario.size_x = ESCENARIO_DEFAULT_SIZE_X;
 	escenario.size_y= ESCENARIO_DEFAULT_SIZE_Y;
+	escenario.max_resources = ESCENARIO_DEFAULT_MAXRESOURCES;
 	escenario.entidades = entidades;
 	escenario.terrenos = terrenos;
-	escenario.protagonista=protagonista;
-	
+	escenario.jugadores = jugadores;
 }
 
 void ParserYAML::setArchivoDefault() {
@@ -494,6 +600,39 @@ bool ParserYAML::obtenerValorScalarNumericoPositivo(const YAML::Node & node, std
 					double p_decimal; 
 					p_decimal = modf(num, &p_entera);
 					if(p_decimal == 0){
+						salida = p_entera;
+						return true;
+					}
+					else
+						Logger::getInstance()->writeWarning("YAML-CPP:El contenido ubicado en: " + tag + " es un numero decimal. Ubicar" + ubicarNodo(nodo_tag.GetMark()));
+				}
+				else
+					Logger::getInstance()->writeWarning("YAML-CPP:El contenido ubicado en: " + tag + " es un numero negativo. Ubicar" + ubicarNodo(nodo_tag.GetMark()));
+			}
+			else
+				Logger::getInstance()->writeWarning("YAML-CPP:El contenido ubicado en: " + tag + " no es un numero. Ubicar" + ubicarNodo(nodo_tag.GetMark()));
+		}
+		else
+			Logger::getInstance()->writeWarning("YAML-CPP:El contenido ubicado en: " + tag + " no es del tipo Scalar. Ubicar" + ubicarNodo(nodo_tag.GetMark()));
+	}
+	else
+		Logger::getInstance()->writeWarning("YAML-CPP:El: " + tag + " no existe en el nodo. Ubicar" + ubicarNodo(node.GetMark()));
+	return false;
+}
+bool ParserYAML::obtenerValorScalarNumericoPositivo(const YAML::Node & node, std::string tag, long & salida) {
+	std::string numero;
+	double num;
+	if (node.FindValue(tag)) {
+		const YAML::Node& nodo_tag = node[tag];
+		if (nodo_tag.Type() == YAML::NodeType::Scalar) {
+			nodo_tag >> numero;
+			if (esNumero(numero)) {
+				nodo_tag >> num;
+				if (num >= 0) {
+					double p_entera;
+					double p_decimal;
+					p_decimal = modf(num, &p_entera);
+					if (p_decimal == 0) {
 						salida = p_entera;
 						return true;
 					}

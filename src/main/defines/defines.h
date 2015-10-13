@@ -30,6 +30,7 @@ enum Directions {
 #define ESCENARIO_DEFAULT_NOMBRE  "escenario_default"
 #define ESCENARIO_DEFAULT_SIZE_X  10
 #define ESCENARIO_DEFAULT_SIZE_Y  10
+#define ESCENARIO_DEFAULT_MAXRESOURCES  999999
 
 //Tipo Entidad Default
 #define ENTIDAD_DEFAULT_NOMBRE  "entidad_default"
@@ -45,7 +46,8 @@ enum Directions {
 #define ENTIDAD_DEFAULT_CANTIDAD_SPRITES  1
 #define ENTIDAD_DEFAULT_FPS  0
 #define ENTIDAD_DEFAULT_DELAY  0
-#define ENTIDAD_DEFAULT_SIGHT_RADIUS  1
+#define ENTIDAD_DEFAULT_SIGHT_RADIUS  0
+#define ENTIDAD_DEFAULT_SPEED  0
 
 //Nombre de jugador inicial (terreno, etc)
 #define DEFAULT_PLAYER_NAME "Gaia"
@@ -77,6 +79,8 @@ enum Directions {
 #define TERRENO_DEFAULT_ANCHO_SPRITE  64
 #define TERRENO_DEFAULT_ALTO_SPRITE  32
 #define TERRENO_DEFAULT_CANTIDAD_SPRITES  1
+#define TERRENO_DEFAULT_SIGHT_RADIUS 0
+#define TERRENO_DEFAULT_SPEED 0
 
 //Log Level
 #define LOG_LEVEL_OFF  0

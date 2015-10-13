@@ -26,6 +26,7 @@ public:
 	static Logger * getInstance();
 	static void destroyInstance();
 	void setLevel(int level);
+	void flush();
 	int writeError(string message);
 	int writeWarning(string message);
 	int writeInformation(string message);
