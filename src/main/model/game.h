@@ -1,6 +1,9 @@
 #ifndef __GAME_H__
 #define __GAME_H__
 
+#include <map>
+#include <string>
+
 #include "abstract_client.h"
 #include "../log/logger.h"
 #include "../model/board.h"
@@ -9,7 +12,7 @@ class Game {
 private:
 	void init();
 	std::shared_ptr<ABoard> board;
-	std::shared_ptr<AClient> client;
+	std::map<std::string, std::shared_ptr<AClient>> clients;
 	bool exit_p;
 	bool restart_p;
 	void clear();

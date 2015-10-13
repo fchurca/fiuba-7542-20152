@@ -28,7 +28,8 @@ bool GameWindow::initialize() {
 }
 
 GameWindow::GameWindow(Game& owner, Player& player, ParserYAML& parser) :
-	owner(owner), player(player), board(player.board),
+	AClient(owner, player),
+	board(player.board),
 	ancho_pantalla(parser.getPantalla().ancho), alto_pantalla(parser.getPantalla().alto),
 	margen_pantalla(parser.getPantalla().margen_scroll), scroll_speed(parser.getPantalla().velocidad_scroll)
 {
