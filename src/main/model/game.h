@@ -1,8 +1,6 @@
 #ifndef __GAME_H__
 #define __GAME_H__
 
-#include <SDL2/SDL.h>
-
 #include "abstract_client.h"
 #include "../log/logger.h"
 #include "../model/board.h"
