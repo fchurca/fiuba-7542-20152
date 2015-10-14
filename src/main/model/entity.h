@@ -42,8 +42,6 @@ class Entity {
 		int sight_radius;
 		int capacity;
 		r2 getPosition();
-		double getX();// TODO: Deprecar
-		double getY();// TODO: Deprecar
 		r2 trajectory();
 		double sqDistance();
 		double distance();
