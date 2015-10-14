@@ -66,7 +66,7 @@ tipos_entidades:
     ancho_base: 0.5
     alto_base: 0.5
     pixel_ref_x: 30
-    pixel_ref_y: 30
+    pixel_ref_y: 32
     fps: 10
     delay: 0
     ancho_sprite: 60
