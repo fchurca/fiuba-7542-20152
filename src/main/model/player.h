@@ -4,6 +4,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <map>
 
 #include "geometry.h"
 
@@ -19,7 +20,7 @@ typedef enum {
 class Player {
 	protected:
 		std::vector<Visibility> map_visibility;
-		long resources;
+		std::map<std::string, long> resources;
 	public:
 		const std::string name;
 		const bool human;
@@ -29,9 +30,9 @@ class Player {
 		void update();
 		Visibility getVisibility(r2 pos);
 		Visibility getVisibility(Entity& e);
-		long getResources();
-		bool canGrantResources(long r);
-		bool grantResources(long r);
+		std::map<std::string, long> getResources();
+		bool canGrantResources(std::string resource, long r);
+		bool grantResources(std::string resource, long r);
 };
 
 #endif

@@ -24,6 +24,7 @@ class Entity {
 		double orientation;
 		bool adjustPosition();
 		Entity();
+		void collide(Entity* other);
 		void collide(Entity& other);
 		bool canEnter(r2 newPosition);
 	public:
@@ -58,6 +59,10 @@ class Entity {
 
 		bool operator==(Entity& other);
 		bool operator!=(Entity& other);
+};
+
+class ResourceEntity : public Entity {
+	void collide(Entity& other);
 };
 
 #include "entity.cxx"
