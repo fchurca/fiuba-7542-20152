@@ -109,7 +109,12 @@ shared_ptr<Player> Board::createPlayer(string name, bool human) {
 }
 
 shared_ptr<EntityFactory> Board::createEntityFactory(string name, r2 size, double speed, int sight_radius, bool solid, int capacity) {
-	auto pFactory = make_shared<EntityFactory>(name, size, speed, sight_radius, solid, capacity, *this);
+	shared_ptr<EntityFactory> pFactory;
+	if(name == "carne" || name == "oro") {
+		pFactory = make_shared<ResourceEntityFactory>(name, size, speed, sight_radius, solid, capacity, *this);
+	} else {
+		pFactory = make_shared<EntityFactory>(name, size, speed, sight_radius, solid, capacity, *this);
+	}
 	entityFactories[name] = pFactory;
 	return pFactory;
 }
@@ -127,6 +132,9 @@ void Board::update() {
 		} else {
 			i++;
 		}
+	}
+	for(auto& f : entityFactories) {
+		f.second->update();
 	}
 	for(auto& e : entities) {
 		e->update();

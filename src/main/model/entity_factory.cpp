@@ -35,3 +35,20 @@ std::shared_ptr<Entity> EntityFactory::createEntity(Player& player, r2 position)
 	}
 }
 
+void EntityFactory::update() {
+}
+
+ResourceEntityFactory::ResourceEntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, Board& board) :
+	EntityFactory(name, size, speed, sight_radius, solid, capacity, board)
+
+{}
+
+void ResourceEntityFactory::update() {
+	if ((rand()%board.dt) > 10) {
+		board.createEntity(name,
+				DEFAULT_PLAYER_NAME,
+				r2((double)(rand() % board.sizeX),
+					(double)(rand() % board.sizeY)));
+	}
+}
+
