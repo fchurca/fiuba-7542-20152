@@ -68,32 +68,15 @@ bool Entity::targeted() {
 void Entity::collide(Entity* other) {
 	if(other) {
 		if(!deletable &&
-				!other->deletable &&
-				name != "carne" &&
-				(other->name == "carne") ||(other->name == "oro")) {
+				!other->deletable) {
 			other->collide(*this);
 		}
 	}
 }
 
-void Entity::collide(Entity& other) {
-	if(!deletable &&
-			!other.deletable &&
-			other.name != "carne" &&
-			(name == "carne") ||(name == "oro")) {
-		stringstream message;
-		message << "Un " << other.name << " de " << other.owner.name << " encontró" << name;
-		if(other.owner.grantResources(name, capacity)) {
-			setDeletable();
-			message << "; ahora " << other.owner.name
-				<< " tiene " << other.owner.getResources()[name]
-				<< " " << name;
-		} else {
-			message << "; pero no puede tomarlos";
-		}
-		Logger::getInstance()->writeInformation(message.str());
-	}
-}
+void Entity::collide(Entity& other) {}
+
+void Entity::collide(ResourceEntity& other) {}
 
 bool Entity::canEnter(r2 newPosition) {
 	auto newCenter = newPosition + size / 2;
@@ -191,3 +174,24 @@ bool Entity::operator!=(Entity& other) {
 	return this != &other;
 }
 
+ResourceEntity::ResourceEntity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity):Entity(name, board, owner, position, size, speed, sight_radius, solid, capacity)
+{}
+
+void ResourceEntity::collide(Entity& other) {
+	if(!getDeletable() &&
+			!other.getDeletable()) {
+		stringstream message;
+		message << "Un " << other.name << " de " << other.owner.name << " encontró" << name;
+		if(other.owner.grantResources(name, capacity)) {
+			setDeletable();
+			message << "; ahora " << other.owner.name
+				<< " tiene " << other.owner.getResources()[name]
+				<< " " << name;
+		} else {
+			message << "; pero no puede tomarlos";
+		}
+		Logger::getInstance()->writeInformation(message.str());
+	}
+}
+
+void ResourceEntity::collide(ResourceEntity& other) {}

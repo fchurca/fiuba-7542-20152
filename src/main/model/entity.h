@@ -12,6 +12,7 @@
 //-----------------------------------------------------------------------------
 
 class Board;
+class ResourceEntity;
 
 class Entity {
 	protected:
@@ -24,8 +25,9 @@ class Entity {
 		double orientation;
 		bool adjustPosition();
 		Entity();
-		void collide(Entity* other);
-		void collide(Entity& other);
+		virtual void collide(Entity* other);
+		virtual void collide(Entity& other);
+		virtual void collide(ResourceEntity& other);
 		bool canEnter(r2 newPosition);
 	public:
 		Player& owner;
@@ -62,7 +64,11 @@ class Entity {
 };
 
 class ResourceEntity : public Entity {
-	void collide(Entity& other);
+	protected:
+		void collide(Entity& other);
+		void collide(ResourceEntity& other);
+	public:
+		ResourceEntity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity);
 };
 
 #include "entity.cxx"

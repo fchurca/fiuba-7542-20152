@@ -28,6 +28,10 @@ EntityFactory::~EntityFactory() {
 }
 
 std::shared_ptr<Entity> EntityFactory::createEntity(Player& player, r2 position) {
-	return std::make_shared<Entity>(name, board, player, position, size, speed, sight_radius, solid, capacity);
+	if(name == "carne" || name == "oro") {
+		return std::make_shared<ResourceEntity>(name, board, player, position, size, speed, sight_radius, solid, capacity);
+	} else {
+		return std::make_shared<Entity>(name, board, player, position, size, speed, sight_radius, solid, capacity);
+	}
 }
 
