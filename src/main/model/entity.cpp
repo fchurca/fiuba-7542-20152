@@ -65,17 +65,32 @@ bool Entity::targeted() {
 	return waypoints.size() > 0;
 }
 
+void Entity::collide(Entity* other) {
+	if(other) {
+		if(!deletable &&
+				!other->deletable &&
+				name != "carne" &&
+				(other->name == "carne") ||(other->name == "oro")) {
+			other->collide(*this);
+		}
+	}
+}
+
 void Entity::collide(Entity& other) {
 	if(!deletable &&
 			!other.deletable &&
-			name != "carne" &&
-			(other.name == "carne") ||(other.name == "oro")) {
+			other.name != "carne" &&
+			(name == "carne") ||(name == "oro")) {
 		stringstream message;
-		message << "Un " << name << " de " << owner.name << " encontró" << other.name;
-		// TODO: corroborar que se le puede otorgar
-		other.setDeletable();
-		owner.grantResources(other.capacity);
-		message << " " << owner.name << " tiene " << owner.getResources();
+		message << "Un " << other.name << " de " << other.owner.name << " encontró" << name;
+		if(other.owner.grantResources(name, capacity)) {
+			setDeletable();
+			message << "; ahora " << other.owner.name
+				<< " tiene " << other.owner.getResources()[name]
+				<< " " << name;
+		} else {
+			message << "; pero no puede tomarlos";
+		}
 		Logger::getInstance()->writeInformation(message.str());
 	}
 }
@@ -109,7 +124,7 @@ void Entity::update() {
 					(rectangle(e->position, e->size).intersects(shapeCandidate));
 					});
 			for(auto c : colliders) {
-				collide(*c);
+				collide(c.get());
 			}
 			if (!canEnter(newPos)) {
 				unsetTarget();
