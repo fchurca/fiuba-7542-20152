@@ -153,8 +153,20 @@ void GameWindow::render() {
 		}
 		it->second->render(*e, renderer);
 	}
+	Uint8 q = 255;
+	SDL_SetRenderDrawColor(renderer, q, q, q, q);
+	r2 p = getSelection()->getPosition();
+	r2 s = getSelection()->size;
+	SDL_Point points[] =
+	{ boardToScreenPosition(p),
+	  boardToScreenPosition(p + r2(s.x, 0)),
+	  boardToScreenPosition(p + s),
+	  boardToScreenPosition(p + r2(0, s.y)),
+	  boardToScreenPosition(p) };
 
-	SDL_RenderPresent( renderer );
+	SDL_RenderDrawLines(renderer, points, 5);
+
+	SDL_RenderPresent(renderer);
 	return;
 }
 

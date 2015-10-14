@@ -112,9 +112,8 @@ void SpriteSheet::render(Entity & entity, SDL_Renderer* renderer){
 	SDL_Rect clip = { entity.getDirection() * ancho_sprite, currentFrame * alto_sprite, ancho_sprite, alto_sprite };
 
 	//	Dibujado
-	if(state != INVISIBLE) //Aca hay que usar el canDraw
-		SDL_RenderCopy( renderer, getLoadedTexture( renderer, state ), &clip, &renderQuad );
-
+	if (state != INVISIBLE) //Aca hay que usar el canDraw
+		SDL_RenderCopy(renderer, getLoadedTexture(renderer, state), &clip, &renderQuad);
 }
 
 void SpriteSheet::update(){
