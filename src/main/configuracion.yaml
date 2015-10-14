@@ -89,8 +89,8 @@ tipos_entidades:
     imagen: resources/arbol.png
     ancho_base: 1.9
     alto_base: 1.9
-    pixel_ref_x: 20
-    pixel_ref_y: 79
+    pixel_ref_x: 49
+    pixel_ref_y: 84
     fps: 0
     delay: 0
     ancho_sprite: 88
