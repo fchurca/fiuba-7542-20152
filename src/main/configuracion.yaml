@@ -140,9 +140,9 @@ tipos_recursos:
     ancho_base: 1
     alto_base: 1
     pixel_ref_x: 32
-    pixel_ref_y: 2
+    pixel_ref_y: 3
     ancho_sprite: 64
-    alto_sprite: 32
+    alto_sprite: 35
     capacidad: 100
 escenario:
     nombre: Orleans
