@@ -97,6 +97,12 @@ void Entity::collide(Entity& other) {
 
 bool Entity::canEnter(r2 newPosition) {
 	auto newCenter = newPosition + size / 2;
+	if (newCenter.x < 0 ||
+			newCenter.y < 0 ||
+			newCenter.x >= board.sizeX ||
+			newCenter.y >= board.sizeY) {
+		return false;
+	}
 	if(board.getTerrain(floor(newCenter.x), floor(newCenter.y)).solid) {
 		return false;
 	}
