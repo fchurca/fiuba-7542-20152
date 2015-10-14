@@ -65,6 +65,7 @@ GameWindow::GameWindow(Game& owner, Player& player, ParserYAML& parser) :
 	}
 
 	focus();
+	selection = nullptr;
 }
 
 GameWindow::~GameWindow() {
@@ -153,19 +154,20 @@ void GameWindow::render() {
 		}
 		it->second->render(*e, renderer);
 	}
-	Uint8 q = 255;
-	SDL_SetRenderDrawColor(renderer, q, q, q, q);
-	r2 p = getSelection()->getPosition();
-	r2 s = getSelection()->size;
-	SDL_Point points[] =
-	{ boardToScreenPosition(p),
-	  boardToScreenPosition(p + r2(s.x, 0)),
-	  boardToScreenPosition(p + s),
-	  boardToScreenPosition(p + r2(0, s.y)),
-	  boardToScreenPosition(p) };
+	if (getSelection()) {
+		Uint8 q = 255;
+		SDL_SetRenderDrawColor(renderer, q, q, q, q);
+		r2 p = getSelection()->getPosition();
+		r2 s = getSelection()->size;
+		SDL_Point points[] =
+		{ boardToScreenPosition(p),
+			boardToScreenPosition(p + r2(s.x, 0)),
+			boardToScreenPosition(p + s),
+			boardToScreenPosition(p + r2(0, s.y)),
+			boardToScreenPosition(p) };
 
-	SDL_RenderDrawLines(renderer, points, 5);
-
+		SDL_RenderDrawLines(renderer, points, 5);
+	}
 	SDL_RenderPresent(renderer);
 	return;
 }
@@ -236,12 +238,13 @@ void GameWindow::processInput(){
 				Logger::getInstance()->writeInformation(oss.str().c_str());
 				if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_LEFT ) {
 					Logger::getInstance()->writeInformation("Boton Izquierdo");
-					auto protagonist = getSelection();
-					if (protagonist) {
+					boardMouse = screenToBoardPosition(mouse);
+					setSelection();
+					if (selectionController()) {
 						if (!(SDL_GetModState()&KMOD_SHIFT)) {
-							protagonist->unsetTarget();
+							getSelection()->unsetTarget();
 						}
-						protagonist->addTarget(mouseBoard);
+						getSelection()->addTarget(mouseBoard);
 					}
 				}
 				if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_RIGHT) {
@@ -296,6 +299,16 @@ r2 GameWindow::getFocus() {
 }
 
 shared_ptr<Entity> GameWindow::getSelection() {
-	return player.entities().front();
+	return selection;
+}
+
+void GameWindow::setSelection() {
+	shared_ptr<Entity> s = board.findEntity(rectangle(r2(floor(boardMouse.x), floor(boardMouse.y)),r2(1,1)));
+	if (s)
+		selection = s;
+}
+
+bool GameWindow::selectionController() {
+	return selection != nullptr && selection->owner.name == player.name;
 }
 
