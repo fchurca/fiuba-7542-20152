@@ -14,9 +14,10 @@ class EntityFactory {
 		const double speed;
 		int sight_radius;
 		bool solid;
+		int capacity;
 		Board& board;
 
-		EntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, Board& board);
+		EntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, Board& board);
 		~EntityFactory();
 
 		std::shared_ptr<Entity> createEntity(Player& player, r2 position);

@@ -35,6 +35,7 @@ struct TagTipoEntidad{
 	unsigned int sight_radius;
 	unsigned int speed;
 	bool solid;
+	unsigned int capacity;
 };
 
 struct TagEntidad{
@@ -69,6 +70,7 @@ private:
 	void setPantalla (const YAML::Node& node, TagPantalla& pantalla);
 	void setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEntidad, int i);
 	void setTipoTerreno (const YAML::Node& node, TagTipoEntidad& tipoTerreno, int i);
+	void setTipoRecurso(const YAML::Node& node, TagTipoEntidad& tipoTerreno, int i);
 	void setEntidad (const YAML::Node& node, TagEntidad& entidad);
 	void setEscenario(const YAML::Node& node, TagEscenario& escenario);
 	void setJugador(const YAML::Node& node, TagJugador& jugador , int i);
@@ -82,8 +84,9 @@ private:
 	void setArchivoDefault();
 	void setConfiguracionDefault(TagConfiguracion& configuracion);
 	void setPantallaDefault (TagPantalla& pantalla);
-	void setTipoEntidadDefault (TagTipoEntidad& tipoEntidad);
-	void setTipoTerrenoDefault(TagTipoEntidad& tipoTerreno);
+	void setTipoEntidadDefault (TagTipoEntidad& tipoEntidad, int i);
+	void setTipoTerrenoDefault(TagTipoEntidad& tipoTerreno, int i);
+	void setTipoRecursoDefault(TagTipoEntidad& tipoRecurso, int i);
 	void setEscenarioDefault (TagEscenario& escenario);
 	void setProtagonistaDefault (TagEntidad& protagonista);
 	
@@ -96,6 +99,7 @@ public:
 	TagPantalla getPantalla();
 	std::vector<TagTipoEntidad> getTiposEntidades();
 	std::vector<TagTipoEntidad> getTiposTerrenos();
+	std::vector<TagTipoEntidad> getTiposRecursos();
 	TagEscenario getEscenario();
 	~ParserYAML(void);
 };

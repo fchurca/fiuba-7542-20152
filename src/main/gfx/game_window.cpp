@@ -60,6 +60,10 @@ GameWindow::GameWindow(Game& owner, Player& player, ParserYAML& parser) :
 		addSpriteSheet(t.nombre, t.imagen, t.pixel_ref_x, t.pixel_ref_y, t.alto_sprite, t.ancho_sprite,  t.cantidad_sprites, t.fps, t.delay);
 	}
 
+	for (auto& t : parser.getTiposRecursos()) {
+		addSpriteSheet(t.nombre, t.imagen, t.pixel_ref_x, t.pixel_ref_y, t.alto_sprite, t.ancho_sprite, t.cantidad_sprites, t.fps, t.delay);
+	}
+
 	focus();
 }
 

@@ -37,6 +37,7 @@ class Entity {
 		Board& board;
 		r2 center();
 		int sight_radius;
+		int capacity;
 		r2 getPosition();
 		double getX();// TODO: Deprecar
 		double getY();// TODO: Deprecar
@@ -50,7 +51,7 @@ class Entity {
 
 		template<typename L> void mapVisible(L fun);
 
-		Entity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid);
+		Entity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity);
 		~Entity();
 
 		void update();

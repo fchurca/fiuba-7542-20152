@@ -8,7 +8,7 @@
 
 using namespace std;
 
-Entity::Entity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid) :
+Entity::Entity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity) :
 	position(position),
 	speed(speed),
 	deletable(false),
@@ -18,7 +18,8 @@ Entity::Entity(std::string name, Board& board, Player& owner, r2 position, r2 si
 	owner(owner),
 	board(board),
 	sight_radius(sight_radius),
-	solid(solid)
+	solid(solid),
+	capacity(capacity)
 {
 	static size_t idCount = 0;
 	id = idCount++;
@@ -68,13 +69,13 @@ void Entity::collide(Entity& other) {
 	if(!deletable &&
 			!other.deletable &&
 			name != "carne" &&
-			other.name == "carne") {
+			(other.name == "carne") ||(other.name == "oro")) {
 		stringstream message;
-		message << "Un " << name << " de " << owner.name << " encontró carne!";
+		message << "Un " << name << " de " << owner.name << " encontró" << other.name;
 		// TODO: corroborar que se le puede otorgar
 		other.setDeletable();
-		owner.grantResources(100);
-		message << " " << owner.name << " tiene " << owner.getResources() << " carne";
+		owner.grantResources(other.capacity);
+		message << " " << owner.name << " tiene " << owner.getResources();
 		Logger::getInstance()->writeInformation(message.str());
 	}
 }

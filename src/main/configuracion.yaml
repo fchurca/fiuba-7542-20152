@@ -28,17 +28,6 @@ tipos_entidades:
     ancho_sprite: 128
     alto_sprite: 83
     cantidad_sprites: 1
-  - nombre: carne
-    imagen: resources/carne.png
-    ancho_base: 1
-    alto_base: 1
-    pixel_ref_x: 32
-    pixel_ref_y: 2
-    fps: 0
-    delay: 0
-    ancho_sprite: 64
-    alto_sprite: 32
-    cantidad_sprites: 1
   - nombre: chancho
     imagen: resources/chanchos.png
     ancho_base: 0.5
@@ -136,6 +125,25 @@ tipos_terrenos:
     ancho_sprite: 64
     alto_sprite: 32
     cantidad_sprites: 1
+tipos_recursos:
+  - nombre: carne
+    imagen: resources/carne.png
+    ancho_base: 1
+    alto_base: 1
+    pixel_ref_x: 32
+    pixel_ref_y: 2
+    ancho_sprite: 64
+    alto_sprite: 32
+    capacidad: 100
+  - nombre: oro
+    imagen: resources/oro.png
+    ancho_base: 1
+    alto_base: 1
+    pixel_ref_x: 32
+    pixel_ref_y: 2
+    ancho_sprite: 64
+    alto_sprite: 32
+    capacidad: 100
 escenario:
     nombre: Orleans
     size_x: 100
