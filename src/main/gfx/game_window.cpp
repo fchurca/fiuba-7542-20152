@@ -65,7 +65,6 @@ GameWindow::GameWindow(Game& owner, Player& player, ParserYAML& parser) :
 	}
 
 	focus();
-	selection = nullptr;
 }
 
 GameWindow::~GameWindow() {
@@ -84,6 +83,7 @@ GameWindow::~GameWindow() {
 	} else {
 		Logger::getInstance()->writeWarning("Window never initialized");
 	}
+	selection = nullptr;
 }
 
 bool GameWindow::canDraw(Entity& entity) {
@@ -159,12 +159,12 @@ void GameWindow::render() {
 		SDL_SetRenderDrawColor(renderer, q, q, q, q);
 		r2 p = getSelection()->getPosition();
 		r2 s = getSelection()->size;
-		SDL_Point points[] =
-		{ boardToScreenPosition(p),
+		SDL_Point points[] = {
+			boardToScreenPosition(p),
 			boardToScreenPosition(p + r2(s.x, 0)),
 			boardToScreenPosition(p + s),
 			boardToScreenPosition(p + r2(0, s.y)),
-			boardToScreenPosition(p) };
+			boardToScreenPosition(p)};
 
 		SDL_RenderDrawLines(renderer, points, 5);
 	}
@@ -221,6 +221,11 @@ void GameWindow::processInput(){
 					case SDLK_r:
 						owner.restart();
 						break;
+					case SDLK_s:
+						if (selectionController()) {
+							getSelection()->unsetTarget();
+						}
+						break;
 					case SDLK_SPACE:
 						focus();
 						break;
@@ -240,15 +245,15 @@ void GameWindow::processInput(){
 					Logger::getInstance()->writeInformation("Boton Izquierdo");
 					boardMouse = screenToBoardPosition(mouse);
 					setSelection();
+				}
+				if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_RIGHT) {
+					Logger::getInstance()->writeInformation("Boton derecho");
 					if (selectionController()) {
 						if (!(SDL_GetModState()&KMOD_SHIFT)) {
 							getSelection()->unsetTarget();
 						}
 						getSelection()->addTarget(mouseBoard);
 					}
-				}
-				if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_RIGHT) {
-					Logger::getInstance()->writeInformation("Boton derecho");
 				}
 				break;
 		}
@@ -303,9 +308,7 @@ shared_ptr<Entity> GameWindow::getSelection() {
 }
 
 void GameWindow::setSelection() {
-	shared_ptr<Entity> s = board.findEntity(rectangle(r2(floor(boardMouse.x), floor(boardMouse.y)),r2(1,1)));
-	if (s)
-		selection = s;
+	selection = board.findEntity(rectangle({floor(boardMouse.x), floor(boardMouse.y)}, {1,1}));
 }
 
 bool GameWindow::selectionController() {
