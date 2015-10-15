@@ -21,7 +21,7 @@ Game::~Game(){
 
 void Game::clear() {
 	board = nullptr;
-	client = nullptr;
+	clients.clear();
 	restart_p = false;
 	exit_p = false;
 }
@@ -39,10 +39,9 @@ std::shared_ptr<ABoard> Game::getBoard() {
 }
 
 std::shared_ptr<Player> Game::getAvailablePlayer() {
-	// TODO: Trazar jugadores disponibles
 	auto players = board->getPlayers();
 	for(auto& p : players) {
-		if(p->human) {
+		if(p->human && (clients.find(p->name) == clients.end())) {
 			return p;
 		}
 	}
@@ -50,7 +49,12 @@ std::shared_ptr<Player> Game::getAvailablePlayer() {
 }
 
 bool Game::addClient(std::shared_ptr<AClient> newClient) {
-	client = newClient;
+	auto& p = newClient->player;
+	if((&(newClient->owner) != this) ||
+			(clients.find(p.name) != clients.end())) {
+		return false;
+	}
+	clients[p.name] = newClient;
 	return true;
 }
 
@@ -58,7 +62,9 @@ void Game::start() {
 	while (!willExit()) {
 		GameTimer::update();
 		board->update(); // Model
-		client->update(); // Controller
+		for(auto& c : clients) {
+			c.second->update();
+		}
 
 		Logger::getInstance()->flush();
 		if (!GameTimer::wait(GameTimer::getCurrent() + board->dt)) {

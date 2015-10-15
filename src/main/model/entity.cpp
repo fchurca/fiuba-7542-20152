@@ -8,7 +8,7 @@
 
 using namespace std;
 
-Entity::Entity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid) :
+Entity::Entity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity) :
 	position(position),
 	speed(speed),
 	deletable(false),
@@ -18,7 +18,8 @@ Entity::Entity(std::string name, Board& board, Player& owner, r2 position, r2 si
 	owner(owner),
 	board(board),
 	sight_radius(sight_radius),
-	solid(solid)
+	solid(solid),
+	capacity(capacity)
 {
 	static size_t idCount = 0;
 	id = idCount++;
@@ -64,23 +65,27 @@ bool Entity::targeted() {
 	return waypoints.size() > 0;
 }
 
-void Entity::collide(Entity& other) {
-	if(!deletable &&
-			!other.deletable &&
-			name != "carne" &&
-			other.name == "carne") {
-		stringstream message;
-		message << "Un " << name << " de " << owner.name << " encontró carne!";
-		// TODO: corroborar que se le puede otorgar
-		other.setDeletable();
-		owner.grantResources(100);
-		message << " " << owner.name << " tiene " << owner.getResources() << " carne";
-		Logger::getInstance()->writeInformation(message.str());
+void Entity::collide(Entity* other) {
+	if(other) {
+		if(!deletable &&
+				!other->deletable) {
+			other->collide(*this);
+		}
 	}
 }
 
+void Entity::collide(Entity& other) {}
+
+void Entity::collide(ResourceEntity& other) {}
+
 bool Entity::canEnter(r2 newPosition) {
 	auto newCenter = newPosition + size / 2;
+	if (newCenter.x < 0 ||
+			newCenter.y < 0 ||
+			newCenter.x >= board.sizeX ||
+			newCenter.y >= board.sizeY) {
+		return false;
+	}
 	if(board.getTerrain(floor(newCenter.x), floor(newCenter.y)).solid) {
 		return false;
 	}
@@ -108,7 +113,7 @@ void Entity::update() {
 					(rectangle(e->position, e->size).intersects(shapeCandidate));
 					});
 			for(auto c : colliders) {
-				collide(*c);
+				collide(c.get());
 			}
 			if (!canEnter(newPos)) {
 				unsetTarget();
@@ -169,3 +174,24 @@ bool Entity::operator!=(Entity& other) {
 	return this != &other;
 }
 
+ResourceEntity::ResourceEntity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity):Entity(name, board, owner, position, size, speed, sight_radius, solid, capacity)
+{}
+
+void ResourceEntity::collide(Entity& other) {
+	if(!getDeletable() &&
+			!other.getDeletable()) {
+		stringstream message;
+		message << "Un " << other.name << " de " << other.owner.name << " encontró" << name;
+		if(other.owner.grantResources(name, capacity)) {
+			setDeletable();
+			message << "; ahora " << other.owner.name
+				<< " tiene " << other.owner.getResources()[name]
+				<< " " << name;
+		} else {
+			message << "; pero no puede tomarlos";
+		}
+		Logger::getInstance()->writeInformation(message.str());
+	}
+}
+
+void ResourceEntity::collide(ResourceEntity& other) {}

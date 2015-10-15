@@ -28,17 +28,6 @@ tipos_entidades:
     ancho_sprite: 128
     alto_sprite: 83
     cantidad_sprites: 1
-  - nombre: carne
-    imagen: resources/carne.png
-    ancho_base: 1
-    alto_base: 1
-    pixel_ref_x: 32
-    pixel_ref_y: 2
-    fps: 0
-    delay: 0
-    ancho_sprite: 64
-    alto_sprite: 32
-    cantidad_sprites: 1
   - nombre: chancho
     imagen: resources/chanchos.png
     ancho_base: 0.5
@@ -77,7 +66,7 @@ tipos_entidades:
     ancho_base: 0.5
     alto_base: 0.5
     pixel_ref_x: 30
-    pixel_ref_y: 30
+    pixel_ref_y: 32
     fps: 10
     delay: 0
     ancho_sprite: 60
@@ -100,8 +89,8 @@ tipos_entidades:
     imagen: resources/arbol.png
     ancho_base: 1.9
     alto_base: 1.9
-    pixel_ref_x: 20
-    pixel_ref_y: 79
+    pixel_ref_x: 49
+    pixel_ref_y: 84
     fps: 0
     delay: 0
     ancho_sprite: 88
@@ -136,6 +125,25 @@ tipos_terrenos:
     ancho_sprite: 64
     alto_sprite: 32
     cantidad_sprites: 1
+tipos_recursos:
+  - nombre: carne
+    imagen: resources/carne.png
+    ancho_base: 1
+    alto_base: 1
+    pixel_ref_x: 32
+    pixel_ref_y: 2
+    ancho_sprite: 64
+    alto_sprite: 32
+    capacidad: 100
+  - nombre: oro
+    imagen: resources/oro.png
+    ancho_base: 1
+    alto_base: 1
+    pixel_ref_x: 32
+    pixel_ref_y: 3
+    ancho_sprite: 64
+    alto_sprite: 35
+    capacidad: 100
 escenario:
     nombre: Orleans
     size_x: 100
@@ -204,7 +212,10 @@ escenario:
       - {x: 3, y: 2, tipo: carne }
       - {x: 4, y: 0, tipo: carne }
       - {x: 4, y: 1, tipo: carne }
+      - {x: 4, y: 2, tipo: oro }
       - {x: 5, y: 0, tipo: carne }
+      - {x: 5, y: 1, tipo: oro }
+      - {x: 5, y: 2, tipo: oro }
       - {x: 2, y: 9, tipo: cartel }
       - {x: 5, y: 3, tipo: cartel }
       - {x: 5, y: 9, tipo: cartel }

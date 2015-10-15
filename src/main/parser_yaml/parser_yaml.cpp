@@ -131,6 +131,30 @@ std::vector<TagTipoEntidad> ParserYAML::getTiposTerrenos() {
 	}
 	return tiposDeTerrenos;
 }
+std::vector<TagTipoEntidad> ParserYAML::getTiposRecursos() {
+	Logger::getInstance()->writeInformation("YAML-CPP:Se obtiene informacion de los tipos de recursos.");
+	std::vector<TagTipoEntidad> tiposDeRecursos;
+	if (this->doc.FindValue("tipos_recursos")) {
+		const YAML::Node& tipos = this->doc["tipos_recursos"];
+		if (tipos.Type() == YAML::NodeType::Sequence) {
+			for (unsigned int i = 0; i < tipos.size(); i++) {
+				Logger::getInstance()->writeInformation("YAML-CPP:Se obtiene informacion del tipo de recurso numero." + intToString(i));
+				TagTipoEntidad tipoRecurso;
+				setTipoRecurso(tipos[i], tipoRecurso, i);
+				tiposDeRecursos.push_back(tipoRecurso);
+			}
+		}
+		else {
+			Logger::getInstance()->writeWarning("YAML-CPP:El tag de tipos de recursos no es del tipo Sequence. Ubicar" + ubicarNodo(tipos.GetMark()));
+			Logger::getInstance()->writeInformation("YAML-CPP:No se toman tipos de recurso");
+		}
+	}
+	else {
+		Logger::getInstance()->writeWarning("YAML-CPP:El tag de tipos de recursos no existe en el archivo.");
+		Logger::getInstance()->writeInformation("YAML-CPP:No se toman tipos de recursos");
+	}
+	return tiposDeRecursos;
+}
 
 TagEscenario ParserYAML::getEscenario() {
 	Logger::getInstance()->writeInformation("YAML-CPP:Se obtiene informacion de escenario.");
@@ -251,10 +275,11 @@ void ParserYAML::setTipoEntidad (const YAML::Node& node, TagTipoEntidad& tipoEnt
 			tipoEntidad.speed = VELOCIDAD_PERSONAJE_DEFAULT;
 		}
 		tipoEntidad.solid = true;
+		tipoEntidad.capacity = ENTIDAD_DEFAULT_CAPACITY;
 	}
 	else{
 		Logger::getInstance()->writeWarning("YAML-CPP:el contenido del tipo de entidad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
-		setTipoEntidadDefault(tipoEntidad);
+		setTipoEntidadDefault(tipoEntidad,i);
 	}
 }
 
@@ -289,8 +314,8 @@ void ParserYAML::setTipoTerreno (const YAML::Node& node, TagTipoEntidad& tipoTer
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (delay).");
 			tipoTerreno.delay = TERRENO_DEFAULT_DELAY;
 		}
-		tipoTerreno.sight_radius = 0;
-		tipoTerreno.speed = 0;
+		tipoTerreno.sight_radius = TERRENO_DEFAULT_SIGHT_RADIUS;
+		tipoTerreno.speed = TERRENO_DEFAULT_SPEED;
 		string solid;
 		if (!obtenerValorScalarAlfaNumerico(node, "solid", solid) || (solid != "true")) {
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default valor false(solid).");
@@ -298,16 +323,77 @@ void ParserYAML::setTipoTerreno (const YAML::Node& node, TagTipoEntidad& tipoTer
 		}
 		else
 			tipoTerreno.solid = true;
+		tipoTerreno.capacity = TERRENO_DEFAULT_CAPACITY;
 	}
 	else{
 		Logger::getInstance()->writeWarning("YAML-CPP:El contenido del tipo de terreno ad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
-		setTipoTerrenoDefault(tipoTerreno);
+		setTipoTerrenoDefault(tipoTerreno,i);
 	}
 }
 
-void ParserYAML::setTipoTerrenoDefault(TagTipoEntidad& tipoEntidad) {
+void ParserYAML::setTipoRecurso(const YAML::Node& node, TagTipoEntidad& tipoRecurso, int i) {
+	if (node.Type() == YAML::NodeType::Map) {
+		if (!obtenerValorScalarAlfaNumerico(node, "nombre", tipoRecurso.nombre)) {
+			Logger::getInstance()->writeInformation("YAML-CPP: el nombre del tipo de recurso se toma por default.");
+			tipoRecurso.nombre = RECURSO_DEFAULT_NOMBRE + intToString(i);
+		}
+		if ((!obtenerValorScalarAlfaNumerico(node, "imagen", tipoRecurso.imagen))
+			|| (!obtenerValorScalarNumericoPositivo(node, "pixel_ref_x", tipoRecurso.pixel_ref_x))
+			|| (!obtenerValorScalarNumericoPositivo(node, "pixel_ref_y", tipoRecurso.pixel_ref_y))
+			|| (!obtenerValorScalarNumericoPositivo(node, "ancho_sprite", tipoRecurso.ancho_sprite))
+			|| (!obtenerValorScalarNumericoPositivo(node, "alto_sprite", tipoRecurso.alto_sprite))) {
+			Logger::getInstance()->writeWarning("YAML-CPP:Datos de la imagen del tipo de recurso invalidos, se toman por default (path, pixel_ref_x, pixel_ref_y, ancho_sprite, alto_sprite).");
+			tipoRecurso.imagen = RECURSO_DEFAULT_IMAGEN;
+			tipoRecurso.pixel_ref_x = RECURSO_DEFAULT_PIXEL_REF_X;
+			tipoRecurso.pixel_ref_y = RECURSO_DEFAULT_PIXEL_REF_Y;
+			tipoRecurso.alto_sprite = RECURSO_DEFAULT_ALTO_SPRITE;
+			tipoRecurso.ancho_sprite = RECURSO_DEFAULT_ANCHO_SPRITE;
+		}
+		tipoRecurso.cantidad_sprites = RECURSO_DEFAULT_CANTIDAD_SPRITES;
+		if ((!obtenerValorScalarNumericoPositivo(node, "ancho_base", tipoRecurso.ancho_base))
+			|| (!obtenerValorScalarNumericoPositivo(node, "alto_base", tipoRecurso.alto_base))){
+			Logger::getInstance()->writeWarning("YAML-CPP:Datos de la imagen del tipo de terreno invalidos, se toman por default (alto_base, ancho_base).");
+			tipoRecurso.ancho_base = TERRENO_DEFAULT_ANCHO_BASE;
+			tipoRecurso.alto_base = TERRENO_DEFAULT_ALTO_BASE;
+		}
+		tipoRecurso.fps = RECURSO_DEFAULT_FPS;
+		tipoRecurso.delay = RECURSO_DEFAULT_DELAY;
+		tipoRecurso.sight_radius = RECURSO_DEFAULT_SIGHT_RADIUS;
+		tipoRecurso.speed = RECURSO_DEFAULT_SPEED;
+		tipoRecurso.solid = false;
+		if (!obtenerValorScalarNumericoPositivo(node, "capacidad", tipoRecurso.capacity)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (capacity).");
+			tipoRecurso.capacity = RECURSO_DEFAULT_CAPACITY;
+		}
+	}
+	else {
+		Logger::getInstance()->writeWarning("YAML-CPP:El contenido del tipo de terreno ad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
+		setTipoRecursoDefault(tipoRecurso, i);
+	}
+}
+
+void ParserYAML::setTipoRecursoDefault(TagTipoEntidad& tipoRecurso, int i) {
+	Logger::getInstance()->writeInformation("YAML-CPP:Se toma tipo de recurso por default.");
+	tipoRecurso.nombre = RECURSO_DEFAULT_NOMBRE + intToString(i);
+	tipoRecurso.imagen = RECURSO_DEFAULT_IMAGEN;
+	tipoRecurso.ancho_base = RECURSO_DEFAULT_ANCHO_BASE;
+	tipoRecurso.alto_base = RECURSO_DEFAULT_ALTO_BASE;
+	tipoRecurso.pixel_ref_x = RECURSO_DEFAULT_PIXEL_REF_X;
+	tipoRecurso.pixel_ref_y = RECURSO_DEFAULT_PIXEL_REF_Y;
+	tipoRecurso.fps = RECURSO_DEFAULT_FPS;
+	tipoRecurso.delay = RECURSO_DEFAULT_DELAY;
+	tipoRecurso.alto_sprite = RECURSO_DEFAULT_ALTO_SPRITE;
+	tipoRecurso.ancho_sprite = RECURSO_DEFAULT_ANCHO_SPRITE;
+	tipoRecurso.cantidad_sprites = RECURSO_DEFAULT_CANTIDAD_SPRITES;
+	tipoRecurso.sight_radius = RECURSO_DEFAULT_SIGHT_RADIUS;
+	tipoRecurso.speed = RECURSO_DEFAULT_SPEED;
+	tipoRecurso.solid = false;
+	tipoRecurso.capacity = RECURSO_DEFAULT_CAPACITY;
+}
+
+void ParserYAML::setTipoTerrenoDefault(TagTipoEntidad& tipoEntidad, int i) {
 	Logger::getInstance()->writeInformation("YAML-CPP:Se toma tipo de terreno por default.");
-	tipoEntidad.nombre = TERRENO_DEFAULT_NOMBRE;
+	tipoEntidad.nombre = TERRENO_DEFAULT_NOMBRE + intToString(i);
 	tipoEntidad.imagen = TERRENO_DEFAULT_IMAGEN;
 	tipoEntidad.ancho_base = TERRENO_DEFAULT_ANCHO_BASE;
 	tipoEntidad.alto_base = TERRENO_DEFAULT_ALTO_BASE;
@@ -321,12 +407,13 @@ void ParserYAML::setTipoTerrenoDefault(TagTipoEntidad& tipoEntidad) {
 	tipoEntidad.sight_radius = TERRENO_DEFAULT_SIGHT_RADIUS;
 	tipoEntidad.speed = TERRENO_DEFAULT_SPEED;
 	tipoEntidad.solid = false;
+	tipoEntidad.capacity = TERRENO_DEFAULT_CAPACITY;
 }
 
 
-void ParserYAML::setTipoEntidadDefault (TagTipoEntidad& tipoEntidad) {
+void ParserYAML::setTipoEntidadDefault (TagTipoEntidad& tipoEntidad, int i) {
 	Logger::getInstance()->writeInformation("YAML-CPP:Se toma tipo de entidad por default.");
-	tipoEntidad.nombre = ENTIDAD_DEFAULT_NOMBRE;
+	tipoEntidad.nombre = ENTIDAD_DEFAULT_NOMBRE + intToString(i);
 	tipoEntidad.imagen = ENTIDAD_DEFAULT_IMAGEN;
 	tipoEntidad.ancho_base = ENTIDAD_DEFAULT_ANCHO_BASE;
 	tipoEntidad.alto_base = ENTIDAD_DEFAULT_ALTO_BASE;
@@ -340,6 +427,7 @@ void ParserYAML::setTipoEntidadDefault (TagTipoEntidad& tipoEntidad) {
 	tipoEntidad.sight_radius = ENTIDAD_DEFAULT_SIGHT_RADIUS;
 	tipoEntidad.speed = VELOCIDAD_PERSONAJE_DEFAULT;
 	tipoEntidad.solid = true;
+	tipoEntidad.capacity = ENTIDAD_DEFAULT_CAPACITY;
 }
 
 void ParserYAML::setEntidad(const YAML::Node& node, TagEntidad& entidad) {

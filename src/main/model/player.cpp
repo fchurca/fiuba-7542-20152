@@ -10,9 +10,7 @@ using namespace std;
 Player::Player(Board& board, std::string name, bool human) :
 	board(board),
 	name(name),
-	human(human),
-	resources(0) // TODO: Resources iniciales
-{
+	human(human){
 	for (int i = 0; i < board.sizeX * board.sizeY; i++)
 		map_visibility.push_back(INVISIBLE);
 };
@@ -50,19 +48,20 @@ Visibility Player::getVisibility(r2 pos) {
 	return map_visibility[(int)floor(pos.y) * board.sizeX + (int)floor(pos.x)];
 }
 
-long Player::getResources() {
+std::map<std::string, long> Player::getResources() {
 	return resources;
 }
 
-bool Player::canGrantResources(long r) {
-	return (r <= 0 || -r < resources) && r + resources <= board.maxResources;;
+bool Player::canGrantResources(std::string resource, long r){
+	auto& res = resources[resource];
+	return (r <= 0 || -r < res) && r + res <= board.maxResources;
 }
 
-bool Player::grantResources(long r) {
-	if (!canGrantResources(r)) {
+bool Player::grantResources(std::string resource, long r) {
+	if (!canGrantResources(resource, r)) {
 		return false;
 	}
-	resources += r;
+	resources[resource] += r;
 	return true;
 }
 

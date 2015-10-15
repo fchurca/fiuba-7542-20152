@@ -2,13 +2,14 @@
 
 #include "entity_factory.h"
 
-EntityFactory::EntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, Board& board):
+EntityFactory::EntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, Board& board):
 	name(name),
 	size(size),
 	speed(speed),
 	board(board),
 	sight_radius(sight_radius),
-	solid(solid)
+	solid(solid),
+	capacity(capacity)
 {
 	std::stringstream message;
 	message << "Created EntityFactory " << this
@@ -27,6 +28,27 @@ EntityFactory::~EntityFactory() {
 }
 
 std::shared_ptr<Entity> EntityFactory::createEntity(Player& player, r2 position) {
-	return std::make_shared<Entity>(name, board, player, position, size, speed, sight_radius, solid);
+	if(name == "carne" || name == "oro") {
+		return std::make_shared<ResourceEntity>(name, board, player, position, size, speed, sight_radius, solid, capacity);
+	} else {
+		return std::make_shared<Entity>(name, board, player, position, size, speed, sight_radius, solid, capacity);
+	}
+}
+
+void EntityFactory::update() {
+}
+
+ResourceEntityFactory::ResourceEntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, Board& board) :
+	EntityFactory(name, size, speed, sight_radius, solid, capacity, board)
+
+{}
+
+void ResourceEntityFactory::update() {
+	if ((rand()%board.dt) > 10) {
+		board.createEntity(name,
+				DEFAULT_PLAYER_NAME,
+				r2((double)(rand() % board.sizeX),
+					(double)(rand() % board.sizeY)));
+	}
 }
 

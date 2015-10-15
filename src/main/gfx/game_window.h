@@ -23,12 +23,12 @@ protected:
 	void processInput();
 	void scroll();
 	r2 focusPosition;
+	r2 boardMouse;
 	void focus(r2 position);
 	void focus();
 	bool canDraw(Entity& entity);
-	Game& owner;
-	Player& player;
 	Board& board;
+	shared_ptr<Entity> selection;
 public:
 	void addSpriteSheet(std::string name, std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay);
 	GameWindow(Game& owner, Player& player, ParserYAML& parser);
@@ -42,6 +42,8 @@ public:
 	r2 screenToBoardPosition(SDL_Point screenPos);
 	SDL_Point boardToScreenPosition(r2 boardPos);
 	shared_ptr<Entity> getSelection();
+	void setSelection();
+	bool selectionController();
 friend SpriteSheet;
 };
 #endif // __GFX_GAMEWINDOW_H__

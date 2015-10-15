@@ -12,6 +12,7 @@
 //-----------------------------------------------------------------------------
 
 class Board;
+class ResourceEntity;
 
 class Entity {
 	protected:
@@ -24,7 +25,9 @@ class Entity {
 		double orientation;
 		bool adjustPosition();
 		Entity();
-		void collide(Entity& other);
+		virtual void collide(Entity* other);
+		virtual void collide(Entity& other);
+		virtual void collide(ResourceEntity& other);
 		bool canEnter(r2 newPosition);
 	public:
 		Player& owner;
@@ -37,9 +40,8 @@ class Entity {
 		Board& board;
 		r2 center();
 		int sight_radius;
+		int capacity;
 		r2 getPosition();
-		double getX();// TODO: Deprecar
-		double getY();// TODO: Deprecar
 		r2 trajectory();
 		double sqDistance();
 		double distance();
@@ -50,13 +52,21 @@ class Entity {
 
 		template<typename L> void mapVisible(L fun);
 
-		Entity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid);
+		Entity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity);
 		~Entity();
 
 		void update();
 
 		bool operator==(Entity& other);
 		bool operator!=(Entity& other);
+};
+
+class ResourceEntity : public Entity {
+	protected:
+		void collide(Entity& other);
+		void collide(ResourceEntity& other);
+	public:
+		ResourceEntity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity);
 };
 
 #include "entity.cxx"

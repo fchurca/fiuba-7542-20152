@@ -28,7 +28,8 @@ bool GameWindow::initialize() {
 }
 
 GameWindow::GameWindow(Game& owner, Player& player, ParserYAML& parser) :
-	owner(owner), player(player), board(player.board),
+	AClient(owner, player),
+	board(player.board),
 	ancho_pantalla(parser.getPantalla().ancho), alto_pantalla(parser.getPantalla().alto),
 	margen_pantalla(parser.getPantalla().margen_scroll), scroll_speed(parser.getPantalla().velocidad_scroll)
 {
@@ -59,6 +60,10 @@ GameWindow::GameWindow(Game& owner, Player& player, ParserYAML& parser) :
 		addSpriteSheet(t.nombre, t.imagen, t.pixel_ref_x, t.pixel_ref_y, t.alto_sprite, t.ancho_sprite,  t.cantidad_sprites, t.fps, t.delay);
 	}
 
+	for (auto& t : parser.getTiposRecursos()) {
+		addSpriteSheet(t.nombre, t.imagen, t.pixel_ref_x, t.pixel_ref_y, t.alto_sprite, t.ancho_sprite, t.cantidad_sprites, t.fps, t.delay);
+	}
+
 	focus();
 }
 
@@ -78,6 +83,7 @@ GameWindow::~GameWindow() {
 	} else {
 		Logger::getInstance()->writeWarning("Window never initialized");
 	}
+	selection = nullptr;
 }
 
 bool GameWindow::canDraw(Entity& entity) {
@@ -148,8 +154,21 @@ void GameWindow::render() {
 		}
 		it->second->render(*e, renderer);
 	}
+	if (getSelection()) {
+		Uint8 q = 255;
+		SDL_SetRenderDrawColor(renderer, q, q, q, q);
+		r2 p = getSelection()->getPosition();
+		r2 s = getSelection()->size;
+		SDL_Point points[] = {
+			boardToScreenPosition(p),
+			boardToScreenPosition(p + r2(s.x, 0)),
+			boardToScreenPosition(p + s),
+			boardToScreenPosition(p + r2(0, s.y)),
+			boardToScreenPosition(p)};
 
-	SDL_RenderPresent( renderer );
+		SDL_RenderDrawLines(renderer, points, 5);
+	}
+	SDL_RenderPresent(renderer);
 	return;
 }
 
@@ -202,6 +221,11 @@ void GameWindow::processInput(){
 					case SDLK_r:
 						owner.restart();
 						break;
+					case SDLK_s:
+						if (selectionController()) {
+							getSelection()->unsetTarget();
+						}
+						break;
 					case SDLK_SPACE:
 						focus();
 						break;
@@ -219,16 +243,17 @@ void GameWindow::processInput(){
 				Logger::getInstance()->writeInformation(oss.str().c_str());
 				if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_LEFT ) {
 					Logger::getInstance()->writeInformation("Boton Izquierdo");
-					auto protagonist = getSelection();
-					if (protagonist) {
-						if (!(SDL_GetModState()&KMOD_SHIFT)) {
-							protagonist->unsetTarget();
-						}
-						protagonist->addTarget(mouseBoard);
-					}
+					boardMouse = screenToBoardPosition(mouse);
+					setSelection();
 				}
 				if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_RIGHT) {
 					Logger::getInstance()->writeInformation("Boton derecho");
+					if (selectionController()) {
+						if (!(SDL_GetModState()&KMOD_SHIFT)) {
+							getSelection()->unsetTarget();
+						}
+						getSelection()->addTarget(mouseBoard);
+					}
 				}
 				break;
 		}
@@ -279,6 +304,14 @@ r2 GameWindow::getFocus() {
 }
 
 shared_ptr<Entity> GameWindow::getSelection() {
-	return player.entities().front();
+	return selection;
+}
+
+void GameWindow::setSelection() {
+	selection = board.findEntity(rectangle({floor(boardMouse.x), floor(boardMouse.y)}, {1,1}));
+}
+
+bool GameWindow::selectionController() {
+	return selection != nullptr && selection->owner.name == player.name;
 }
 
