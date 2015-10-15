@@ -10,11 +10,16 @@
 using namespace std;
 
 //-----------------------------------------------------------------------------
-ABoard::ABoard(string name, size_t dt) : name(name), dt(dt) {}
+ABoard::ABoard(string name, size_t dt, int sizeX, int sizeY) :
+	name(name),
+	dt(dt),
+	sizeX(sizeX), sizeY(sizeY)
+{}
 
 Board::Board(ParserYAML& parser) :
-	sizeX(parser.getEscenario().size_x), sizeY(parser.getEscenario().size_y),
-	ABoard(parser.getEscenario().nombre, parser.getConfiguracion().dt),
+	ABoard(parser.getEscenario().nombre,
+			parser.getConfiguracion().dt,
+			parser.getEscenario().size_x, parser.getEscenario().size_y),
 	maxResources(parser.getEscenario().max_resources) 
 {
 	stringstream message;
@@ -43,7 +48,7 @@ Board::Board(ParserYAML& parser) :
 	// Relleno con TERRENO_DEFAULT
 	for(size_t x = 0; x < sizeX; x++) {
 		for(size_t y = 0; y < sizeY; y++) {
-			if (!&getTerrain(x, y)) {
+			if (!getTerrain(x, y)) {
 				setTerrain(TERRENO_DEFAULT_NOMBRE, x, y);
 			}
 		}
@@ -64,8 +69,8 @@ Board::Board(ParserYAML& parser) :
 	}
 }
 
-Entity & Board::getTerrain(size_t x, size_t y) {
-	return *(terrain[(sizeX*y) + x]);
+shared_ptr<Entity> Board::getTerrain(size_t x, size_t y) {
+	return terrain[(sizeX*y) + x];
 }
 
 void Board::setTerrain(string name, size_t x, size_t y) {

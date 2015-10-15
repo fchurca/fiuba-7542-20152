@@ -86,10 +86,11 @@ GameWindow::~GameWindow() {
 	selection = nullptr;
 }
 
-bool GameWindow::canDraw(Entity& entity) {
-	if (!(&entity)) {
+bool GameWindow::canDraw(shared_ptr<Entity> e) {
+	if (!e) {
 		return false;
 	}
+	Entity& entity = *e;
 	SDL_Rect screenRect = {0, 0, ancho_pantalla, alto_pantalla};
 	auto it = spriteSheets.find(entity.name);
 	if (it == spriteSheets.end()) {
@@ -128,17 +129,17 @@ void GameWindow::render() {
 			if (y >= board.sizeY) {
 				break;
 			}
-			Entity & tile = board.getTerrain(x, y);
-			if (&tile) {
+			auto tile = board.getTerrain(x, y);
+			if (tile) {
 				if (canDraw(tile)) {
-					spriteSheets[tile.name]->render(tile, renderer);
+					spriteSheets[tile->name]->render(*tile, renderer);
 				}
 			}
 		}
 	}
 	// Seleccionamos entidades que se pisan con la pantalla
 	auto entities = board.selectEntities([this](shared_ptr<Entity> e) {
-			return canDraw(*e);});
+			return canDraw(e);});
 	// Ordenamos las entidades por oclusión
 	sort(entities.begin(), entities.end(), [](shared_ptr<Entity> a, shared_ptr<Entity> b) {
 		return (a->size.x == a->size.y && b->size.x == b->size.y) ?

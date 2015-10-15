@@ -26,7 +26,7 @@ protected:
 	r2 boardMouse;
 	void focus(r2 position);
 	void focus();
-	bool canDraw(Entity& entity);
+	bool canDraw(shared_ptr<Entity> entity);
 	Board& board;
 	shared_ptr<Entity> selection;
 public:
