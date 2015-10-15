@@ -67,6 +67,11 @@ Board::Board(ParserYAML& parser) :
 	for(auto& t : te.entidades) {
 		createEntity(t.tipoEntidad, DEFAULT_PLAYER_NAME, {(double)t.pos_x,(double)t.pos_y});
 	}
+
+	// posinicialización
+	for(auto& f : entityFactories) {
+		f.second->populate();
+	}
 }
 
 shared_ptr<Entity> Board::getTerrain(size_t x, size_t y) {
@@ -137,9 +142,6 @@ void Board::update() {
 		} else {
 			i++;
 		}
-	}
-	for(auto& f : entityFactories) {
-		f.second->update();
 	}
 	for(auto& e : entities) {
 		e->update();
