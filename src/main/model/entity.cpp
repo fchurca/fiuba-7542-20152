@@ -171,7 +171,7 @@ bool Entity::operator==(Entity& other) {
 }
 
 bool Entity::operator!=(Entity& other) {
-	return this != &other;
+	return !operator==(other);
 }
 
 ResourceEntity::ResourceEntity(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity):Entity(name, board, owner, position, size, speed, sight_radius, solid, capacity)
