@@ -207,15 +207,6 @@ escenario:
       - {x: 9, y: 6, tipo: piedra }
       - {x: 9, y: 7, tipo: piedra }
     entidades:
-      - {x: 3, y: 0, tipo: carne }
-      - {x: 3, y: 1, tipo: carne }
-      - {x: 3, y: 2, tipo: carne }
-      - {x: 4, y: 0, tipo: carne }
-      - {x: 4, y: 1, tipo: carne }
-      - {x: 4, y: 2, tipo: oro }
-      - {x: 5, y: 0, tipo: carne }
-      - {x: 5, y: 1, tipo: oro }
-      - {x: 5, y: 2, tipo: oro }
       - {x: 2, y: 9, tipo: cartel }
       - {x: 5, y: 3, tipo: cartel }
       - {x: 5, y: 9, tipo: cartel }

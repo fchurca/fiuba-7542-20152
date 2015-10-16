@@ -23,13 +23,13 @@ class EntityFactory {
 		~EntityFactory();
 
 		std::shared_ptr<Entity> createEntity(Player& player, r2 position);
-		virtual void update();
+		virtual void populate();
 };
 
 class ResourceEntityFactory: public EntityFactory {
 	public:
 		ResourceEntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, Board& board);
-		void update();
+		void populate();
 };
 
 #endif // _MODEL_ENTITY_FACTORY_H_

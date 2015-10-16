@@ -8,7 +8,7 @@
 
 using namespace std;
 
-Entity::Entity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity) :
+Entity::Entity(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity) :
 	position(position),
 	speed(speed),
 	deletable(false),
@@ -86,7 +86,7 @@ bool Entity::canEnter(r2 newPosition) {
 			newCenter.y >= board.sizeY) {
 		return false;
 	}
-	if(board.getTerrain(floor(newCenter.x), floor(newCenter.y)).solid) {
+	if(board.getTerrain(floor(newCenter.x), floor(newCenter.y))->solid) {
 		return false;
 	}
 	rectangle shapeCandidate(newPosition, size);
@@ -171,10 +171,10 @@ bool Entity::operator==(Entity& other) {
 }
 
 bool Entity::operator!=(Entity& other) {
-	return this != &other;
+	return !operator==(other);
 }
 
-ResourceEntity::ResourceEntity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity):Entity(name, board, owner, position, size, speed, sight_radius, solid, capacity)
+ResourceEntity::ResourceEntity(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity):Entity(name, board, owner, position, size, speed, sight_radius, solid, capacity)
 {}
 
 void ResourceEntity::collide(Entity& other) {

@@ -10,11 +10,16 @@
 using namespace std;
 
 //-----------------------------------------------------------------------------
-ABoard::ABoard(string name, size_t dt) : name(name), dt(dt) {}
+ABoard::ABoard(string name, size_t dt, int sizeX, int sizeY) :
+	name(name),
+	dt(dt),
+	sizeX(sizeX), sizeY(sizeY)
+{}
 
 Board::Board(ParserYAML& parser) :
-	sizeX(parser.getEscenario().size_x), sizeY(parser.getEscenario().size_y),
-	ABoard(parser.getEscenario().nombre, parser.getConfiguracion().dt),
+	ABoard(parser.getEscenario().nombre,
+			parser.getConfiguracion().dt,
+			parser.getEscenario().size_x, parser.getEscenario().size_y),
 	maxResources(parser.getEscenario().max_resources) 
 {
 	stringstream message;
@@ -43,7 +48,7 @@ Board::Board(ParserYAML& parser) :
 	// Relleno con TERRENO_DEFAULT
 	for(size_t x = 0; x < sizeX; x++) {
 		for(size_t y = 0; y < sizeY; y++) {
-			if (!&getTerrain(x, y)) {
+			if (!getTerrain(x, y)) {
 				setTerrain(TERRENO_DEFAULT_NOMBRE, x, y);
 			}
 		}
@@ -62,10 +67,15 @@ Board::Board(ParserYAML& parser) :
 	for(auto& t : te.entidades) {
 		createEntity(t.tipoEntidad, DEFAULT_PLAYER_NAME, {(double)t.pos_x,(double)t.pos_y});
 	}
+
+	// posinicialización
+	for(auto& f : entityFactories) {
+		f.second->populate();
+	}
 }
 
-Entity & Board::getTerrain(size_t x, size_t y) {
-	return *(terrain[(sizeX*y) + x]);
+shared_ptr<Entity> Board::getTerrain(size_t x, size_t y) {
+	return terrain[(sizeX*y) + x];
 }
 
 void Board::setTerrain(string name, size_t x, size_t y) {
@@ -81,6 +91,10 @@ shared_ptr<Entity> Board::findEntity(rectangle r) {
 			return rectangle(e->getPosition(), e->size).intersects(r);
 			});
 	return (it == entities.end())? nullptr : *it;
+}
+
+shared_ptr<Entity> Board::findEntity(r2 pos) {
+	return findEntity(rectangle(pos, {0,0}));
 }
 
 shared_ptr<Entity> Board::createEntity(string name, string playerName, r2 position) {
@@ -132,9 +146,6 @@ void Board::update() {
 		} else {
 			i++;
 		}
-	}
-	for(auto& f : entityFactories) {
-		f.second->update();
 	}
 	for(auto& e : entities) {
 		e->update();

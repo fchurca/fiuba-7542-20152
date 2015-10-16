@@ -11,7 +11,7 @@
 
 //-----------------------------------------------------------------------------
 
-class Board;
+class ABoard;
 class ResourceEntity;
 
 class Entity {
@@ -37,7 +37,7 @@ class Entity {
 		r2 target();
 		bool targeted();
 		const std::string name;
-		Board& board;
+		ABoard& board;
 		r2 center();
 		int sight_radius;
 		int capacity;
@@ -52,7 +52,7 @@ class Entity {
 
 		template<typename L> void mapVisible(L fun);
 
-		Entity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity);
+		Entity(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity);
 		~Entity();
 
 		void update();
@@ -66,7 +66,7 @@ class ResourceEntity : public Entity {
 		void collide(Entity& other);
 		void collide(ResourceEntity& other);
 	public:
-		ResourceEntity(std::string name, Board& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity);
+		ResourceEntity(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity);
 };
 
 #include "entity.cxx"

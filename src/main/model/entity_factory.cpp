@@ -35,7 +35,7 @@ std::shared_ptr<Entity> EntityFactory::createEntity(Player& player, r2 position)
 	}
 }
 
-void EntityFactory::update() {
+void EntityFactory::populate() {
 }
 
 ResourceEntityFactory::ResourceEntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, Board& board) :
@@ -43,12 +43,14 @@ ResourceEntityFactory::ResourceEntityFactory(std::string name, r2 size, double s
 
 {}
 
-void ResourceEntityFactory::update() {
-	if ((rand()%board.dt) > 10) {
-		board.createEntity(name,
-				DEFAULT_PLAYER_NAME,
-				r2((double)(rand() % board.sizeX),
-					(double)(rand() % board.sizeY)));
+void ResourceEntityFactory::populate() {
+	for(size_t n = board.sizeX*board.sizeY/10; n > 0; n--) {
+		if ((rand()%2) > 0) {
+			board.createEntity(name,
+					DEFAULT_PLAYER_NAME,
+					r2((double)(rand() % board.sizeX),
+						(double)(rand() % board.sizeY)));
+		}
 	}
 }
 

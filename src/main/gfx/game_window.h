@@ -26,7 +26,7 @@ protected:
 	r2 boardMouse;
 	void focus(r2 position);
 	void focus();
-	bool canDraw(Entity& entity);
+	bool canDraw(shared_ptr<Entity> entity);
 	Board& board;
 	shared_ptr<Entity> selection;
 public:
@@ -42,6 +42,7 @@ public:
 	r2 screenToBoardPosition(SDL_Point screenPos);
 	SDL_Point boardToScreenPosition(r2 boardPos);
 	shared_ptr<Entity> getSelection();
+	void clearSelection();
 	void setSelection();
 	bool selectionController();
 friend SpriteSheet;
