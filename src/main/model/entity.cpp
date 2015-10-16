@@ -44,7 +44,11 @@ bool Entity::adjustPosition() {
 	double topY = board.sizeY - size.y;
 	r2 oldpos = position;
 	position = {clip(position.x, 0, topX),clip(position.y, 0, topY)};
-	return oldpos != position;
+	bool adjusted = oldpos != position;
+	if (adjusted) {
+		setFrame();
+	}
+	return adjusted;
 }
 
 void Entity::addTarget(r2 newTarget) {
@@ -127,6 +131,7 @@ void Entity::update() {
 		if (adjustPosition()) {
 			unsetTarget();
 		}
+		setFrame();
 	}
 }
 
@@ -166,6 +171,14 @@ size_t Entity::getId() {
 	return id;
 }
 
+void Entity::setFrame() {
+	frame = board.getFrame();
+}
+
+size_t Entity::getFrame() {
+	return frame;
+}
+
 bool Entity::operator==(Entity& other) {
 	return this == &other;
 }
@@ -195,3 +208,4 @@ void ResourceEntity::collide(Entity& other) {
 }
 
 void ResourceEntity::collide(ResourceEntity& other) {}
+

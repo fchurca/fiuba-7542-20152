@@ -23,12 +23,14 @@ class Entity {
 		size_t id;
 		bool solid;
 		double orientation;
+		size_t frame;
 		bool adjustPosition();
 		Entity();
 		virtual void collide(Entity* other);
 		virtual void collide(Entity& other);
 		virtual void collide(ResourceEntity& other);
 		bool canEnter(r2 newPosition);
+		void setFrame();
 	public:
 		Player& owner;
 		r2 size;
@@ -56,6 +58,8 @@ class Entity {
 		~Entity();
 
 		void update();
+
+		size_t getFrame();
 
 		bool operator==(Entity& other);
 		bool operator!=(Entity& other);
