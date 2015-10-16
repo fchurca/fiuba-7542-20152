@@ -42,6 +42,7 @@ public:
 	r2 screenToBoardPosition(SDL_Point screenPos);
 	SDL_Point boardToScreenPosition(r2 boardPos);
 	shared_ptr<Entity> getSelection();
+	void clearSelection();
 	void setSelection();
 	bool selectionController();
 friend SpriteSheet;

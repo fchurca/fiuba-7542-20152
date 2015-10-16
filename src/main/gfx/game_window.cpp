@@ -83,7 +83,7 @@ GameWindow::~GameWindow() {
 	} else {
 		Logger::getInstance()->writeWarning("Window never initialized");
 	}
-	selection = nullptr;
+	clearSelection();
 }
 
 bool GameWindow::canDraw(shared_ptr<Entity> e) {
@@ -176,7 +176,7 @@ void GameWindow::render() {
 void GameWindow::update(){
 	if (getSelection()) {
 		if (getSelection()->getDeletable()) {
-			selection = nullptr;
+			clearSelection();
 		}
 	}
 	for(auto & kv : spriteSheets) {
@@ -307,6 +307,10 @@ r2 GameWindow::getFocus() {
 
 shared_ptr<Entity> GameWindow::getSelection() {
 	return selection;
+}
+
+void GameWindow::clearSelection() {
+	selection = nullptr;
 }
 
 void GameWindow::setSelection() {
