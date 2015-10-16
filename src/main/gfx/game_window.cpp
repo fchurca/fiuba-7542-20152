@@ -174,6 +174,11 @@ void GameWindow::render() {
 }
 
 void GameWindow::update(){
+	if (getSelection()) {
+		if (getSelection()->getDeletable()) {
+			selection = nullptr;
+		}
+	}
 	for(auto & kv : spriteSheets) {
 		kv.second->update();
 	}
