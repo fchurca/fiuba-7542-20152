@@ -299,9 +299,8 @@ void GameWindow::focus(r2 newFocus) {
 }
 
 void GameWindow::focus() {
-	auto protagonist = getSelection();
-	if (protagonist) {
-		focus(protagonist->getPosition());
+	if (selection) {
+		focus(selection->getPosition());
 	}
 }
 
@@ -314,7 +313,7 @@ shared_ptr<Entity> GameWindow::getSelection() {
 }
 
 void GameWindow::setSelection() {
-	selection = board.findEntity(rectangle({boardMouse.x, boardMouse.y}, {0,0}));
+	selection = board.findEntity(boardMouse);
 }
 
 bool GameWindow::selectionController() {

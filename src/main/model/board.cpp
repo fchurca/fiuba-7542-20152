@@ -93,6 +93,10 @@ shared_ptr<Entity> Board::findEntity(rectangle r) {
 	return (it == entities.end())? nullptr : *it;
 }
 
+shared_ptr<Entity> Board::findEntity(r2 pos) {
+	return findEntity(rectangle(pos, {0,0}));
+}
+
 shared_ptr<Entity> Board::createEntity(string name, string playerName, r2 position) {
 	if (entityFactories.find(name) == entityFactories.end()) {
 		Logger::getInstance()->writeError("No existe el tipo de entidad " + name);
