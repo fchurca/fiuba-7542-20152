@@ -213,6 +213,7 @@ SDL_Point GameWindow::boardToScreenPosition(r2 boardPos) {
 
 void GameWindow::processInput(){
 	SDL_GetMouseState(&mouse.x, &mouse.y);
+	boardMouse = screenToBoardPosition(mouse);
 	scroll();
 	//	Procesar input del usuario
 	while(SDL_PollEvent(EventHandler::getInstance()->getEvent())) {
@@ -240,16 +241,12 @@ void GameWindow::processInput(){
 			case SDL_MOUSEBUTTONUP:
 				ostringstream oss;
 				oss << "Mouse en " << mouse.x << "," << mouse.y;
-
 				// Conversion de coordenadas en pantalla a coordenadas mapa
-
-				auto mouseBoard = screenToBoardPosition(mouse);
-				oss << "; mapa: " << mouseBoard.x << "," << mouseBoard.y;
+				oss << "; mapa: " << boardMouse.x << "," << boardMouse.y;
 
 				Logger::getInstance()->writeInformation(oss.str().c_str());
 				if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_LEFT ) {
 					Logger::getInstance()->writeInformation("Boton Izquierdo");
-					boardMouse = screenToBoardPosition(mouse);
 					setSelection();
 				}
 				if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_RIGHT) {
@@ -258,7 +255,7 @@ void GameWindow::processInput(){
 						if (!(SDL_GetModState()&KMOD_SHIFT)) {
 							getSelection()->unsetTarget();
 						}
-						getSelection()->addTarget(mouseBoard);
+						getSelection()->addTarget(boardMouse);
 					}
 				}
 				break;
