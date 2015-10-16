@@ -26,9 +26,9 @@ protected:
 	r2 boardMouse;
 	void focus(r2 position);
 	void focus();
-	bool canDraw(shared_ptr<Entity> entity);
+	bool canDraw(std::shared_ptr<Entity> entity);
 	Board& board;
-	shared_ptr<Entity> selection;
+	std::shared_ptr<Entity> selection;
 public:
 	void addSpriteSheet(std::string name, std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay);
 	GameWindow(Game& owner, Player& player, ParserYAML& parser);
@@ -41,7 +41,7 @@ public:
 	int ancho_pantalla;
 	r2 screenToBoardPosition(SDL_Point screenPos);
 	SDL_Point boardToScreenPosition(r2 boardPos);
-	shared_ptr<Entity> getSelection();
+	std::shared_ptr<Entity> getSelection();
 	void clearSelection();
 	void setSelection();
 	bool selectionController();
