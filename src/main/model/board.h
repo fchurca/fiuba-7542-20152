@@ -23,6 +23,7 @@ class ABoard {
 		virtual void update() = 0;
 		virtual std::vector<std::shared_ptr<Player>> getPlayers() = 0;
 		virtual std::shared_ptr<Entity> getTerrain(size_t x, size_t y) = 0;
+		template<typename F> void mapEntities(F fun);
 		template<typename Pred>
 			std::vector<std::shared_ptr<Entity>> selectEntities(Pred pred);
 };

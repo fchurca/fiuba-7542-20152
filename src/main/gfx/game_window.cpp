@@ -90,6 +90,9 @@ bool GameWindow::canDraw(shared_ptr<Entity> e) {
 	if (!e) {
 		return false;
 	}
+	if (e->getDeletable()) {
+		return false;
+	}
 	Entity& entity = *e;
 	SDL_Rect screenRect = {0, 0, ancho_pantalla, alto_pantalla};
 	auto it = spriteSheets.find(entity.name);

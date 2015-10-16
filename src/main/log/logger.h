@@ -5,9 +5,8 @@
 #include <iostream>
 #include <fstream>
 #include <ctime>
-#include "../defines/defines.h"
 
-using namespace std;
+#include "../defines/defines.h"
 
 class Logger{
 private:
@@ -15,10 +14,10 @@ private:
 	bool enabledError;
 	bool enabledWarning;
 	bool enabledInformation;
-	ofstream file;
-	string messageError;
-	string getCurrentTime();
-	int write(string message, string tipo);
+	std::ofstream file;
+	std::string messageError;
+	std::string getCurrentTime();
+	int write(std::string message, std::string tipo);
 	void open();
 	void close();
 	Logger();
@@ -27,10 +26,10 @@ public:
 	static void destroyInstance();
 	void setLevel(int level);
 	void flush();
-	int writeError(string message);
-	int writeWarning(string message);
-	int writeInformation(string message);
-	string getMessageError();
+	int writeError(std::string message);
+	int writeWarning(std::string message);
+	int writeInformation(std::string message);
+	std::string getMessageError();
 	~Logger();
 };
 
