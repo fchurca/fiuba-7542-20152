@@ -296,8 +296,8 @@ void GameWindow::focus(r2 newFocus) {
 }
 
 void GameWindow::focus() {
-	if (selection) {
-		focus(selection->getPosition());
+	if (getSelection()) {
+		focus(getSelection()->getPosition());
 	}
 }
 
@@ -314,6 +314,9 @@ void GameWindow::setSelection() {
 }
 
 bool GameWindow::selectionController() {
-	return selection != nullptr && selection->owner.name == player.name;
+	if (!getSelection()) {
+		return false;
+	}
+	return &(selection->owner) == &player;
 }
 
