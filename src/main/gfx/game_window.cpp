@@ -314,7 +314,7 @@ shared_ptr<Entity> GameWindow::getSelection() {
 }
 
 void GameWindow::setSelection() {
-	selection = board.findEntity(rectangle({floor(boardMouse.x), floor(boardMouse.y)}, {1,1}));
+	selection = board.findEntity(rectangle({boardMouse.x, boardMouse.y}, {0,0}));
 }
 
 bool GameWindow::selectionController() {
