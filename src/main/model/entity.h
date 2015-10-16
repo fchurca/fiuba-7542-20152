@@ -32,8 +32,8 @@ class Entity {
 	public:
 		Player& owner;
 		r2 size;
-		void addTarget(r2 newTarget);
-		void unsetTarget();
+		virtual void addTarget(r2 newTarget);
+		virtual void unsetTarget();
 		r2 target();
 		bool targeted();
 		const std::string name;

@@ -1,4 +1,8 @@
+#include <iostream>
+
 #include "logger.h"
+
+using namespace std;
 
 Logger * Logger::instance = nullptr;
 
@@ -61,7 +65,9 @@ string Logger::getCurrentTime(){
 *	Abre el archivo de log
 */
 void Logger::open(){
-	file.open("LOG.log", ios_base::out);
+	string filename = "LOG " + getCurrentTime() + ".log";
+	cerr << "Logging at " << filename << endl;
+	file.open(filename, ios_base::out);
 }
 
 /**
