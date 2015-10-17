@@ -8,6 +8,8 @@
 #include "../model/game.h"
 #include "../gfx/game_window.h"
 
+#include "../remote_client/remote_client.h"
+
 int main(int argc, char* args[]) {
 
 	auto & logger = *Logger::getInstance();
@@ -21,6 +23,7 @@ int main(int argc, char* args[]) {
 			parser.parse();
 			game.setBoard(make_shared<Board>(parser));
 			game.addClient(make_shared<GameWindow>(game, *(game.getAvailablePlayer()), parser));
+			game.addClient(make_shared<RemoteClient>(game, *(game.getBoard()->getPlayers()[1])));
 			game.start();
 			restart = game.willRestart();
 		} while (restart);

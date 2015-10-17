@@ -63,6 +63,7 @@ class Entity {
 
 		bool operator==(Entity& other);
 		bool operator!=(Entity& other);
+		std::string serialize();
 };
 
 class ResourceEntity : public Entity {
