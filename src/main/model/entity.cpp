@@ -194,7 +194,8 @@ string Entity::serialize() {
 		<< frame << '\t'
 		<< deletable << '\t'
 		<< owner.getId() << '\t'
-		<< position.x << '\t' << position.y << endl;
+		<< position.x << '\t' << position.y << '\t'
+		<< orientation << endl;
 	return ret.str();
 }
 
