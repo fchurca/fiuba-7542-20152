@@ -1,16 +1,20 @@
+#include <sstream>
+#include <algorithm>
+
 #include "player.h"
 
 #include "board.h"
 #include "entity.h"
-
-#include <algorithm>
 
 using namespace std;
 
 Player::Player(Board& board, std::string name, bool human) :
 	board(board),
 	name(name),
-	human(human){
+	human(human)
+{
+	static size_t idCount = 1;
+	id = idCount++;
 	for (int i = 0; i < board.sizeX * board.sizeY; i++)
 		map_visibility.push_back(INVISIBLE);
 };
@@ -62,6 +66,33 @@ bool Player::grantResources(std::string resource, long r) {
 		return false;
 	}
 	resources[resource] += r;
+	setFrame();
 	return true;
+}
+
+size_t Player::getId() {
+	return id;
+}
+
+void Player::setId(size_t newId) {
+	id = newId;
+}
+
+void Player::setFrame() {
+	frame = board.getFrame();
+}
+
+size_t Player::getFrame() {
+	return frame;
+}
+
+string Player::serialize() {
+	stringstream ret;
+	ret << "P\t" << id << '\t' << name;
+	for (auto& i : resources) {
+		ret << '\t' << i.first << '\t' << i.second;
+	}
+	ret << endl;
+	return ret.str();
 }
 

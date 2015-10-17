@@ -12,6 +12,7 @@
 class ABoard {
 	protected:
 		std::vector<std::shared_ptr<Entity>> entities;
+		size_t frame;
 	public:
 		const int
 			sizeX, sizeY;
@@ -26,6 +27,7 @@ class ABoard {
 		template<typename F> void mapEntities(F fun);
 		template<typename Pred>
 			std::vector<std::shared_ptr<Entity>> selectEntities(Pred pred);
+		size_t getFrame();
 };
 
 class Entity;

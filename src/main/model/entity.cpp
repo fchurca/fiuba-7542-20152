@@ -44,7 +44,11 @@ bool Entity::adjustPosition() {
 	double topY = board.sizeY - size.y;
 	r2 oldpos = position;
 	position = {clip(position.x, 0, topX),clip(position.y, 0, topY)};
-	return oldpos != position;
+	bool adjusted = oldpos != position;
+	if (adjusted) {
+		setFrame();
+	}
+	return adjusted;
 }
 
 void Entity::addTarget(r2 newTarget) {
@@ -127,6 +131,7 @@ void Entity::update() {
 		if (adjustPosition()) {
 			unsetTarget();
 		}
+		setFrame();
 	}
 }
 
@@ -156,6 +161,7 @@ Directions Entity::getDirection(){
 
 void Entity::setDeletable() {
 	deletable = true;
+	setFrame();
 }
 
 bool Entity::getDeletable() {
@@ -166,12 +172,31 @@ size_t Entity::getId() {
 	return id;
 }
 
+void Entity::setFrame() {
+	frame = board.getFrame();
+}
+
+size_t Entity::getFrame() {
+	return frame;
+}
+
 bool Entity::operator==(Entity& other) {
 	return this == &other;
 }
 
 bool Entity::operator!=(Entity& other) {
 	return !operator==(other);
+}
+
+string Entity::serialize() {
+	stringstream ret;
+	ret << "E\t" << id << '\t' << name << '\t'
+		<< frame << '\t'
+		<< deletable << '\t'
+		<< owner.getId() << '\t'
+		<< position.x << '\t' << position.y << '\t'
+		<< orientation << endl;
+	return ret.str();
 }
 
 ResourceEntity::ResourceEntity(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity):Entity(name, board, owner, position, size, speed, sight_radius, solid, capacity)
@@ -195,3 +220,4 @@ void ResourceEntity::collide(Entity& other) {
 }
 
 void ResourceEntity::collide(ResourceEntity& other) {}
+

@@ -13,8 +13,13 @@ using namespace std;
 ABoard::ABoard(string name, size_t dt, int sizeX, int sizeY) :
 	name(name),
 	dt(dt),
-	sizeX(sizeX), sizeY(sizeY)
+	sizeX(sizeX), sizeY(sizeY),
+	frame(0)
 {}
+
+size_t ABoard::getFrame() {
+	return frame;
+}
 
 Board::Board(ParserYAML& parser) :
 	ABoard(parser.getEscenario().nombre,
@@ -140,6 +145,7 @@ Board::~Board() {
 }
 
 void Board::update() {
+	frame++;
 	for(size_t i = 0; i < entities.size();) {
 		if (entities[i]->getDeletable()) {
 			entities.erase(entities.begin() + i);
