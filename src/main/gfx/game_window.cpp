@@ -295,7 +295,7 @@ void GameWindow::addSpriteSheet(string name, string pPath, int pixelRefX, int pi
 
 r2 GameWindow::screenToBoardPosition(SDL_Point screenPos) {
 	double XsTerm = (double)((double)screenPos.x - ancho_pantalla/2)/(double)TILE_WIDTH_DEFAULT;
-	double YsTerm = (double)((double)screenPos.y - alto_pantalla/2)/(double)TILE_HEIGHT_DEFAULT;
+	double YsTerm = (double)((double)screenPos.y - alto_pantalla/2 - alto_pantalla / 4)/(double)TILE_HEIGHT_DEFAULT;
 	return focusPosition + r2(XsTerm + YsTerm + .5, -XsTerm + YsTerm + .5);
 }
 
