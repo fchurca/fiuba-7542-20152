@@ -50,6 +50,11 @@ GameWindow::GameWindow(Game& owner, Player& player, ParserYAML& parser) :
 	addSpriteSheet(TERRENO_DEFAULT_NOMBRE, TERRENO_DEFAULT_IMAGEN, TERRENO_DEFAULT_PIXEL_REF_X, TERRENO_DEFAULT_PIXEL_REF_Y, TERRENO_DEFAULT_ALTO_SPRITE, TERRENO_DEFAULT_ANCHO_SPRITE, TERRENO_DEFAULT_CANTIDAD_SPRITES, TERRENO_DEFAULT_FPS, TERRENO_DEFAULT_DELAY);
 	addSpriteSheet(PROTAGONISTA_DEFAULT_NOMBRE, PROTAGONISTA_DEFAULT_IMAGEN, PROTAGONISTA_DEFAULT_PIXEL_REF_X, PROTAGONISTA_DEFAULT_PIXEL_REF_Y, PROTAGONISTA_DEFAULT_ALTO_SPRITE, PROTAGONISTA_DEFAULT_ANCHO_SPRITE, PROTAGONISTA_DEFAULT_CANTIDAD_SPRITES, PROTAGONISTA_DEFAULT_FPS, PROTAGONISTA_DEFAULT_DELAY);
 
+	font = TTF_OpenFont(FUENTE_DEFAULT, 10);
+	if (!font) {
+		Logger::getInstance()->writeError("Error al abrir TTF");
+	}
+
 	auto tp = parser.getPantalla();
 	auto tc = parser.getConfiguracion();
 	for(auto& t : parser.getTiposEntidades()) {
@@ -68,6 +73,7 @@ GameWindow::GameWindow(Game& owner, Player& player, ParserYAML& parser) :
 }
 
 GameWindow::~GameWindow() {
+	TTF_CloseFont(font);
 	spriteSheets.clear();
 
 	Logger::getInstance()->writeInformation("Destroying renderer");
@@ -172,11 +178,7 @@ void GameWindow::render() {
 
 		SDL_RenderDrawLines(renderer, points, 5);
 	}
-	TTF_Font * font = TTF_OpenFont(FUENTE_DEFAULT, 10);
-	if (font == NULL) {
-		Logger::getInstance()->writeError("Error al abrir TTF");
-	}
-	else {
+	if (font) {
 		std::string primerColumna, segundaColumna, terceraColumna;
 		SDL_Color color = { 255, 255, 255 };
 		//Primer Columna//
@@ -221,7 +223,6 @@ void GameWindow::render() {
 		SDL_FreeSurface(c1);
 		SDL_FreeSurface(c2);
 		SDL_FreeSurface(c3);
-		TTF_CloseFont(font);
 		
 		SDL_Rect menuPanel1;
 		menuPanel1.x = 0;

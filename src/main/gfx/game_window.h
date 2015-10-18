@@ -16,9 +16,10 @@ private:
 	std::string completeLine(std::string line, TTF_Font* font);
 protected:
 	SDL_Point mouse;
-	SDL_Window* window; //= NULL;
-	SDL_Renderer* renderer;// = NULL;
+	SDL_Window* window;
+	SDL_Renderer* renderer;
 	std::map<std::string, std::shared_ptr<SpriteSheet>> spriteSheets;
+	TTF_Font* font;
 	unsigned int scroll_speed;
 	unsigned int margen_pantalla;
 	static bool sdlInitialized; // = false
