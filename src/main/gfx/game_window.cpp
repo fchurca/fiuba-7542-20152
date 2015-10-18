@@ -410,7 +410,9 @@ void GameWindow::clearSelection() {
 }
 
 void GameWindow::setSelection() {
-	selection = board.findEntity(boardMouse);
+	selection = (player.getVisibility(boardMouse) >= SEEN)?
+		board.findEntity(boardMouse):
+		nullptr;
 }
 
 bool GameWindow::selectionController() {
