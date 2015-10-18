@@ -310,10 +310,10 @@ SDL_Color GameWindow::tmpGetColor(string name) {
 	if (name == "mago")
 		return{ 255, 255, 255 };
 
-	Uint8 r = rand() * 255;
-	Uint8 g = rand() * 255;
-	Uint8 b = rand() * 255;
-	return{ 90, 90, 90 };
+	Uint8 r = rand() % 255;
+	Uint8 g = rand() % 255;
+	Uint8 b = rand() % 255;
+	return{ r, g, b };
 }
 
 
