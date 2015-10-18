@@ -200,20 +200,27 @@ void GameWindow::render() {
 		}
 		
 		////Minimapa
-		////for (int i = 0; i < player.board.sizeX; i++) {
-		////	for (int j = 0; j < player.board.sizeY; j++) {
-		////		shared_ptr<Entity> t = player.board.getTerrain(i, j);
-		////		if (player.getVisibility(*t) != INVISIBLE) {
-		////			//Dibujar pixel
-		////		}
-		////	}
-		////}
-		//
-		////for (auto e : player.board.getEntities()) {
-		////	if (player.getVisibility(*e) != INVISIBLE) {
-		////		//DIbujar pixel
-		////	}
-		////}
+		for (int i = 0; i < player.board.sizeX; i++) {
+			for (int j = 0; j < player.board.sizeY; j++) {
+				shared_ptr<Entity> t = player.board.getTerrain(i, j);
+				if (player.getVisibility(*t) != INVISIBLE) {
+					//SDL_Color color = getColor(t->getId()); //Tienen un Id distinto cada entidad
+					SDL_Color color = tmpGetColor(t->name);
+					SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
+					SDL_RenderDrawPoint(renderer, t->getPosition().x + 10 + ancho_pantalla / 4, t->getPosition().y + 10 + alto_pantalla / 4);
+				}
+			}
+		}
+		Board b = player.board;
+		for (auto e : player.board.getEntities()) {
+			if (player.getVisibility(*e) != INVISIBLE) {
+				//SDL_Color color = getColor(e->getId());
+				SDL_Color color = tmpGetColor(e->name);
+				SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
+				SDL_RenderDrawPoint(renderer, e->getPosition().x + 10 + ancho_pantalla / 4, e->getPosition().y + 10 + alto_pantalla / 4);
+			}
+		}
+
 		SDL_Surface * c1 = TTF_RenderText_Blended_Wrapped(font, primerColumna.c_str(), color, ancho_pantalla / 4);
 		SDL_Texture * t1 = SDL_CreateTextureFromSurface(renderer, c1);
 		SDL_Surface * c2 = TTF_RenderText_Blended_Wrapped(font, segundaColumna.c_str(), color, ancho_pantalla / 4);
@@ -282,6 +289,39 @@ void GameWindow::update(){
 	processInput();
 	render();
 	return;
+}
+
+SDL_Color GameWindow::tmpGetColor(string name) {
+	// Metodo temporal para probar xq no funca el getColor() 
+	if (name == "agua")
+		return{ 0, 0, 255 };
+	if (name == "pasto")
+		return{ 0, 255, 0 };
+	if (name == "piedra")
+		return{ 255, 0, 0 };
+	if (name == "troncoNESW")
+		return{ 255, 255, 0 };
+	if (name == "troncoNWSE")
+		return{ 255, 0, 255 };
+	if (name == "chancho")
+		return{ 0, 255, 255 };
+	if (name == "chanchoDelay")
+		return{ 0, 0, 0 };
+	if (name == "mago")
+		return{ 255, 255, 255 };
+
+	Uint8 r = rand() * 255;
+	Uint8 g = rand() * 255;
+	Uint8 b = rand() * 255;
+	return{ 90, 90, 90 };
+}
+
+
+SDL_Color GameWindow::getColor(int id) {
+	Uint8 r = (id & 1) * 255;
+	Uint8 g = (id & 2) * 255;
+	Uint8 b = (id & 4) * 255;
+	return { r, g, b };
 }
 
 void GameWindow::addSpriteSheet(string name, string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay) {
