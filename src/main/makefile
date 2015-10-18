@@ -4,7 +4,7 @@ CXXO = $(CXX) -o $@ -c $<
 
 all: bin/tp7542_standalone
 
-bin/tp7542_standalone: bin/standalone_main.o bin/geometry.o bin/parser_yaml.o bin/logger.o bin/game_window.o bin/game_timer.o bin/controller.o bin/board.o bin/entity.o bin/sprite_sheet.o bin/game.o bin/entity_factory.o bin/player.o bin/abstract_client.o
+bin/tp7542_standalone: bin/standalone_main.o bin/geometry.o bin/parser_yaml.o bin/logger.o bin/game_window.o bin/game_timer.o bin/controller.o bin/board.o bin/entity.o bin/sprite_sheet.o bin/game.o bin/entity_factory.o bin/player.o bin/abstract_client.o bin/remote_client.o
 	$(CXX) -o $@ -lyaml-cpp -lSDL2 -lSDL2_image $^
 
 bin/standalone_main.o: standalone/main.cpp
@@ -47,6 +47,9 @@ bin/player.o: model/player.cpp model/player.h
 	${CXXO}
 
 bin/abstract_client.o: model/abstract_client.cpp model/abstract_client.h
+	${CXXO}
+
+bin/remote_client.o: remote_client/remote_client.cpp remote_client/remote_client.h
 	${CXXO}
 
 clean: cleanobj
