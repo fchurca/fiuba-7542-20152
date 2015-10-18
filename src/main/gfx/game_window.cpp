@@ -172,7 +172,7 @@ void GameWindow::render() {
 
 		SDL_RenderDrawLines(renderer, points, 5);
 	}
-	TTF_Font * font = TTF_OpenFont("resources//arial.ttf", 10);
+	TTF_Font * font = TTF_OpenFont(FUENTE_DEFAULT, 10);
 	if (font == NULL) {
 		Logger::getInstance()->writeError("Error al abrir TTF");
 	}
