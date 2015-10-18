@@ -1,10 +1,10 @@
 //-----------------------------------------------------------------------------
-#include "PosixSocket.h"
+#include "posixsocket.h"
 #include <stdlib.h>
 //-----------------------------------------------------------------------------
 PosixSocket::PosixSocket(unsigned int uiPort) {
-	// TODO Auto-generated constructor stub
-
+	this->port = uiPort;
+	this->sockfd = 0;
 }
 //-----------------------------------------------------------------------------
 PosixSocket::PosixSocket(){

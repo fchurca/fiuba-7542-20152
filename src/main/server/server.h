@@ -3,6 +3,7 @@
 #define MAIN_SERVER_SRC_SERVER_H_
 //-----------------------------------------------------------------------------
 #include <thread>
+#include "../socket/socket.h"
 //-----------------------------------------------------------------------------
 #include "configuration.h"
 //-----------------------------------------------------------------------------
@@ -14,13 +15,14 @@ private:
 	std::string ip;
 	int port;
 	int max_clients;
+	Socket* socket;
 
 public:
 	Server(Configuration config);
 	virtual ~Server();
 
 public:
-	void init();
+	bool init();
 	void stop();
 	void run();
 

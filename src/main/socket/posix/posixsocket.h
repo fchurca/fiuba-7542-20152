@@ -14,7 +14,7 @@ private:
 	int sockfd;
 	struct sockaddr_in sockaddr;			// Dirección del socket.
 	bool status;
-	int port;
+	unsigned int port;
 
 public:
 	PosixSocket(unsigned int uiPort);

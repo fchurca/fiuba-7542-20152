@@ -8,6 +8,8 @@
 #include "defines.h"
 #include "server.h"
 //-----------------------------------------------------------------------------
+const std::string CMD_SALIR = "q";
+//-----------------------------------------------------------------------------
 int main(int argc, char* args[]) {
 
 
@@ -15,6 +17,19 @@ int main(int argc, char* args[]) {
 	Configuration config(parser);
 
 	Server server(config);
+
+	if(!server.init())
+	{
+		//Pasar al logger si es necesario.
+		std::cerr << "ERROR: No ha sido posible iniciar el servidor."
+					<< std::endl;
+	}
+
+	std::string comando;
+
+	// Esperamos a que se indique la finalización de la ejecución
+	while(comando != CMD_SALIR)
+		getline(std::cin, comando);
 
 	return 0;
 }
