@@ -2,22 +2,18 @@
 #include "posixsocket.h"
 #include <stdlib.h>
 //-----------------------------------------------------------------------------
-PosixSocket::PosixSocket(unsigned int uiPort) {
-	this->port = uiPort;
-	this->sockfd = 0;
-}
-//-----------------------------------------------------------------------------
-PosixSocket::PosixSocket(){
+PosixSocket::PosixSocket() {
 
 }
+
 //-----------------------------------------------------------------------------
 PosixSocket::~PosixSocket() {
 	// TODO Auto-generated destructor stub
 }
 //-----------------------------------------------------------------------------
-void PosixSocket::Connect(std::string hostIP,int hostPort){
+bool PosixSocket::Connect(std::string hostIP,int hostPort){
 
-
+	return true;
 }
 //-----------------------------------------------------------------------------
 bool PosixSocket::Listen(int maxConnections)

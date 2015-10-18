@@ -17,11 +17,11 @@ private:
 	unsigned int port;
 
 public:
-	PosixSocket(unsigned int uiPort);
 	PosixSocket();
+
 	virtual ~PosixSocket();
 public:
-	void Connect(std::string hostIP, int hostPort);
+	bool Connect(std::string hostIP, int hostPort);
 	bool Listen(int maxConnections);
 	Socket* Accept();
 	int Send(const void* data, int dataLenght);

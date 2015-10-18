@@ -14,7 +14,7 @@ int main(int argc, char* args[]) {
 
 
 	ServerParserYAML* parser = new ServerParserYAML (CONFIG_FILE_PATH);
-	Configuration config(parser);
+	Configuration* config = new Configuration(parser);
 
 	Server server(config);
 
@@ -31,6 +31,7 @@ int main(int argc, char* args[]) {
 	while(comando != CMD_SALIR)
 		getline(std::cin, comando);
 
+	delete(config);
 	return 0;
 }
 //-----------------------------------------------------------------------------

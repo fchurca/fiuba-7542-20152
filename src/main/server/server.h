@@ -10,7 +10,6 @@
 class Server {
 
 private:
-	std::thread t;
 	bool status;
 	std::string ip;
 	int port;
@@ -18,7 +17,7 @@ private:
 	Socket* socket;
 
 public:
-	Server(Configuration config);
+	Server(Configuration* config);
 	virtual ~Server();
 
 public:

@@ -2,12 +2,12 @@
 #include "server.h"
 #include "../socket/posix/posixsocket.h"
 //-----------------------------------------------------------------------------
-Server::Server(Configuration config) {
-	this->port = std::stoi(config.port);
-	this->ip = config.ip;
-	this->max_clients = config.max_clients;
+Server::Server(Configuration* config) {
+	this->port = std::stoi(config->port);
+	this->ip = config->ip;
+	this->max_clients = config->max_clients;
 	this->status = false;
-	//this->socket = new PosixSocket(this->port);
+	this->socket = 0;
 
 }
 //-----------------------------------------------------------------------------
@@ -17,15 +17,21 @@ Server::~Server() {
 //----------------------------------------------------------------------------
 void call_from_thread(int age)
 {
-	std::cout << "feliz cumpelaños fiona " << age << std::endl;
+
+}
+//-----------------------------------------------------------------------------
+void Server::run()
+{
+	std::cout << "server run" << std::endl;
 }
 //-----------------------------------------------------------------------------
 bool Server::init()
 {
+	//this->socket =  new PosixSocket();
+	//this->socket->Listen(this->max_clients);
 
-	this->t = std::thread (call_from_thread, 26);
+	std::thread(run);
 
 	return true;
 }
 //-----------------------------------------------------------------------------
-
