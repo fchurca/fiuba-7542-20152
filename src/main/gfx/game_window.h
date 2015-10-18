@@ -1,6 +1,7 @@
 #ifndef __GFX_GAMEWINDOW_H__
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include "sprite_sheet.h"
 #include "../model/abstract_client.h"
 #include "../model/game.h"
@@ -11,6 +12,8 @@
 class ParserYAML;
 
 class GameWindow : public AClient {
+private:
+	std::string completeLine(std::string line, TTF_Font* font);
 protected:
 	SDL_Point mouse;
 	SDL_Window* window; //= NULL;

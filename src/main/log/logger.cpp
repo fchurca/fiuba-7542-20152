@@ -65,7 +65,9 @@ string Logger::getCurrentTime(){
 *	Abre el archivo de log
 */
 void Logger::open(){
-	string filename = "LOG " + getCurrentTime() + ".log";
+	std::string dia = getCurrentTime();
+	std::replace(dia.begin(), dia.end(), ':', '-');
+	string filename = "LOG " + dia + ".log";
 	cerr << "Logging at " << filename << endl;
 	file.open(filename, ios_base::out);
 }

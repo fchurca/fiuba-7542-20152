@@ -11,8 +11,8 @@
 int main(int argc, char* args[]) {
 
 
-	ServerParserYAML parser(CONFIG_FILE_PATH);
-	Configuration config(&parser);
+	ServerParserYAML* parser = new ServerParserYAML (CONFIG_FILE_PATH);
+	Configuration config(parser);
 
 	Server server(config);
 

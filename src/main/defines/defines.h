@@ -25,6 +25,7 @@ enum Directions {
 #define MARGEN_SCROLL_DEFAULT  45
 #define VELOCIDAD_SCROLL_DEFAULT  45
 #define DT_DEFAULT 50
+#define FUENTE_DEFAULT "resources//arial.ttf"
 
 //Escenario Default
 #define ESCENARIO_DEFAULT_NOMBRE  "escenario_default"
