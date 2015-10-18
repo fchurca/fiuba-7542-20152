@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <ctime>
+#include <algorithm>
 
 #include "../defines/defines.h"
 
