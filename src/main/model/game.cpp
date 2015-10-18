@@ -88,4 +88,3 @@ void Game::exit() {
 bool Game::willExit() {
 	return exit_p || restart_p;
 }
-

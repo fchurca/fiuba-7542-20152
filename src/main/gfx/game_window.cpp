@@ -16,7 +16,7 @@ bool GameWindow::initialize() {
 		Logger::getInstance()->writeWarning("SDL already initialized");
 	} else {
 		atexit(SDL_Quit);
-		if( SDL_Init( SDL_INIT_VIDEO ) < 0 ) {
+		if( SDL_Init( SDL_INIT_VIDEO ) < 0 || TTF_Init() == -1) {
 			Logger::getInstance()->writeError("SDL could not initialize!");
 			Logger::getInstance()->writeError(SDL_GetError());
 			GameWindow::sdlInitialized = false;
@@ -50,6 +50,11 @@ GameWindow::GameWindow(Game& owner, Player& player, ParserYAML& parser) :
 	addSpriteSheet(TERRENO_DEFAULT_NOMBRE, TERRENO_DEFAULT_IMAGEN, TERRENO_DEFAULT_PIXEL_REF_X, TERRENO_DEFAULT_PIXEL_REF_Y, TERRENO_DEFAULT_ALTO_SPRITE, TERRENO_DEFAULT_ANCHO_SPRITE, TERRENO_DEFAULT_CANTIDAD_SPRITES, TERRENO_DEFAULT_FPS, TERRENO_DEFAULT_DELAY);
 	addSpriteSheet(PROTAGONISTA_DEFAULT_NOMBRE, PROTAGONISTA_DEFAULT_IMAGEN, PROTAGONISTA_DEFAULT_PIXEL_REF_X, PROTAGONISTA_DEFAULT_PIXEL_REF_Y, PROTAGONISTA_DEFAULT_ALTO_SPRITE, PROTAGONISTA_DEFAULT_ANCHO_SPRITE, PROTAGONISTA_DEFAULT_CANTIDAD_SPRITES, PROTAGONISTA_DEFAULT_FPS, PROTAGONISTA_DEFAULT_DELAY);
 
+	font = TTF_OpenFont(FUENTE_DEFAULT, 10);
+	if (!font) {
+		Logger::getInstance()->writeError("Error al abrir TTF");
+	}
+
 	auto tp = parser.getPantalla();
 	auto tc = parser.getConfiguracion();
 	for(auto& t : parser.getTiposEntidades()) {
@@ -68,6 +73,7 @@ GameWindow::GameWindow(Game& owner, Player& player, ParserYAML& parser) :
 }
 
 GameWindow::~GameWindow() {
+	TTF_CloseFont(font);
 	spriteSheets.clear();
 
 	Logger::getInstance()->writeInformation("Destroying renderer");
@@ -172,6 +178,101 @@ void GameWindow::render() {
 
 		SDL_RenderDrawLines(renderer, points, 5);
 	}
+	if (font) {
+		std::string primerColumna, segundaColumna, terceraColumna;
+		SDL_Color color = { 255, 255, 255 };
+		//Primer Columna//
+		primerColumna = completeLine(player.name, font);
+		for (auto r : player.getResources()) {
+			primerColumna = primerColumna + completeLine(r.first + "=" + std::to_string(r.second), font);
+		}
+		//
+		//Segunda Columna//
+		for (auto p : player.board.getPlayers()) {
+			segundaColumna = segundaColumna + completeLine(p->name, font);
+		}
+		
+		//Tercer Columna//
+		shared_ptr<Entity> s = getSelection();
+		if (s != nullptr) {
+			terceraColumna = terceraColumna + completeLine(s->name, font);
+			terceraColumna = terceraColumna + completeLine("(" + s->owner.name + ")", font);
+		}
+		
+		////Minimapa
+		for (int i = 0; i < player.board.sizeX; i++) {
+			for (int j = 0; j < player.board.sizeY; j++) {
+				shared_ptr<Entity> t = player.board.getTerrain(i, j);
+				if (player.getVisibility(*t) != INVISIBLE) {
+					//SDL_Color color = getColor(t->getId()); //Tienen un Id distinto cada entidad
+					SDL_Color color = tmpGetColor(t->name);
+					SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
+					SDL_RenderDrawPoint(renderer, t->getPosition().x + 10 + ancho_pantalla / 4, t->getPosition().y + 10 + alto_pantalla / 4);
+				}
+			}
+		}
+		Board b = player.board;
+		for (auto e : player.board.getEntities()) {
+			if (player.getVisibility(*e) != INVISIBLE) {
+				//SDL_Color color = getColor(e->getId());
+				SDL_Color color = tmpGetColor(e->name);
+				SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
+				SDL_RenderDrawPoint(renderer, e->getPosition().x + 10 + ancho_pantalla / 4, e->getPosition().y + 10 + alto_pantalla / 4);
+			}
+		}
+
+		SDL_Surface * c1 = TTF_RenderText_Blended_Wrapped(font, primerColumna.c_str(), color, ancho_pantalla / 4);
+		SDL_Texture * t1 = SDL_CreateTextureFromSurface(renderer, c1);
+		SDL_Surface * c2 = TTF_RenderText_Blended_Wrapped(font, segundaColumna.c_str(), color, ancho_pantalla / 4);
+		SDL_Texture * t2 = SDL_CreateTextureFromSurface(renderer, c2);
+		SDL_Surface * c3 = TTF_RenderText_Blended_Wrapped(font, terceraColumna.c_str(), color, ancho_pantalla / 4);
+		SDL_Texture * t3 = SDL_CreateTextureFromSurface(renderer, c3);
+		SDL_FreeSurface(c1);
+		SDL_FreeSurface(c2);
+		SDL_FreeSurface(c3);
+		
+		SDL_Rect menuPanel1;
+		menuPanel1.x = 0;
+		menuPanel1.y = 3 * alto_pantalla / 4;
+		menuPanel1.w = ancho_pantalla / 4;
+		menuPanel1.h = alto_pantalla / 4;
+		SDL_RenderSetViewport(renderer, &menuPanel1);
+		SDL_RenderCopy(renderer, t1, NULL, NULL);
+		
+		
+		SDL_Rect menuPanel2;
+		menuPanel2.x = ancho_pantalla / 4;
+		menuPanel2.y = 3 * alto_pantalla / 4;
+		menuPanel2.w = ancho_pantalla / 4;
+		menuPanel2.h = alto_pantalla / 4;
+		SDL_RenderSetViewport(renderer, &menuPanel2);
+		SDL_RenderCopy(renderer, t2, NULL, NULL);
+		
+		SDL_Rect menuPanel3;
+		menuPanel3.x = 2 * ancho_pantalla / 4;
+		menuPanel3.y = 3 * alto_pantalla / 4;
+		menuPanel3.w = ancho_pantalla / 4;
+		menuPanel3.h = alto_pantalla / 4;
+		SDL_RenderSetViewport(renderer, &menuPanel3);
+		SDL_RenderCopy(renderer, t3, NULL, NULL);
+		
+		SDL_Rect menuPanel4;
+		menuPanel4.x = 3 * ancho_pantalla / 4;
+		menuPanel4.y = 3 * alto_pantalla / 4;
+		menuPanel4.w = ancho_pantalla / 4;
+		menuPanel4.h = alto_pantalla / 4;
+		SDL_RenderSetViewport(renderer, &menuPanel4);
+		SDL_RenderCopy(renderer, NULL, NULL, NULL);
+		
+		SDL_Rect pantallaPanel;
+		pantallaPanel.x = 0;
+		pantallaPanel.y = 0;
+		pantallaPanel.w = ancho_pantalla;
+		pantallaPanel.h = 3 * alto_pantalla / 4;
+		SDL_RenderSetViewport(renderer, &pantallaPanel);
+		SDL_RenderCopy(renderer, NULL, NULL, NULL);
+	}
+
 	SDL_RenderPresent(renderer);
 	return;
 }
@@ -190,6 +291,39 @@ void GameWindow::update(){
 	return;
 }
 
+SDL_Color GameWindow::tmpGetColor(string name) {
+	// Metodo temporal para probar xq no funca el getColor() 
+	if (name == "agua")
+		return{ 0, 0, 255 };
+	if (name == "pasto")
+		return{ 0, 255, 0 };
+	if (name == "piedra")
+		return{ 255, 0, 0 };
+	if (name == "troncoNESW")
+		return{ 255, 255, 0 };
+	if (name == "troncoNWSE")
+		return{ 255, 0, 255 };
+	if (name == "chancho")
+		return{ 0, 255, 255 };
+	if (name == "chanchoDelay")
+		return{ 0, 0, 0 };
+	if (name == "mago")
+		return{ 255, 255, 255 };
+
+	Uint8 r = rand() * 255;
+	Uint8 g = rand() * 255;
+	Uint8 b = rand() * 255;
+	return{ 90, 90, 90 };
+}
+
+
+SDL_Color GameWindow::getColor(int id) {
+	Uint8 r = (id & 1) * 255;
+	Uint8 g = (id & 2) * 255;
+	Uint8 b = (id & 4) * 255;
+	return { r, g, b };
+}
+
 void GameWindow::addSpriteSheet(string name, string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay) {
 	auto it = spriteSheets.find(name);
 	if(it != spriteSheets.end())
@@ -202,7 +336,7 @@ void GameWindow::addSpriteSheet(string name, string pPath, int pixelRefX, int pi
 
 r2 GameWindow::screenToBoardPosition(SDL_Point screenPos) {
 	double XsTerm = (double)((double)screenPos.x - ancho_pantalla/2)/(double)TILE_WIDTH_DEFAULT;
-	double YsTerm = (double)((double)screenPos.y - alto_pantalla/2)/(double)TILE_HEIGHT_DEFAULT;
+	double YsTerm = (double)((double)screenPos.y - alto_pantalla/2 - alto_pantalla / 4)/(double)TILE_HEIGHT_DEFAULT;
 	return focusPosition + r2(XsTerm + YsTerm + .5, -XsTerm + YsTerm + .5);
 }
 
@@ -317,7 +451,9 @@ void GameWindow::clearSelection() {
 }
 
 void GameWindow::setSelection() {
-	selection = board.findEntity(boardMouse);
+	selection = (player.getVisibility(boardMouse) >= SEEN)?
+		board.findEntity(boardMouse):
+		nullptr;
 }
 
 bool GameWindow::selectionController() {
@@ -325,5 +461,15 @@ bool GameWindow::selectionController() {
 		return false;
 	}
 	return &(selection->owner) == &player;
+}
+
+std::string GameWindow::completeLine(std::string line, TTF_Font* font) {
+	int txtAncho, txtAlto, espAncho, espAlto, esp;
+	std::string result = line;
+	TTF_SizeText(font, " ", &espAncho, &espAlto);
+	TTF_SizeText(font, result.c_str(), &txtAncho, &txtAlto);
+	esp = (ancho_pantalla / 4 - txtAncho) / espAncho;
+	result.insert(result.size(), esp, ' ');
+	return result;
 }
 

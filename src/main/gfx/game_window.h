@@ -1,6 +1,7 @@
 #ifndef __GFX_GAMEWINDOW_H__
 
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include "sprite_sheet.h"
 #include "../model/abstract_client.h"
 #include "../model/game.h"
@@ -11,11 +12,14 @@
 class ParserYAML;
 
 class GameWindow : public AClient {
+private:
+	std::string completeLine(std::string line, TTF_Font* font);
 protected:
 	SDL_Point mouse;
-	SDL_Window* window; //= NULL;
-	SDL_Renderer* renderer;// = NULL;
+	SDL_Window* window;
+	SDL_Renderer* renderer;
 	std::map<std::string, std::shared_ptr<SpriteSheet>> spriteSheets;
+	TTF_Font* font;
 	unsigned int scroll_speed;
 	unsigned int margen_pantalla;
 	static bool sdlInitialized; // = false
@@ -29,6 +33,8 @@ protected:
 	bool canDraw(std::shared_ptr<Entity> entity);
 	Board& board;
 	std::shared_ptr<Entity> selection;
+	SDL_Color getColor(int id);
+	SDL_Color tmpGetColor(std::string name);
 public:
 	void addSpriteSheet(std::string name, std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay);
 	GameWindow(Game& owner, Player& player, ParserYAML& parser);

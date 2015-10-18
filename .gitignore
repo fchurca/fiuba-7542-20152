@@ -38,6 +38,9 @@ bin/
 # Archivos de log
 *.log
 
+# Fuentes: responsabilidad del cliente (licencias)
+*.ttf
+
 # Archivos generados por Doxygen
 /doc/doxygen/
 
@@ -45,3 +48,4 @@ bin/
 /SDL2-2.0.3/
 /yaml-cpp/
 /age_server/
+
