@@ -28,6 +28,7 @@ class ABoard {
 		template<typename Pred>
 			std::vector<std::shared_ptr<Entity>> selectEntities(Pred pred);
 		size_t getFrame();
+		std::shared_ptr<Entity> findEntity(size_t id);
 };
 
 class Entity;

@@ -21,6 +21,14 @@ size_t ABoard::getFrame() {
 	return frame;
 }
 
+shared_ptr<Entity> ABoard::findEntity(size_t id) {
+	auto it = find_if(entities.begin(), entities.end(), [id](shared_ptr<Entity> e) {
+			return e->getId() == id;
+			});
+	return (it == entities.end())? nullptr : *it;
+}
+
+
 Board::Board(ParserYAML& parser) :
 	ABoard(parser.getEscenario().nombre,
 			parser.getConfiguracion().dt,

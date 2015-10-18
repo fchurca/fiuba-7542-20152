@@ -55,5 +55,21 @@ RemoteClient::RemoteClient(Game& owner, Player& player) :
 	cerr << "Entities";
 	board.mapEntities([](shared_ptr<Entity> e) {
 			cerr << e->serialize();});
+	th = thread([this](){
+			while (!this->owner.willExit()) {
+			int i, x, y;
+			cin >> i >> x >> y;
+			if (!this->owner.willExit()) {
+			cerr << "Sending entity " << i << " to " << x << "," << y << endl;
+			auto e = this->owner.getBoard()->findEntity(i);
+			if (e) {
+			e->addTarget(r2(x, y));
+			}
+			}
+			}
+			});
 }
 
+RemoteClient::~RemoteClient() {
+	th.join();
+}
