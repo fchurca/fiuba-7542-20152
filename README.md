@@ -6,6 +6,7 @@ Trabajo práctico grupal de Taller I 7542
 make
 libsdl2-dev
 libsdl2-image-dev
+libsdl2-ttf-dev
 libyaml-cpp-dev
 ```
 
@@ -17,7 +18,10 @@ cppcheck
 
 ## Dependencias runtime:
 ```
+resources/arial.ttf
 libsdl2
+libsdl2-image
+libsdl2-ttf
 libyaml-cpp
 ```
 

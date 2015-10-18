@@ -38,6 +38,9 @@ bin/
 # Archivos de log
 *.log
 
+# Fuentes: responsabilidad del cliente (licencias)
+*.ttf
+
 # Archivos generados por Doxygen
 /doc/doxygen/
 
