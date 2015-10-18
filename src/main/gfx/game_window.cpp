@@ -16,7 +16,7 @@ bool GameWindow::initialize() {
 		Logger::getInstance()->writeWarning("SDL already initialized");
 	} else {
 		atexit(SDL_Quit);
-		if( SDL_Init( SDL_INIT_VIDEO ) < 0 ) {
+		if( SDL_Init( SDL_INIT_VIDEO ) < 0 || TTF_Init() == -1) {
 			Logger::getInstance()->writeError("SDL could not initialize!");
 			Logger::getInstance()->writeError(SDL_GetError());
 			GameWindow::sdlInitialized = false;
@@ -172,6 +172,99 @@ void GameWindow::render() {
 
 		SDL_RenderDrawLines(renderer, points, 5);
 	}
+	TTF_Font * font = TTF_OpenFont("resources//arial.ttf", 10);
+	if (font == NULL) {
+		Logger::getInstance()->writeError("Error al abrir TTF");
+	}
+	else {
+		std::string primerColumna, segundaColumna, terceraColumna;
+		SDL_Color color = { 255, 255, 255 };
+		//Primer Columna//
+		primerColumna = completeLine(player.name, font);
+		for (auto r : player.getResources()) {
+			primerColumna = primerColumna + completeLine(r.first + "=" + std::to_string(r.second), font);
+		}
+		//
+		//Segunda Columna//
+		for (auto p : player.board.getPlayers()) {
+			segundaColumna = segundaColumna + completeLine(p->name, font);
+		}
+		
+		//Tercer Columna//
+		shared_ptr<Entity> s = getSelection();
+		if (s != nullptr) {
+			terceraColumna = terceraColumna + completeLine(s->name, font);
+			terceraColumna = terceraColumna + completeLine("(" + s->owner.name + ")", font);
+		}
+		
+		////Minimapa
+		////for (int i = 0; i < player.board.sizeX; i++) {
+		////	for (int j = 0; j < player.board.sizeY; j++) {
+		////		shared_ptr<Entity> t = player.board.getTerrain(i, j);
+		////		if (player.getVisibility(*t) != INVISIBLE) {
+		////			//Dibujar pixel
+		////		}
+		////	}
+		////}
+		//
+		////for (auto e : player.board.getEntities()) {
+		////	if (player.getVisibility(*e) != INVISIBLE) {
+		////		//DIbujar pixel
+		////	}
+		////}
+		SDL_Surface * c1 = TTF_RenderText_Blended_Wrapped(font, primerColumna.c_str(), color, ancho_pantalla / 4);
+		SDL_Texture * t1 = SDL_CreateTextureFromSurface(renderer, c1);
+		SDL_Surface * c2 = TTF_RenderText_Blended_Wrapped(font, segundaColumna.c_str(), color, ancho_pantalla / 4);
+		SDL_Texture * t2 = SDL_CreateTextureFromSurface(renderer, c2);
+		SDL_Surface * c3 = TTF_RenderText_Blended_Wrapped(font, terceraColumna.c_str(), color, ancho_pantalla / 4);
+		SDL_Texture * t3 = SDL_CreateTextureFromSurface(renderer, c3);
+		SDL_FreeSurface(c1);
+		SDL_FreeSurface(c2);
+		SDL_FreeSurface(c3);
+		TTF_CloseFont(font);
+		
+		SDL_Rect menuPanel1;
+		menuPanel1.x = 0;
+		menuPanel1.y = 3 * alto_pantalla / 4;
+		menuPanel1.w = ancho_pantalla / 4;
+		menuPanel1.h = alto_pantalla / 4;
+		SDL_RenderSetViewport(renderer, &menuPanel1);
+		SDL_RenderCopy(renderer, t1, NULL, NULL);
+		
+		
+		SDL_Rect menuPanel2;
+		menuPanel2.x = ancho_pantalla / 4;
+		menuPanel2.y = 3 * alto_pantalla / 4;
+		menuPanel2.w = ancho_pantalla / 4;
+		menuPanel2.h = alto_pantalla / 4;
+		SDL_RenderSetViewport(renderer, &menuPanel2);
+		SDL_RenderCopy(renderer, t2, NULL, NULL);
+		
+		SDL_Rect menuPanel3;
+		menuPanel3.x = 2 * ancho_pantalla / 4;
+		menuPanel3.y = 3 * alto_pantalla / 4;
+		menuPanel3.w = ancho_pantalla / 4;
+		menuPanel3.h = alto_pantalla / 4;
+		SDL_RenderSetViewport(renderer, &menuPanel3);
+		SDL_RenderCopy(renderer, t3, NULL, NULL);
+		
+		SDL_Rect menuPanel4;
+		menuPanel4.x = 3 * ancho_pantalla / 4;
+		menuPanel4.y = 3 * alto_pantalla / 4;
+		menuPanel4.w = ancho_pantalla / 4;
+		menuPanel4.h = alto_pantalla / 4;
+		SDL_RenderSetViewport(renderer, &menuPanel4);
+		SDL_RenderCopy(renderer, NULL, NULL, NULL);
+		
+		SDL_Rect pantallaPanel;
+		pantallaPanel.x = 0;
+		pantallaPanel.y = 0;
+		pantallaPanel.w = ancho_pantalla;
+		pantallaPanel.h = 3 * alto_pantalla / 4;
+		SDL_RenderSetViewport(renderer, &pantallaPanel);
+		SDL_RenderCopy(renderer, NULL, NULL, NULL);
+	}
+
 	SDL_RenderPresent(renderer);
 	return;
 }
@@ -325,5 +418,15 @@ bool GameWindow::selectionController() {
 		return false;
 	}
 	return &(selection->owner) == &player;
+}
+
+std::string GameWindow::completeLine(std::string line, TTF_Font* font) {
+	int txtAncho, txtAlto, espAncho, espAlto, esp;
+	std::string result = line;
+	TTF_SizeText(font, " ", &espAncho, &espAlto);
+	TTF_SizeText(font, result.c_str(), &txtAncho, &txtAlto);
+	esp = (ancho_pantalla / 4 - txtAncho) / espAncho;
+	result.insert(result.size(), esp, ' ');
+	return result;
 }
 
