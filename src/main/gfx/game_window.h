@@ -33,6 +33,8 @@ protected:
 	bool canDraw(std::shared_ptr<Entity> entity);
 	Board& board;
 	std::shared_ptr<Entity> selection;
+	SDL_Color getColor(int id);
+	SDL_Color tmpGetColor(std::string name);
 public:
 	void addSpriteSheet(std::string name, std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay);
 	GameWindow(Game& owner, Player& player, ParserYAML& parser);
