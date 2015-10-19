@@ -49,6 +49,10 @@ Visibility Player::getVisibility(Entity& e) {
 }
 
 Visibility Player::getVisibility(r2 pos) {
+	if (pos.x < 0 || pos.x >= board.sizeX ||
+		pos.y < 0 || pos.y >= board.sizeY) {
+		return INVISIBLE;
+	}
 	return map_visibility[(int)floor(pos.y) * board.sizeX + (int)floor(pos.x)];
 }
 

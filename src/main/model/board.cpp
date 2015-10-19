@@ -23,7 +23,7 @@ size_t ABoard::getFrame() {
 
 shared_ptr<Entity> ABoard::findEntity(size_t id) {
 	auto it = find_if(entities.begin(), entities.end(), [id](shared_ptr<Entity> e) {
-			return e->getId() == id;
+			return e?e->getId() == id:false;
 			});
 	return (it == entities.end())? nullptr : *it;
 }
