@@ -15,9 +15,9 @@ Server::~Server() {
 	// TODO Auto-generated destructor stub
 }
 //----------------------------------------------------------------------------
-void call_from_thread(int age)
+bool Server::isActive()
 {
-
+	return this->status;
 }
 //-----------------------------------------------------------------------------
 void Server::start()
@@ -32,11 +32,11 @@ void Server::start()
 		if(!this->socket->IsActive() || !socketCLI) break;
 
 		// Generamos una nueva conexión para ese cliente
-		ConexionCliente *conexionCLI = new ConexionCliente(socketCLI,
-				this->admClientes, this->admCuentas, this->logger);
+		//ConexionCliente *conexionCLI = new ConexionCliente(socketCLI,
+		//		this->admClientes);
 
 		// Damos la orden de que comience a ejecutarse el hilo del cliente.
-		conexionCLI->start();
+		//conexionCLI->start();
 		}
 
 }
@@ -46,8 +46,8 @@ bool Server::init()
 	this->socket =  new PosixSocket();
 	this->socket->Listen(this->max_clients);
 
-	//std::thread(run);
-	// lo que sucede dentro de run es bloqueante x lo q se deberia ejectuar en un
+	//std::thread(start);
+	// lo que sucede dentro de start es bloqueante x lo q se deberia ejectuar en un
 	//thread aparte.
 
 	this->start();
@@ -55,3 +55,19 @@ bool Server::init()
 	return true;
 }
 //-----------------------------------------------------------------------------
+void Server::stop()
+{
+	//Cambio el estado del server
+	this->status = false;
+
+	// Detenemos hilo hay q detener la funcion run
+	// analizar si es suficiente con el cambio de estado en el server.
+
+
+	// Cerramos el socket
+	this->socket->deinit();
+
+	// Mensaje de log
+
+
+}

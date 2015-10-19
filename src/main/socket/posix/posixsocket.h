@@ -27,6 +27,7 @@ public:
 	int Send(const void* data, int dataLenght);
 	int Recv(const void* data, int dataLenght);
 	bool IsActive();
+	void deinit();
 
 };
 //-----------------------------------------------------------------------------

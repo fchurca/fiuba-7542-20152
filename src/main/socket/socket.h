@@ -21,6 +21,7 @@ public:
 	virtual int Send(const void* data, int dataLenght) = 0;
 	virtual int Recv(const void* data, int dataLenght) = 0;
 	virtual bool IsActive() = 0;
+	virtual void deinit() = 0;
 };
 
 

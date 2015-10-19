@@ -1,6 +1,11 @@
 //-----------------------------------------------------------------------------
 #include "posixsocket.h"
 #include <stdlib.h>
+#include <iostream>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <sys/wait.h>
 //-----------------------------------------------------------------------------
 PosixSocket::PosixSocket() {
 
@@ -8,7 +13,8 @@ PosixSocket::PosixSocket() {
 
 //-----------------------------------------------------------------------------
 PosixSocket::~PosixSocket() {
-	// TODO Auto-generated destructor stub
+	//if(close(sockfd) == -1)
+	//		std::cerr << "ERROR: No se ha podido cerrar el socket." << std::endl
 }
 //-----------------------------------------------------------------------------
 bool PosixSocket::Connect(std::string hostIP,int hostPort){
@@ -91,5 +97,10 @@ int PosixSocket::Recv(const void* data, int dataLenght)
 bool PosixSocket::IsActive()
 {
 	return status;
+}
+//-----------------------------------------------------------------------------
+void PosixSocket::deinit()
+{
+	this->status = false;
 }
 //-----------------------------------------------------------------------------
