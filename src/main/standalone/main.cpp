@@ -16,7 +16,7 @@ int main(int argc, char* argv[]) {
 	logger.writeInformation("Start game");
 
 	bool standalone = false, daemon = false, client = false;
-	if (argc >= 1) {
+	if (argc >= 2) {
 		switch (argv[1][0]) {
 			case 'd': case 'D':
 				daemon = true;
