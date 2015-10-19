@@ -22,11 +22,12 @@ public:
 	virtual ~PosixSocket();
 public:
 	bool Connect(std::string hostIP, int hostPort);
-	bool Listen(int maxConnections);
+	bool Listen(unsigned int port, int maxConnections);
 	Socket* Accept();
 	int Send(const void* data, int dataLenght);
 	int Recv(const void* data, int dataLenght);
 	bool IsActive();
+	void Activate();
 	void deinit();
 
 };

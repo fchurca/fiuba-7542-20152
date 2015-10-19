@@ -1,6 +1,6 @@
 //-----------------------------------------------------------------------------
 #include "server.h"
-#include "socket/posix/posixsocket.h"
+#include "../socket/posix/posixsocket.h"
 #include "clientconexion.h"
 //-----------------------------------------------------------------------------
 Server::Server(Configuration* config) {
@@ -10,11 +10,10 @@ Server::Server(Configuration* config) {
 	this->status = false;
 	this->socket = 0;
 
-
 }
 //-----------------------------------------------------------------------------
 Server::~Server() {
-	// TODO Auto-generated destructor stub
+	//while (this->)
 }
 //----------------------------------------------------------------------------
 bool Server::isActive()
@@ -45,7 +44,7 @@ void Server::start()
 		//el admin podria ser un singleton (depende de como lo usemos luego en "la logica")
 		this->adminClients.push_back(conexion);
 
-		// Damos la orden de que comience a ejecutarse el hilo del cliente.
+		// Comienza a ejecutarse el hilo del cliente.
 		conexion->start();
 	}
 
@@ -54,7 +53,12 @@ void Server::start()
 bool Server::init()
 {
 	this->socket =  new PosixSocket();
-	this->socket->Listen(this->max_clients);
+
+	if(this->socket->Listen(this->port,this->max_clients))
+	{
+		// si se establece el listen el server queda levantado
+		this->status = true;
+	}
 
 	//std::thread(start);
 	// lo que sucede dentro de start es bloqueante x lo q se deberia ejectuar en un
@@ -81,3 +85,5 @@ void Server::stop()
 
 
 }
+//-----------------------------------------------------------------------------
+
