@@ -10,3 +10,18 @@ ClientConexion::~ClientConexion() {
 	// TODO Auto-generated destructor stub
 }
 //-----------------------------------------------------------------------------
+void ClientConexion::start()
+{
+	while(this->socket->IsActive())
+	{
+		//protocolo para clientes
+
+	}
+
+}
+//-----------------------------------------------------------------------------
+void ClientConexion::stop()
+{
+
+}
+//-----------------------------------------------------------------------------

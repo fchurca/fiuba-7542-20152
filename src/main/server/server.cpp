@@ -36,7 +36,7 @@ void Server::start()
 		//		this->admClientes);
 
 		// Damos la orden de que comience a ejecutarse el hilo del cliente.
-		//conexionCLI->start();
+		conexionCLI->start();
 		}
 
 }
