@@ -85,6 +85,8 @@ tipos_entidades:
     ancho_sprite: 32
     alto_sprite: 32
     cantidad_sprites: 1
+    sight_radius: 3
+    speed: 3
   - nombre: arbol
     imagen: resources/arbol.png
     ancho_base: 1.9
@@ -245,6 +247,10 @@ escenario:
       - {x: 19, y: 11, tipo: arbol }
       - {x: 21, y: 11, tipo: arbol }
     jugadores:
+      - name: Kybon
+        isHuman: true
+        entidades:
+          - {x: 20, y: 20, tipo: cubo }
       - name: Franceses
         isHuman: true
         entidades:

@@ -10,19 +10,49 @@
 
 #include "../remote_client/remote_client.h"
 
-int main(int argc, char* args[]) {
+int main(int argc, char* argv[]) {
 
 	auto & logger = *Logger::getInstance();
 	logger.writeInformation("Start game");
+
+	bool standalone = false, daemon = false, client = false;
+	if (argc >= 1) {
+		switch (argv[1][0]) {
+			case 'd': case 'D':
+				daemon = true;
+				logger.writeInformation("Starting game as daemon");
+				break;
+			case 'c': case 'C':
+				client = true;
+				logger.writeInformation("Starting game as client");
+				break;
+			default:
+				standalone = true;
+				logger.writeInformation("Starting game as standalone");
+				break;
+		}
+	}
 
 	bool restart = true;
 	do {
 		Game game;
 		ParserYAML parser(CONFIG_FILE_PATH);
 		parser.parse();
-		game.setBoard(make_shared<Board>(parser));
-		game.addClient(make_shared<GameWindow>(game, *(game.getAvailablePlayer()), parser));
-		// game.addClient(make_shared<RemoteClient>(game, *(game.getBoard()->getPlayers()[1])));
+		if (client) {
+			game.setBoard(make_shared<Board>(parser));
+		} else {
+			game.setBoard(make_shared<Board>(parser));
+		}
+		if (daemon) {
+			auto remotePlayer = game.getAvailablePlayer();
+			if (remotePlayer) {
+				game.addClient(make_shared<RemoteClient>(game, *(remotePlayer)));
+			}
+		}
+		auto graphicPlayer = game.getAvailablePlayer();
+		if (graphicPlayer) {
+			game.addClient(make_shared<GameWindow>(game, *(graphicPlayer), parser));
+		}
 		game.start();
 		restart = game.willRestart();
 	} while (restart);
