@@ -19,15 +19,16 @@ PosixSocket::~PosixSocket() {
 //-----------------------------------------------------------------------------
 bool PosixSocket::Connect(std::string hostIP,int hostPort){
 
+	// el conect es para clientes
 	return true;
 }
 //-----------------------------------------------------------------------------
-bool PosixSocket::Listen(int maxConnections)
+bool PosixSocket::Listen(unsigned int port, int maxConnections)
 {
 	if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
-		return 0;
+		return false;
 
-	status = 1;
+	status =  true;
 
 	sockaddr.sin_family = AF_INET;
 	sockaddr.sin_port = htons(port);
@@ -38,11 +39,16 @@ bool PosixSocket::Listen(int maxConnections)
 			(struct sockaddr *)&sockaddr,
 			sizeof(sockaddr)) < 0)
 	{
-		return -1;
+		return false;
 	}
 
 	// Comenzamos la escucha
-	return listen(sockfd, maxConnections);
+	if ( listen(sockfd, maxConnections) < 0)
+	{
+		return false;
+	}
+
+	return true;
 }
 //-----------------------------------------------------------------------------
 Socket* PosixSocket::Accept()
@@ -102,5 +108,10 @@ bool PosixSocket::IsActive()
 void PosixSocket::deinit()
 {
 	this->status = false;
+}
+//-----------------------------------------------------------------------------
+void PosixSocket::Activate()
+{
+	this->status = true;
 }
 //-----------------------------------------------------------------------------
