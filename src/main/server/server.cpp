@@ -28,7 +28,12 @@ void Server::start()
 	{
 		Socket *socketCLI = 0;
 
-		// Aceptamos nuevo cliente
+		// Aceptamos nuevo cliente accept es bloqueante
+		//cuando se recibe un nuevo cliente, se genera una conexion para atenderlo y se lo carga en el vector
+		//de conexiones
+
+		// Fede, en este punto es donde si queres la conexion puede ser un "Cliente... y tener logica"
+		//Osea cambiamos esa clase a lo que modela el cliente en el servidor y usa sockets para comunicacion
 		socketCLI = this->socket->Accept();
 
 		//Si hubo problemas en el socket salir y loggear
