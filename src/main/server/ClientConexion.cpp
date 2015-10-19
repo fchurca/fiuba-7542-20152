@@ -1,8 +1,9 @@
+//-----------------------------------------------------------------------------
 #include "ClientConexion.h"
 //-----------------------------------------------------------------------------
-ClientConexion::ClientConexion() {
-	// TODO Auto-generated constructor stub
+ClientConexion::ClientConexion(Socket* clientSocket) {
 
+	this->socket = clientSocket;
 }
 //-----------------------------------------------------------------------------
 ClientConexion::~ClientConexion() {

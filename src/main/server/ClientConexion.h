@@ -4,8 +4,11 @@
 //-----------------------------------------------------------------------------
 class ClientConexion {
 public:
-	ClientConexion();
+	ClientConexion(Socket* socket);
 	virtual ~ClientConexion();
+
+private:
+	Socket *socket;
 };
 //-----------------------------------------------------------------------------
 #endif /* SRC_MAIN_SERVER_CLIENTCONEXION_H_ */
