@@ -25,6 +25,9 @@ public:
 	void stop();
 	void start();
 
+private:
+	std::vector<ClientConexion*> adminClients;
+
 public:
 	bool isActive();
 };

@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------------
 #include "server.h"
-#include "../socket/posix/posixsocket.h"
+#include "socket/posix/posixsocket.h"
+#include "clientconexion.h"
 //-----------------------------------------------------------------------------
 Server::Server(Configuration* config) {
 	this->port = std::stoi(config->port);
@@ -8,6 +9,7 @@ Server::Server(Configuration* config) {
 	this->max_clients = config->max_clients;
 	this->status = false;
 	this->socket = 0;
+
 
 }
 //-----------------------------------------------------------------------------
@@ -22,7 +24,8 @@ bool Server::isActive()
 //-----------------------------------------------------------------------------
 void Server::start()
 {
-	while(this->isActive()) {
+	while(this->isActive())
+	{
 		Socket *socketCLI = 0;
 
 		// Aceptamos nuevo cliente
@@ -32,12 +35,14 @@ void Server::start()
 		if(!this->socket->IsActive() || !socketCLI) break;
 
 		// Generamos una nueva conexión para ese cliente
-		//ConexionCliente *conexionCLI = new ConexionCliente(socketCLI,
-		//		this->admClientes);
+		ClientConexion *conexion = new ClientConexion(socketCLI);
+
+		//el admin podria ser un singleton (depende de como lo usemos luego en "la logica")
+		this->adminClients.push_back(conexion);
 
 		// Damos la orden de que comience a ejecutarse el hilo del cliente.
-		conexionCLI->start();
-		}
+		conexion->start();
+	}
 
 }
 //-----------------------------------------------------------------------------
