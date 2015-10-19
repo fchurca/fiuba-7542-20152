@@ -23,7 +23,7 @@ public:
 public:
 	bool init();
 	void stop();
-	void run();
+	void start();
 
 public:
 	bool isActive();

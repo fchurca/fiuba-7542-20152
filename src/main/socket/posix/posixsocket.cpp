@@ -18,6 +18,11 @@ bool PosixSocket::Connect(std::string hostIP,int hostPort){
 //-----------------------------------------------------------------------------
 bool PosixSocket::Listen(int maxConnections)
 {
+	if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+		return 0;
+
+	status = 1;
+
 	sockaddr.sin_family = AF_INET;
 	sockaddr.sin_port = htons(port);
 
