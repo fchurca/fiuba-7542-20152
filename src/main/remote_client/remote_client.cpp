@@ -30,12 +30,15 @@ RemoteClient::RemoteClient(Game& owner, Player& player) :
 {
 	setFrame();
 	auto& board = *owner.getBoard();
-	cout << "+\t" << frame;
-	cout << "B\t" << board.name << endl;
+	cout << "+\t" << frame
+		<< '\t' << player.getId() << '\t' << board.getPlayers().size()
+		<< '\t' << board.name << endl;
+
 	for(auto& p : board.getPlayers()) {
 		cout << p->serialize();
 	}
 	cout << "T\t" << board.sizeX << '\t' << board.sizeY<< endl;
+	// TODO: EntityFactories
 	for(size_t x = board.sizeX - 1; x > 0; x--) {
 		for(size_t y = board.sizeY - 1; y > 0; y--) {
 			auto e = board.getTerrain(x, y);

@@ -148,8 +148,8 @@ tipos_recursos:
     capacidad: 100
 escenario:
     nombre: Orleans
-    size_x: 100
-    size_y: 100
+    size_x: 25
+    size_y: 25
     max_resources: 25000
     terrenos:
       - {x: 0, y: 0, tipo: agua }
