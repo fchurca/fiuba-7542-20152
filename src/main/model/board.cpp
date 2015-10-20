@@ -10,10 +10,11 @@
 using namespace std;
 
 //-----------------------------------------------------------------------------
-ABoard::ABoard(string name, size_t dt, int sizeX, int sizeY) :
+ABoard::ABoard(string name, size_t dt, int sizeX, int sizeY, long maxResources) :
 	name(name),
 	dt(dt),
 	sizeX(sizeX), sizeY(sizeY),
+	maxResources(maxResources),
 	frame(0)
 {}
 
@@ -21,15 +22,71 @@ size_t ABoard::getFrame() {
 	return frame;
 }
 
+std::vector<std::shared_ptr<Player>> ABoard::getPlayers() {
+	std::vector<std::shared_ptr<Player>> ret;
+	for(auto& i : players) {
+		ret.push_back(i.second);
+	}
+	return ret;
+}
+
+shared_ptr<Player> ABoard::createPlayer(string name, bool human) {
+	if (players.find(name) != players.end()) {
+		Logger::getInstance()->writeError("Jugador " + name + " ya existe");
+		return nullptr;
+	}
+	return (players[name] = make_shared<Player>(*this, name, human));
+}
+
+shared_ptr<Entity> ABoard::createEntity(string name, string playerName, r2 position) {
+	if (entityFactories.find(name) == entityFactories.end()) {
+		Logger::getInstance()->writeError("No existe el tipo de entidad " + name);
+		return nullptr;
+	}
+
+	auto factory = entityFactories[name];
+	if (findEntity(rectangle(position, factory->size))) {
+		Logger::getInstance()->writeError("Lugar ya ocupado para entidad " + name);
+		return nullptr;
+	}
+
+	auto pEntity = factory->createEntity(*players[playerName], position);
+	entities.push_back(pEntity);
+	return pEntity;
+}
+
+shared_ptr<EntityFactory> ABoard::createEntityFactory(string name, r2 size, double speed, int sight_radius, bool solid, int capacity) {
+	shared_ptr<EntityFactory> pFactory;
+	if(name == "carne" || name == "oro") {
+		pFactory = make_shared<ResourceEntityFactory>(name, size, speed, sight_radius, solid, capacity, *this);
+	} else {
+		pFactory = make_shared<EntityFactory>(name, size, speed, sight_radius, solid, capacity, *this);
+	}
+	entityFactories[name] = pFactory;
+	return pFactory;
+}
+
+shared_ptr<Entity> ABoard::getTerrain(size_t x, size_t y) {
+	return terrain[(sizeX*y) + x];
+}
+
+void ABoard::setTerrain(string name, size_t x, size_t y) {
+	if (entityFactories.find(name) == entityFactories.end()) {
+		Logger::getInstance()->writeError("No existe el tipo de entidad " + name);
+	} else {
+		terrain[(sizeX*y) + x] = entityFactories[name]->createEntity(*players[DEFAULT_PLAYER_NAME], {(double)x, (double)y});
+	}
+}
+
+vector<shared_ptr<Entity>> ABoard::getEntities() {
+	return entities;
+}
+
 shared_ptr<Entity> ABoard::findEntity(size_t id) {
 	auto it = find_if(entities.begin(), entities.end(), [id](shared_ptr<Entity> e) {
 			return e?e->getId() == id:false;
 			});
 	return (it == entities.end())? nullptr : *it;
-}
-
-shared_ptr<Entity> ABoard::getTerrain(size_t x, size_t y) {
-	return terrain[(sizeX*y) + x];
 }
 
 shared_ptr<Entity> ABoard::findEntity(rectangle r) {
@@ -47,8 +104,8 @@ shared_ptr<Entity> ABoard::findEntity(r2 pos) {
 Board::Board(ParserYAML& parser) :
 	ABoard(parser.getEscenario().nombre,
 			parser.getConfiguracion().dt,
-			parser.getEscenario().size_x, parser.getEscenario().size_y),
-	maxResources(parser.getEscenario().max_resources) 
+			parser.getEscenario().size_x, parser.getEscenario().size_y,
+			parser.getEscenario().max_resources)
 {
 	stringstream message;
 	message << "Creating board " << this << " of size " << sizeX << "x" << sizeY;
@@ -102,50 +159,6 @@ Board::Board(ParserYAML& parser) :
 	}
 }
 
-void Board::setTerrain(string name, size_t x, size_t y) {
-	if (entityFactories.find(name) == entityFactories.end()) {
-		Logger::getInstance()->writeError("No existe el tipo de entidad " + name);
-	} else {
-		terrain[(sizeX*y) + x] = entityFactories[name]->createEntity(*players[DEFAULT_PLAYER_NAME], {(double)x, (double)y});
-	}
-}
-
-shared_ptr<Entity> Board::createEntity(string name, string playerName, r2 position) {
-	if (entityFactories.find(name) == entityFactories.end()) {
-		Logger::getInstance()->writeError("No existe el tipo de entidad " + name);
-		return nullptr;
-	}
-
-	auto factory = entityFactories[name];
-	if (findEntity(rectangle(position, factory->size))) {
-		Logger::getInstance()->writeError("Lugar ya ocupado para entidad " + name);
-		return nullptr;
-	}
-
-	auto pEntity = factory->createEntity(*players[playerName], position);
-	entities.push_back(pEntity);
-	return pEntity;
-}
-
-shared_ptr<Player> Board::createPlayer(string name, bool human) {
-	if (players.find(name) != players.end()) {
-		Logger::getInstance()->writeError("Jugador " + name + " ya existe");
-		return nullptr;
-	}
-	return (players[name] = make_shared<Player>(*this, name, human));
-}
-
-shared_ptr<EntityFactory> Board::createEntityFactory(string name, r2 size, double speed, int sight_radius, bool solid, int capacity) {
-	shared_ptr<EntityFactory> pFactory;
-	if(name == "carne" || name == "oro") {
-		pFactory = make_shared<ResourceEntityFactory>(name, size, speed, sight_radius, solid, capacity, *this);
-	} else {
-		pFactory = make_shared<EntityFactory>(name, size, speed, sight_radius, solid, capacity, *this);
-	}
-	entityFactories[name] = pFactory;
-	return pFactory;
-}
-
 Board::~Board() {
 	stringstream message;
 	message << "Killing Board " << this;
@@ -169,19 +182,7 @@ void Board::update() {
 	}
 }
 
-vector<shared_ptr<Entity>> Board::getEntities() {
-	return entities;
-}
-
 Player& Board::findPlayer(string name) {
 	return *(players.find(name)->second);
-}
-
-std::vector<std::shared_ptr<Player>> Board::getPlayers() {
-	std::vector<std::shared_ptr<Player>> ret;
-	for(auto& i : players) {
-		ret.push_back(i.second);
-	}
-	return ret;
 }
 

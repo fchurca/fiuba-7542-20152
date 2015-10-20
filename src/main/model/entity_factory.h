@@ -17,9 +17,9 @@ class EntityFactory {
 		int sight_radius;
 		bool solid;
 		int capacity;
-		Board& board;
+		ABoard& board;
 
-		EntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, Board& board);
+		EntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, ABoard& board);
 		~EntityFactory();
 
 		std::shared_ptr<Entity> createEntity(Player& player, r2 position);
@@ -28,7 +28,7 @@ class EntityFactory {
 
 class ResourceEntityFactory: public EntityFactory {
 	public:
-		ResourceEntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, Board& board);
+		ResourceEntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, ABoard& board);
 		void populate();
 };
 

@@ -8,7 +8,7 @@
 
 #include "geometry.h"
 
-class Board;
+class ABoard;
 class Entity;
 
 typedef enum {
@@ -27,8 +27,8 @@ class Player {
 	public:
 		const std::string name;
 		const bool human;
-		Player(Board& board, std::string name, bool human);
-		Board& board;
+		Player(ABoard& board, std::string name, bool human);
+		ABoard& board;
 		std::vector<std::shared_ptr<Entity>> entities();
 		void update();
 		Visibility getVisibility(r2 pos);

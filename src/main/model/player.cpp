@@ -8,7 +8,7 @@
 
 using namespace std;
 
-Player::Player(Board& board, std::string name, bool human) :
+Player::Player(ABoard& board, std::string name, bool human) :
 	board(board),
 	name(name),
 	human(human)

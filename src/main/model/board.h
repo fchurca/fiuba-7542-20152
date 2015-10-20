@@ -9,22 +9,34 @@
 #include "player.h"
 #include "../log/logger.h"
 
+class Entity;
+class EntityFactory;
+class ParserYAML;
+
 class ABoard {
 	protected:
+		std::map<std::string, std::shared_ptr<Player>> players;
+		std::map<std::string, std::shared_ptr<EntityFactory>> entityFactories;
 		std::vector<std::shared_ptr<Entity>> entities;
 		std::vector<std::shared_ptr<Entity>> terrain;
 		size_t frame;
 	public:
+		const long maxResources;
 		const int
 			sizeX, sizeY;
 		const std::string name;
 		size_t dt;
 
-		ABoard(std::string name, size_t dt, int sizeX, int sizeY);
+		ABoard(std::string name, size_t dt, int sizeX, int sizeY, long maxResources);
 
 		virtual void update() = 0;
-		virtual std::vector<std::shared_ptr<Player>> getPlayers() = 0;
+		std::shared_ptr<Player> createPlayer(std::string name, bool human);
+		virtual std::vector<std::shared_ptr<Player>> getPlayers();
+		std::shared_ptr<EntityFactory> createEntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity);
+		std::shared_ptr<Entity> createEntity(std::string name, std::string playerName, r2 position);
 		virtual std::shared_ptr<Entity> getTerrain(size_t x, size_t y);
+		void setTerrain(std::string name, size_t x, size_t y);
+		std::vector<std::shared_ptr<Entity>> getEntities();
 		template<typename F> void mapEntities(F fun);
 		template<typename Pred>
 			std::vector<std::shared_ptr<Entity>> selectEntities(Pred pred);
@@ -34,30 +46,16 @@ class ABoard {
 		std::shared_ptr<Entity> findEntity(r2 pos);
 };
 
-class Entity;
-class EntityFactory;
-class ParserYAML;
-
 class Board : public ABoard {
+	protected:
+		Board();
 
-protected:
-	std::map<std::string, std::shared_ptr<Player>> players;
-	std::map<std::string, std::shared_ptr<EntityFactory>> entityFactories;
-	Board();
+	public:
+		Board(ParserYAML& parser);
+		~Board();
 
-public:
-	const long maxResources;
-	Board(ParserYAML& parser);
-	~Board();
-
-	void setTerrain(std::string name, size_t x, size_t y);
-	std::shared_ptr<Entity> createEntity(std::string name, std::string playerName, r2 position);
-	std::shared_ptr<Player> createPlayer(std::string name, bool human);
-	std::shared_ptr<EntityFactory> createEntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity);
-	void update();
-	std::vector<std::shared_ptr<Entity>> getEntities();
-	Player& findPlayer(std::string name);
-	std::vector<std::shared_ptr<Player>> getPlayers();
+		void update();
+		Player& findPlayer(std::string name);
 };
 
 #include "board.cxx"

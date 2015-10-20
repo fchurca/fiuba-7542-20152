@@ -2,7 +2,7 @@
 
 #include "entity_factory.h"
 
-EntityFactory::EntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, Board& board):
+EntityFactory::EntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, ABoard& board):
 	name(name),
 	size(size),
 	speed(speed),
@@ -38,7 +38,7 @@ std::shared_ptr<Entity> EntityFactory::createEntity(Player& player, r2 position)
 void EntityFactory::populate() {
 }
 
-ResourceEntityFactory::ResourceEntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, Board& board) :
+ResourceEntityFactory::ResourceEntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, ABoard& board) :
 	EntityFactory(name, size, speed, sight_radius, solid, capacity, board)
 
 {}
