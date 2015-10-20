@@ -50,10 +50,14 @@ GameWindow::GameWindow(Game& owner, Player& player, ParserYAML& parser) :
 	addSpriteSheet(TERRENO_DEFAULT_NOMBRE, TERRENO_DEFAULT_IMAGEN, TERRENO_DEFAULT_PIXEL_REF_X, TERRENO_DEFAULT_PIXEL_REF_Y, TERRENO_DEFAULT_ALTO_SPRITE, TERRENO_DEFAULT_ANCHO_SPRITE, TERRENO_DEFAULT_CANTIDAD_SPRITES, TERRENO_DEFAULT_FPS, TERRENO_DEFAULT_DELAY);
 	addSpriteSheet(PROTAGONISTA_DEFAULT_NOMBRE, PROTAGONISTA_DEFAULT_IMAGEN, PROTAGONISTA_DEFAULT_PIXEL_REF_X, PROTAGONISTA_DEFAULT_PIXEL_REF_Y, PROTAGONISTA_DEFAULT_ALTO_SPRITE, PROTAGONISTA_DEFAULT_ANCHO_SPRITE, PROTAGONISTA_DEFAULT_CANTIDAD_SPRITES, PROTAGONISTA_DEFAULT_FPS, PROTAGONISTA_DEFAULT_DELAY);
 
-	font = TTF_OpenFont(FUENTE_DEFAULT, 10);
+	font = TTF_OpenFont(FUENTE_DEFAULT, 20);
 	if (!font) {
 		Logger::getInstance()->writeError("Error al abrir TTF");
 	}
+	fondoMenu = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STATIC, ancho_pantalla, alto_pantalla / 4);
+	textureMenu1 = nullptr;
+	textureMenu2 = nullptr;
+	textureMenu3 = nullptr;
 
 	auto tp = parser.getPantalla();
 	auto tc = parser.getConfiguracion();
@@ -73,6 +77,8 @@ GameWindow::GameWindow(Game& owner, Player& player, ParserYAML& parser) :
 }
 
 GameWindow::~GameWindow() {
+	if (fondoMenu) 
+		SDL_DestroyTexture(fondoMenu);
 	TTF_CloseFont(font);
 	spriteSheets.clear();
 
@@ -111,8 +117,6 @@ bool GameWindow::canDraw(shared_ptr<Entity> e) {
 }
 
 void GameWindow::render() {
-	// IsoView
-	//	Dibujar
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
 	// Dibujamos el terreno
@@ -179,12 +183,16 @@ void GameWindow::render() {
 
 		SDL_RenderDrawLines(renderer, points, 5);
 	}
-	SDL_Texture* fondo = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STATIC, ancho_pantalla, alto_pantalla / 4);
-	SDL_Rect fondoMenu = { 0, 0, ancho_pantalla, alto_pantalla / 4 };
+	SDL_Rect fondo = { 0, 0, ancho_pantalla, alto_pantalla / 4 };
 	SDL_Rect destinoFondoMenu = { 0, 3*alto_pantalla/4, ancho_pantalla, alto_pantalla / 4 };
-	SDL_RenderCopy(renderer,fondo,&fondoMenu,&destinoFondoMenu);
-	SDL_DestroyTexture(fondo);
+	SDL_RenderCopy(renderer,fondoMenu,&fondo,&destinoFondoMenu);
 	if (font) {
+		if (textureMenu1)
+			SDL_DestroyTexture(textureMenu1);
+		if (textureMenu2)
+			SDL_DestroyTexture(textureMenu2);
+		if (textureMenu3)
+			SDL_DestroyTexture(textureMenu3);
 		std::string primerColumna, segundaColumna, terceraColumna;
 		SDL_Color color = { 255, 255, 255 };
 		//Primer Columna//
@@ -204,56 +212,56 @@ void GameWindow::render() {
 			terceraColumna = terceraColumna + completeLine(s->name, font);
 			terceraColumna = terceraColumna + completeLine("(" + s->owner.name + ")", font);
 		}
-		
+		int access1, w1, h1, access2, w2, h2, access3, w3, h3;
+		Uint32 format1, format2, format3;
 		SDL_Surface * c1 = TTF_RenderText_Blended_Wrapped(font, primerColumna.c_str(), color, ancho_pantalla / 4);
-		SDL_Texture * t1 = SDL_CreateTextureFromSurface(renderer, c1);
+		
+		textureMenu1 = SDL_CreateTextureFromSurface(renderer, c1);
 		SDL_Surface * c2 = TTF_RenderText_Blended_Wrapped(font, segundaColumna.c_str(), color, ancho_pantalla / 4);
-		SDL_Texture * t2 = SDL_CreateTextureFromSurface(renderer, c2);
+		textureMenu2 = SDL_CreateTextureFromSurface(renderer, c2);
 		SDL_Surface * c3 = TTF_RenderText_Blended_Wrapped(font, terceraColumna.c_str(), color, ancho_pantalla / 4);
-		SDL_Texture * t3 = SDL_CreateTextureFromSurface(renderer, c3);
+		textureMenu3 = SDL_CreateTextureFromSurface(renderer, c3);
 		SDL_FreeSurface(c1);
 		SDL_FreeSurface(c2);
 		SDL_FreeSurface(c3);
 		
-		SDL_Rect panel1 = { 0, 0, ancho_pantalla / 4, alto_pantalla / 4 };
-		SDL_Rect text1 = { 0, 3 * alto_pantalla / 4, ancho_pantalla / 4, alto_pantalla / 4 };
-		SDL_RenderCopy(renderer, t1, &panel1, &text1);
+		SDL_QueryTexture(textureMenu1, &format1, &access1, &w1, &h1);
+		SDL_Rect panel1 = { 0, 0, w1 , h1 };
+		SDL_Rect text1 = { 0, 3 * alto_pantalla / 4, w1 , h1 };
+		SDL_RenderCopy(renderer, textureMenu1, &panel1, &text1);
 		
-		SDL_Rect panel2 = { 0, 0, ancho_pantalla / 4, alto_pantalla / 4 };
-		SDL_Rect text2 = { ancho_pantalla / 4, 3 * alto_pantalla / 4, ancho_pantalla / 4, alto_pantalla / 4 };
-		SDL_RenderCopy(renderer, t2, &panel2, &text2);
+		SDL_QueryTexture(textureMenu2, &format2, &access2, &w2, &h2);
+		SDL_Rect panel2 = { 0, 0, w2, h2 };
+		SDL_Rect text2 = { ancho_pantalla / 4, 3 * alto_pantalla / 4, w2, h2 };
+		SDL_RenderCopy(renderer, textureMenu2, &panel2, &text2);
 
-		SDL_Rect panel3 = { 0, 0, ancho_pantalla / 4, alto_pantalla / 4 };
-		SDL_Rect text3 = { 2 * ancho_pantalla / 4, 3 * alto_pantalla / 4, ancho_pantalla / 4, alto_pantalla / 4 };
-		SDL_RenderCopy(renderer, t3, &panel3, &text3);
-		SDL_DestroyTexture(t1);
-		SDL_DestroyTexture(t2);
-		SDL_DestroyTexture(t3);
-		////Minimapa
-		for (int i = 0; i < player.board.sizeX; i++) {
-			for (int j = 0; j < player.board.sizeY; j++) {
-				shared_ptr<Entity> t = player.board.getTerrain(i, j);
-				if (player.getVisibility(*t) != INVISIBLE) {
-					SDL_Color color = tmpGetColor(t->name);
-					SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
-					SDL_RenderDrawPoint(renderer, t->getPosition().x + 10 + 3 * ancho_pantalla / 4, t->getPosition().y + 10 +  3 * alto_pantalla / 4);
-				}
-			}
-		}
-		for (auto e : player.board.getEntities()) {
-			if (player.getVisibility(*e) != INVISIBLE) {
-				SDL_Color color = getColor(e->owner.getId());
-				if (selection == e)
-					color = { 255,255,255 };
-				SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
-				SDL_RenderDrawPoint(renderer, e->getPosition().x + 10 + 3 * ancho_pantalla / 4, e->getPosition().y + 10 + 3 * alto_pantalla / 4);
-			}
-		}
-
-		
+		SDL_QueryTexture(textureMenu3, &format3, &access3, &w3, &h3);
+		SDL_Rect panel3 = { 0, 0, w3, h3 };
+		SDL_Rect text3 = { 2 * ancho_pantalla / 4, 3 * alto_pantalla / 4, w3, h3 };
+		SDL_RenderCopy(renderer, textureMenu3, &panel3, &text3);
 	}
-	SDL_RenderPresent(renderer);
+	////Minimapa
+	for (int i = 0; i < player.board.sizeX; i++) {
+		for (int j = 0; j < player.board.sizeY; j++) {
+			shared_ptr<Entity> t = player.board.getTerrain(i, j);
+			if (player.getVisibility(*t) != INVISIBLE) {
+				SDL_Color color = tmpGetColor(t->name);
+				SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
+				SDL_RenderDrawPoint(renderer, t->getPosition().x + 10 + 3 * ancho_pantalla / 4, t->getPosition().y + 10 + 3 * alto_pantalla / 4);
+			}
+		}
+	}
+	for (auto e : player.board.getEntities()) {
+		if (player.getVisibility(*e) != INVISIBLE) {
+			SDL_Color color = getColor(e->owner.getId());
+			if (selection == e)
+				color = { 255,255,255 };
+			SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
+			SDL_RenderDrawPoint(renderer, e->getPosition().x + 10 + 3 * ancho_pantalla / 4, e->getPosition().y + 10 + 3 * alto_pantalla / 4);
+		}
+	}
 
+	SDL_RenderPresent(renderer);
 	return;
 }
 
