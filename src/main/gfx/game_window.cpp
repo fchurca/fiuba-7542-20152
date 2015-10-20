@@ -111,30 +111,31 @@ bool GameWindow::canDraw(shared_ptr<Entity> e) {
 }
 
 void GameWindow::render() {
+	// IsoView
 	//	Dibujar
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
 	// Dibujamos el terreno
-	r2 margin(1,1),
-	   ul = screenToBoardPosition({0, 0}) - margin, // Upper Left
-	   ur = screenToBoardPosition({ancho_pantalla, 0}) - margin, // Upper Right
-	   bl = screenToBoardPosition({0, alto_pantalla}) + margin, // Bottom Left
-	   br = screenToBoardPosition({ancho_pantalla, alto_pantalla}) + margin; // Bottom Right
+	r2 margin(1, 1),
+		ul = screenToBoardPosition({ 0, 0 }) - margin, // Upper Left
+		ur = screenToBoardPosition({ ancho_pantalla, 0 }) - margin, // Upper Right
+		bl = screenToBoardPosition({ 0, alto_pantalla }) + margin, // Bottom Left
+		br = screenToBoardPosition({ ancho_pantalla, alto_pantalla }) + margin; // Bottom Right
 	double ud = ul.x + ul.y - 2, // Upper diagonal
-		   bd = bl.x + bl.y + 2, // Bottom diagonal
-		   ld = ul.x - ul.y - 2, // Left diagonal
-		   rd = ur.x - ur.y + 2; // Right diagonal
+		bd = bl.x + bl.y + 2, // Bottom diagonal
+		ld = ul.x - ul.y - 2, // Left diagonal
+		rd = ur.x - ur.y + 2; // Right diagonal
 	for (size_t x = max(0.0, ul.x),
-			maxx = min(((double)board.sizeX), br.x);
-			x < maxx;
-			x++) {
+		maxx = min(((double)board.sizeX), br.x);
+		x < maxx;
+		x++) {
 		if (x >= board.sizeX) {
 			break;
 		}
 		for (size_t y = max(max(max(0.0, ur.y), ud - x), x - rd),
-				maxy = min(min(min(((double)board.sizeY), bl.y), bd - x), x - ld);
-				y < maxy;
-				y++) {
+			maxy = min(min(min(((double)board.sizeY), bl.y), bd - x), x - ld);
+			y < maxy;
+			y++) {
 			if (y >= board.sizeY) {
 				break;
 			}
@@ -148,7 +149,7 @@ void GameWindow::render() {
 	}
 	// Seleccionamos entidades que se pisan con la pantalla
 	auto entities = board.selectEntities([this](shared_ptr<Entity> e) {
-			return canDraw(e);});
+		return canDraw(e); });
 	// Ordenamos las entidades por oclusión
 	sort(entities.begin(), entities.end(), [](shared_ptr<Entity> a, shared_ptr<Entity> b) {
 		return (a->size.x == a->size.y && b->size.x == b->size.y) ?
@@ -156,9 +157,9 @@ void GameWindow::render() {
 			((a->getPosition().x + a->size.x < b->getPosition().x) || (a->getPosition().y + a->size.y < b->getPosition().y)) &&
 			!((b->getPosition().x + b->size.x <= a->getPosition().x) || (b->getPosition().y + b->size.y <= a->getPosition().y));
 	});
-	for(auto& e : entities) {
+	for (auto& e : entities) {
 		auto it = spriteSheets.find(e->name);
-		if(it == spriteSheets.end()){
+		if (it == spriteSheets.end()) {
 			Logger::getInstance()->writeWarning("No existe SpriteSheet para este tipo de entidad" + e->name);
 			continue;
 		}
@@ -174,10 +175,15 @@ void GameWindow::render() {
 			boardToScreenPosition(p + r2(s.x, 0)),
 			boardToScreenPosition(p + s),
 			boardToScreenPosition(p + r2(0, s.y)),
-			boardToScreenPosition(p)};
+			boardToScreenPosition(p) };
 
 		SDL_RenderDrawLines(renderer, points, 5);
 	}
+	SDL_Texture* fondo = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STATIC, ancho_pantalla, alto_pantalla / 4);
+	SDL_Rect fondoMenu = { 0, 0, ancho_pantalla, alto_pantalla / 4 };
+	SDL_Rect destinoFondoMenu = { 0, 3*alto_pantalla/4, ancho_pantalla, alto_pantalla / 4 };
+	SDL_RenderCopy(renderer,fondo,&fondoMenu,&destinoFondoMenu);
+	SDL_DestroyTexture(fondo);
 	if (font) {
 		std::string primerColumna, segundaColumna, terceraColumna;
 		SDL_Color color = { 255, 255, 255 };
@@ -199,6 +205,30 @@ void GameWindow::render() {
 			terceraColumna = terceraColumna + completeLine("(" + s->owner.name + ")", font);
 		}
 		
+		SDL_Surface * c1 = TTF_RenderText_Blended_Wrapped(font, primerColumna.c_str(), color, ancho_pantalla / 4);
+		SDL_Texture * t1 = SDL_CreateTextureFromSurface(renderer, c1);
+		SDL_Surface * c2 = TTF_RenderText_Blended_Wrapped(font, segundaColumna.c_str(), color, ancho_pantalla / 4);
+		SDL_Texture * t2 = SDL_CreateTextureFromSurface(renderer, c2);
+		SDL_Surface * c3 = TTF_RenderText_Blended_Wrapped(font, terceraColumna.c_str(), color, ancho_pantalla / 4);
+		SDL_Texture * t3 = SDL_CreateTextureFromSurface(renderer, c3);
+		SDL_FreeSurface(c1);
+		SDL_FreeSurface(c2);
+		SDL_FreeSurface(c3);
+		
+		SDL_Rect panel1 = { 0, 0, ancho_pantalla / 4, alto_pantalla / 4 };
+		SDL_Rect text1 = { 0, 3 * alto_pantalla / 4, ancho_pantalla / 4, alto_pantalla / 4 };
+		SDL_RenderCopy(renderer, t1, &panel1, &text1);
+		
+		SDL_Rect panel2 = { 0, 0, ancho_pantalla / 4, alto_pantalla / 4 };
+		SDL_Rect text2 = { ancho_pantalla / 4, 3 * alto_pantalla / 4, ancho_pantalla / 4, alto_pantalla / 4 };
+		SDL_RenderCopy(renderer, t2, &panel2, &text2);
+
+		SDL_Rect panel3 = { 0, 0, ancho_pantalla / 4, alto_pantalla / 4 };
+		SDL_Rect text3 = { 2 * ancho_pantalla / 4, 3 * alto_pantalla / 4, ancho_pantalla / 4, alto_pantalla / 4 };
+		SDL_RenderCopy(renderer, t3, &panel3, &text3);
+		SDL_DestroyTexture(t1);
+		SDL_DestroyTexture(t2);
+		SDL_DestroyTexture(t3);
 		////Minimapa
 		for (int i = 0; i < player.board.sizeX; i++) {
 			for (int j = 0; j < player.board.sizeY; j++) {
@@ -206,7 +236,7 @@ void GameWindow::render() {
 				if (player.getVisibility(*t) != INVISIBLE) {
 					SDL_Color color = tmpGetColor(t->name);
 					SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
-					SDL_RenderDrawPoint(renderer, t->getPosition().x + 10 + ancho_pantalla / 4, t->getPosition().y + 10 + alto_pantalla / 4);
+					SDL_RenderDrawPoint(renderer, t->getPosition().x + 10 + 3 * ancho_pantalla / 4, t->getPosition().y + 10 +  3 * alto_pantalla / 4);
 				}
 			}
 		}
@@ -216,66 +246,14 @@ void GameWindow::render() {
 				if (selection == e)
 					color = { 255,255,255 };
 				SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
-				SDL_RenderDrawPoint(renderer, e->getPosition().x + 10 + ancho_pantalla / 4, e->getPosition().y + 10 + alto_pantalla / 4);
+				SDL_RenderDrawPoint(renderer, e->getPosition().x + 10 + 3 * ancho_pantalla / 4, e->getPosition().y + 10 + 3 * alto_pantalla / 4);
 			}
 		}
-		int c1Alto, c1Ancho, c2Alto, c2Ancho, c3Alto, c3Ancho;
-		SDL_Surface * c1 = TTF_RenderText_Blended_Wrapped(font, primerColumna.c_str(), color, ancho_pantalla / 4);
-		SDL_Texture * t1 = SDL_CreateTextureFromSurface(renderer, c1);
-		TTF_SizeText(font, primerColumna.c_str(), &c1Ancho, &c1Alto);
-		SDL_Surface * c2 = TTF_RenderText_Blended_Wrapped(font, segundaColumna.c_str(), color, ancho_pantalla / 4);
-		SDL_Texture * t2 = SDL_CreateTextureFromSurface(renderer, c2);
-		TTF_SizeText(font, segundaColumna.c_str(), &c2Ancho, &c2Alto);
-		SDL_Surface * c3 = TTF_RenderText_Blended_Wrapped(font, terceraColumna.c_str(), color, ancho_pantalla / 4);
-		SDL_Texture * t3 = SDL_CreateTextureFromSurface(renderer, c3);
-		TTF_SizeText(font, terceraColumna.c_str(), &c3Ancho, &c3Alto);
-		SDL_FreeSurface(c1);
-		SDL_FreeSurface(c2);
-		SDL_FreeSurface(c3);
-		
-		SDL_Rect menuPanel1;
-		menuPanel1.x = 0;
-		menuPanel1.y = 3 * alto_pantalla / 4;
-		menuPanel1.w = (c1Ancho > ancho_pantalla / 4) ? ancho_pantalla / 4 : c1Ancho;
-		menuPanel1.h = (c1Alto > alto_pantalla / 4) ? alto_pantalla / 4 : (int)floor(c1Ancho / (ancho_pantalla / 4)) * c1Alto;
-		SDL_RenderSetViewport(renderer, &menuPanel1);
-		SDL_RenderCopy(renderer, t1, NULL, NULL);
-		
-		
-		SDL_Rect menuPanel2;
-		menuPanel2.x = ancho_pantalla / 4;
-		menuPanel2.y = 3 * alto_pantalla / 4;
-		menuPanel2.w = (c2Ancho > ancho_pantalla / 4) ? ancho_pantalla / 4 : c2Ancho;
-		menuPanel2.h = (c2Alto > alto_pantalla / 4) ? alto_pantalla / 4 : (int)floor(c2Ancho/(ancho_pantalla/4)) * c2Alto;
-		SDL_RenderSetViewport(renderer, &menuPanel2);
-		SDL_RenderCopy(renderer, t2, NULL, NULL);
-		
-		SDL_Rect menuPanel3;
-		menuPanel3.x = 2 * ancho_pantalla / 4;
-		menuPanel3.y = 3 * alto_pantalla / 4;
-		menuPanel3.w = (c3Ancho > ancho_pantalla / 4) ? ancho_pantalla / 4 : c3Ancho;
-		menuPanel3.h = (c3Alto > alto_pantalla / 4) ? alto_pantalla / 4 : (int)floor(c3Ancho / (ancho_pantalla / 4)) * c3Alto;
-		SDL_RenderSetViewport(renderer, &menuPanel3);
-		SDL_RenderCopy(renderer, t3, NULL, NULL);
-		
-		SDL_Rect menuPanel4;
-		menuPanel4.x = 3 * ancho_pantalla / 4;
-		menuPanel4.y = 3 * alto_pantalla / 4;
-		menuPanel4.w = ancho_pantalla / 4;
-		menuPanel4.h = alto_pantalla / 4;
-		SDL_RenderSetViewport(renderer, &menuPanel4);
-		SDL_RenderCopy(renderer, NULL, NULL, NULL);
-		
-		SDL_Rect pantallaPanel;
-		pantallaPanel.x = 0;
-		pantallaPanel.y = 0;
-		pantallaPanel.w = ancho_pantalla;
-		pantallaPanel.h = 3 * alto_pantalla / 4;
-		SDL_RenderSetViewport(renderer, &pantallaPanel);
-		SDL_RenderCopy(renderer, NULL, NULL, NULL);
-	}
 
+		
+	}
 	SDL_RenderPresent(renderer);
+
 	return;
 }
 
