@@ -17,12 +17,14 @@ void RemoteClient::setFrame() {
 
 void RemoteClient::update() {
 	auto board = this->owner.getBoard();
+	deletedMutex.lock();
 	board->mapEntities([this](shared_ptr<Entity> e) {
 			if (e->getDeletable()) {
 				deleted.push(e->getId());
 			}
 		});
 	setFrame();
+	deletedMutex.unlock();
 }
 
 RemoteClient::RemoteClient(Game& owner, Player& player) :
@@ -96,10 +98,12 @@ RemoteClient::RemoteClient(Game& owner, Player& player) :
 							answer << p->serialize();
 						}
 					}
+					deletedMutex.lock();
 					while (deleted.size() > 0) {
 						answer << "D\t" << deleted.front() << endl;
 						deleted.pop();
 					}
+					deletedMutex.unlock();
 					ack = true;
 				}
 				if (ack) {
