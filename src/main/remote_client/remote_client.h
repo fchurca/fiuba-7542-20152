@@ -3,6 +3,8 @@
 
 #include <thread>
 
+#include <queue>
+
 #include "../model/abstract_client.h"
 #include "../parser_yaml/parser_yaml.h"
 
@@ -11,6 +13,7 @@ class RemoteClient : public AClient{
 		size_t frame;
 		void setFrame();
 		thread th;
+		std::queue<size_t> deleted;
 	public:
 		void update();
 		RemoteClient(Game& owner, Player& player);
