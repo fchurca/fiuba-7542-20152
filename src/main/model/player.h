@@ -24,6 +24,7 @@ class Player {
 		size_t id;
 		size_t frame;
 		void setFrame();
+		bool active;
 	public:
 		const std::string name;
 		const bool human;
@@ -38,6 +39,8 @@ class Player {
 		bool grantResources(std::string resource, long r);
 		size_t getId();
 		void setId(size_t newId);
+		bool getActive();
+		void setActive(bool newActive);
 		size_t getFrame();
 		std::string serialize();
 };

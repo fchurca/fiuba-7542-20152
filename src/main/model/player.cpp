@@ -90,9 +90,17 @@ size_t Player::getFrame() {
 	return frame;
 }
 
+void Player::setActive(bool newActive) {
+	active = newActive;
+}
+
+bool Player::getActive() {
+	return active;
+}
+
 string Player::serialize() {
 	stringstream ret;
-	ret << "P\t" << id << '\t' << name;
+	ret << "P\t" << id << '\t' << name << '\t' << active;
 	for (auto& i : resources) {
 		ret << '\t' << i.first << '\t' << i.second;
 	}

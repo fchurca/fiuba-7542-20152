@@ -46,7 +46,7 @@ bin/game.o: model/game.cpp model/game.h
 bin/player.o: model/player.cpp model/player.h
 	${CXXO}
 
-bin/abstract_client.o: model/abstract_client.cpp model/abstract_client.h
+bin/abstract_client.o: model/abstract_client.cpp model/abstract_client.h model/player.h
 	${CXXO}
 
 bin/remote_client.o: remote_client/remote_client.cpp remote_client/remote_client.h

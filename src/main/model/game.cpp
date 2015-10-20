@@ -55,6 +55,7 @@ bool Game::addClient(std::shared_ptr<AClient> newClient) {
 		return false;
 	}
 	clients[p.name] = newClient;
+	p.setActive(true);
 	return true;
 }
 
