@@ -28,6 +28,21 @@ shared_ptr<Entity> ABoard::findEntity(size_t id) {
 	return (it == entities.end())? nullptr : *it;
 }
 
+shared_ptr<Entity> ABoard::getTerrain(size_t x, size_t y) {
+	return terrain[(sizeX*y) + x];
+}
+
+shared_ptr<Entity> ABoard::findEntity(rectangle r) {
+	auto it = find_if(entities.begin(), entities.end(), [r](shared_ptr<Entity> e) {
+			return rectangle(e->getPosition(), e->size).intersects(r);
+			});
+	return (it == entities.end())? nullptr : *it;
+}
+
+shared_ptr<Entity> ABoard::findEntity(r2 pos) {
+	return findEntity(rectangle(pos, {0,0}));
+}
+
 
 Board::Board(ParserYAML& parser) :
 	ABoard(parser.getEscenario().nombre,
@@ -87,27 +102,12 @@ Board::Board(ParserYAML& parser) :
 	}
 }
 
-shared_ptr<Entity> Board::getTerrain(size_t x, size_t y) {
-	return terrain[(sizeX*y) + x];
-}
-
 void Board::setTerrain(string name, size_t x, size_t y) {
 	if (entityFactories.find(name) == entityFactories.end()) {
 		Logger::getInstance()->writeError("No existe el tipo de entidad " + name);
 	} else {
 		terrain[(sizeX*y) + x] = entityFactories[name]->createEntity(*players[DEFAULT_PLAYER_NAME], {(double)x, (double)y});
 	}
-}
-
-shared_ptr<Entity> Board::findEntity(rectangle r) {
-	auto it = find_if(entities.begin(), entities.end(), [r](shared_ptr<Entity> e) {
-			return rectangle(e->getPosition(), e->size).intersects(r);
-			});
-	return (it == entities.end())? nullptr : *it;
-}
-
-shared_ptr<Entity> Board::findEntity(r2 pos) {
-	return findEntity(rectangle(pos, {0,0}));
 }
 
 shared_ptr<Entity> Board::createEntity(string name, string playerName, r2 position) {

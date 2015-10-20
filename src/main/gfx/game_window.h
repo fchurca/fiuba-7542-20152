@@ -31,7 +31,7 @@ protected:
 	void focus(r2 position);
 	void focus();
 	bool canDraw(std::shared_ptr<Entity> entity);
-	Board& board;
+	ABoard& board;
 	std::shared_ptr<Entity> selection;
 	SDL_Color getColor(int id);
 	SDL_Color tmpGetColor(std::string name);

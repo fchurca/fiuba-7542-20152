@@ -12,6 +12,7 @@
 class ABoard {
 	protected:
 		std::vector<std::shared_ptr<Entity>> entities;
+		std::vector<std::shared_ptr<Entity>> terrain;
 		size_t frame;
 	public:
 		const int
@@ -23,12 +24,14 @@ class ABoard {
 
 		virtual void update() = 0;
 		virtual std::vector<std::shared_ptr<Player>> getPlayers() = 0;
-		virtual std::shared_ptr<Entity> getTerrain(size_t x, size_t y) = 0;
+		virtual std::shared_ptr<Entity> getTerrain(size_t x, size_t y);
 		template<typename F> void mapEntities(F fun);
 		template<typename Pred>
 			std::vector<std::shared_ptr<Entity>> selectEntities(Pred pred);
 		size_t getFrame();
 		std::shared_ptr<Entity> findEntity(size_t id);
+		std::shared_ptr<Entity> findEntity(rectangle r);
+		std::shared_ptr<Entity> findEntity(r2 pos);
 };
 
 class Entity;
@@ -41,7 +44,6 @@ protected:
 	std::map<std::string, std::shared_ptr<Player>> players;
 	std::map<std::string, std::shared_ptr<EntityFactory>> entityFactories;
 	Board();
-	std::vector<std::shared_ptr<Entity>> terrain;
 
 public:
 	const long maxResources;
@@ -49,9 +51,6 @@ public:
 	~Board();
 
 	void setTerrain(std::string name, size_t x, size_t y);
-	std::shared_ptr<Entity> getTerrain(size_t x, size_t y);
-	std::shared_ptr<Entity> findEntity(rectangle r);
-	std::shared_ptr<Entity> findEntity(r2 pos);
 	std::shared_ptr<Entity> createEntity(std::string name, std::string playerName, r2 position);
 	std::shared_ptr<Player> createPlayer(std::string name, bool human);
 	std::shared_ptr<EntityFactory> createEntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity);
