@@ -3,6 +3,7 @@
 
 #include <map>
 #include <string>
+#include <mutex>
 
 #include "abstract_client.h"
 #include "../log/logger.h"
@@ -13,6 +14,7 @@ private:
 	void init();
 	std::shared_ptr<ABoard> board;
 	std::map<std::string, std::shared_ptr<AClient>> clients;
+	std::mutex clientsMutex;
 	bool exit_p;
 	bool restart_p;
 	void clear();
