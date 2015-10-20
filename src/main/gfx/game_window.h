@@ -17,7 +17,6 @@ private:
 	SDL_Texture* textureMenu1;
 	SDL_Texture* textureMenu2;
 	SDL_Texture* textureMenu3;
-	SDL_Texture* fondoMenu;
 protected:
 	SDL_Point mouse;
 	SDL_Window* window;

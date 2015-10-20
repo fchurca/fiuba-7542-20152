@@ -54,7 +54,6 @@ GameWindow::GameWindow(Game& owner, Player& player, ParserYAML& parser) :
 	if (!font) {
 		Logger::getInstance()->writeError("Error al abrir TTF");
 	}
-	fondoMenu = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STATIC, ancho_pantalla, alto_pantalla / 4);
 	textureMenu1 = nullptr;
 	textureMenu2 = nullptr;
 	textureMenu3 = nullptr;
@@ -77,8 +76,6 @@ GameWindow::GameWindow(Game& owner, Player& player, ParserYAML& parser) :
 }
 
 GameWindow::~GameWindow() {
-	if (fondoMenu) 
-		SDL_DestroyTexture(fondoMenu);
 	TTF_CloseFont(font);
 	spriteSheets.clear();
 
@@ -183,9 +180,9 @@ void GameWindow::render() {
 
 		SDL_RenderDrawLines(renderer, points, 5);
 	}
-	SDL_Rect fondo = { 0, 0, ancho_pantalla, alto_pantalla / 4 };
-	SDL_Rect destinoFondoMenu = { 0, 3*alto_pantalla/4, ancho_pantalla, alto_pantalla / 4 };
-	SDL_RenderCopy(renderer,fondoMenu,&fondo,&destinoFondoMenu);
+	SDL_Rect destinoFondoMenu = {0, 3*alto_pantalla/4, ancho_pantalla, alto_pantalla / 4};
+	SDL_SetRenderDrawColor(renderer, 8, 8, 8, 255);
+	SDL_RenderFillRect(renderer, &destinoFondoMenu);
 	if (font) {
 		if (textureMenu1)
 			SDL_DestroyTexture(textureMenu1);
