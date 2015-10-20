@@ -68,7 +68,8 @@ GameWindow::GameWindow(Game& owner, Player& player, ParserYAML& parser) :
 	for (auto& t : parser.getTiposRecursos()) {
 		addSpriteSheet(t.nombre, t.imagen, t.pixel_ref_x, t.pixel_ref_y, t.alto_sprite, t.ancho_sprite, t.cantidad_sprites, t.fps, t.delay);
 	}
-
+	if(player.entities().size() > 0)
+		selection = player.entities().at(0);
 	focus();
 }
 
@@ -211,16 +212,19 @@ void GameWindow::render() {
 		SDL_Texture * textureMenu3 = SDL_CreateTextureFromSurface(renderer, c3);
 		
 		SDL_QueryTexture(textureMenu1, &format1, &access1, &w1, &h1);
+		// Si w1 o h1 extienden el ancho_pantalla/4 o alto_pantalla/4 respectivamente poner esos como max
 		SDL_Rect panel1 = { 0, 0, w1 , h1 };
 		SDL_Rect text1 = { 0, 3 * alto_pantalla / 4, w1 , h1 };
 		SDL_RenderCopy(renderer, textureMenu1, &panel1, &text1);
 		
 		SDL_QueryTexture(textureMenu2, &format2, &access2, &w2, &h2);
+		// Si w2 o h2 extienden el ancho_pantalla/4 o alto_pantalla/4 respectivamente poner esos como max
 		SDL_Rect panel2 = { 0, 0, w2, h2 };
 		SDL_Rect text2 = { ancho_pantalla / 4, 3 * alto_pantalla / 4, w2, h2 };
 		SDL_RenderCopy(renderer, textureMenu2, &panel2, &text2);
 
 		SDL_QueryTexture(textureMenu3, &format3, &access3, &w3, &h3);
+		// Si w3 o h3 extienden el ancho_pantalla/4 o alto_pantalla/4 respectivamente poner esos como max
 		SDL_Rect panel3 = { 0, 0, w3, h3 };
 		SDL_Rect text3 = { 2 * ancho_pantalla / 4, 3 * alto_pantalla / 4, w3, h3 };
 		SDL_RenderCopy(renderer, textureMenu3, &panel3, &text3);
