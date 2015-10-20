@@ -54,9 +54,6 @@ GameWindow::GameWindow(Game& owner, Player& player, ParserYAML& parser) :
 	if (!font) {
 		Logger::getInstance()->writeError("Error al abrir TTF");
 	}
-	textureMenu1 = nullptr;
-	textureMenu2 = nullptr;
-	textureMenu3 = nullptr;
 
 	auto tp = parser.getPantalla();
 	auto tc = parser.getConfiguracion();
@@ -184,12 +181,6 @@ void GameWindow::render() {
 	SDL_SetRenderDrawColor(renderer, 8, 8, 8, 255);
 	SDL_RenderFillRect(renderer, &destinoFondoMenu);
 	if (font) {
-		if (textureMenu1)
-			SDL_DestroyTexture(textureMenu1);
-		if (textureMenu2)
-			SDL_DestroyTexture(textureMenu2);
-		if (textureMenu3)
-			SDL_DestroyTexture(textureMenu3);
 		std::string primerColumna, segundaColumna, terceraColumna;
 		SDL_Color color = { 255, 255, 255 };
 		//Primer Columna//
@@ -213,14 +204,11 @@ void GameWindow::render() {
 		Uint32 format1, format2, format3;
 		SDL_Surface * c1 = TTF_RenderText_Blended_Wrapped(font, primerColumna.c_str(), color, ancho_pantalla / 4);
 		
-		textureMenu1 = SDL_CreateTextureFromSurface(renderer, c1);
+		SDL_Texture * textureMenu1 = SDL_CreateTextureFromSurface(renderer, c1);
 		SDL_Surface * c2 = TTF_RenderText_Blended_Wrapped(font, segundaColumna.c_str(), color, ancho_pantalla / 4);
-		textureMenu2 = SDL_CreateTextureFromSurface(renderer, c2);
+		SDL_Texture * textureMenu2 = SDL_CreateTextureFromSurface(renderer, c2);
 		SDL_Surface * c3 = TTF_RenderText_Blended_Wrapped(font, terceraColumna.c_str(), color, ancho_pantalla / 4);
-		textureMenu3 = SDL_CreateTextureFromSurface(renderer, c3);
-		SDL_FreeSurface(c1);
-		SDL_FreeSurface(c2);
-		SDL_FreeSurface(c3);
+		SDL_Texture * textureMenu3 = SDL_CreateTextureFromSurface(renderer, c3);
 		
 		SDL_QueryTexture(textureMenu1, &format1, &access1, &w1, &h1);
 		SDL_Rect panel1 = { 0, 0, w1 , h1 };
@@ -236,6 +224,12 @@ void GameWindow::render() {
 		SDL_Rect panel3 = { 0, 0, w3, h3 };
 		SDL_Rect text3 = { 2 * ancho_pantalla / 4, 3 * alto_pantalla / 4, w3, h3 };
 		SDL_RenderCopy(renderer, textureMenu3, &panel3, &text3);
+		SDL_FreeSurface(c1);
+		SDL_FreeSurface(c2);
+		SDL_FreeSurface(c3);
+		SDL_DestroyTexture(textureMenu1);
+		SDL_DestroyTexture(textureMenu2);
+		SDL_DestroyTexture(textureMenu3);
 	}
 	////Minimapa
 	for (int i = 0; i < player.board.sizeX; i++) {
