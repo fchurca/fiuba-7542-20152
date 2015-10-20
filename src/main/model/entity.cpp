@@ -192,7 +192,6 @@ string Entity::serialize() {
 	stringstream ret;
 	ret << "E\t" << id << '\t' << name << '\t'
 		<< frame << '\t'
-		<< deletable << '\t'
 		<< owner.getId() << '\t'
 		<< position.x << '\t' << position.y << '\t'
 		<< orientation << endl;

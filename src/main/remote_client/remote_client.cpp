@@ -4,6 +4,7 @@
 #include "../model/game.h"
 
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -15,19 +16,12 @@ void RemoteClient::setFrame() {
 }
 
 void RemoteClient::update() {
-	auto board = owner.getBoard();
-	if (board) {
-		board->mapEntities([this](shared_ptr<Entity> e) {
-				if (e->getFrame() > this->frame) {
-				cerr << e->serialize();
-				}
-				});
-		for(auto& p : board->getPlayers()) {
-			if (p->getFrame() > frame) {
-				cerr << p->serialize();
+	auto board = this->owner.getBoard();
+	board->mapEntities([this](shared_ptr<Entity> e) {
+			if (e->getDeletable()) {
+				deleted.push(e->getId());
 			}
-		}
-	}
+		});
 	setFrame();
 }
 
@@ -36,38 +30,82 @@ RemoteClient::RemoteClient(Game& owner, Player& player) :
 {
 	setFrame();
 	auto& board = *owner.getBoard();
-	cerr << "Joining" << endl
-		<< "Board " << board.name << endl
-		<< player.serialize();
+	cout << "+\t" << frame;
+	cout << "B\t" << board.name << endl;
 	for(auto& p : board.getPlayers()) {
-		if (&player == &*p) {
-			continue;
-		}
-		cerr << p->serialize();
+		cout << p->serialize();
 	}
-	cerr << "Terrain" << endl;
+	cout << "T\t" << board.sizeX << '\t' << board.sizeY<< endl;
 	for(size_t x = board.sizeX - 1; x > 0; x--) {
 		for(size_t y = board.sizeY - 1; y > 0; y--) {
 			auto e = board.getTerrain(x, y);
-			cerr << e->serialize();
+			cout << e->serialize();
 		}
 	}
-	cerr << "Entities";
+	cout << "T" << endl;
+	cout << "Entities";
 	board.mapEntities([](shared_ptr<Entity> e) {
-			cerr << e->serialize();});
+			cout << e->serialize();});
 	th = thread([this](){
-			while (!this->owner.willExit()) {
-			int i, x, y;
-			cin >> i >> x >> y;
-			if (!this->owner.willExit()) {
-			cerr << "Sending entity " << i << " to " << x << "," << y << endl;
-			auto e = this->owner.getBoard()->findEntity(i);
-			if (e) {
-			e->addTarget(r2(x, y));
+			string command;
+			while (!(command == "L" || cin.eof() || this->owner.willExit())) {
+				bool ack = false;
+				cerr << endl << ">";
+				stringstream answer;
+				cin >> command;
+				if (command == "L") {
+					ack = true;
+				} else if (command == "S") {
+					int i;
+					cin >> i;
+					auto e = this->owner.getBoard()->findEntity(i);
+					if(e) {
+						if (&(e->owner) == &(this->player)) {
+							e->unsetTarget();
+							ack = true;
+						}
+					}
+				} else if (command == "M") {
+					int i;
+					double x, y;
+					cin >> i >> x >> y;
+					if (!this->owner.willExit()) {
+						auto e = this->owner.getBoard()->findEntity(i);
+						if (e) {
+							if (&(e->owner) == &(this->player)) {
+								e->addTarget(r2(x, y));
+								ack = true;
+							}
+						}
+					}
+				} else if (command == "U") {
+					size_t frame;
+					cin >> frame;
+					answer << this->frame << '\t';
+					auto board = this->owner.getBoard();
+					board->mapEntities([this, &answer, frame](shared_ptr<Entity> e) {
+							if (e->getFrame() > frame) {
+								answer << e->serialize();
+							}
+						});
+					for(auto& p : board->getPlayers()) {
+						if (p->getFrame() > frame) {
+							answer << p->serialize();
+						}
+					}
+					while (deleted.size() > 0) {
+						answer << "D\t" << deleted.front() << endl;
+						deleted.pop();
+					}
+					ack = true;
+				}
+				if (ack) {
+					cout << "+" << answer.str() << endl;
+				} else {
+					cout << "-" << endl;
+				}
 			}
-			}
-			}
-			});
+	});
 }
 
 RemoteClient::~RemoteClient() {
