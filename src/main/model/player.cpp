@@ -95,7 +95,7 @@ void Player::setActive(bool newActive) {
 }
 
 bool Player::getActive() {
-	return active;
+	return active || !human;
 }
 
 string Player::serialize() {
