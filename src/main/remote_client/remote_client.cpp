@@ -30,19 +30,20 @@ RemoteClient::RemoteClient(Game& owner, Player& player) :
 {
 	setFrame();
 	auto& board = *owner.getBoard();
-	cout << "Joining" << endl
-		<< "Board " << board.name << endl;
+	cout << "+\t" << frame;
+	cout << "B\t" << board.name << endl;
 	for(auto& p : board.getPlayers()) {
 		cout << p->serialize();
 	}
-	cerr << "Terrain" << endl;
+	cout << "T\t" << board.sizeX << '\t' << board.sizeY<< endl;
 	for(size_t x = board.sizeX - 1; x > 0; x--) {
 		for(size_t y = board.sizeY - 1; y > 0; y--) {
 			auto e = board.getTerrain(x, y);
 			cout << e->serialize();
 		}
 	}
-	cerr << "Entities";
+	cout << "T" << endl;
+	cout << "Entities";
 	board.mapEntities([](shared_ptr<Entity> e) {
 			cout << e->serialize();});
 	th = thread([this](){
