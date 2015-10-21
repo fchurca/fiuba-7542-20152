@@ -5,7 +5,6 @@
 #include <vector>
 #include <map>
 #include <memory>
-#include <queue>
 //-----------------------------------------------------------------------------
 #include "command.h"
 #include "player.h"
@@ -21,7 +20,6 @@ class ABoard {
 		std::map<std::string, std::shared_ptr<EntityFactory>> entityFactories;
 		std::vector<std::shared_ptr<Entity>> entities;
 		std::vector<std::shared_ptr<Entity>> terrain;
-		std::vector<Command> commands;
 		size_t frame;
 	public:
 		const long maxResources;
