@@ -42,6 +42,8 @@ class rectangle {
 		rectangle();
 		explicit rectangle(r2 position, r2 size);
 		bool intersects(rectangle other);
+
+		static rectangle box(rectangle a, rectangle b);
 };
 
 #endif // _MODEL_GEOMETRY_H_

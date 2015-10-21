@@ -117,7 +117,7 @@ void Entity::addTarget(r2 newTarget) {
 			for(auto x = cpos.x - 1; x <= cpos.x + 1; x++) {
 				cerr << x << ',' << y;
 				auto p = round(r2(x, y));
-				if (!canEnter(p - size/2)) {
+				if (!canEnter(rectangle::box(rectangle(p - size/2, size), rectangle(cpos - size/2, size)))) {
 					cerr << "N\t";
 					continue;
 				}

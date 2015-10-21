@@ -74,3 +74,20 @@ bool rectangle::intersects(rectangle other) {
 		position.y + size.y > other.position.y;
 }
 
+rectangle rectangle::box(rectangle a, rectangle b) {
+	r2
+		pa = a.position,
+		pb = b.position;
+	bool
+		la = pa.x < pb.x,
+		ua = pa.y < pb.y;
+	rectangle &
+		l = la ? a : b,
+		r = la ? b : a,
+		u = ua ? a : b,
+		d = ua ? b : a;
+	return rectangle(
+			r2(l.position.x, u.position.y),
+			r2(r.position.x - l.position.x + r.size.x,
+				d.position.y - u.position.y + d.size.y));
+}
