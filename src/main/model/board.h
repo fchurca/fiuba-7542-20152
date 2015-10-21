@@ -34,7 +34,7 @@ class ABoard {
 
 		ABoard(std::string name, size_t dt, int sizeX, int sizeY, long maxResources);
 
-		virtual void update() = 0;
+		virtual void update();
 		std::shared_ptr<Player> createPlayer(std::string name, bool human);
 		virtual std::vector<std::shared_ptr<Player>> getPlayers();
 		std::shared_ptr<EntityFactory> createEntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity);

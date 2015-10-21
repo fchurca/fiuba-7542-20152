@@ -106,6 +106,26 @@ void ABoard::pushCommand(std::shared_ptr<Command> command) {
 	commandMutex.unlock();
 }
 
+void ABoard::update() {
+	frame++;
+	for(size_t i = 0; i < entities.size();) {
+		if (entities[i]->getDeletable()) {
+			entities.erase(entities.begin() + i);
+		} else {
+			i++;
+		}
+	}
+	commandMutex.lock();
+	while(commands.size() > 0) {
+		commands.front()->execute(*this);
+		commands.pop();
+	}
+	commandMutex.unlock();
+	for(auto& p : players) {
+		p.second->update();
+	}
+}
+
 
 Board::Board(ParserYAML& parser) :
 	ABoard(parser.getEscenario().nombre,
@@ -172,25 +192,9 @@ Board::~Board() {
 }
 
 void Board::update() {
-	frame++;
-	for(size_t i = 0; i < entities.size();) {
-		if (entities[i]->getDeletable()) {
-			entities.erase(entities.begin() + i);
-		} else {
-			i++;
-		}
-	}
-	commandMutex.lock();
-	while(commands.size() > 0) {
-		commands.front()->execute(*this);
-		commands.pop();
-	}
-	commandMutex.unlock();
+	ABoard::update();
 	for(auto& e : entities) {
 		e->update();
-	}
-	for(auto& p : players) {
-		p.second->update();
 	}
 }
 
