@@ -66,7 +66,7 @@ RemoteClient::RemoteClient(Game& owner, Player& player) :
 					auto e = this->owner.getBoard()->findEntity(i);
 					if(e) {
 						if (&(e->owner) == &(this->player)) {
-							e->unsetTarget();
+							StopCommand(e->getId()).execute(board);
 							ack = true;
 						}
 					}
@@ -78,7 +78,7 @@ RemoteClient::RemoteClient(Game& owner, Player& player) :
 						auto e = this->owner.getBoard()->findEntity(i);
 						if (e) {
 							if (&(e->owner) == &(this->player)) {
-								e->addTarget(r2(x, y));
+								MoveCommand(e->getId(), r2(x, y)).execute(board);
 								ack = true;
 							}
 						}
