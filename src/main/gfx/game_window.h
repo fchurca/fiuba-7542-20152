@@ -2,6 +2,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
+#include "minimap.h"
 #include "sprite_sheet.h"
 #include "../model/abstract_client.h"
 #include "../model/game.h"
@@ -14,6 +15,7 @@ class ParserYAML;
 class GameWindow : public AClient {
 private:
 	std::string completeLine(std::string line, TTF_Font* font);
+	void drawMenu();
 protected:
 	SDL_Point mouse;
 	SDL_Window* window;
@@ -33,8 +35,7 @@ protected:
 	bool canDraw(std::shared_ptr<Entity> entity);
 	ABoard& board;
 	std::shared_ptr<Entity> selection;
-	SDL_Color getColor(int id);
-	SDL_Color tmpGetColor(std::string name);
+	std::shared_ptr<MiniMap> minimap;
 public:
 	void addSpriteSheet(std::string name, std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay);
 	GameWindow(Game& owner, Player& player, ParserYAML& parser);

@@ -47,11 +47,11 @@ void SpriteSheet::clear(){
 	}
 }
 
-SDL_Texture*  SpriteSheet::getLoadedTexture( SDL_Renderer* renderer, Visibility state ){
+SDL_Texture*  SpriteSheet::getLoadedTexture( SDL_Renderer* renderer, Visibility state, bool playerIsActive ){
 	if( !initialized )
 		initialized = loadTexture( renderer );
 
-	if(state==VISIBLE)
+	if(state==VISIBLE && playerIsActive)
 		return texture;
 	return textureFOG;
 }
@@ -96,6 +96,7 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ) {
 
 void SpriteSheet::render(Entity & entity, SDL_Renderer* renderer){
 	Visibility state = owner.player.getVisibility(entity);
+	bool playerIsActive = owner.player.getActive();
 
 	if (total_sprites == 0){
 		currentFrame = 0;
@@ -113,7 +114,7 @@ void SpriteSheet::render(Entity & entity, SDL_Renderer* renderer){
 
 	//	Dibujado
 	if (state != INVISIBLE) //Aca hay que usar el canDraw
-		SDL_RenderCopy(renderer, getLoadedTexture(renderer, state), &clip, &renderQuad);
+		SDL_RenderCopy(renderer, getLoadedTexture(renderer, state, playerIsActive), &clip, &renderQuad);
 }
 
 void SpriteSheet::update(){

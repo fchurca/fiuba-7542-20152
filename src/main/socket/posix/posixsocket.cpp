@@ -6,6 +6,8 @@
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <sys/wait.h>
+#include <signal.h>
+#include <netdb.h>
 //-----------------------------------------------------------------------------
 PosixSocket::PosixSocket() {
 
@@ -17,9 +19,28 @@ PosixSocket::~PosixSocket() {
 	//		std::cerr << "ERROR: No se ha podido cerrar el socket." << std::endl
 }
 //-----------------------------------------------------------------------------
-bool PosixSocket::Connect(std::string hostIP,int hostPort){
+bool PosixSocket::Connect(std::string hostIp,int hostPort){
 
-	// el conect es para clientes
+	// Usamos connect cuando tenemos que conectarnos a un server
+
+	// Obtenemos host
+	struct hostent *he = gethostbyname(hostIp.c_str());
+
+	// Cargamos datos de la conexión a realizar
+	sockaddr.sin_family = AF_INET;
+	sockaddr.sin_port = htons(hostPort);
+	// destinoDir.sin_addr.s_addr = inet_addr(ipDestino.c_str());
+	sockaddr.sin_addr = *((struct in_addr *)he->h_addr);
+
+	//Ver si es necesario
+	//memset(&(sockaddr.sin_zero), '\0', sizeof(sockaddr.sin_zero));
+
+	// Conectamos
+	if(connect(this->sockfd, (struct sockaddr *)&sockaddr,
+		sizeof(struct sockaddr)) == -1)
+		throw "ERROR: No se pudo llevar a cabo la conexión.";
+
+
 	return true;
 }
 //-----------------------------------------------------------------------------
