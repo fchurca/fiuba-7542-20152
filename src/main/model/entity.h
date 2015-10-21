@@ -29,6 +29,7 @@ class Entity {
 		virtual void collide(Entity* other);
 		virtual void collide(Entity& other);
 		virtual void collide(ResourceEntity& other);
+		bool canEnter(rectangle r);
 		bool canEnter(r2 newPosition);
 		void setFrame();
 	public:

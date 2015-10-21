@@ -51,8 +51,88 @@ bool Entity::adjustPosition() {
 	return adjusted;
 }
 
+///////////////////////////////////////////////////////////////////////////////
+// HIC SVNT DRACONES
+///////////////////////////////////////////////////////////////////////////////
+
+#include <queue>
+#include <set>
+
+struct ASNode {
+	r2 position;
+	double g, f;
+	shared_ptr<ASNode> previous;
+	ASNode(r2 position, double g, double f, shared_ptr<ASNode> previous) :
+		position(position), g(g), f(f), previous(previous) {};
+};
+
+class compare {
+	public:
+		bool operator()(const shared_ptr<ASNode> a, const shared_ptr<ASNode> b) {
+			return a->f > b->f;
+		}
+};
+
 void Entity::addTarget(r2 newTarget) {
-	waypoints.push_back(newTarget);
+	auto round = [](r2 a) {return r2(floor(a.x)+.5, floor(a.y)+.5);};
+	r2
+		end = targeted() ? waypoints.back() : position,
+		start = round(newTarget);
+
+	cerr << "Going from " << end.x << "," << end.y
+		<< " to " << start.x << "," << start.y << endl;
+
+	priority_queue<ASNode, vector<shared_ptr<ASNode>>, compare> open;
+	auto h = [&end](r2& p) {return (p - end).length();};
+	auto f = [&h](ASNode n) {return h(n.position) + n.g;};
+	bool closed[board.sizeX][board.sizeY];
+	for(size_t i = 0; i < board.sizeX; i++) {
+		for(size_t j = 0; j < board.sizeY; j++) {
+			closed[i][j] = false;
+		}
+	}
+
+	open.emplace(make_shared<ASNode>(start, 0, h(start), nullptr));
+	while (open.size() > 0) {
+		auto c = open.top();
+		auto cpos = c->position;
+		cerr << "Analyzing " << cpos.x << "," << cpos.y
+			<< " f(" << c->f << ") g(" << c->g << ")";
+		if(c->previous) {
+			cerr << " from " << c->previous->position.x << "," << c->previous->position.y;
+		}
+		cerr << endl;
+		if ((int)cpos.x == (int)end.x && (int)cpos.y == (int)end.y) {
+			cerr << "Goal found!" << endl;
+			for (auto p = c; p; p = p->previous) {
+				auto pos = p->position;
+				cerr << "Waypoint " << pos.x << "," << pos.y << endl;
+				waypoints.push_back(p->position);
+			}
+			return;
+		}
+		open.pop();
+		closed[(int)floor(cpos.x)][(int)floor(cpos.y)] = true;
+		for(auto y = cpos.y - 1; y <= cpos.y + 1; y++) {
+			for(auto x = cpos.x - 1; x <= cpos.x + 1; x++) {
+				cerr << x << ',' << y;
+				auto p = round(r2(x, y));
+				if (!canEnter(p - size/2)) {
+					cerr << "N\t";
+					continue;
+				}
+				auto n = make_shared<ASNode>(p, (cpos - p).length() + c->g, .0, c);
+				n->f = f(*n);
+				if (closed[(int)floor(p.x)][(int)floor(p.y)]) {
+					cerr << ".\t";
+					continue;
+				}
+				open.emplace(n);
+				cerr << "O\t";
+			}
+			cerr << endl;
+		}
+	}
 }
 
 void Entity::unsetTarget() {
@@ -82,6 +162,16 @@ void Entity::collide(Entity& other) {}
 
 void Entity::collide(ResourceEntity& other) {}
 
+bool Entity::canEnter(rectangle r) {
+	auto colliders = board.selectEntities([this, r](shared_ptr<Entity> e) {
+			return (*e != *this) &&
+			e->solid &&
+			!e->deletable &&
+			(rectangle(e->position, e->size).intersects(r));
+			});
+	return colliders.size() == 0;
+}
+
 bool Entity::canEnter(r2 newPosition) {
 	auto newCenter = newPosition + size / 2;
 	if (newCenter.x < 0 ||
@@ -93,14 +183,7 @@ bool Entity::canEnter(r2 newPosition) {
 	if(board.getTerrain(floor(newCenter.x), floor(newCenter.y))->solid) {
 		return false;
 	}
-	rectangle shapeCandidate(newPosition, size);
-	auto colliders = board.selectEntities([this, shapeCandidate](shared_ptr<Entity> e) {
-			return (*e != *this) &&
-			e->solid &&
-			!e->deletable &&
-			(rectangle(e->position, e->size).intersects(shapeCandidate));
-			});
-	return colliders.size() == 0;
+	return canEnter(rectangle(newPosition, size));
 }
 
 void Entity::update() {
@@ -110,7 +193,6 @@ void Entity::update() {
 		auto dr = speed*board.dt/1000;
 		if (pow(dr, 2) < sqDistance()) {
 			auto newPos = position + r2::fromPolar(orientation, dr);
-			// TODO: colisionar
 			rectangle shapeCandidate(newPos, size);
 			auto colliders = board.selectEntities([this, shapeCandidate](shared_ptr<Entity> e) {
 					return (*e != *this) &&
