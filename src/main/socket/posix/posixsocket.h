@@ -21,7 +21,7 @@ public:
 
 	virtual ~PosixSocket();
 public:
-	bool Connect(std::string hostIP, int hostPort);
+	bool Connect(std::string hostIp, int hostPort);
 	bool Listen(unsigned int port, int maxConnections);
 	Socket* Accept();
 	int Send(const void* data, int dataLenght);
