@@ -67,6 +67,9 @@ shared_ptr<EntityFactory> ABoard::createEntityFactory(string name, r2 size, doub
 }
 
 shared_ptr<Entity> ABoard::getTerrain(size_t x, size_t y) {
+	if (x >= sizeX || y >= sizeY) {
+		return nullptr;
+	}
 	return terrain[(sizeX*y) + x];
 }
 

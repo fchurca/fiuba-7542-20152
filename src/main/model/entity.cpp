@@ -163,6 +163,18 @@ void Entity::collide(Entity& other) {}
 void Entity::collide(ResourceEntity& other) {}
 
 bool Entity::canEnter(rectangle r) {
+	auto& p = r.position;
+	auto& s = r.size;
+	for (int dx = 0; dx < s.x + 1; dx++) {
+		for (int dy = 0; dy < s.y + 1; dy++) {
+			auto t = board.getTerrain(floor(p.x + dx), floor(p.y + dy));
+			if (t) {
+				if(t->solid) {
+					return false;
+				}
+			}
+		}
+	}
 	auto colliders = board.selectEntities([this, r](shared_ptr<Entity> e) {
 			return (*e != *this) &&
 			e->solid &&
@@ -178,9 +190,6 @@ bool Entity::canEnter(r2 newPosition) {
 			newCenter.y < 0 ||
 			newCenter.x >= board.sizeX ||
 			newCenter.y >= board.sizeY) {
-		return false;
-	}
-	if(board.getTerrain(floor(newCenter.x), floor(newCenter.y))->solid) {
 		return false;
 	}
 	return canEnter(rectangle(newPosition, size));
