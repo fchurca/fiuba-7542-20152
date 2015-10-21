@@ -39,11 +39,13 @@ int main(int argc, char* argv[]) {
 		ParserYAML parser(CONFIG_FILE_PATH);
 		parser.parse();
 		if (client) {
+			// Acá estamos levantando el cliente. Lo siguiente en realidad es un RemoteBoard que se conecta por TCP/IP al daemon
 			game.setBoard(make_shared<Board>(parser));
 		} else {
 			game.setBoard(make_shared<Board>(parser));
 		}
 		if (daemon) {
+			// Acá estamos levantando el server. Todo el siguiente bloque es por cliente nuevo
 			auto remotePlayer = game.getAvailablePlayer();
 			if (remotePlayer) {
 				game.addClient(make_shared<RemoteClient>(game, *(remotePlayer)));

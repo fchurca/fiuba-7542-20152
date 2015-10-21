@@ -65,6 +65,7 @@ void Game::start() {
 	while (!willExit()) {
 		GameTimer::update();
 		board->update(); // Model
+		// Acá actualizamos a todos los clientes
 		for(auto& c : clients) {
 			c.second->update();
 		}
