@@ -5,7 +5,9 @@
 #include <vector>
 #include <map>
 #include <memory>
+#include <queue>
 //-----------------------------------------------------------------------------
+#include "command.h"
 #include "player.h"
 #include "../log/logger.h"
 
@@ -19,6 +21,7 @@ class ABoard {
 		std::map<std::string, std::shared_ptr<EntityFactory>> entityFactories;
 		std::vector<std::shared_ptr<Entity>> entities;
 		std::vector<std::shared_ptr<Entity>> terrain;
+		std::vector<Command> commands;
 		size_t frame;
 	public:
 		const long maxResources;
@@ -44,6 +47,10 @@ class ABoard {
 		std::shared_ptr<Entity> findEntity(size_t id);
 		std::shared_ptr<Entity> findEntity(rectangle r);
 		std::shared_ptr<Entity> findEntity(r2 pos);
+
+	// Visited methods for dispatching execute(board, command)
+		virtual void execute(StopCommand& command) = 0;
+		virtual void execute(MoveCommand& command) = 0;
 };
 
 class Board : public ABoard {
@@ -56,6 +63,9 @@ class Board : public ABoard {
 
 		void update();
 		Player& findPlayer(std::string name);
+	// Visited methods for dispatching execute(board, command)
+		void execute(StopCommand& command);
+		void execute(MoveCommand& command);
 };
 
 #include "board.cxx"

@@ -186,3 +186,17 @@ Player& Board::findPlayer(string name) {
 	return *(players.find(name)->second);
 }
 
+void Board::execute(StopCommand& command) {
+	auto e = findEntity(command.entityId);
+	if (e) {
+		e->unsetTarget();
+	}
+}
+
+void Board::execute(MoveCommand& command) {
+	auto e = findEntity(command.entityId);
+	if (e) {
+		e->addTarget(command.position);
+	}
+}
+
