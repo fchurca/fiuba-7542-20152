@@ -51,7 +51,7 @@ RemoteClient::RemoteClient(Game& owner, Player& player) :
 	cout << "Entities";
 	board.mapEntities([](shared_ptr<Entity> e) {
 			cout << e->serialize();});
-	th = thread([this](){
+	th = thread([this, &board](){
 			string command;
 			while (!(command == "L" || cin.eof() || this->owner.willExit())) {
 				bool ack = false;
@@ -63,7 +63,7 @@ RemoteClient::RemoteClient(Game& owner, Player& player) :
 				} else if (command == "S") {
 					int i;
 					cin >> i;
-					auto e = this->owner.getBoard()->findEntity(i);
+					auto e = board.findEntity(i);
 					if(e) {
 						if (&(e->owner) == &(this->player)) {
 							StopCommand(e->getId()).execute(board);
@@ -75,7 +75,7 @@ RemoteClient::RemoteClient(Game& owner, Player& player) :
 					double x, y;
 					cin >> i >> x >> y;
 					if (!this->owner.willExit()) {
-						auto e = this->owner.getBoard()->findEntity(i);
+						auto e = board.findEntity(i);
 						if (e) {
 							if (&(e->owner) == &(this->player)) {
 								MoveCommand(e->getId(), r2(x, y)).execute(board);
@@ -87,13 +87,12 @@ RemoteClient::RemoteClient(Game& owner, Player& player) :
 					size_t frame;
 					cin >> frame;
 					answer << this->frame << '\t';
-					auto board = this->owner.getBoard();
-					board->mapEntities([this, &answer, frame](shared_ptr<Entity> e) {
+					board.mapEntities([this, &answer, frame](shared_ptr<Entity> e) {
 							if (e->getFrame() > frame) {
 								answer << e->serialize();
 							}
 						});
-					for(auto& p : board->getPlayers()) {
+					for(auto& p : board.getPlayers()) {
 						if (p->getFrame() > frame) {
 							answer << p->serialize();
 						}
