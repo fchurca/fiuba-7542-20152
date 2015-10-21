@@ -5,6 +5,8 @@
 #include <vector>
 #include <map>
 #include <memory>
+#include <mutex>
+#include <queue>
 //-----------------------------------------------------------------------------
 #include "command.h"
 #include "player.h"
@@ -21,6 +23,8 @@ class ABoard {
 		std::vector<std::shared_ptr<Entity>> entities;
 		std::vector<std::shared_ptr<Entity>> terrain;
 		size_t frame;
+		std::queue<std::shared_ptr<Command>> commands;
+		std::mutex commandMutex;
 	public:
 		const long maxResources;
 		const int
@@ -46,6 +50,7 @@ class ABoard {
 		std::shared_ptr<Entity> findEntity(rectangle r);
 		std::shared_ptr<Entity> findEntity(r2 pos);
 
+		void pushCommand(std::shared_ptr<Command> command);
 	// Visited methods for dispatching execute(board, command)
 		virtual void execute(StopCommand& command) = 0;
 		virtual void execute(MoveCommand& command) = 0;

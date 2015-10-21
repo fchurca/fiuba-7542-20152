@@ -100,6 +100,12 @@ shared_ptr<Entity> ABoard::findEntity(r2 pos) {
 	return findEntity(rectangle(pos, {0,0}));
 }
 
+void ABoard::pushCommand(std::shared_ptr<Command> command) {
+	commandMutex.lock();
+	commands.push(command);
+	commandMutex.unlock();
+}
+
 
 Board::Board(ParserYAML& parser) :
 	ABoard(parser.getEscenario().nombre,
@@ -174,6 +180,12 @@ void Board::update() {
 			i++;
 		}
 	}
+	commandMutex.lock();
+	while(commands.size() > 0) {
+		commands.front()->execute(*this);
+		commands.pop();
+	}
+	commandMutex.unlock();
 	for(auto& e : entities) {
 		e->update();
 	}

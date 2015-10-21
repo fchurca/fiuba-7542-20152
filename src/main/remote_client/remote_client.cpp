@@ -66,7 +66,7 @@ RemoteClient::RemoteClient(Game& owner, Player& player) :
 					auto e = board.findEntity(i);
 					if(e) {
 						if (&(e->owner) == &(this->player)) {
-							StopCommand(e->getId()).execute(board);
+							board.pushCommand(make_shared<StopCommand>(e->getId()));
 							ack = true;
 						}
 					}
@@ -78,7 +78,7 @@ RemoteClient::RemoteClient(Game& owner, Player& player) :
 						auto e = board.findEntity(i);
 						if (e) {
 							if (&(e->owner) == &(this->player)) {
-								MoveCommand(e->getId(), r2(x, y)).execute(board);
+								board.pushCommand(make_shared<MoveCommand>(e->getId(), r2(x, y)));
 								ack = true;
 							}
 						}

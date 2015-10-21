@@ -335,7 +335,7 @@ void GameWindow::processInput(){
 						break;
 					case SDLK_s:
 						if (selectionController()) {
-							StopCommand(selection->getId()).execute(board);
+							board.pushCommand(make_shared<StopCommand>(selection->getId()));
 						}
 						break;
 					case SDLK_SPACE:
@@ -358,9 +358,9 @@ void GameWindow::processInput(){
 					Logger::getInstance()->writeInformation("Boton derecho");
 					if (selectionController()) {
 						if (!(SDL_GetModState()&KMOD_SHIFT)) {
-							StopCommand(selection->getId()).execute(board);
+							board.pushCommand(make_shared<StopCommand>(selection->getId()));
 						}
-						MoveCommand(selection->getId(), boardMouse).execute(board);
+						board.pushCommand(make_shared<MoveCommand>(selection->getId(), boardMouse));
 					}
 				}
 				break;
