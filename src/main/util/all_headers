@@ -1,0 +1,4 @@
+#! /bin/sh
+
+for f in $(find . -name '*.cpp'); do echo $f:; "$(dirname $0)/headers" "$f"; echo; done
+
