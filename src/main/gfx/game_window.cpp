@@ -71,6 +71,7 @@ GameWindow::GameWindow(Game& owner, Player& player, ParserYAML& parser) :
 	if(player.entities().size() > 0)
 		selection = player.entities().at(0);
 	focus();
+	minimap = std::make_shared<MiniMap>(*this);
 }
 
 GameWindow::~GameWindow() {
@@ -181,80 +182,8 @@ void GameWindow::render() {
 	SDL_Rect destinoFondoMenu = {0, 3*alto_pantalla/4, ancho_pantalla, alto_pantalla / 4};
 	SDL_SetRenderDrawColor(renderer, 8, 8, 8, 255);
 	SDL_RenderFillRect(renderer, &destinoFondoMenu);
-	if (font) {
-		std::string primerColumna, segundaColumna, terceraColumna;
-		SDL_Color color = { 255, 255, 255 };
-		//Primer Columna//
-		primerColumna = completeLine(player.name, font);
-		for (auto r : player.getResources()) {
-			primerColumna = primerColumna + completeLine(r.first + "=" + std::to_string(r.second), font);
-		}
-		//
-		//Segunda Columna//
-		for (auto p : player.board.getPlayers()) {
-			segundaColumna = segundaColumna + completeLine(p->name, font);
-		}
-		
-		//Tercer Columna//
-		shared_ptr<Entity> s = getSelection();
-		if (s != nullptr) {
-			terceraColumna = terceraColumna + completeLine(s->name, font);
-			terceraColumna = terceraColumna + completeLine("(" + s->owner.name + ")", font);
-		}
-		int access1, w1, h1, access2, w2, h2, access3, w3, h3;
-		Uint32 format1, format2, format3;
-		SDL_Surface * c1 = TTF_RenderText_Blended_Wrapped(font, primerColumna.c_str(), color, ancho_pantalla / 4);
-		
-		SDL_Texture * textureMenu1 = SDL_CreateTextureFromSurface(renderer, c1);
-		SDL_Surface * c2 = TTF_RenderText_Blended_Wrapped(font, segundaColumna.c_str(), color, ancho_pantalla / 4);
-		SDL_Texture * textureMenu2 = SDL_CreateTextureFromSurface(renderer, c2);
-		SDL_Surface * c3 = TTF_RenderText_Blended_Wrapped(font, terceraColumna.c_str(), color, ancho_pantalla / 4);
-		SDL_Texture * textureMenu3 = SDL_CreateTextureFromSurface(renderer, c3);
-		
-		SDL_QueryTexture(textureMenu1, &format1, &access1, &w1, &h1);
-		// Si w1 o h1 extienden el ancho_pantalla/4 o alto_pantalla/4 respectivamente poner esos como max
-		SDL_Rect panel1 = { 0, 0, w1 , h1 };
-		SDL_Rect text1 = { 0, 3 * alto_pantalla / 4, w1 , h1 };
-		SDL_RenderCopy(renderer, textureMenu1, &panel1, &text1);
-		
-		SDL_QueryTexture(textureMenu2, &format2, &access2, &w2, &h2);
-		// Si w2 o h2 extienden el ancho_pantalla/4 o alto_pantalla/4 respectivamente poner esos como max
-		SDL_Rect panel2 = { 0, 0, w2, h2 };
-		SDL_Rect text2 = { ancho_pantalla / 4, 3 * alto_pantalla / 4, w2, h2 };
-		SDL_RenderCopy(renderer, textureMenu2, &panel2, &text2);
-
-		SDL_QueryTexture(textureMenu3, &format3, &access3, &w3, &h3);
-		// Si w3 o h3 extienden el ancho_pantalla/4 o alto_pantalla/4 respectivamente poner esos como max
-		SDL_Rect panel3 = { 0, 0, w3, h3 };
-		SDL_Rect text3 = { 2 * ancho_pantalla / 4, 3 * alto_pantalla / 4, w3, h3 };
-		SDL_RenderCopy(renderer, textureMenu3, &panel3, &text3);
-		SDL_FreeSurface(c1);
-		SDL_FreeSurface(c2);
-		SDL_FreeSurface(c3);
-		SDL_DestroyTexture(textureMenu1);
-		SDL_DestroyTexture(textureMenu2);
-		SDL_DestroyTexture(textureMenu3);
-	}
-	////Minimapa
-	for (int i = 0; i < player.board.sizeX; i++) {
-		for (int j = 0; j < player.board.sizeY; j++) {
-			shared_ptr<Entity> t = player.board.getTerrain(i, j);
-			if (player.getVisibility(*t) != INVISIBLE) {
-				SDL_Color color = tmpGetColor(t->name);
-				SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
-				SDL_RenderDrawPoint(renderer, t->getPosition().x + 10 + 3 * ancho_pantalla / 4, t->getPosition().y + 10 + 3 * alto_pantalla / 4);
-			}
-		}
-	}
-	for (auto e : player.board.getEntities()) {
-		if (player.getVisibility(*e) != INVISIBLE) {
-			SDL_Color color = getColor(e->owner.getId());
-			if (selection == e)
-				color = { 255,255,255 };
-			SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
-			SDL_RenderDrawPoint(renderer, e->getPosition().x + 10 + 3 * ancho_pantalla / 4, e->getPosition().y + 10 + 3 * alto_pantalla / 4);
-		}
-	}
+	drawMenu();
+	minimap->drawMinimap(renderer);
 
 	SDL_RenderPresent(renderer);
 	return;
@@ -272,24 +201,6 @@ void GameWindow::update(){
 	processInput();
 	render();
 	return;
-}
-
-SDL_Color GameWindow::tmpGetColor(string name) {
-	// Metodo temporal para probar xq no funca el getColor() 
-	if (name == "agua")
-		return{ 0, 0, 127 };
-	if (name == "piedra")
-		return{ 127, 127, 127 };
-	
-	return{ 0, 127, 0 };
-}
-
-
-SDL_Color GameWindow::getColor(int id) {
-	Uint8 r = (id & 2) * 255;
-	Uint8 g = (id & 1) * 255;
-	Uint8 b = (id & 4) * 255;
-	return { r, g, b };
 }
 
 void GameWindow::addSpriteSheet(string name, string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay) {
@@ -439,5 +350,75 @@ std::string GameWindow::completeLine(std::string line, TTF_Font* font) {
 		esp++;
 	result.insert(result.size(), esp, ' ');
 	return result;
+}
+
+void GameWindow::drawMenu() {
+	if (font) {
+		std::string primerColumna = "", segundaColumnaActivos = "", segundaColumnaInactivos = "", terceraColumna = "";
+		SDL_Color colorBlanco = { 255, 255, 255 };
+		SDL_Color colorGris = { 127, 127, 127 };
+		//Primer Columna//
+		primerColumna = completeLine(player.name, font);
+		for (auto r : player.getResources()) {
+			primerColumna = primerColumna + completeLine(r.first + "=" + std::to_string(r.second), font);
+		}
+		//
+		//Segunda Columna//
+		for (auto p : player.board.getPlayers()) {
+			if(player.getActive())
+				segundaColumnaActivos = segundaColumnaActivos + completeLine(p->name, font);
+			else
+				segundaColumnaInactivos = segundaColumnaInactivos + completeLine(p->name, font);
+		}
+
+		//Tercer Columna//
+		shared_ptr<Entity> s = getSelection();
+		if (s != nullptr) {
+			terceraColumna = terceraColumna + completeLine(s->name, font);
+			terceraColumna = terceraColumna + completeLine("(" + s->owner.name + ")", font);
+		}
+		int access1, w1, h1, access2A, w2A, h2A, access2I, w2I, h2I, access3, w3, h3;
+		Uint32 format1, format2A, format2I, format3;
+		SDL_Surface * c1 = TTF_RenderText_Blended_Wrapped(font, primerColumna.c_str(), colorBlanco, ancho_pantalla / 4);
+		SDL_Texture * textureMenu1 = SDL_CreateTextureFromSurface(renderer, c1);
+		SDL_Surface * c2A = TTF_RenderText_Blended_Wrapped(font, segundaColumnaActivos.c_str(), colorBlanco, ancho_pantalla / 4);
+		SDL_Texture * textureMenu2A = SDL_CreateTextureFromSurface(renderer, c2A);
+		SDL_Surface * c2I = TTF_RenderText_Blended_Wrapped(font, segundaColumnaInactivos.c_str(), colorGris, ancho_pantalla / 4);
+		SDL_Texture * textureMenu2I = SDL_CreateTextureFromSurface(renderer, c2I);
+		SDL_Surface * c3 = TTF_RenderText_Blended_Wrapped(font, terceraColumna.c_str(), colorBlanco, ancho_pantalla / 4);
+		SDL_Texture * textureMenu3 = SDL_CreateTextureFromSurface(renderer, c3);
+
+		SDL_QueryTexture(textureMenu1, &format1, &access1, &w1, &h1);
+		// Si w1 o h1 extienden el ancho_pantalla/4 o alto_pantalla/4 respectivamente poner esos como max
+		SDL_Rect panel1 = { 0, 0, w1 , h1 };
+		SDL_Rect text1 = { 0, 3 * alto_pantalla / 4, w1 , h1 };
+		SDL_RenderCopy(renderer, textureMenu1, &panel1, &text1);
+
+		SDL_QueryTexture(textureMenu2A, &format2A, &access2A, &w2A, &h2A);
+		// Si w2 o h2 extienden el ancho_pantalla/4 o alto_pantalla/4 respectivamente poner esos como max
+		SDL_Rect panel2A = { 0, 0, w2A, h2A };
+		SDL_Rect text2A = { ancho_pantalla / 4, 3 * alto_pantalla / 4, w2A, h2A };
+		SDL_RenderCopy(renderer, textureMenu2A, &panel2A, &text2A);
+		if (segundaColumnaInactivos != "") {
+			SDL_QueryTexture(textureMenu2I, &format2I, &access2I, &w2I, &h2I);
+			SDL_Rect panel2I = { 0, 0, w2I, h2I };
+			SDL_Rect text2I = { ancho_pantalla / 4, h2A + (3 * alto_pantalla / 4), w2I, h2I };
+			SDL_RenderCopy(renderer, textureMenu2I, &panel2I, &text2I);
+		}
+
+		SDL_QueryTexture(textureMenu3, &format3, &access3, &w3, &h3);
+		// Si w3 o h3 extienden el ancho_pantalla/4 o alto_pantalla/4 respectivamente poner esos como max
+		SDL_Rect panel3 = { 0, 0, w3, h3 };
+		SDL_Rect text3 = { 2 * ancho_pantalla / 4, 3 * alto_pantalla / 4, w3, h3 };
+		SDL_RenderCopy(renderer, textureMenu3, &panel3, &text3);
+		SDL_FreeSurface(c1);
+		SDL_FreeSurface(c2A);
+		SDL_FreeSurface(c2I);
+		SDL_FreeSurface(c3);
+		SDL_DestroyTexture(textureMenu1);
+		SDL_DestroyTexture(textureMenu2A);
+		SDL_DestroyTexture(textureMenu2I);
+		SDL_DestroyTexture(textureMenu3);
+	}
 }
 

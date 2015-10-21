@@ -40,7 +40,7 @@ public:
 	~SpriteSheet();
 	void render(Entity& entity, SDL_Renderer* renderer);
 	void update();
-	SDL_Texture* getLoadedTexture(SDL_Renderer* renderer, Visibility state);
+	SDL_Texture* getLoadedTexture(SDL_Renderer* renderer, Visibility state, bool playerIsActive);
 	SDL_Rect targetRect(Entity& entity);
 };
 
