@@ -130,7 +130,7 @@ void ABoard::update() {
 }
 
 
-Board::Board(ParserYAML& parser) :
+SmartBoard::SmartBoard(ParserYAML& parser) :
 	ABoard(parser.getEscenario().nombre,
 			parser.getConfiguracion().dt,
 			parser.getEscenario().size_x, parser.getEscenario().size_y,
@@ -188,31 +188,31 @@ Board::Board(ParserYAML& parser) :
 	}
 }
 
-Board::~Board() {
+SmartBoard::~SmartBoard() {
 	stringstream message;
-	message << "Killing Board " << this;
+	message << "Killing SmartBoard " << this;
 	Logger::getInstance()->writeInformation(message.str());
 }
 
-void Board::update() {
+void SmartBoard::update() {
 	ABoard::update();
 	for(auto& e : entities) {
 		e->update();
 	}
 }
 
-Player& Board::findPlayer(string name) {
+Player& SmartBoard::findPlayer(string name) {
 	return *(players.find(name)->second);
 }
 
-void Board::execute(StopCommand& command) {
+void SmartBoard::execute(StopCommand& command) {
 	auto e = findEntity(command.entityId);
 	if (e) {
 		e->unsetTarget();
 	}
 }
 
-void Board::execute(MoveCommand& command) {
+void SmartBoard::execute(MoveCommand& command) {
 	auto e = findEntity(command.entityId);
 	if (e) {
 		e->addTarget(command.position);

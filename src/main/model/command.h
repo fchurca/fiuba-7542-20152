@@ -4,7 +4,6 @@
 #include "geometry.h"
 
 class ABoard;
-class Board;
 
 class Command {
 	public:

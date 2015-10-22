@@ -56,13 +56,13 @@ class ABoard {
 		virtual void execute(MoveCommand& command) = 0;
 };
 
-class Board : public ABoard {
+class SmartBoard : public ABoard {
 	protected:
-		Board();
+		SmartBoard();
 
 	public:
-		Board(ParserYAML& parser);
-		~Board();
+		SmartBoard(ParserYAML& parser);
+		~SmartBoard();
 
 		void update();
 		Player& findPlayer(std::string name);
