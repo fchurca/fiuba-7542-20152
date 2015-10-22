@@ -79,9 +79,6 @@ void Entity::addTarget(r2 newTarget) {
 		end = targeted() ? waypoints.back() : position,
 		start = round(newTarget);
 
-	cerr << "Going from " << end.x << "," << end.y
-		<< " to " << start.x << "," << start.y << endl;
-
 	priority_queue<ASNode, vector<shared_ptr<ASNode>>, compare> open;
 	auto h = [&end](r2& p) {return (p - end).length();};
 	auto f = [&h](ASNode n) {return h(n.position) + n.g;};
@@ -95,42 +92,35 @@ void Entity::addTarget(r2 newTarget) {
 	open.emplace(make_shared<ASNode>(start, 0, h(start), nullptr));
 	while (open.size() > 0) {
 		auto c = open.top();
+		open.pop();
 		auto cpos = c->position;
-		cerr << "Analyzing " << cpos.x << "," << cpos.y
-			<< " f(" << c->f << ") g(" << c->g << ")";
-		if(c->previous) {
-			cerr << " from " << c->previous->position.x << "," << c->previous->position.y;
+		if(closed[(int)floor(cpos.x)][(int)floor(cpos.y)]) {
+			continue;
 		}
-		cerr << endl;
+		closed[(int)floor(cpos.x)][(int)floor(cpos.y)] = true;
 		if ((int)cpos.x == (int)end.x && (int)cpos.y == (int)end.y) {
-			cerr << "Goal found!" << endl;
 			for (auto p = c; p; p = p->previous) {
 				auto pos = p->position;
-				cerr << "Waypoint " << pos.x << "," << pos.y << endl;
 				waypoints.push_back(p->position);
 			}
 			return;
 		}
-		open.pop();
-		closed[(int)floor(cpos.x)][(int)floor(cpos.y)] = true;
 		for(auto y = cpos.y - 1; y <= cpos.y + 1; y++) {
 			for(auto x = cpos.x - 1; x <= cpos.x + 1; x++) {
-				cerr << x << ',' << y;
 				auto p = round(r2(x, y));
-				if (!canEnter(rectangle::box(rectangle(p - size/2, size), rectangle(cpos - size/2, size)))) {
-					cerr << "N\t";
+				if ((p == cpos) ||
+						!(canEnter(p) &&
+							canEnter(rectangle::box(rectangle(p - size/2, size),
+									rectangle(cpos - size/2, size))))) {
 					continue;
 				}
 				auto n = make_shared<ASNode>(p, (cpos - p).length() + c->g, .0, c);
 				n->f = f(*n);
 				if (closed[(int)floor(p.x)][(int)floor(p.y)]) {
-					cerr << ".\t";
 					continue;
 				}
 				open.emplace(n);
-				cerr << "O\t";
 			}
-			cerr << endl;
 		}
 	}
 }
