@@ -118,6 +118,13 @@ void Entity::addTarget(r2 newTarget) {
 				if (closed[(int)floor(p.x)][(int)floor(p.y)]) {
 					continue;
 				}
+				while(n->previous?
+						n->previous->previous?
+						canEnter(rectangle::box(p, n->previous->previous->position, size))
+						:false
+						:false) {
+					n->previous = n->previous->previous;
+				}
 				open.emplace(n);
 			}
 		}
