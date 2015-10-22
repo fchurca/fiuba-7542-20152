@@ -76,8 +76,8 @@ class compare {
 void Entity::addTarget(r2 newTarget) {
 	auto round = [](r2 a) {return r2(floor(a.x)+.5, floor(a.y)+.5);};
 	r2
-		end = targeted() ? waypoints.back() : position,
-		start = newTarget;
+		end = round(targeted() ? waypoints.back() : position),
+		start = round(newTarget);
 
 	priority_queue<TSNode, vector<shared_ptr<TSNode>>, compare> open;
 	auto h = [&end](r2& p) {return (p - end).length();};
