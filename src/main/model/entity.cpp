@@ -58,17 +58,17 @@ bool Entity::adjustPosition() {
 #include <queue>
 #include <set>
 
-struct ASNode {
+struct TSNode {
 	r2 position;
 	double g, f;
-	shared_ptr<ASNode> previous;
-	ASNode(r2 position, double g, double f, shared_ptr<ASNode> previous) :
+	shared_ptr<TSNode> previous;
+	TSNode(r2 position, double g, double f, shared_ptr<TSNode> previous) :
 		position(position), g(g), f(f), previous(previous) {};
 };
 
 class compare {
 	public:
-		bool operator()(const shared_ptr<ASNode> a, const shared_ptr<ASNode> b) {
+		bool operator()(const shared_ptr<TSNode> a, const shared_ptr<TSNode> b) {
 			return a->f > b->f;
 		}
 };
@@ -79,9 +79,9 @@ void Entity::addTarget(r2 newTarget) {
 		end = targeted() ? waypoints.back() : position,
 		start = round(newTarget);
 
-	priority_queue<ASNode, vector<shared_ptr<ASNode>>, compare> open;
+	priority_queue<TSNode, vector<shared_ptr<TSNode>>, compare> open;
 	auto h = [&end](r2& p) {return (p - end).length();};
-	auto f = [&h](ASNode n) {return h(n.position) + n.g;};
+	auto f = [&h](TSNode n) {return h(n.position) + n.g;};
 	bool closed[board.sizeX][board.sizeY];
 	for(size_t i = 0; i < board.sizeX; i++) {
 		for(size_t j = 0; j < board.sizeY; j++) {
@@ -89,7 +89,7 @@ void Entity::addTarget(r2 newTarget) {
 		}
 	}
 
-	open.emplace(make_shared<ASNode>(start, 0, h(start), nullptr));
+	open.emplace(make_shared<TSNode>(start, 0, h(start), nullptr));
 	while (open.size() > 0) {
 		auto c = open.top();
 		open.pop();
@@ -113,7 +113,7 @@ void Entity::addTarget(r2 newTarget) {
 							canEnter(rectangle::box(p - size/2, cpos - size/2, size)))) {
 					continue;
 				}
-				auto n = make_shared<ASNode>(p, (cpos - p).length() + c->g, .0, c);
+				auto n = make_shared<TSNode>(p, (cpos - p).length() + c->g, .0, c);
 				n->f = f(*n);
 				if (closed[(int)floor(p.x)][(int)floor(p.y)]) {
 					continue;
