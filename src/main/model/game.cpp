@@ -50,15 +50,18 @@ std::shared_ptr<Player> Game::getAvailablePlayer() {
 
 bool Game::addClient(std::shared_ptr<AClient> newClient) {
 	auto& p = newClient->player;
+	bool ret = true;
 	clientsMutex.lock();
 	if((&(newClient->owner) != this) ||
 			(clients.find(p.name) != clients.end())) {
-		return false;
+		ret = false;
 	}
-	clients[p.name] = newClient;
-	p.setActive(true);
+	if(ret) {
+		clients[p.name] = newClient;
+		p.setActive(true);
+	}
 	clientsMutex.unlock();
-	return true;
+	return ret;
 }
 
 void Game::start() {
