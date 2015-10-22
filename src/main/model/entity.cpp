@@ -76,7 +76,7 @@ class compare {
 void Entity::addTarget(r2 newTarget) {
 	auto round = [](r2 a) {return r2(floor(a.x)+.5, floor(a.y)+.5);};
 	r2
-		end = targeted() ? waypoints.back() : position,
+		end = round(targeted() ? waypoints.back() : position),
 		start = round(newTarget);
 
 	priority_queue<TSNode, vector<shared_ptr<TSNode>>, compare> open;
@@ -107,7 +107,7 @@ void Entity::addTarget(r2 newTarget) {
 		}
 		for(auto y = cpos.y - 1; y <= cpos.y + 1; y++) {
 			for(auto x = cpos.x - 1; x <= cpos.x + 1; x++) {
-				auto p = round(r2(x, y));
+				auto p = r2(x, y);
 				if ((p == cpos) ||
 						!(canEnter(p) &&
 							canEnter(rectangle::box(p - size/2, cpos - size/2, size)))) {
