@@ -76,12 +76,26 @@ class compare {
 void Entity::addTarget(r2 newTarget) {
 	auto round = [](r2 a) {return r2(floor(a.x)+.5, floor(a.y)+.5);};
 	r2
-		end = round(targeted() ? waypoints.back() : position),
-		start = round(newTarget);
+		end = targeted() ? waypoints.back() : position,
+		start = newTarget;
 
 	priority_queue<TSNode, vector<shared_ptr<TSNode>>, compare> open;
 	auto h = [&end](r2& p) {return (p - end).length();};
 	auto f = [&h](TSNode n) {return h(n.position) + n.g;};
+	auto straightenOnce = [this](shared_ptr<TSNode> n) {
+		if(n->previous) {
+			if(n->previous->previous) {
+				if(canEnter(rectangle::box(n->position, n->previous->previous->position, this->size))) {
+					n->previous = n->previous->previous;
+					return true;
+				}
+			}
+		}
+		return false;
+	};
+	auto straighten = [straightenOnce](shared_ptr<TSNode> n) {
+		while(straightenOnce(n));
+	};
 	bool closed[board.sizeX][board.sizeY];
 	for(size_t i = 0; i < board.sizeX; i++) {
 		for(size_t j = 0; j < board.sizeY; j++) {
@@ -98,9 +112,8 @@ void Entity::addTarget(r2 newTarget) {
 			continue;
 		}
 		closed[(int)floor(cpos.x)][(int)floor(cpos.y)] = true;
-		if ((int)cpos.x == (int)end.x && (int)cpos.y == (int)end.y) {
+		if ((cpos - end).sqLength() <= 1 && canEnter(rectangle::box(cpos, end, size))) {
 			for (auto p = c; p; p = p->previous) {
-				auto pos = p->position;
 				waypoints.push_back(p->position);
 			}
 			return;
@@ -118,13 +131,7 @@ void Entity::addTarget(r2 newTarget) {
 				if (closed[(int)floor(p.x)][(int)floor(p.y)]) {
 					continue;
 				}
-				while(n->previous?
-						n->previous->previous?
-						canEnter(rectangle::box(p, n->previous->previous->position, size))
-						:false
-						:false) {
-					n->previous = n->previous->previous;
-				}
+				straighten(n);
 				open.emplace(n);
 			}
 		}
