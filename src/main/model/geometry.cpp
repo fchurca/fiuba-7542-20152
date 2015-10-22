@@ -91,3 +91,8 @@ rectangle rectangle::box(rectangle a, rectangle b) {
 			r2(r.position.x - l.position.x + r.size.x,
 				d.position.y - u.position.y + d.size.y));
 }
+
+rectangle rectangle::box(r2 a, r2 b, r2 margin) {
+	return box(rectangle(a, margin), rectangle(b, margin));
+}
+

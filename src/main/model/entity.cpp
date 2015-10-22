@@ -110,8 +110,7 @@ void Entity::addTarget(r2 newTarget) {
 				auto p = round(r2(x, y));
 				if ((p == cpos) ||
 						!(canEnter(p) &&
-							canEnter(rectangle::box(rectangle(p - size/2, size),
-									rectangle(cpos - size/2, size))))) {
+							canEnter(rectangle::box(p - size/2, cpos - size/2, size)))) {
 					continue;
 				}
 				auto n = make_shared<ASNode>(p, (cpos - p).length() + c->g, .0, c);

@@ -44,6 +44,7 @@ class rectangle {
 		bool intersects(rectangle other);
 
 		static rectangle box(rectangle a, rectangle b);
+		static rectangle box(r2 a, r2 b, r2 margin);
 };
 
 #endif // _MODEL_GEOMETRY_H_
