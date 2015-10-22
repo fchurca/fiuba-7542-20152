@@ -122,8 +122,7 @@ void Entity::addTarget(r2 newTarget) {
 			for(auto x = cpos.x - 1; x <= cpos.x + 1; x++) {
 				auto p = r2(x, y);
 				if ((p == cpos) ||
-						!(canEnter(p) &&
-							canEnter(rectangle::box(p - size/2, cpos - size/2, size)))) {
+						!(canEnter(rectangle::box(p - size/2, cpos - size/2, size)))) {
 					continue;
 				}
 				auto n = make_shared<TSNode>(p, (cpos - p).length() + c->g, .0, c);
