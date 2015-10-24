@@ -40,7 +40,6 @@ void MiniMap::drawMinimap(SDL_Renderer* renderer) {
 	//r2 vsi = owner.screenToBoardPosition({0, 0});
 	//r2 vid = owner.screenToBoardPosition({ 3 * owner.ancho_pantalla / 4, 3 * owner.alto_pantalla / 4 });
 	//SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-
 }
 
 SDL_Color MiniMap::tmpGetColor(std::string name) {
