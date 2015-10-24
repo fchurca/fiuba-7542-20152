@@ -1,5 +1,5 @@
-#ifndef __SCENARIOPARSERYAML_H__
-#define __SCENARIOPARSERYAML_H__
+#ifndef __SCENARIOPARSER_H__
+#define __SCENARIOPARSER_H__
 
 #include <iostream>
 #include <fstream>
@@ -32,7 +32,7 @@ struct TagEscenario {
 	std::vector<TagJugador> jugadores;
 };
 
-class ScenarioParserYAML : GenericParserYAML
+class ScenarioParser : GenericParser
 {
 private:
 	void setEntidad(const YAML::Node& node, TagEntidad& entidad);
@@ -41,9 +41,9 @@ private:
 	void setEscenarioDefault(TagEscenario& escenario);
 	void setProtagonistaDefault(TagEntidad& protagonista);
 public:
-	ScenarioParserYAML(std::string filename, std::string filenameDefault);
+	ScenarioParser(std::string filename, std::string filenameDefault);
 	TagEscenario getEscenario();
-	~ScenarioParserYAML(void);
+	~ScenarioParser(void);
 };
 
 #endif

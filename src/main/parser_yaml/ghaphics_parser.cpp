@@ -1,13 +1,13 @@
 #include "graphics_parser.h"
 
-GraphicsParserYAML::GraphicsParserYAML(std::string filename, std::string filenameDefault) : GenericParserYAML(filename,filenameDefault) {
+GraphicsParser::GraphicsParser(std::string filename, std::string filenameDefault) : GenericParser(filename,filenameDefault) {
 }
 
-GraphicsParserYAML::~GraphicsParserYAML(void) {
+GraphicsParser::~GraphicsParser(void) {
 
 }
 
-TagConfiguracion GraphicsParserYAML::getConfiguracion() {
+TagConfiguracion GraphicsParser::getConfiguracion() {
 	Logger::getInstance()->writeInformation("YAML-CPP:Se obtiene la informacion de configuracion.");
 	TagConfiguracion configuracion;
 	if (this->doc.FindValue("configuracion")) {
@@ -27,7 +27,7 @@ TagConfiguracion GraphicsParserYAML::getConfiguracion() {
 	return configuracion;
 }
 
-TagPantalla GraphicsParserYAML::getPantalla() {
+TagPantalla GraphicsParser::getPantalla() {
 	Logger::getInstance()->writeInformation("YAML-CPP:Se obtiene la informacion de la pantalla.");
 	TagPantalla pantalla;
 	if (this->doc.FindValue("pantalla")) {
@@ -47,7 +47,7 @@ TagPantalla GraphicsParserYAML::getPantalla() {
 	return pantalla;
 }
 
-void GraphicsParserYAML::setConfiguracion(const YAML::Node& node, TagConfiguracion& configuracion) {
+void GraphicsParser::setConfiguracion(const YAML::Node& node, TagConfiguracion& configuracion) {
 	if (node.Type() == YAML::NodeType::Map) {
 		if (!obtenerValorScalarNumericoPositivo(node, "dt", configuracion.dt)) {
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (dt).");
@@ -60,13 +60,13 @@ void GraphicsParserYAML::setConfiguracion(const YAML::Node& node, TagConfiguraci
 	}
 }
 
-void GraphicsParserYAML::setConfiguracionDefault(TagConfiguracion& configuracion) {
+void GraphicsParser::setConfiguracionDefault(TagConfiguracion& configuracion) {
 	Logger::getInstance()->writeWarning("YAML-CPP:Se toma configuracion por default.");
 	configuracion.dt = DT_DEFAULT;
 }
 
 
-void GraphicsParserYAML::setPantalla(const YAML::Node& node, TagPantalla& pantalla) {
+void GraphicsParser::setPantalla(const YAML::Node& node, TagPantalla& pantalla) {
 	if (node.Type() == YAML::NodeType::Map) {
 		if ((!obtenerValorScalarNumericoPositivo(node, "ancho", pantalla.ancho)) || (!obtenerValorScalarNumericoPositivo(node, "alto", pantalla.alto))) {
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (ancho y alto pantalla).");
@@ -88,7 +88,7 @@ void GraphicsParserYAML::setPantalla(const YAML::Node& node, TagPantalla& pantal
 	}
 }
 
-void GraphicsParserYAML::setPantallaDefault(TagPantalla& pantalla) {
+void GraphicsParser::setPantallaDefault(TagPantalla& pantalla) {
 	Logger::getInstance()->writeInformation("YAML-CPP:Se toma pantalla por default.");
 	pantalla.alto = ALTO_DEFAULT;
 	pantalla.ancho = ANCHO_DEFAULT;

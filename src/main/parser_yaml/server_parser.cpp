@@ -1,14 +1,14 @@
 #include "server_parser.h"
 
-ServerParserYAML::ServerParserYAML(std::string filename,std::string filenameDefault ) : GenericParserYAML(filename, filenameDefault) {
+ServerParser::ServerParser(std::string filename,std::string filenameDefault ) : GenericParser(filename, filenameDefault) {
 }
 
-ServerParserYAML::~ServerParserYAML(void) {
+ServerParser::~ServerParser(void) {
 
 }
 
 
-TagServerConfiguration ServerParserYAML::getServerConfiguration() {
+TagServerConfiguration ServerParser::getServerConfiguration() {
 	//Logger::getInstance()->writeInformation("YAML-CPP:Se obtiene la informacion de configuracion.");
 	TagServerConfiguration configuration;
 	if (this->doc.FindValue("configuration")) {
@@ -28,7 +28,7 @@ TagServerConfiguration ServerParserYAML::getServerConfiguration() {
 	return configuration;
 }
 
-void ServerParserYAML::setServerConfiguration(const YAML::Node& node, TagServerConfiguration& configuration) {
+void ServerParser::setServerConfiguration(const YAML::Node& node, TagServerConfiguration& configuration) {
 	if (node.Type() == YAML::NodeType::Map) {
 		if (!obtenerValorScalarAlfaNumerico(node, "ip", configuration.ip)) {
 			//Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (velocidad personaje).");
@@ -49,13 +49,13 @@ void ServerParserYAML::setServerConfiguration(const YAML::Node& node, TagServerC
 	}
 }
 
-void ServerParserYAML::setServerConfigurationDefault(TagServerConfiguration& configuration) {
+void ServerParser::setServerConfigurationDefault(TagServerConfiguration& configuration) {
 	configuration.ip = SERVER_IP_DEFAULT;
 	configuration.port = SERVER_PORT_DEFAULT;
 	configuration.max_clients = SERVER_MAX_CLIENTS_DEFAULT;
 }
 
-TagServerPaths ServerParserYAML::getServerPaths() {
+TagServerPaths ServerParser::getServerPaths() {
 	//Logger::getInstance()->writeInformation("YAML-CPP:Se obtiene la informacion de configuracion.");
 	TagServerPaths paths;
 	if (this->doc.FindValue("paths")) {
@@ -75,7 +75,7 @@ TagServerPaths ServerParserYAML::getServerPaths() {
 	return paths;
 }
 
-void ServerParserYAML::setServerPaths(const YAML::Node& node, TagServerPaths& paths) {
+void ServerParser::setServerPaths(const YAML::Node& node, TagServerPaths& paths) {
 	if (node.Type() == YAML::NodeType::Map) {
 		if (!obtenerValorScalarAlfaNumerico(node, "original_path", paths.original_path)) {
 			//Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (velocidad personaje).");
@@ -92,7 +92,7 @@ void ServerParserYAML::setServerPaths(const YAML::Node& node, TagServerPaths& pa
 	}
 }
 
-void ServerParserYAML::setServerPathsDefault(TagServerPaths& paths) {
+void ServerParser::setServerPathsDefault(TagServerPaths& paths) {
 	paths.original_path = CONFIG_FILE_PATH_DEFAULT;
 	paths.default_path = CONFIG_FILE_PATH_DEFAULT;
 }

@@ -3,16 +3,16 @@
 #include "generic_parser.h"
 
 
-GenericParserYAML::GenericParserYAML(std::string filename, std::string filenameDefault) {
+GenericParser::GenericParser(std::string filename, std::string filenameDefault) {
 	this->filename = filename;
 	this->filenameDefault = filenameDefault;
 }
 
-GenericParserYAML::~GenericParserYAML(void) {
+GenericParser::~GenericParser(void) {
 
 }
 
-void GenericParserYAML::parse() {
+void GenericParser::parse() {
 	Logger::getInstance()->writeInformation("YAML-CPP:Inicia el parseo del archivo de configuracion.");
 	std::ifstream fin(this->filename);
 	if (!fin) {
@@ -47,7 +47,7 @@ void GenericParserYAML::parse() {
 	}
 }
 
-void GenericParserYAML::setArchivoDefault() {
+void GenericParser::setArchivoDefault() {
 	// Este metodo no puede fallar, el archivo default no puede contener errores.
 	this->filename = filenameDefault;
 	std::ifstream fin(this->filename.c_str());
@@ -58,7 +58,7 @@ void GenericParserYAML::setArchivoDefault() {
 }
 
 
-bool GenericParserYAML::esNumero(std::string numero) {
+bool GenericParser::esNumero(std::string numero) {
 	int i = 0;
 	int cantDec = 0;
 	int largo = numero.length();
@@ -84,7 +84,7 @@ bool GenericParserYAML::esNumero(std::string numero) {
 	return true;
 }
 
-bool GenericParserYAML::obtenerValorScalarNumericoPositivo(const YAML::Node & node, std::string tag, unsigned int & salida) {
+bool GenericParser::obtenerValorScalarNumericoPositivo(const YAML::Node & node, std::string tag, unsigned int & salida) {
 	std::string numero;
 	double num;
 	if (node.FindValue(tag)) {
@@ -117,7 +117,7 @@ bool GenericParserYAML::obtenerValorScalarNumericoPositivo(const YAML::Node & no
 		Logger::getInstance()->writeWarning("YAML-CPP:El: " + tag + " no existe en el nodo. Ubicar" + ubicarNodo(node.GetMark()));
 	return false;
 }
-bool GenericParserYAML::obtenerValorScalarNumericoPositivo(const YAML::Node & node, std::string tag, long & salida) {
+bool GenericParser::obtenerValorScalarNumericoPositivo(const YAML::Node & node, std::string tag, long & salida) {
 	std::string numero;
 	double num;
 	if (node.FindValue(tag)) {
@@ -151,7 +151,7 @@ bool GenericParserYAML::obtenerValorScalarNumericoPositivo(const YAML::Node & no
 	return false;
 }
 
-bool GenericParserYAML::obtenerValorScalarNumericoPositivo(const YAML::Node & node, std::string tag, double & salida) {
+bool GenericParser::obtenerValorScalarNumericoPositivo(const YAML::Node & node, std::string tag, double & salida) {
 	std::string numero;
 	double num;
 	if (node.FindValue(tag)) {
@@ -178,7 +178,7 @@ bool GenericParserYAML::obtenerValorScalarNumericoPositivo(const YAML::Node & no
 	return false;
 }
 
-bool GenericParserYAML::obtenerValorScalarAlfaNumerico(const YAML::Node & node, std::string tag, std::string & salida) {
+bool GenericParser::obtenerValorScalarAlfaNumerico(const YAML::Node & node, std::string tag, std::string & salida) {
 	if (node.FindValue(tag)) {
 		const YAML::Node& nodo_tag = node[tag];
 		if (nodo_tag.Type() == YAML::NodeType::Scalar) {
@@ -195,13 +195,13 @@ bool GenericParserYAML::obtenerValorScalarAlfaNumerico(const YAML::Node & node, 
 
 
 
-std::string GenericParserYAML::ubicarNodo(const YAML::Mark marca_nodo) {
+std::string GenericParser::ubicarNodo(const YAML::Mark marca_nodo) {
 	std::string salida;
 	salida = " Linea: " + intToString(marca_nodo.line + 1) + " Columna: " + intToString(marca_nodo.column + 1);
 	return salida;
 }
 
-std::string GenericParserYAML::intToString(int i) {
+std::string GenericParser::intToString(int i) {
 	string resultado;
 	ostringstream aux;
 	aux << i;

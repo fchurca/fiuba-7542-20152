@@ -1,13 +1,13 @@
 #include "scenario_parser.h"
 
 
-ScenarioParserYAML::ScenarioParserYAML(std::string filename, std::string filenameDefault) : GenericParserYAML(filename, filenameDefault) {
+ScenarioParser::ScenarioParser(std::string filename, std::string filenameDefault) : GenericParser(filename, filenameDefault) {
 }
 
-ScenarioParserYAML::~ScenarioParserYAML(void) {
+ScenarioParser::~ScenarioParser(void) {
 }
 
-TagEscenario ScenarioParserYAML::getEscenario() {
+TagEscenario ScenarioParser::getEscenario() {
 	Logger::getInstance()->writeInformation("YAML-CPP:Se obtiene informacion de escenario.");
 	TagEscenario escenario;
 	if (this->doc.FindValue("escenario")) {
@@ -27,7 +27,7 @@ TagEscenario ScenarioParserYAML::getEscenario() {
 	return escenario;
 }
 
-void ScenarioParserYAML::setEntidad(const YAML::Node& node, TagEntidad& entidad) {
+void ScenarioParser::setEntidad(const YAML::Node& node, TagEntidad& entidad) {
 	if (node.Type() == YAML::NodeType::Map) {
 		if (!obtenerValorScalarNumericoPositivo(node, "x", entidad.pos_x)) {
 			Logger::getInstance()->writeWarning("YAML-CPP:La posicion x de la entidad se toma por defecto.");
@@ -53,7 +53,7 @@ void ScenarioParserYAML::setEntidad(const YAML::Node& node, TagEntidad& entidad)
 	}
 }
 
-void ScenarioParserYAML::setEscenario(const YAML::Node& node, TagEscenario& escenario) {
+void ScenarioParser::setEscenario(const YAML::Node& node, TagEscenario& escenario) {
 	if (node.Type() == YAML::NodeType::Map) {
 		if (!obtenerValorScalarAlfaNumerico(node, "nombre", escenario.nombre)) {
 			Logger::getInstance()->writeWarning("YAML-CPP:El nombre del escenario se toma por default.");
@@ -162,7 +162,7 @@ void ScenarioParserYAML::setEscenario(const YAML::Node& node, TagEscenario& esce
 	}
 }
 
-void ScenarioParserYAML::setJugador(const YAML::Node& node, TagJugador& jugador, int i) {
+void ScenarioParser::setJugador(const YAML::Node& node, TagJugador& jugador, int i) {
 	if (node.Type() == YAML::NodeType::Map) {
 		if (!obtenerValorScalarAlfaNumerico(node, "name", jugador.name)) {
 			Logger::getInstance()->writeWarning("YAML-CPP:El nombre del jugador se toma por defecto.");
@@ -208,14 +208,14 @@ void ScenarioParserYAML::setJugador(const YAML::Node& node, TagJugador& jugador,
 	}
 }
 
-void ScenarioParserYAML::setProtagonistaDefault(TagEntidad& protagonista) {
+void ScenarioParser::setProtagonistaDefault(TagEntidad& protagonista) {
 	Logger::getInstance()->writeWarning("YAML-CPP: Se toma protagonista por default.");
 	protagonista.tipoEntidad = PROTAGONISTA_DEFAULT_NOMBRE;
 	protagonista.pos_x = PROTAGONISTA_DEFAULT_POSX;
 	protagonista.pos_y = PROTAGONISTA_DEFAULT_POSY;
 }
 
-void ScenarioParserYAML::setEscenarioDefault(TagEscenario& escenario) {
+void ScenarioParser::setEscenarioDefault(TagEscenario& escenario) {
 	Logger::getInstance()->writeWarning("YAML-CPP: Se toma escenario por default.");
 	std::vector<TagEntidad> entidades;
 	std::vector<TagEntidad> terrenos;

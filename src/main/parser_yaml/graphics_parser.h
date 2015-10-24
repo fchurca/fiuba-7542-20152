@@ -1,5 +1,5 @@
-#ifndef __GRAPHICSPARSERYAML_H__
-#define __GRAPHICSPARSERYAML_H__
+#ifndef __GRAPHICSPARSER_H__
+#define __GRAPHICSPARSER_H__
 
 #include <iostream>
 #include <fstream>
@@ -21,7 +21,7 @@ struct TagConfiguracion {
 	unsigned int dt;
 };
 
-class GraphicsParserYAML : GenericParserYAML
+class GraphicsParser : GenericParser
 {
 private:
 	void setConfiguracion(const YAML::Node& node, TagConfiguracion& configuracion);
@@ -30,10 +30,10 @@ private:
 	void setPantallaDefault(TagPantalla& pantalla);
 
 public:
-	GraphicsParserYAML(std::string filename, std::string filenameDefault);
+	GraphicsParser(std::string filename, std::string filenameDefault);
 	TagConfiguracion getConfiguracion();
 	TagPantalla getPantalla();
-	~GraphicsParserYAML(void);
+	~GraphicsParser(void);
 };
 
 #endif
