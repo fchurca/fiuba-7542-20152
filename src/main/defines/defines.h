@@ -125,6 +125,10 @@ enum Directions {
 #define SERVER_PORT_DEFAULT 8001
 #define SERVER_MAX_CLIENTS_DEFAULT 10
 
+//Archivo deConfiguracion del cliente
+#define CLIENT_SERVER_CONFIG_FILE_PATH  "client_config.yaml"
+#define CLIENT_SERVER_CONFIG_FILE_PATH_DEFAULT  "default/client_config_default.yaml"
+
 // Configuracion Client DEFAULT
 #define CLIENT_SERVER_IP_DEFAULT "localhost"
 #define CLIENT_SERVER_PORT_DEFAULT 8001
