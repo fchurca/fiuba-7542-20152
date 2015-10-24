@@ -1,0 +1,39 @@
+#ifndef __GRAPHICSPARSERYAML_H__
+#define __GRAPHICSPARSERYAML_H__
+
+#include <iostream>
+#include <fstream>
+#include "yaml-cpp/yaml.h"
+#include "generic_parser.h"
+#include "../defines/defines.h"
+#include "../log/logger.h"
+
+using namespace std;
+
+struct TagPantalla {
+	unsigned int ancho;
+	unsigned int alto;
+	unsigned int margen_scroll;
+	unsigned int velocidad_scroll;
+};
+
+struct TagConfiguracion {
+	unsigned int dt;
+};
+
+class GraphicsParserYAML : GenericParserYAML
+{
+private:
+	void setConfiguracion(const YAML::Node& node, TagConfiguracion& configuracion);
+	void setPantalla(const YAML::Node& node, TagPantalla& pantalla);
+	void setConfiguracionDefault(TagConfiguracion& configuracion);
+	void setPantallaDefault(TagPantalla& pantalla);
+
+public:
+	GraphicsParserYAML(std::string filename, std::string filenameDefault);
+	TagConfiguracion getConfiguracion();
+	TagPantalla getPantalla();
+	~GraphicsParserYAML(void);
+};
+
+#endif
