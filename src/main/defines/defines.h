@@ -15,12 +15,12 @@ enum Directions {
 //Archivo Configuracion
 #define CONFIG_FILE_PATH "configuracion.yaml"
 #define CONFIG_FILE_PATH_DEFAULT  "default//configuracionDefault.yaml"
-#define CONFIG_FILE_PATH "ruleset.yaml"
-#define CONFIG_FILE_PATH_DEFAULT  "default//rulesetDefault.yaml"
-#define CONFIG_FILE_PATH "scenario.yaml"
-#define CONFIG_FILE_PATH_DEFAULT  "default//scenarioDefault.yaml"
-#define CONFIG_FILE_PATH "graphics.yaml"
-#define CONFIG_FILE_PATH_DEFAULT  "default//graphicsDefault.yaml"
+#define RULESET_CONFIG_FILE_PATH "ruleset.yaml"
+#define RULESET_CONFIG_FILE_PATH_DEFAULT  "default//rulesetDefault.yaml"
+#define SCENARIO_CONFIG_FILE_PATH "scenario.yaml"
+#define SCENARIO_CONFIG_FILE_PATH_DEFAULT  "default//scenarioDefault.yaml"
+#define GRAPHICS_CONFIG_FILE_PATH "graphics.yaml"
+#define GRAPHICS_CONFIG_FILE_PATH_DEFAULT  "default//graphicsDefault.yaml"
 
 //Pantalla Default
 #define ANCHO_DEFAULT  640
