@@ -1,0 +1,141 @@
+tipos_entidades:
+  - nombre: troncoNESW
+    imagen: resources/troncoNESW31.png
+    ancho_base: 1
+    alto_base: 3
+    pixel_ref_x: 96
+    pixel_ref_y: 22
+    fps: 0
+    delay: 0
+    ancho_sprite: 128
+    alto_sprite: 83
+    cantidad_sprites: 1
+  - nombre: troncoNWSE
+    imagen: resources/troncoNWSE13.png
+    ancho_base: 3
+    alto_base: 1
+    pixel_ref_x: 32
+    pixel_ref_y: 22
+    fps: 0
+    delay: 0
+    ancho_sprite: 128
+    alto_sprite: 83
+    cantidad_sprites: 1
+  - nombre: chancho
+    imagen: resources/chanchos.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 17
+    pixel_ref_y: 24
+    fps: 20
+    delay: 1
+    ancho_sprite: 48
+    alto_sprite: 44
+    cantidad_sprites: 15
+  - nombre: cartel
+    imagen: resources/cartel.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 16
+    pixel_ref_y: 16
+    fps: 0
+    delay: 0
+    ancho_sprite: 32
+    alto_sprite: 32
+    cantidad_sprites: 1
+  - nombre: chanchoDelay
+    imagen: resources/chanchos.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 17
+    pixel_ref_y: 24
+    fps: 20
+    delay: 2
+    ancho_sprite: 48
+    alto_sprite: 44
+    cantidad_sprites: 15
+  - nombre: mago
+    imagen: resources/mago.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 30
+    pixel_ref_y: 32
+    fps: 10
+    delay: 0
+    ancho_sprite: 60
+    alto_sprite: 60
+    cantidad_sprites: 5
+    sight_radius: 3
+    speed: 3
+  - nombre: cubo
+    imagen: resources/cubo_1_2.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 16
+    pixel_ref_y: 16
+    fps: 0
+    delay: 0
+    ancho_sprite: 32
+    alto_sprite: 32
+    cantidad_sprites: 1
+    sight_radius: 3
+    speed: 3
+  - nombre: arbol
+    imagen: resources/arbol.png
+    ancho_base: 1.9
+    alto_base: 1.9
+    pixel_ref_x: 49
+    pixel_ref_y: 84
+    fps: 0
+    delay: 0
+    ancho_sprite: 88
+    alto_sprite: 143
+    cantidad_sprites: 1
+tipos_terrenos:
+  - nombre: agua
+    imagen: resources/agua.png
+    pixel_ref_x: 32
+    pixel_ref_y: 0
+    fps: 0
+    delay: 0
+    ancho_sprite: 64
+    alto_sprite: 32
+    cantidad_sprites: 1
+    solid: true
+  - nombre: pasto
+    imagen: resources/pasto.png
+    pixel_ref_x: 32
+    pixel_ref_y: 0
+    fps: 0
+    delay: 0
+    ancho_sprite: 64
+    alto_sprite: 32
+    cantidad_sprites: 1
+  - nombre: piedra
+    imagen: resources/piedra.png
+    pixel_ref_x: 32
+    pixel_ref_y: 0
+    fps: 0
+    delay: 0
+    ancho_sprite: 64
+    alto_sprite: 32
+    cantidad_sprites: 1
+tipos_recursos:
+  - nombre: carne
+    imagen: resources/carne.png
+    ancho_base: 1
+    alto_base: 1
+    pixel_ref_x: 32
+    pixel_ref_y: 2
+    ancho_sprite: 64
+    alto_sprite: 32
+    capacidad: 100
+  - nombre: oro
+    imagen: resources/oro.png
+    ancho_base: 1
+    alto_base: 1
+    pixel_ref_x: 32
+    pixel_ref_y: 3
+    ancho_sprite: 64
+    alto_sprite: 35
+    capacidad: 100

@@ -1,0 +1,109 @@
+escenario:
+    nombre: Orleans
+    size_x: 100
+    size_y: 100
+    max_resources: 25000
+    terrenos:
+      - {x: 0, y: 0, tipo: agua }
+      - {x: 0, y: 1, tipo: agua }
+      - {x: 0, y: 2, tipo: agua }
+      - {x: 0, y: 3, tipo: agua }
+      - {x: 0, y: 4, tipo: piedra }
+      - {x: 0, y: 5, tipo: piedra }
+      - {x: 0, y: 6, tipo: piedra }
+      - {x: 0, y: 7, tipo: piedra }
+      - {x: 1, y: 0, tipo: agua }
+      - {x: 1, y: 1, tipo: agua }
+      - {x: 1, y: 2, tipo: agua }
+      - {x: 1, y: 3, tipo: agua }
+      - {x: 1, y: 4, tipo: piedra }
+      - {x: 1, y: 5, tipo: piedra }
+      - {x: 1, y: 6, tipo: piedra }
+      - {x: 1, y: 7, tipo: piedra }
+      - {x: 2, y: 0, tipo: agua }
+      - {x: 2, y: 1, tipo: agua }
+      - {x: 2, y: 2, tipo: agua }
+      - {x: 2, y: 3, tipo: agua }
+      - {x: 2, y: 4, tipo: piedra }
+      - {x: 2, y: 5, tipo: piedra }
+      - {x: 2, y: 6, tipo: piedra }
+      - {x: 2, y: 7, tipo: piedra }
+      - {x: 3, y: 0, tipo: piedra }
+      - {x: 3, y: 1, tipo: piedra }
+      - {x: 3, y: 2, tipo: piedra }
+      - {x: 3, y: 3, tipo: piedra }
+      - {x: 3, y: 4, tipo: piedra }
+      - {x: 3, y: 5, tipo: piedra }
+      - {x: 3, y: 6, tipo: piedra }
+      - {x: 3, y: 7, tipo: piedra }
+      - {x: 4, y: 4, tipo: piedra }
+      - {x: 4, y: 5, tipo: piedra }
+      - {x: 4, y: 6, tipo: piedra }
+      - {x: 4, y: 7, tipo: piedra }
+      - {x: 5, y: 4, tipo: piedra }
+      - {x: 5, y: 5, tipo: piedra }
+      - {x: 5, y: 6, tipo: piedra }
+      - {x: 5, y: 7, tipo: piedra }
+      - {x: 6, y: 4, tipo: piedra }
+      - {x: 6, y: 5, tipo: piedra }
+      - {x: 6, y: 6, tipo: piedra }
+      - {x: 6, y: 7, tipo: piedra }
+      - {x: 7, y: 4, tipo: piedra }
+      - {x: 7, y: 5, tipo: piedra }
+      - {x: 7, y: 6, tipo: piedra }
+      - {x: 7, y: 7, tipo: piedra }
+      - {x: 8, y: 4, tipo: piedra }
+      - {x: 8, y: 5, tipo: piedra }
+      - {x: 8, y: 6, tipo: piedra }
+      - {x: 8, y: 7, tipo: piedra }
+      - {x: 9, y: 4, tipo: piedra }
+      - {x: 9, y: 5, tipo: piedra }
+      - {x: 9, y: 6, tipo: piedra }
+      - {x: 9, y: 7, tipo: piedra }
+    entidades:
+      - {x: 2, y: 9, tipo: cartel }
+      - {x: 5, y: 3, tipo: cartel }
+      - {x: 5, y: 9, tipo: cartel }
+      - {x: 3, y: 11, tipo: troncoNESW }
+      - {x: 3, y: 15, tipo: troncoNESW }
+      - {x: 3, y: 14, tipo: chancho }
+      - {x: 0, y: 14, tipo: troncoNWSE }
+      - {x: 4, y: 14, tipo: troncoNWSE }
+      - {x: 10, y: 10, tipo: chanchoDelay }
+      - {x: 10, y: 11, tipo: chanchoDelay }
+      - {x: 11, y: 10, tipo: chancho }
+      - {x: 11, y: 11, tipo: chancho }
+      - {x: 5, y: 5, tipo: chancho }
+      - {x: 15, y: 15, tipo: arbol }
+      - {x: 15, y: 17, tipo: arbol }
+      - {x: 17, y: 15, tipo: arbol }
+      - {x: 17, y: 17, tipo: arbol }
+      - {x: 15, y: 4, tipo: arbol }
+      - {x: 17, y: 4, tipo: arbol }
+      - {x: 19, y: 4, tipo: arbol }
+      - {x: 21, y: 4, tipo: arbol }
+      - {x: 15, y: 6, tipo: arbol }
+      - {x: 17, y: 6, tipo: arbol }
+      - {x: 19, y: 6, tipo: arbol }
+      - {x: 21, y: 6, tipo: arbol }
+      - {x: 15, y: 8, tipo: arbol }
+      - {x: 17, y: 8, tipo: arbol }
+      - {x: 19, y: 8, tipo: arbol }
+      - {x: 21, y: 8, tipo: arbol }
+      - {x: 15, y: 10, tipo: arbol }
+      - {x: 17, y: 10, tipo: arbol }
+      - {x: 19, y: 10, tipo: arbol }
+      - {x: 21, y: 10, tipo: arbol }
+      - {x: 15, y: 11, tipo: arbol }
+      - {x: 17, y: 11, tipo: arbol }
+      - {x: 19, y: 11, tipo: arbol }
+      - {x: 21, y: 11, tipo: arbol }
+    jugadores:
+      - name: Kybon
+        isHuman: true
+        entidades:
+          - {x: 20, y: 20, tipo: cubo }
+      - name: Franceses
+        isHuman: true
+        entidades:
+          - {x: 3, y: 3, tipo: mago }
