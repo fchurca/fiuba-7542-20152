@@ -124,4 +124,8 @@ enum Directions {
 #define SERVER_IP_DEFAULT "localhost"
 #define SERVER_PORT_DEFAULT 8001
 #define SERVER_MAX_CLIENTS_DEFAULT 10
+
+// Configuracion Client DEFAULT
+#define CLIENT_SERVER_IP_DEFAULT "localhost"
+#define CLIENT_SERVER_PORT_DEFAULT 8001
 #endif

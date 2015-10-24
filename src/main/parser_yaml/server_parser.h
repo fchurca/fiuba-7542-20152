@@ -30,8 +30,6 @@ private:
 	void setServerConfigurationDefault(TagServerConfiguration& configuration);
 	void setServerPaths(const YAML::Node& node, TagServerPaths& paths);
 	void setServerPathsDefault(TagServerPaths& paths);
-	void setArchivoDefault();
-
 
 public:
 	ServerParser(std::string filename, std::string filenameDefault);
