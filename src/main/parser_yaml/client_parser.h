@@ -16,7 +16,7 @@ struct TagClientConfiguration {
 };
 
 
-class ClientParser : GenericParser
+class ClientParser : public GenericParser
 {
 private:
 	void setClientConfiguration(const YAML::Node& node, TagClientConfiguration& configuration);

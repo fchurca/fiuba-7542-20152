@@ -21,7 +21,7 @@ struct TagConfiguracion {
 	unsigned int dt;
 };
 
-class GraphicsParser : GenericParser
+class GraphicsParser : public GenericParser
 {
 private:
 	void setConfiguracion(const YAML::Node& node, TagConfiguracion& configuracion);

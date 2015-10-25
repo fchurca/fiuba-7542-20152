@@ -32,7 +32,7 @@ struct TagEscenario {
 	std::vector<TagJugador> jugadores;
 };
 
-class ScenarioParser : GenericParser
+class ScenarioParser : public GenericParser
 {
 private:
 	void setEntidad(const YAML::Node& node, TagEntidad& entidad);

@@ -28,7 +28,7 @@ struct TagTipoEntidad {
 	unsigned int capacity;
 };
 
-class RulesetParser : GenericParser
+class RulesetParser : public GenericParser
 {
 private:
 	std::string filename;

@@ -24,7 +24,7 @@ struct TagServerPaths {
 	std::string default_path;
 };
 
-class ServerParser : GenericParser{
+class ServerParser : public GenericParser{
 private:
 	void setServerConfiguration(const YAML::Node& node, TagServerConfiguration& configuration);
 	void setServerConfigurationDefault(TagServerConfiguration& configuration);
