@@ -74,6 +74,32 @@ tipos_entidades:
     cantidad_sprites: 5
     sight_radius: 3
     speed: 3
+  - nombre: ogro
+    imagen: resources/ogro.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 30
+    pixel_ref_y: 32
+    fps: 10
+    delay: 0
+    ancho_sprite: 60
+    alto_sprite: 60
+    cantidad_sprites: 4
+    sight_radius: 3
+    speed: 3
+  - nombre: hachero
+    imagen: resources/hachero.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 30
+    pixel_ref_y: 32
+    fps: 10
+    delay: 0
+    ancho_sprite: 60
+    alto_sprite: 60
+    cantidad_sprites: 5
+    sight_radius: 3
+    speed: 3
   - nombre: cubo
     imagen: resources/cubo_1_2.png
     ancho_base: 0.5
@@ -212,6 +238,17 @@ escenario:
       - {x: 2, y: 9, tipo: cartel }
       - {x: 5, y: 3, tipo: cartel }
       - {x: 5, y: 9, tipo: cartel }
+      - {x: 5, y: 20, tipo: cartel }
+      - {x: 5, y: 21, tipo: cartel }
+      - {x: 5, y: 22, tipo: cartel }
+      - {x: 5, y: 23, tipo: cartel }
+      - {x: 9, y: 20, tipo: cartel }
+      - {x: 9, y: 21, tipo: cartel }
+      - {x: 9, y: 22, tipo: cartel }
+      - {x: 9, y: 23, tipo: cartel }
+      - {x: 6, y: 23, tipo: cartel }
+      - {x: 7, y: 23, tipo: cartel }
+      - {x: 8, y: 23, tipo: cartel }
       - {x: 3, y: 11, tipo: troncoNESW }
       - {x: 3, y: 15, tipo: troncoNESW }
       - {x: 3, y: 14, tipo: chancho }
