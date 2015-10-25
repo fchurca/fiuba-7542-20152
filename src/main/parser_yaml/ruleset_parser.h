@@ -1,5 +1,5 @@
-#ifndef __RULESETPARSERYAML_H__
-#define __RULESETPARSERYAML_H__
+#ifndef __RULESETPARSER_H__
+#define __RULESETPARSER_H__
 
 #include <iostream>
 #include <fstream>
@@ -28,12 +28,9 @@ struct TagTipoEntidad {
 	unsigned int capacity;
 };
 
-class RulesetParserYAML : GenericParserYAML
+class RulesetParser : public GenericParser
 {
 private:
-	std::string filename;
-	YAML::Node doc;
-
 	void setTipoEntidad(const YAML::Node& node, TagTipoEntidad& tipoEntidad, int i);
 	void setTipoTerreno(const YAML::Node& node, TagTipoEntidad& tipoTerreno, int i);
 	void setTipoRecurso(const YAML::Node& node, TagTipoEntidad& tipoTerreno, int i);
@@ -41,11 +38,11 @@ private:
 	void setTipoTerrenoDefault(TagTipoEntidad& tipoTerreno, int i);
 	void setTipoRecursoDefault(TagTipoEntidad& tipoRecurso, int i);
 public:
-	RulesetParserYAML(std::string filename, std::string filenameDefault);
+	RulesetParser(std::string filename, std::string filenameDefault);
 	std::vector<TagTipoEntidad> getTiposEntidades();
 	std::vector<TagTipoEntidad> getTiposTerrenos();
 	std::vector<TagTipoEntidad> getTiposRecursos();
-	~RulesetParserYAML(void);
+	~RulesetParser(void);
 };
 
 #endif

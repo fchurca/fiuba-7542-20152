@@ -10,7 +10,8 @@
 #include "../defines/defines.h"
 #include "../controllers/event_handler.h"
 
-class ParserYAML;
+class GraphicsParser;
+class RulesetParser;
 
 class GameWindow : public AClient {
 private:
@@ -38,7 +39,7 @@ protected:
 	std::shared_ptr<MiniMap> minimap;
 public:
 	void addSpriteSheet(std::string name, std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay);
-	GameWindow(Game& owner, Player& player, ParserYAML& parser);
+	GameWindow(Game& owner, Player& player, GraphicsParser& graphicsParser, RulesetParser& rulesetParser);
 	~GameWindow();
 	int start();
 	void update();

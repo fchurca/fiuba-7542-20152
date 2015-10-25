@@ -1,5 +1,5 @@
-#ifndef __SERVERPARSERYAML_H__
-#define __SERVERPARSERYAML_H__
+#ifndef __SERVERPARSER_H__
+#define __SERVERPARSER_H__
 
 #include <iostream>
 #include <fstream>
@@ -24,20 +24,18 @@ struct TagServerPaths {
 	std::string default_path;
 };
 
-class ServerParserYAML : GenericParserYAML{
+class ServerParser : public GenericParser{
 private:
 	void setServerConfiguration(const YAML::Node& node, TagServerConfiguration& configuration);
 	void setServerConfigurationDefault(TagServerConfiguration& configuration);
 	void setServerPaths(const YAML::Node& node, TagServerPaths& paths);
 	void setServerPathsDefault(TagServerPaths& paths);
-	void setArchivoDefault();
-
 
 public:
-	ServerParserYAML(std::string filename, std::string filenameDefault);
+	ServerParser(std::string filename, std::string filenameDefault);
 	TagServerConfiguration getServerConfiguration();
 	TagServerPaths getServerPaths();
-	~ServerParserYAML(void);
+	~ServerParser(void);
 };
 
 #endif

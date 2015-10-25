@@ -1,5 +1,5 @@
-#ifndef __GENERICPARSERYAML_H__
-#define __GENERICPARSERYAML_H__
+#ifndef __GENERICPARSER_H__
+#define __GENERICPARSER_H__
 
 #include <iostream>
 #include <fstream>
@@ -9,7 +9,7 @@
 using namespace std;
 
 
-class GenericParserYAML
+class GenericParser
 {
 protected:
 	std::string filename;
@@ -25,9 +25,9 @@ protected:
 	void setArchivoDefault();
 
 public:
-	GenericParserYAML(std::string filename, std::string filenameDefault);
+	GenericParser(std::string filename, std::string filenameDefault);
 	void parse();
-	~GenericParserYAML(void);
+	~GenericParser(void);
 };
 
 #endif

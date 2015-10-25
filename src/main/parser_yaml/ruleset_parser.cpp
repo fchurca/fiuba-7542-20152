@@ -1,13 +1,13 @@
 #include "ruleset_parser.h"
 
-RulesetParserYAML::RulesetParserYAML(std::string filename, std::string filenameDefault) : GenericParserYAML(filename, filenameDefault) {
+RulesetParser::RulesetParser(std::string filename, std::string filenameDefault) : GenericParser(filename, filenameDefault) {
 }
 
-RulesetParserYAML::~RulesetParserYAML(void) {
+RulesetParser::~RulesetParser(void) {
 
 }
 
-std::vector<TagTipoEntidad> RulesetParserYAML::getTiposEntidades() {
+std::vector<TagTipoEntidad> RulesetParser::getTiposEntidades() {
 	Logger::getInstance()->writeInformation("YAML-CPP:Se obtiene informacion de los tipos de entidades.");
 	std::vector<TagTipoEntidad> tiposDeEntidades;
 	if (this->doc.FindValue("tipos_entidades")) {
@@ -32,7 +32,7 @@ std::vector<TagTipoEntidad> RulesetParserYAML::getTiposEntidades() {
 	return tiposDeEntidades;
 }
 
-std::vector<TagTipoEntidad> RulesetParserYAML::getTiposTerrenos() {
+std::vector<TagTipoEntidad> RulesetParser::getTiposTerrenos() {
 	Logger::getInstance()->writeInformation("YAML-CPP:Se obtiene informacion de los tipos de terrenos.");
 	std::vector<TagTipoEntidad> tiposDeTerrenos;
 	if (this->doc.FindValue("tipos_terrenos")) {
@@ -56,7 +56,7 @@ std::vector<TagTipoEntidad> RulesetParserYAML::getTiposTerrenos() {
 	}
 	return tiposDeTerrenos;
 }
-std::vector<TagTipoEntidad> RulesetParserYAML::getTiposRecursos() {
+std::vector<TagTipoEntidad> RulesetParser::getTiposRecursos() {
 	Logger::getInstance()->writeInformation("YAML-CPP:Se obtiene informacion de los tipos de recursos.");
 	std::vector<TagTipoEntidad> tiposDeRecursos;
 	if (this->doc.FindValue("tipos_recursos")) {
@@ -81,7 +81,7 @@ std::vector<TagTipoEntidad> RulesetParserYAML::getTiposRecursos() {
 	return tiposDeRecursos;
 }
 
-void RulesetParserYAML::setTipoEntidad(const YAML::Node& node, TagTipoEntidad& tipoEntidad, int i) {
+void RulesetParser::setTipoEntidad(const YAML::Node& node, TagTipoEntidad& tipoEntidad, int i) {
 	if (node.Type() == YAML::NodeType::Map) {
 		if (!obtenerValorScalarAlfaNumerico(node, "nombre", tipoEntidad.nombre)) {
 			Logger::getInstance()->writeInformation("YAML-CPP:El nombre del tipo de entidad se toma por default.");
@@ -135,7 +135,7 @@ void RulesetParserYAML::setTipoEntidad(const YAML::Node& node, TagTipoEntidad& t
 	}
 }
 
-void RulesetParserYAML::setTipoTerreno(const YAML::Node& node, TagTipoEntidad& tipoTerreno, int i) {
+void RulesetParser::setTipoTerreno(const YAML::Node& node, TagTipoEntidad& tipoTerreno, int i) {
 	if (node.Type() == YAML::NodeType::Map) {
 		if (!obtenerValorScalarAlfaNumerico(node, "nombre", tipoTerreno.nombre)) {
 			Logger::getInstance()->writeInformation("YAML-CPP: el nombre del tipo de entidad se toma por default.");
@@ -183,7 +183,7 @@ void RulesetParserYAML::setTipoTerreno(const YAML::Node& node, TagTipoEntidad& t
 	}
 }
 
-void RulesetParserYAML::setTipoRecurso(const YAML::Node& node, TagTipoEntidad& tipoRecurso, int i) {
+void RulesetParser::setTipoRecurso(const YAML::Node& node, TagTipoEntidad& tipoRecurso, int i) {
 	if (node.Type() == YAML::NodeType::Map) {
 		if (!obtenerValorScalarAlfaNumerico(node, "nombre", tipoRecurso.nombre)) {
 			Logger::getInstance()->writeInformation("YAML-CPP: el nombre del tipo de recurso se toma por default.");
@@ -224,7 +224,7 @@ void RulesetParserYAML::setTipoRecurso(const YAML::Node& node, TagTipoEntidad& t
 	}
 }
 
-void RulesetParserYAML::setTipoRecursoDefault(TagTipoEntidad& tipoRecurso, int i) {
+void RulesetParser::setTipoRecursoDefault(TagTipoEntidad& tipoRecurso, int i) {
 	Logger::getInstance()->writeInformation("YAML-CPP:Se toma tipo de recurso por default.");
 	tipoRecurso.nombre = RECURSO_DEFAULT_NOMBRE + intToString(i);
 	tipoRecurso.imagen = RECURSO_DEFAULT_IMAGEN;
@@ -243,7 +243,7 @@ void RulesetParserYAML::setTipoRecursoDefault(TagTipoEntidad& tipoRecurso, int i
 	tipoRecurso.capacity = RECURSO_DEFAULT_CAPACITY;
 }
 
-void RulesetParserYAML::setTipoTerrenoDefault(TagTipoEntidad& tipoEntidad, int i) {
+void RulesetParser::setTipoTerrenoDefault(TagTipoEntidad& tipoEntidad, int i) {
 	Logger::getInstance()->writeInformation("YAML-CPP:Se toma tipo de terreno por default.");
 	tipoEntidad.nombre = TERRENO_DEFAULT_NOMBRE + intToString(i);
 	tipoEntidad.imagen = TERRENO_DEFAULT_IMAGEN;
@@ -263,7 +263,7 @@ void RulesetParserYAML::setTipoTerrenoDefault(TagTipoEntidad& tipoEntidad, int i
 }
 
 
-void RulesetParserYAML::setTipoEntidadDefault(TagTipoEntidad& tipoEntidad, int i) {
+void RulesetParser::setTipoEntidadDefault(TagTipoEntidad& tipoEntidad, int i) {
 	Logger::getInstance()->writeInformation("YAML-CPP:Se toma tipo de entidad por default.");
 	tipoEntidad.nombre = ENTIDAD_DEFAULT_NOMBRE + intToString(i);
 	tipoEntidad.imagen = ENTIDAD_DEFAULT_IMAGEN;

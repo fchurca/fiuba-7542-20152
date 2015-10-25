@@ -15,6 +15,12 @@ enum Directions {
 //Archivo Configuracion
 #define CONFIG_FILE_PATH "configuracion.yaml"
 #define CONFIG_FILE_PATH_DEFAULT  "default//configuracionDefault.yaml"
+#define RULESET_CONFIG_FILE_PATH "ruleset.yaml"
+#define RULESET_CONFIG_FILE_PATH_DEFAULT  "default//rulesetDefault.yaml"
+#define SCENARIO_CONFIG_FILE_PATH "scenario.yaml"
+#define SCENARIO_CONFIG_FILE_PATH_DEFAULT  "default//scenarioDefault.yaml"
+#define GRAPHICS_CONFIG_FILE_PATH "graphics.yaml"
+#define GRAPHICS_CONFIG_FILE_PATH_DEFAULT  "default//graphicsDefault.yaml"
 
 //Pantalla Default
 #define ANCHO_DEFAULT  640
@@ -118,4 +124,12 @@ enum Directions {
 #define SERVER_IP_DEFAULT "localhost"
 #define SERVER_PORT_DEFAULT 8001
 #define SERVER_MAX_CLIENTS_DEFAULT 10
+
+//Archivo deConfiguracion del cliente
+#define CLIENT_SERVER_CONFIG_FILE_PATH  "client_config.yaml"
+#define CLIENT_SERVER_CONFIG_FILE_PATH_DEFAULT  "default/client_config_default.yaml"
+
+// Configuracion Client DEFAULT
+#define CLIENT_SERVER_IP_DEFAULT "localhost"
+#define CLIENT_SERVER_PORT_DEFAULT 8001
 #endif

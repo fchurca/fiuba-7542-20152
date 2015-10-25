@@ -14,7 +14,10 @@
 
 class Entity;
 class EntityFactory;
-class ParserYAML;
+class ScenarioParser;
+class RulesetParser;
+class GraphicsParser;
+
 
 class ABoard {
 	protected:
@@ -61,7 +64,7 @@ class SmartBoard : public ABoard {
 		SmartBoard();
 
 	public:
-		SmartBoard(ParserYAML& parser);
+		SmartBoard(GraphicsParser& graphicsParser, RulesetParser& rulesetParser, ScenarioParser& scenarioParser);
 		~SmartBoard();
 
 		void update();
