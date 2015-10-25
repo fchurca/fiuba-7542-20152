@@ -4,7 +4,8 @@
 
 #include "game_window.h"
 
-#include "../parser_yaml/parser_yaml.h"
+#include "../parser_yaml/graphics_parser.h"
+#include "../parser_yaml/ruleset_parser.h"
 
 using namespace std;
 
@@ -27,11 +28,11 @@ bool GameWindow::initialize() {
 	return GameWindow::sdlInitialized;
 }
 
-GameWindow::GameWindow(Game& owner, Player& player, ParserYAML& parser) :
+GameWindow::GameWindow(Game& owner, Player& player, GraphicsParser& graphicsParser, RulesetParser& rulesetParser) :
 	AClient(owner, player),
 	board(player.board),
-	ancho_pantalla(parser.getPantalla().ancho), alto_pantalla(parser.getPantalla().alto),
-	margen_pantalla(parser.getPantalla().margen_scroll), scroll_speed(parser.getPantalla().velocidad_scroll)
+	ancho_pantalla(graphicsParser.getPantalla().ancho), alto_pantalla(graphicsParser.getPantalla().alto),
+	margen_pantalla(graphicsParser.getPantalla().margen_scroll), scroll_speed(graphicsParser.getPantalla().velocidad_scroll)
 {
 	GameWindow::initialize(); 
 	window = SDL_CreateWindow(("Trabajo Práctico 7542: " + owner.getBoard()->name).c_str(),
@@ -55,17 +56,17 @@ GameWindow::GameWindow(Game& owner, Player& player, ParserYAML& parser) :
 		Logger::getInstance()->writeError("Error al abrir TTF");
 	}
 
-	auto tp = parser.getPantalla();
-	auto tc = parser.getConfiguracion();
-	for(auto& t : parser.getTiposEntidades()) {
+	auto tp = graphicsParser.getPantalla();
+	auto tc = graphicsParser.getConfiguracion();
+	for(auto& t : rulesetParser.getTiposEntidades()) {
 		addSpriteSheet(t.nombre, t.imagen, t.pixel_ref_x, t.pixel_ref_y, t.alto_sprite, t.ancho_sprite,  t.cantidad_sprites, t.fps, t.delay);
 	}
 
-	for(auto& t : parser.getTiposTerrenos()) {
+	for(auto& t : rulesetParser.getTiposTerrenos()) {
 		addSpriteSheet(t.nombre, t.imagen, t.pixel_ref_x, t.pixel_ref_y, t.alto_sprite, t.ancho_sprite,  t.cantidad_sprites, t.fps, t.delay);
 	}
 
-	for (auto& t : parser.getTiposRecursos()) {
+	for (auto& t : rulesetParser.getTiposRecursos()) {
 		addSpriteSheet(t.nombre, t.imagen, t.pixel_ref_x, t.pixel_ref_y, t.alto_sprite, t.ancho_sprite, t.cantidad_sprites, t.fps, t.delay);
 	}
 	if(player.entities().size() > 0)

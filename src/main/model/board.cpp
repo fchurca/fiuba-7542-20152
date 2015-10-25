@@ -5,7 +5,9 @@
 #include "entity.h"
 #include "entity_factory.h"
 
-#include "../parser_yaml/parser_yaml.h"
+#include "../parser_yaml/ruleset_parser.h"
+#include "../parser_yaml/scenario_parser.h"
+#include "../parser_yaml/graphics_parser.h"
 
 using namespace std;
 
@@ -130,11 +132,11 @@ void ABoard::update() {
 }
 
 
-SmartBoard::SmartBoard(ParserYAML& parser) :
-	ABoard(parser.getEscenario().nombre,
-			parser.getConfiguracion().dt,
-			parser.getEscenario().size_x, parser.getEscenario().size_y,
-			parser.getEscenario().max_resources)
+SmartBoard::SmartBoard(GraphicsParser& graphicsParser, RulesetParser& rulesetParser, ScenarioParser& scenarioParser) :
+	ABoard(scenarioParser.getEscenario().nombre,
+		graphicsParser.getConfiguracion().dt,
+		scenarioParser.getEscenario().size_x, scenarioParser.getEscenario().size_y,
+		scenarioParser.getEscenario().max_resources)
 {
 	stringstream message;
 	message << "Creating board " << this << " of size " << sizeX << "x" << sizeY;
@@ -146,16 +148,16 @@ SmartBoard::SmartBoard(ParserYAML& parser) :
 	createEntityFactory(TERRENO_DEFAULT_NOMBRE, {TERRENO_DEFAULT_ANCHO_BASE, TERRENO_DEFAULT_ALTO_BASE}, TERRENO_DEFAULT_SPEED, TERRENO_DEFAULT_SIGHT_RADIUS, false, TERRENO_DEFAULT_CAPACITY);
 	createPlayer(DEFAULT_PLAYER_NAME, false);
 
-	for(auto& t : parser.getTiposEntidades()) {
+	for(auto& t : rulesetParser.getTiposEntidades()) {
 		createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, t.speed, t.sight_radius, t.solid, t.capacity);
 	}
-	for(auto& t : parser.getTiposTerrenos()) {
+	for(auto& t : rulesetParser.getTiposTerrenos()) {
 		createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, t.speed, t.sight_radius, t.solid, t.capacity); 
 	}
-	for (auto& t : parser.getTiposRecursos()) {
+	for (auto& t : rulesetParser.getTiposRecursos()) {
 		createEntityFactory(t.nombre, { t.ancho_base, t.alto_base }, t.speed, t.sight_radius, t.solid, t.capacity);
 	}
-	auto te = parser.getEscenario();
+	auto te = scenarioParser.getEscenario();
 	for(auto& t : te.terrenos) {
 		setTerrain(t.tipoEntidad, t.pos_x, t.pos_y);
 	}

@@ -3,7 +3,9 @@
 #include <string>
 #include <vector>
 
-#include "../parser_yaml/parser_yaml.h"
+#include "../parser_yaml/graphics_parser.h"
+#include "../parser_yaml/ruleset_parser.h"
+#include "../parser_yaml/scenario_parser.h"
 #include "../log/logger.h"
 #include "../model/game.h"
 #include "../gfx/game_window.h"
@@ -36,13 +38,17 @@ int main(int argc, char* argv[]) {
 	bool restart = true;
 	do {
 		Game game;
-		ParserYAML parser(CONFIG_FILE_PATH);
-		parser.parse();
+		ScenarioParser scenarioParser(SCENARIO_CONFIG_FILE_PATH, SCENARIO_CONFIG_FILE_PATH_DEFAULT);
+		GraphicsParser graphicsParser(GRAPHICS_CONFIG_FILE_PATH, GRAPHICS_CONFIG_FILE_PATH_DEFAULT);
+		RulesetParser rulesetParser(RULESET_CONFIG_FILE_PATH, RULESET_CONFIG_FILE_PATH_DEFAULT);
+		scenarioParser.parse();
+		graphicsParser.parse();
+		rulesetParser.parse();
 		if (client) {
 			// Acá estamos levantando el cliente. Lo siguiente en realidad es un RemoteBoard que se conecta por TCP/IP al daemon
-			game.setBoard(make_shared<SmartBoard>(parser));
+			game.setBoard(make_shared<SmartBoard>(graphicsParser,rulesetParser,scenarioParser));
 		} else {
-			game.setBoard(make_shared<SmartBoard>(parser));
+			game.setBoard(make_shared<SmartBoard>(graphicsParser, rulesetParser, scenarioParser));
 		}
 		if (daemon) {
 			// Acá estamos levantando el server. Todo el siguiente bloque es por cliente nuevo
@@ -53,7 +59,7 @@ int main(int argc, char* argv[]) {
 		}
 		auto graphicPlayer = game.getAvailablePlayer();
 		if (graphicPlayer) {
-			game.addClient(make_shared<GameWindow>(game, *(graphicPlayer), parser));
+			game.addClient(make_shared<GameWindow>(game, *(graphicPlayer), graphicsParser, rulesetParser));
 		}
 		game.start();
 		restart = game.willRestart();

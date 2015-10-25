@@ -31,9 +31,6 @@ struct TagTipoEntidad {
 class RulesetParser : public GenericParser
 {
 private:
-	std::string filename;
-	YAML::Node doc;
-
 	void setTipoEntidad(const YAML::Node& node, TagTipoEntidad& tipoEntidad, int i);
 	void setTipoTerreno(const YAML::Node& node, TagTipoEntidad& tipoTerreno, int i);
 	void setTipoRecurso(const YAML::Node& node, TagTipoEntidad& tipoTerreno, int i);
