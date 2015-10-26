@@ -213,7 +213,9 @@ void Entity::update() {
 				collide(c.get());
 			}
 			if (!canEnter(newPos)) {
+				auto destiny = waypoints.back();
 				unsetTarget();
+				addTarget(destiny);
 				return;
 			}
 			position = newPos;
