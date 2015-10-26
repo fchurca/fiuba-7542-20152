@@ -1,5 +1,6 @@
 #include "scenario_parser.h"
 
+using namespace std;
 
 ScenarioParser::ScenarioParser(std::string filename, std::string filenameDefault) : GenericParser(filename, filenameDefault) {
 }

@@ -1,5 +1,7 @@
 #include "client_parser.h"
 
+using namespace std;
+
 ClientParser::ClientParser(std::string filename, std::string filenameDefault) : GenericParser(filename, filenameDefault) {
 }
 

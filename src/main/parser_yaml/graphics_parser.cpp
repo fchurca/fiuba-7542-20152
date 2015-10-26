@@ -1,5 +1,7 @@
 #include "graphics_parser.h"
 
+using namespace std;
+
 GraphicsParser::GraphicsParser(std::string filename, std::string filenameDefault) : GenericParser(filename,filenameDefault) {
 }
 

@@ -8,8 +8,6 @@
 #include "../defines/defines.h"
 #include "../log/logger.h"
 
-using namespace std;
-
 struct TagTipoEntidad {
 	std::string nombre;
 	std::string imagen;

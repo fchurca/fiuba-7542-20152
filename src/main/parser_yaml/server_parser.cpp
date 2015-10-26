@@ -1,5 +1,7 @@
 #include "server_parser.h"
 
+using namespace std;
+
 ServerParser::ServerParser(std::string filename,std::string filenameDefault ) : GenericParser(filename, filenameDefault) {
 }
 

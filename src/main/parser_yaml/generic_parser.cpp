@@ -2,6 +2,7 @@
 
 #include "generic_parser.h"
 
+using namespace std;
 
 GenericParser::GenericParser(std::string filename, std::string filenameDefault) {
 	this->filename = filename;

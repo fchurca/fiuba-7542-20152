@@ -11,8 +11,6 @@
 #include "../defines/defines.h"
 #include "../log/logger.h"
 
-using namespace std;
-
 struct TagServerConfiguration {
 	std::string ip;
 	unsigned int port;

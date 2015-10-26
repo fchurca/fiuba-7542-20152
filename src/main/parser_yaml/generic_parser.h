@@ -6,9 +6,6 @@
 #include "yaml-cpp/yaml.h"
 #include "../log/logger.h"
 
-using namespace std;
-
-
 class GenericParser
 {
 protected:

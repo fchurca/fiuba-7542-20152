@@ -1,5 +1,7 @@
 #include "ruleset_parser.h"
 
+using namespace std;
+
 RulesetParser::RulesetParser(std::string filename, std::string filenameDefault) : GenericParser(filename, filenameDefault) {
 }
 

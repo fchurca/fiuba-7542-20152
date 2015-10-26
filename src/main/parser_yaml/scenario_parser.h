@@ -8,8 +8,6 @@
 #include "../log/logger.h"
 #include "generic_parser.h"
 
-using namespace std;
-
 struct TagEntidad {
 	unsigned int pos_x;
 	unsigned int pos_y;

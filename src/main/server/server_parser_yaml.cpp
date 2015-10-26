@@ -2,6 +2,8 @@
 #include "server_parser_yaml.h"
 #include <cstdio>
 
+using namespace std;
+
 ServerParserYAML::ServerParserYAML(std::string filename) {
 	this->filename = filename;
 }

@@ -8,8 +8,6 @@
 #include "../defines/defines.h"
 #include "../log/logger.h"
 
-using namespace std;
-
 struct TagClientConfiguration {
 	std::string server_ip;
 	unsigned int server_port;
