@@ -82,8 +82,8 @@ tipos_entidades:
     speed: 3
   - nombre: arbol
     imagen: resources/arbol.png
-    ancho_base: 1.9
-    alto_base: 1.9
+    ancho_base: 2
+    alto_base: 2
     pixel_ref_x: 49
     pixel_ref_y: 84
     fps: 0

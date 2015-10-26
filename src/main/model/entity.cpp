@@ -104,7 +104,8 @@ void Entity::addTarget(r2 newTarget) {
 	}
 
 	open.emplace(make_shared<TSNode>(start, 0, h(start), nullptr));
-	while (open.size() > 0) {
+	// i is a runtime cap
+	for (size_t i = 4096; (open.size() > 0) && (i > 0); i--) {
 		auto c = open.top();
 		open.pop();
 		auto cpos = c->position;
