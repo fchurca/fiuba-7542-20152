@@ -6,13 +6,12 @@
 #include <thread>
 
 #include "../model/abstract_client.h"
-#include "../parser_yaml/parser_yaml.h"
 
 class RemoteClient : public AClient{
 	protected:
 		size_t frame;
 		void setFrame();
-		thread th;
+		std::thread th;
 		std::queue<size_t> deleted;
 		std::mutex deletedMutex;
 	public:

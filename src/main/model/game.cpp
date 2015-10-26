@@ -1,7 +1,6 @@
 #include <sstream>
 
 #include "game.h"
-#include "../parser_yaml/parser_yaml.h"
 #include "../gfx/game_timer.h"
 
 Game::Game() :

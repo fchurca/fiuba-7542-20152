@@ -4,7 +4,7 @@ CXXO = $(CXX) -o $@ -c $<
 
 all: bin/tp7542_standalone
 
-bin/tp7542_standalone: bin/standalone_main.o bin/geometry.o bin/parser_yaml.o bin/logger.o bin/game_window.o bin/game_timer.o bin/controller.o bin/board.o bin/entity.o bin/sprite_sheet.o bin/game.o bin/entity_factory.o bin/player.o bin/abstract_client.o bin/remote_client.o bin/command.o bin/minimap.o bin/generic_parser.o bin/graphics_parser.o bin/ruleset_parser.o bin/scenario_parser.o
+bin/tp7542_standalone: bin/standalone_main.o bin/geometry.o bin/logger.o bin/game_window.o bin/game_timer.o bin/controller.o bin/board.o bin/entity.o bin/sprite_sheet.o bin/game.o bin/entity_factory.o bin/player.o bin/abstract_client.o bin/remote_client.o bin/command.o bin/minimap.o bin/generic_parser.o bin/graphics_parser.o bin/ruleset_parser.o bin/scenario_parser.o
 	$(CXX) -o $@ -lyaml-cpp -lSDL2 -lSDL2_image -lSDL2_ttf $^
 
 bin/standalone_main.o: standalone/main.cpp remote_client/remote_client.h
@@ -20,9 +20,6 @@ bin/game_timer.o: gfx/game_timer.cpp gfx/game_timer.h
 	${CXXO}
 
 bin/logger.o: log/logger.cpp log/logger.h
-	${CXXO}
-
-bin/parser_yaml.o: parser_yaml/parser_yaml.cpp parser_yaml/parser_yaml.h
 	${CXXO}
 
 bin/generic_parser.o: parser_yaml/generic_parser.cpp parser_yaml/generic_parser.h
