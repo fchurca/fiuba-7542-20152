@@ -45,7 +45,7 @@ void ServerParserYAML::parse() {
 
 void ServerParserYAML::setArchivoDefault() {
 	// Este metodo no puede fallar, el archivo default no puede contener errores.
-	this->filename = CONFIG_FILE_PATH_DEFAULT;
+	this->filename = SERVER_CONFIG_FILE_PATH_DEFAULT;
 	std::ifstream fin(this->filename.c_str());
 	YAML::Parser parser(fin);
 	parser.GetNextDocument(this->doc);
@@ -124,11 +124,11 @@ void ServerParserYAML::setServerPaths(const YAML::Node& node, TagServerPaths& pa
 	if (node.Type() == YAML::NodeType::Map) {
 		if (!obtenerValorScalarAlfaNumerico(node, "original_path", paths.original_path)) {
 			//Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (velocidad personaje).");
-			paths.original_path = CONFIG_FILE_PATH_DEFAULT;
+			paths.original_path = SERVER_CONFIG_FILE_PATH_DEFAULT;
 		}
 		if (!obtenerValorScalarAlfaNumerico(node, "default_path", paths.default_path)) {
 			//Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (velocidad personaje).");
-			paths.default_path = CONFIG_FILE_PATH_DEFAULT;
+			paths.default_path = SERVER_CONFIG_FILE_PATH_DEFAULT;
 		}
 	}
 	else {
@@ -138,8 +138,8 @@ void ServerParserYAML::setServerPaths(const YAML::Node& node, TagServerPaths& pa
 }
 
 void ServerParserYAML::setServerPathsDefault(TagServerPaths& paths) {
-	paths.original_path = CONFIG_FILE_PATH_DEFAULT;
-	paths.default_path = CONFIG_FILE_PATH_DEFAULT;
+	paths.original_path = SERVER_CONFIG_FILE_PATH_DEFAULT;
+	paths.default_path = SERVER_CONFIG_FILE_PATH_DEFAULT;
 }
 std::string ServerParserYAML::intToString(int i) {
 	string resultado;

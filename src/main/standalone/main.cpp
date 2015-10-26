@@ -11,6 +11,7 @@
 #include "../gfx/game_window.h"
 
 #include "../remote_client/remote_client.h"
+#include "../server/server.h"
 
 using namespace std;
 
@@ -40,6 +41,7 @@ int main(int argc, char* argv[]) {
 	bool restart = true;
 	do {
 		Game game;
+		Server server(game);
 		ScenarioParser scenarioParser(SCENARIO_CONFIG_FILE_PATH, SCENARIO_CONFIG_FILE_PATH_DEFAULT);
 		GraphicsParser graphicsParser(GRAPHICS_CONFIG_FILE_PATH, GRAPHICS_CONFIG_FILE_PATH_DEFAULT);
 		RulesetParser rulesetParser(RULESET_CONFIG_FILE_PATH, RULESET_CONFIG_FILE_PATH_DEFAULT);
@@ -54,10 +56,11 @@ int main(int argc, char* argv[]) {
 		}
 		if (daemon) {
 			// Acá estamos levantando el server. Todo el siguiente bloque es por cliente nuevo
+			server.init();/*
 			auto remotePlayer = game.getAvailablePlayer();
 			if (remotePlayer) {
 				game.addClient(make_shared<RemoteClient>(game, *(remotePlayer)));
-			}
+			}*/
 		}
 		auto graphicPlayer = game.getAvailablePlayer();
 		if (graphicPlayer) {

@@ -2,8 +2,8 @@
 #define __SERVERDEFINES_H__
 
 //Archivo deConfiguracion del server
-#define CONFIG_FILE_PATH  "server_config.yaml"
-#define CONFIG_FILE_PATH_DEFAULT  "default/server_config_default.yaml"
+#define SERVER_CONFIG_FILE_PATH  "server_config.yaml"
+#define SERVER_CONFIG_FILE_PATH_DEFAULT  "default/server_config_default.yaml"
 
 // Configuracion Server DEFAULT
 #define SERVER_IP_DEFAULT "localhost"

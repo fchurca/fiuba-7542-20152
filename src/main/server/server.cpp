@@ -1,9 +1,28 @@
 //-----------------------------------------------------------------------------
 #include "server.h"
-#include "../socket/posix/posixsocket.h"
 #include "clientconexion.h"
+#ifndef _WIN32
+#include "../socket/posix/posixsocket.h"
+#endif // ! _WIN32
+#include "../model/game.h"
+
+#include <iostream>
+
+void idle_int(int param) {}
+
+using namespace std;
 //-----------------------------------------------------------------------------
-Server::Server(Configuration* config) {
+Server::Server(Game& game) :
+	port(8001),
+	ip("127.0.0.1"),
+	max_clients(4),
+	status(false),
+	socket(nullptr),
+	game(game)
+{
+}
+
+Server::Server(Configuration* config, Game& game) : game(game) {
 	this->port = std::stoi(config->port);
 	this->ip = config->ip;
 	this->max_clients = config->max_clients;
@@ -13,16 +32,23 @@ Server::Server(Configuration* config) {
 }
 //-----------------------------------------------------------------------------
 Server::~Server() {
+	th.join();
+	stop();
 	//while (this->)
 }
 //----------------------------------------------------------------------------
 bool Server::isActive()
 {
-	return this->status;
+	return this->status && !game.willExit();
 }
 //-----------------------------------------------------------------------------
-void Server::start()
+void Server::start() {
+	th = thread(&Server::run, this);
+}
+
+void Server::run()
 {
+	cerr << "Server::run()" << endl;
 	while(this->isActive())
 	{
 		Socket *socketCLI = 0;
@@ -52,7 +78,10 @@ void Server::start()
 //-----------------------------------------------------------------------------
 bool Server::init()
 {
+	this->socket = nullptr;
+#ifndef _WIN32
 	this->socket =  new PosixSocket();
+#endif // ! _WIN32
 
 	if(this->socket->Listen(this->port,this->max_clients))
 	{
@@ -60,9 +89,10 @@ bool Server::init()
 		this->status = true;
 	}
 
-	//std::thread(start);
-	// lo que sucede dentro de start es bloqueante x lo q se deberia ejectuar en un
-	//thread aparte.
+	if (!status) {
+		cerr << "Could not open a new socket at " << ip << ":" << port << endl;
+		return false;
+	}
 
 	this->start();
 

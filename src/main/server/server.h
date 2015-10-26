@@ -4,6 +4,7 @@
 //-----------------------------------------------------------------------------
 #include <thread>
 #include "../socket/socket.h"
+#include "../model/game.h"
 //-----------------------------------------------------------------------------
 #include "configuration.h"
 #include "clientconexion.h"
@@ -16,15 +17,19 @@ private:
 	int port;
 	int max_clients;
 	Socket* socket;
+	std::thread th;
+	Game & game;
 
 public:
-	Server(Configuration* config);
+	Server(Game& game);
+	Server(Configuration* config, Game& game);
 	virtual ~Server();
 
 public:
 	bool init();
 	void stop();
 	void start();
+	void run();
 
 private:
 	std::vector<ClientConexion*> adminClients;

@@ -8,6 +8,9 @@
 #include <sys/wait.h>
 #include <signal.h>
 #include <netdb.h>
+
+#include <iostream>
+using namespace std;
 //-----------------------------------------------------------------------------
 PosixSocket::PosixSocket() {
 
@@ -20,7 +23,7 @@ PosixSocket::~PosixSocket() {
 }
 //-----------------------------------------------------------------------------
 bool PosixSocket::Connect(std::string hostIp,int hostPort){
-
+	cerr << "connect()" << endl;
 	// Usamos connect cuando tenemos que conectarnos a un server
 
 	// Obtenemos host
@@ -46,6 +49,7 @@ bool PosixSocket::Connect(std::string hostIp,int hostPort){
 //-----------------------------------------------------------------------------
 bool PosixSocket::Listen(unsigned int port, int maxConnections)
 {
+	cerr << "listen()" << endl;
 	if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
 		return false;
 
@@ -74,6 +78,7 @@ bool PosixSocket::Listen(unsigned int port, int maxConnections)
 //-----------------------------------------------------------------------------
 Socket* PosixSocket::Accept()
 {
+	cerr << "accept()" << endl;
 	unsigned sin_size = sizeof(struct sockaddr_in);
 	//Revisar
 	PosixSocket* socket_client = new PosixSocket();
@@ -90,7 +95,7 @@ Socket* PosixSocket::Accept()
 //-----------------------------------------------------------------------------
 int PosixSocket::Send(const void* data, int dataLenght)
 {
-
+	cerr << "send()" << endl;
 	// Cantidad de bytes que han sido enviados
 	int total_bytes = 0;
 	// Cantidad de bytes que faltan enviar
@@ -115,6 +120,7 @@ int PosixSocket::Send(const void* data, int dataLenght)
 //-----------------------------------------------------------------------------
 int PosixSocket::Recv(const void* data, int dataLenght)
 {
+	cerr << "receive()" << endl;
 	//REVISAR
 	//memset(data, '\0', dataLenght);
 	// Recibimos datos en buffer
