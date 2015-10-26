@@ -159,7 +159,7 @@ SmartBoard::SmartBoard(GraphicsParser& graphicsParser, RulesetParser& rulesetPar
 	}
 	auto te = scenarioParser.getEscenario();
 	for(auto& t : te.terrenos) {
-		setTerrain(t.tipoEntidad, t.pos_x, t.pos_y);
+		setTerrain(t.tipoEntidad, t.pos.x, t.pos.y);
 	}
 	// Relleno con TERRENO_DEFAULT
 	for(size_t x = 0; x < sizeX; x++) {
@@ -173,7 +173,7 @@ SmartBoard::SmartBoard(GraphicsParser& graphicsParser, RulesetParser& rulesetPar
 	for (auto& jugador : te.jugadores) {
 		createPlayer(jugador.name, jugador.isHuman);
 		for (auto& entidadJugador : jugador.entidades) {
-			if (!createEntity(entidadJugador.tipoEntidad,jugador.name , { (double)entidadJugador.pos_x, (double)entidadJugador.pos_y })) {
+			if (!createEntity(entidadJugador.tipoEntidad,jugador.name , entidadJugador.pos)) {
 				Logger::getInstance()->writeInformation("Se crea un protagonista default");
 				createEntity(PROTAGONISTA_DEFAULT_NOMBRE, jugador.name, { PROTAGONISTA_DEFAULT_POSX, PROTAGONISTA_DEFAULT_POSY });
 			}
@@ -181,7 +181,7 @@ SmartBoard::SmartBoard(GraphicsParser& graphicsParser, RulesetParser& rulesetPar
 	}
 
 	for(auto& t : te.entidades) {
-		createEntity(t.tipoEntidad, DEFAULT_PLAYER_NAME, {(double)t.pos_x,(double)t.pos_y});
+		createEntity(t.tipoEntidad, DEFAULT_PLAYER_NAME, t.pos);
 	}
 
 	// posinicialización

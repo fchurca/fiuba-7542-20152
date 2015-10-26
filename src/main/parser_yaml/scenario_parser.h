@@ -3,14 +3,17 @@
 
 #include <iostream>
 #include <fstream>
+
 #include "yaml-cpp/yaml.h"
-#include "../defines/defines.h"
-#include "../log/logger.h"
+
 #include "generic_parser.h"
 
+#include "../defines/defines.h"
+#include "../log/logger.h"
+#include "../model/geometry.h"
+
 struct TagEntidad {
-	unsigned int pos_x;
-	unsigned int pos_y;
+	r2 pos;
 	std::string tipoEntidad;
 };
 

@@ -30,14 +30,14 @@ TagEscenario ScenarioParser::getEscenario() {
 
 void ScenarioParser::setEntidad(const YAML::Node& node, TagEntidad& entidad) {
 	if (node.Type() == YAML::NodeType::Map) {
-		if (!obtenerValorScalarNumericoPositivo(node, "x", entidad.pos_x)) {
+		if (!obtenerValorScalarNumericoPositivo(node, "x", entidad.pos.x)) {
 			Logger::getInstance()->writeWarning("YAML-CPP:La posicion x de la entidad se toma por defecto.");
-			entidad.pos_x = ENTIDAD_DEFAULT_POSX;
+			entidad.pos.x = ENTIDAD_DEFAULT_POSX;
 		}
 
-		if (!obtenerValorScalarNumericoPositivo(node, "y", entidad.pos_y)) {
+		if (!obtenerValorScalarNumericoPositivo(node, "y", entidad.pos.y)) {
 			Logger::getInstance()->writeWarning("YAML-CPP:La posicion y de la entidad se toma por defecto.");
-			entidad.pos_y = ENTIDAD_DEFAULT_POSY;
+			entidad.pos.y = ENTIDAD_DEFAULT_POSY;
 		}
 
 		if ((!obtenerValorScalarAlfaNumerico(node, "tipo", entidad.tipoEntidad)) || (entidad.tipoEntidad.empty())) {
@@ -49,8 +49,8 @@ void ScenarioParser::setEntidad(const YAML::Node& node, TagEntidad& entidad) {
 		Logger::getInstance()->writeWarning("YAML-CPP:El contenido de la entidad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
 		Logger::getInstance()->writeInformation("YAML-CPP:Se toman valores por default para esa entidad");
 		entidad.tipoEntidad = ENTIDAD_DEFAULT_NOMBRE;
-		entidad.pos_y = ENTIDAD_DEFAULT_POSY;
-		entidad.pos_x = ENTIDAD_DEFAULT_POSX;
+		entidad.pos.y = ENTIDAD_DEFAULT_POSY;
+		entidad.pos.x = ENTIDAD_DEFAULT_POSX;
 	}
 }
 
@@ -212,8 +212,8 @@ void ScenarioParser::setJugador(const YAML::Node& node, TagJugador& jugador, int
 void ScenarioParser::setProtagonistaDefault(TagEntidad& protagonista) {
 	Logger::getInstance()->writeWarning("YAML-CPP: Se toma protagonista por default.");
 	protagonista.tipoEntidad = PROTAGONISTA_DEFAULT_NOMBRE;
-	protagonista.pos_x = PROTAGONISTA_DEFAULT_POSX;
-	protagonista.pos_y = PROTAGONISTA_DEFAULT_POSY;
+	protagonista.pos.x = PROTAGONISTA_DEFAULT_POSX;
+	protagonista.pos.y = PROTAGONISTA_DEFAULT_POSY;
 }
 
 void ScenarioParser::setEscenarioDefault(TagEscenario& escenario) {
