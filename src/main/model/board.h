@@ -16,8 +16,6 @@ class Entity;
 class EntityFactory;
 class ScenarioParser;
 class RulesetParser;
-class GraphicsParser;
-
 
 class ABoard {
 	protected:
@@ -64,7 +62,7 @@ class SmartBoard : public ABoard {
 		SmartBoard();
 
 	public:
-		SmartBoard(GraphicsParser& graphicsParser, RulesetParser& rulesetParser, ScenarioParser& scenarioParser);
+		SmartBoard(RulesetParser& rulesetParser, ScenarioParser& scenarioParser);
 		~SmartBoard();
 
 		void update();

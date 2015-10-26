@@ -1,3 +1,5 @@
+configuracion:
+    dt: 20
 tipos_entidades:
   - nombre: troncoNESW
     imagen: resources/troncoNESW31.png

@@ -57,7 +57,6 @@ GameWindow::GameWindow(Game& owner, Player& player, GraphicsParser& graphicsPars
 	}
 
 	auto tp = graphicsParser.getPantalla();
-	auto tc = graphicsParser.getConfiguracion();
 	for(auto& t : rulesetParser.getTiposEntidades()) {
 		addSpriteSheet(t.nombre, t.imagen, t.pixel_ref_x, t.pixel_ref_y, t.alto_sprite, t.ancho_sprite,  t.cantidad_sprites, t.fps, t.delay);
 	}

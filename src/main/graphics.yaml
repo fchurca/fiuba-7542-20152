@@ -3,5 +3,3 @@ pantalla:
     alto: 600
     margen_scroll: 45
     velocidad_scroll: 45
-configuracion:
-    dt: 20

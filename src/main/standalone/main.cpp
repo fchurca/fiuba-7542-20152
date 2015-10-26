@@ -48,9 +48,9 @@ int main(int argc, char* argv[]) {
 		rulesetParser.parse();
 		if (client) {
 			// Acá estamos levantando el cliente. Lo siguiente en realidad es un RemoteBoard que se conecta por TCP/IP al daemon
-			game.setBoard(make_shared<SmartBoard>(graphicsParser,rulesetParser,scenarioParser));
+			game.setBoard(make_shared<SmartBoard>(rulesetParser, scenarioParser));
 		} else {
-			game.setBoard(make_shared<SmartBoard>(graphicsParser, rulesetParser, scenarioParser));
+			game.setBoard(make_shared<SmartBoard>(rulesetParser, scenarioParser));
 		}
 		if (daemon) {
 			// Acá estamos levantando el server. Todo el siguiente bloque es por cliente nuevo

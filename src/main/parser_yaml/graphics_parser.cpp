@@ -9,26 +9,6 @@ GraphicsParser::~GraphicsParser(void) {
 
 }
 
-TagConfiguracion GraphicsParser::getConfiguracion() {
-	Logger::getInstance()->writeInformation("YAML-CPP:Se obtiene la informacion de configuracion.");
-	TagConfiguracion configuracion;
-	if (this->doc.FindValue("configuracion")) {
-		const YAML::Node& conf = this->doc["configuracion"];
-		if (conf.Type() == YAML::NodeType::Map) {
-			setConfiguracion(conf, configuracion);
-		}
-		else {
-			Logger::getInstance()->writeWarning("YAML-CPP:El tag de configuracion no es del tipo Map. Ubicar" + ubicarNodo(conf.GetMark()));
-			setConfiguracionDefault(configuracion);
-		}
-	}
-	else {
-		Logger::getInstance()->writeWarning("YAML-CPP:El tag de configuracion no existe en el archivo.");
-		setConfiguracionDefault(configuracion);
-	}
-	return configuracion;
-}
-
 TagPantalla GraphicsParser::getPantalla() {
 	Logger::getInstance()->writeInformation("YAML-CPP:Se obtiene la informacion de la pantalla.");
 	TagPantalla pantalla;
@@ -47,24 +27,6 @@ TagPantalla GraphicsParser::getPantalla() {
 		setPantallaDefault(pantalla);
 	}
 	return pantalla;
-}
-
-void GraphicsParser::setConfiguracion(const YAML::Node& node, TagConfiguracion& configuracion) {
-	if (node.Type() == YAML::NodeType::Map) {
-		if (!obtenerValorScalarNumericoPositivo(node, "dt", configuracion.dt)) {
-			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (dt).");
-			configuracion.dt = DT_DEFAULT;
-		}
-	}
-	else {
-		Logger::getInstance()->writeWarning("YAML-CPP:El contenido del tag de configuracion no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
-		setConfiguracionDefault(configuracion);
-	}
-}
-
-void GraphicsParser::setConfiguracionDefault(TagConfiguracion& configuracion) {
-	Logger::getInstance()->writeWarning("YAML-CPP:Se toma configuracion por default.");
-	configuracion.dt = DT_DEFAULT;
 }
 
 

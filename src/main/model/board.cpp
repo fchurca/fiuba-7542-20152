@@ -7,7 +7,6 @@
 
 #include "../parser_yaml/ruleset_parser.h"
 #include "../parser_yaml/scenario_parser.h"
-#include "../parser_yaml/graphics_parser.h"
 
 using namespace std;
 
@@ -132,9 +131,9 @@ void ABoard::update() {
 }
 
 
-SmartBoard::SmartBoard(GraphicsParser& graphicsParser, RulesetParser& rulesetParser, ScenarioParser& scenarioParser) :
+SmartBoard::SmartBoard(RulesetParser& rulesetParser, ScenarioParser& scenarioParser) :
 	ABoard(scenarioParser.getEscenario().nombre,
-		graphicsParser.getConfiguracion().dt,
+		rulesetParser.getConfiguracion().dt,
 		scenarioParser.getEscenario().size_x, scenarioParser.getEscenario().size_y,
 		scenarioParser.getEscenario().max_resources)
 {
