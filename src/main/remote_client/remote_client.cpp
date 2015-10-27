@@ -54,12 +54,12 @@ void RemoteClient::run() {
 	for(size_t x = board.sizeX - 1; x > 0; x--) {
 		for(size_t y = board.sizeY - 1; y > 0; y--) {
 			auto e = board.getTerrain(x, y);
-			out << e->serialize();
+			out << serialize(*e);
 		}
 	}
 	out << "T" << endl;
 	out << "Entities";
-	board.mapEntities([&out](shared_ptr<Entity> e) {out << e->serialize();});
+	board.mapEntities([&out, this](shared_ptr<Entity> e) {out << serialize(*e);});
 	string payload = out.str();
 	socket->Send((void*)payload.c_str(), payload.length());
 	cout << payload;
@@ -100,7 +100,7 @@ void RemoteClient::run() {
 			answer << this->frame << '\t';
 			board.mapEntities([this, &answer, frame](shared_ptr<Entity> e) {
 					if (e->getFrame() > frame) {
-					answer << e->serialize();
+					answer << serialize(*e);
 					}
 					});
 			for(auto& p : board.getPlayers()) {
@@ -132,3 +132,26 @@ RemoteClient::~RemoteClient() {
 		th.join();
 	}
 }
+
+string RemoteClient::serialize(double d) {
+	stringstream ret;
+	ret << (int) (d * 100);
+	return ret.str();
+}
+
+string RemoteClient::serialize(r2 r) {
+	stringstream ret;
+	ret << serialize(r.x) << '\t' << serialize(r.y);
+	return ret.str();
+}
+
+string RemoteClient::serialize(Entity& e) {
+	stringstream ret;
+	ret << "E\t" << e.getId() << '\t' << e.name << '\t'
+		<< e.getFrame() << '\t'
+		<< e.owner.getId() << '\t'
+		<< serialize(e.getPosition()) << '\t'
+		<< serialize(e.getOrientation()) << endl;
+	return ret.str();
+}
+

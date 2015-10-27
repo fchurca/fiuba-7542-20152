@@ -253,6 +253,10 @@ double Entity::distance() {
 	return trajectory().length();
 }
 
+double Entity::getOrientation() {
+	return orientation;
+}
+
 Directions Entity::getDirection(){
 	return static_cast<Directions>((unsigned)floor(4*orientation/M_PI+.5)%8);
 }
@@ -284,16 +288,6 @@ bool Entity::operator==(Entity& other) {
 
 bool Entity::operator!=(Entity& other) {
 	return !operator==(other);
-}
-
-string Entity::serialize() {
-	stringstream ret;
-	ret << "E\t" << id << '\t' << name << '\t'
-		<< frame << '\t'
-		<< owner.getId() << '\t'
-		<< position.x << '\t' << position.y << '\t'
-		<< orientation << endl;
-	return ret.str();
 }
 
 ResourceEntity::ResourceEntity(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity):Entity(name, board, owner, position, size, speed, sight_radius, solid, capacity)

@@ -1,12 +1,15 @@
 #ifndef _REMOTE_CLIENT_H_
 #define _REMOTE_CLIENT_H_
 
+#include <memory>
 #include <mutex>
 #include <queue>
+#include <string>
 #include <thread>
-#include <memory>
 
 #include "../model/abstract_client.h"
+#include "../model/entity.h"
+#include "../model/geometry.h"
 
 class Socket;
 
@@ -24,6 +27,10 @@ class RemoteClient : public AClient{
 		~RemoteClient();
 		void update();
 		void run();
+
+		std::string serialize(double d);
+		std::string serialize(r2 r);
+		std::string serialize(Entity& e);
 };
 
 #endif // _REMOTE_CLIENT_H_

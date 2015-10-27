@@ -48,6 +48,7 @@ class Entity {
 		r2 trajectory();
 		double sqDistance();
 		double distance();
+		double getOrientation();
 		Directions getDirection();// TODO: Pertenece a vista
 		void setDeletable();
 		bool getDeletable();
@@ -64,7 +65,6 @@ class Entity {
 
 		bool operator==(Entity& other);
 		bool operator!=(Entity& other);
-		std::string serialize();
 };
 
 class ResourceEntity : public Entity {
