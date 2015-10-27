@@ -44,34 +44,31 @@ RemoteClient::RemoteClient(Game& owner, Player& player, shared_ptr<Socket> socke
 
 void RemoteClient::run() {
 	auto& board = *owner.getBoard();
-	stringstream out;
 	istream& in = cin;
-	out << ack << ht << frame
+	*this << ack << ht << frame
 		<< ht << player.getId() << ht << board.getPlayers().size()
-		<< ht << board.name << endl;
+		<< ht << board.name << lf;
+	send();
 
 	for(auto& p : board.getPlayers()) {
-		out << p->serialize();
+		*this << p->serialize();
 	}
-	out << "T\t" << board.sizeX << ht << board.sizeY<< endl;
+	*this << "T\t" << board.sizeX << ht << board.sizeY << lf;
 	// TODO: EntityFactories
 	for(size_t x = board.sizeX - 1; x > 0; x--) {
 		for(size_t y = board.sizeY - 1; y > 0; y--) {
 			auto e = board.getTerrain(x, y);
-			out << serialize(*e);
+			*this << *e;
 		}
 	}
-	out << "T" << endl;
-	out << "Entities";
-	board.mapEntities([&out, this](shared_ptr<Entity> e) {out << serialize(*e);});
-	string payload = out.str();
-	socket->Send((void*)payload.c_str(), payload.length());
-	cout << payload;
+	*this << "T" << lf;
+	*this << "Entities";
+	board.mapEntities([this](shared_ptr<Entity> e) {*this << *e;});
+	send();
 	string command;
 	while (!(command == "L" || in.eof() || this->owner.willExit())) {
 		bool ack = false;
 		cerr << endl << ">";
-		stringstream answer;
 		in >> command;
 		if (command == "L") {
 			ack = true;
@@ -101,33 +98,32 @@ void RemoteClient::run() {
 		} else if (command == "U") {
 			size_t frame;
 			in >> frame;
-			answer << this->frame << ht;
-			board.mapEntities([this, &answer, frame](shared_ptr<Entity> e) {
+			*this << this->frame;
+			board.mapEntities([this, frame](shared_ptr<Entity> e) {
 					if (e->getFrame() > frame) {
-					answer << serialize(*e);
+					*this << *e;
 					}
 					});
 			for(auto& p : board.getPlayers()) {
 				if (p->getFrame() > frame) {
-					answer << p->serialize();
+					*this << p->serialize();
 				}
 			}
 			deletedMutex.lock();
 			while (deleted.size() > 0) {
-				answer << "D\t" << deleted.front() << endl;
+				*this << "D\t" << deleted.front() << lf;
 				deleted.pop();
 			}
 			deletedMutex.unlock();
 			ack = true;
 		}
-		string payload;
 		if (ack) {
-			payload = "+" + answer.str() + "\n";
+			outBuffer.insert(outBuffer.begin(), ack);
 		} else {
-			payload = "-\n";
+			outBuffer.clear();
+			outBuffer.push_back(nak);
 		}
-		socket->Send((void*)payload.c_str(), payload.length());
-		cout << payload;
+		send();
 	}
 }
 
@@ -137,25 +133,55 @@ RemoteClient::~RemoteClient() {
 	}
 }
 
-string RemoteClient::serialize(double d) {
-	stringstream ret;
-	ret << (int) (d * 100);
-	return ret.str();
+void RemoteClient::send() {
+	outBuffer.push_back(eot);
+	socket->Send((void *)outBuffer.data(), outBuffer.size());
+	outBuffer.clear();
 }
 
-string RemoteClient::serialize(r2 r) {
-	stringstream ret;
-	ret << serialize(r.x) << ht << serialize(r.y);
-	return ret.str();
+RemoteClient& RemoteClient::operator<<(char c) {
+	outBuffer.push_back(c);
+	return *this;
 }
 
-string RemoteClient::serialize(Entity& e) {
-	stringstream ret;
-	ret << "E\t" << e.getId() << ht << e.name << ht
-		<< e.getFrame() << ht
-		<< e.owner.getId() << ht
-		<< serialize(e.getPosition()) << ht
-		<< serialize(e.getOrientation()) << endl;
-	return ret.str();
+RemoteClient& RemoteClient::operator<<(int i) {
+	return *this<<(long)i;
+}
+
+RemoteClient& RemoteClient::operator<<(long l) {
+	auto n = htonl(l);
+	for(auto i = sizeof(n); i > 0; i--) {
+		*this << (char)n;
+		n >>= 8;
+	}
+}
+
+RemoteClient& RemoteClient::operator<<(size_t s) {
+	return *this<<(long)s;
+}
+
+RemoteClient& RemoteClient::operator<<(std::string s) {
+	for(size_t i = 0; i < s.length(); i++) {
+		*this<<s[i];
+	}
+	*this<<nul;
+	return *this;
+}
+
+RemoteClient& RemoteClient::operator<<(double d) {
+	return *this << (int)(d * 100);
+}
+
+RemoteClient& RemoteClient::operator<<(r2 r) {
+	return *this << r.x << r.y;
+}
+
+RemoteClient& RemoteClient::operator<<(Entity& e) {
+	*this << e.getId() << e.name
+		<< e.getFrame()
+		<< e.owner.getId()
+		<< e.getPosition()
+		<< e.getOrientation();
+	return *this;
 }
 

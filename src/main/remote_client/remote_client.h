@@ -6,6 +6,7 @@
 #include <queue>
 #include <string>
 #include <thread>
+#include <vector>
 
 #include "../model/abstract_client.h"
 #include "../model/entity.h"
@@ -22,15 +23,21 @@ class RemoteClient : public AClient{
 		std::mutex deletedMutex;
 		bool running;
 		std::shared_ptr<Socket> socket;
+		std::vector<char> outBuffer;
+		RemoteClient& operator<<(char c);
+		RemoteClient& operator<<(int i);
+		RemoteClient& operator<<(long l);
+		RemoteClient& operator<<(size_t s);
+		RemoteClient& operator<<(double d);
+		RemoteClient& operator<<(r2 r);
+		RemoteClient& operator<<(Entity& e);
+		RemoteClient& operator<<(std::string s);
+		void send();
 	public:
 		RemoteClient(Game& owner, Player& player, std::shared_ptr<Socket> socket);
 		~RemoteClient();
 		void update();
 		void run();
-
-		std::string serialize(double d);
-		std::string serialize(r2 r);
-		std::string serialize(Entity& e);
 };
 
 #endif // _REMOTE_CLIENT_H_

@@ -4,6 +4,13 @@
 //-----------------------------------------------------------------------------
 #include <string>
 #include <memory>
+
+#ifdef _WIN32
+#include <winsock2.h>
+#else // !_WIN32
+#include <arpa/inet.h>
+#endif //!_WIN32
+
 //-----------------------------------------------------------------------------
 class Socket {
 protected:
