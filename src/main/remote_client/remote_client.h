@@ -7,6 +7,8 @@
 
 #include "../model/abstract_client.h"
 
+class Socket;
+
 class RemoteClient : public AClient{
 	protected:
 		size_t frame;
@@ -15,8 +17,9 @@ class RemoteClient : public AClient{
 		std::queue<size_t> deleted;
 		std::mutex deletedMutex;
 		bool running;
+		Socket socket;
 	public:
-		RemoteClient(Game& owner, Player& player);
+		RemoteClient(Game& owner, Player& player, Socket socket);
 		~RemoteClient();
 		void update();
 		void run();

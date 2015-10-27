@@ -2,6 +2,7 @@
 #include "../model/entity.h"
 #include "../model/board.h"
 #include "../model/game.h"
+#include "../socket/socket.h"
 
 #include <iostream>
 #include <sstream>
@@ -31,8 +32,8 @@ void RemoteClient::update() {
 	}
 }
 
-RemoteClient::RemoteClient(Game& owner, Player& player) :
-	AClient(owner, player), running(false)
+RemoteClient::RemoteClient(Game& owner, Player& player, Socket socket) :
+	AClient(owner, player), running(false), socket(socket)
 {
 	setFrame();
 }
