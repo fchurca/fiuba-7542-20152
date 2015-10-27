@@ -56,11 +56,7 @@ int main(int argc, char* argv[]) {
 		}
 		if (daemon) {
 			// Acá estamos levantando el server. Todo el siguiente bloque es por cliente nuevo
-			//server.init();
-			auto remotePlayer = game.getAvailablePlayer();
-			if (remotePlayer) {
-				game.addClient(make_shared<RemoteClient>(game, *(remotePlayer)));
-			}
+			server.init();
 		}
 		auto graphicPlayer = game.getAvailablePlayer();
 		if (graphicPlayer) {

@@ -1,10 +1,12 @@
 //-----------------------------------------------------------------------------
 #include "server.h"
 #include "clientconexion.h"
+#include "../socket/socket.h"
 #ifndef _WIN32
 #include "../socket/posix/posixsocket.h"
 #endif // ! _WIN32
 #include "../model/game.h"
+#include "../remote_client/remote_client.h"
 
 #include <iostream>
 
@@ -49,7 +51,7 @@ void Server::run()
 	cerr << "Server::run()" << endl;
 	while(this->isActive())
 	{
-		Socket *socketCLI = 0;
+		shared_ptr<Socket> socketCLI;
 
 		// Aceptamos nuevo cliente accept es bloqueante
 		//cuando se recibe un nuevo cliente, se genera una conexion para atenderlo y se lo carga en el vector
@@ -63,13 +65,10 @@ void Server::run()
 		if(!this->socket->IsActive() || !socketCLI) break;
 
 		// Generamos una nueva conexión para ese cliente
-		ClientConexion *conexion = new ClientConexion(socketCLI);
-
-		//el admin podria ser un singleton (depende de como lo usemos luego en "la logica")
-		this->adminClients.push_back(conexion);
-
-		// Comienza a ejecutarse el hilo del cliente.
-		conexion->start();
+		auto player = game.getAvailablePlayer();
+		if (player) {
+			game.addClient(make_shared<RemoteClient>(game, *player, socketCLI));
+		}
 	}
 
 }

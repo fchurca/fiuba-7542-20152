@@ -3,6 +3,7 @@
 #define SRC_MAIN_SOCKET_POSIX_POSIXSOCKET_H_
 //-----------------------------------------------------------------------------
 #include <string>
+#include <memory>
 #include "../socket.h"
 //-----------------------------------------------------------------------------
 #include <sys/socket.h>
@@ -23,7 +24,7 @@ public:
 public:
 	bool Connect(std::string hostIp, int hostPort);
 	bool Listen(unsigned int port, int maxConnections);
-	Socket* Accept();
+	std::shared_ptr<Socket> Accept();
 	int Send(const void* data, int dataLenght);
 	int Recv(const void* data, int dataLenght);
 	bool IsActive();

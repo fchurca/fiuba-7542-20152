@@ -32,7 +32,7 @@ void RemoteClient::update() {
 	}
 }
 
-RemoteClient::RemoteClient(Game& owner, Player& player, Socket socket) :
+RemoteClient::RemoteClient(Game& owner, Player& player, shared_ptr<Socket> socket) :
 	AClient(owner, player), running(false), socket(socket)
 {
 	setFrame();

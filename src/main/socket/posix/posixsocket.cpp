@@ -76,20 +76,20 @@ bool PosixSocket::Listen(unsigned int port, int maxConnections)
 	return true;
 }
 //-----------------------------------------------------------------------------
-Socket* PosixSocket::Accept()
+shared_ptr<Socket> PosixSocket::Accept()
 {
 	cerr << "accept()" << endl;
 	unsigned sin_size = sizeof(struct sockaddr_in);
 	//Revisar
-	PosixSocket* socket_client = new PosixSocket();
+	auto socket_client = make_shared<PosixSocket>();
 
-	int sockfd_client = accept(sockfd, (struct sockaddr *)&socket_client->sockaddr, &sin_size);
+	int sockfd_client = accept(sockfd, (struct sockaddr *)&(socket_client->sockaddr), &sin_size);
 
 	socket_client->sockfd = sockfd_client;
 	// Corroboramos si no se cerró el socket
-	if(status != 1) return 0;
+	if(status != 1) return nullptr;
 
-	return (Socket*)socket_client;
+	return socket_client;
 
 }
 //-----------------------------------------------------------------------------

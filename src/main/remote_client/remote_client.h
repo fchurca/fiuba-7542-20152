@@ -4,6 +4,7 @@
 #include <mutex>
 #include <queue>
 #include <thread>
+#include <memory>
 
 #include "../model/abstract_client.h"
 
@@ -17,9 +18,9 @@ class RemoteClient : public AClient{
 		std::queue<size_t> deleted;
 		std::mutex deletedMutex;
 		bool running;
-		Socket socket;
+		std::shared_ptr<Socket> socket;
 	public:
-		RemoteClient(Game& owner, Player& player, Socket socket);
+		RemoteClient(Game& owner, Player& player, std::shared_ptr<Socket> socket);
 		~RemoteClient();
 		void update();
 		void run();
