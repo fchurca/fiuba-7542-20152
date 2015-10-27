@@ -21,7 +21,7 @@ void MiniMap::drawMinimap(SDL_Renderer* renderer) {
 				SDL_Color color = tmpGetColor(t->name);
 				auto p = t->getPosition();
 				SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
-				SDL_Rect terreno = { offset.x + (p.x - p.y + owner.player.board.sizeY) * scale.x, offset.y + (p.x + p.y) * scale.y, ceil(2 * scale.x), ceil(scale.y) };
+				SDL_Rect terreno = { (int)offset.x + (p.x - p.y + owner.player.board.sizeY) * scale.x, (int)offset.y + (p.x + p.y) * scale.y, ceil(2 * scale.x), ceil(scale.y) };
 				SDL_RenderFillRect(renderer, &terreno);
 			}
 		}
