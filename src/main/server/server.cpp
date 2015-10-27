@@ -32,9 +32,7 @@ Server::Server(Configuration* config, Game& game) : game(game) {
 }
 //-----------------------------------------------------------------------------
 Server::~Server() {
-	th.join();
 	stop();
-	//while (this->)
 }
 //----------------------------------------------------------------------------
 bool Server::isActive()
@@ -102,18 +100,14 @@ bool Server::init()
 void Server::stop()
 {
 	//Cambio el estado del server
-	this->status = false;
-
-	// Detenemos hilo hay q detener la funcion run
-	// analizar si es suficiente con el cambio de estado en el server.
-
-
-	// Cerramos el socket
-	this->socket->deinit();
-
-	// Mensaje de log
-
-
+	if (status) {
+		this->status = false;
+		// Detenemos hilo hay q detener la funcion run
+		th.join();
+		// Cerramos el socket
+		this->socket->deinit();
+	}
+	// TODO: Mensaje de log
 }
 //-----------------------------------------------------------------------------
 

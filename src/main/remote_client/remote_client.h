@@ -14,10 +14,12 @@ class RemoteClient : public AClient{
 		std::thread th;
 		std::queue<size_t> deleted;
 		std::mutex deletedMutex;
+		bool running;
 	public:
-		void update();
 		RemoteClient(Game& owner, Player& player);
 		~RemoteClient();
+		void update();
+		void run();
 };
 
 #endif // _REMOTE_CLIENT_H_

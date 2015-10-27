@@ -25,12 +25,19 @@ void RemoteClient::update() {
 		});
 	setFrame();
 	deletedMutex.unlock();
+	if (!running) {
+		running = true;
+		th = thread(&RemoteClient::run, this);
+	}
 }
 
 RemoteClient::RemoteClient(Game& owner, Player& player) :
-	AClient(owner, player)
+	AClient(owner, player), running(false)
 {
 	setFrame();
+}
+
+void RemoteClient::run() {
 	auto& board = *owner.getBoard();
 	cout << "+\t" << frame
 		<< '\t' << player.getId() << '\t' << board.getPlayers().size()
@@ -49,69 +56,66 @@ RemoteClient::RemoteClient(Game& owner, Player& player) :
 	}
 	cout << "T" << endl;
 	cout << "Entities";
-	board.mapEntities([](shared_ptr<Entity> e) {
-			cout << e->serialize();});
-	th = thread([this, &board](){
-			string command;
-			while (!(command == "L" || cin.eof() || this->owner.willExit())) {
-				bool ack = false;
-				cerr << endl << ">";
-				stringstream answer;
-				cin >> command;
-				if (command == "L") {
+	board.mapEntities([](shared_ptr<Entity> e) {cout << e->serialize();});
+	string command;
+	while (!(command == "L" || cin.eof() || this->owner.willExit())) {
+		bool ack = false;
+		cerr << endl << ">";
+		stringstream answer;
+		cin >> command;
+		if (command == "L") {
+			ack = true;
+		} else if (command == "S") {
+			int i;
+			cin >> i;
+			auto e = board.findEntity(i);
+			if(e) {
+				if (&(e->owner) == &(this->player)) {
+					board.pushCommand(make_shared<StopCommand>(e->getId()));
 					ack = true;
-				} else if (command == "S") {
-					int i;
-					cin >> i;
-					auto e = board.findEntity(i);
-					if(e) {
-						if (&(e->owner) == &(this->player)) {
-							board.pushCommand(make_shared<StopCommand>(e->getId()));
-							ack = true;
-						}
-					}
-				} else if (command == "M") {
-					int i;
-					double x, y;
-					cin >> i >> x >> y;
-					if (!this->owner.willExit()) {
-						auto e = board.findEntity(i);
-						if (e) {
-							if (&(e->owner) == &(this->player)) {
-								board.pushCommand(make_shared<MoveCommand>(e->getId(), r2(x, y)));
-								ack = true;
-							}
-						}
-					}
-				} else if (command == "U") {
-					size_t frame;
-					cin >> frame;
-					answer << this->frame << '\t';
-					board.mapEntities([this, &answer, frame](shared_ptr<Entity> e) {
-							if (e->getFrame() > frame) {
-								answer << e->serialize();
-							}
-						});
-					for(auto& p : board.getPlayers()) {
-						if (p->getFrame() > frame) {
-							answer << p->serialize();
-						}
-					}
-					deletedMutex.lock();
-					while (deleted.size() > 0) {
-						answer << "D\t" << deleted.front() << endl;
-						deleted.pop();
-					}
-					deletedMutex.unlock();
-					ack = true;
-				}
-				if (ack) {
-					cout << "+" << answer.str() << endl;
-				} else {
-					cout << "-" << endl;
 				}
 			}
-	});
+		} else if (command == "M") {
+			int i;
+			double x, y;
+			cin >> i >> x >> y;
+			if (!this->owner.willExit()) {
+				auto e = board.findEntity(i);
+				if (e) {
+					if (&(e->owner) == &(this->player)) {
+						board.pushCommand(make_shared<MoveCommand>(e->getId(), r2(x, y)));
+						ack = true;
+					}
+				}
+			}
+		} else if (command == "U") {
+			size_t frame;
+			cin >> frame;
+			answer << this->frame << '\t';
+			board.mapEntities([this, &answer, frame](shared_ptr<Entity> e) {
+					if (e->getFrame() > frame) {
+					answer << e->serialize();
+					}
+					});
+			for(auto& p : board.getPlayers()) {
+				if (p->getFrame() > frame) {
+					answer << p->serialize();
+				}
+			}
+			deletedMutex.lock();
+			while (deleted.size() > 0) {
+				answer << "D\t" << deleted.front() << endl;
+				deleted.pop();
+			}
+			deletedMutex.unlock();
+			ack = true;
+		}
+		if (ack) {
+			cout << "+" << answer.str() << endl;
+		} else {
+			cout << "-" << endl;
+		}
+	}
 }
 
 RemoteClient::~RemoteClient() {
