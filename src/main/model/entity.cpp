@@ -113,7 +113,7 @@ void Entity::addTarget(r2 newTarget) {
 			continue;
 		}
 		closed[(int)floor(cpos.x)][(int)floor(cpos.y)] = true;
-		if ((cpos - end).sqLength() <= 1 && canEnter(rectangle::box(cpos, end, size))) {
+		if ((cpos - end).sqLength() <= 1) {
 			for (auto p = c; p; p = p->previous) {
 				waypoints.push_back(p->position);
 			}
