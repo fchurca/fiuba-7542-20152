@@ -37,6 +37,7 @@ class ABoard {
 
 		virtual void update();
 		std::shared_ptr<Player> createPlayer(std::string name, bool human);
+		Player& findPlayer(std::string name);
 		virtual std::vector<std::shared_ptr<Player>> getPlayers();
 		std::shared_ptr<EntityFactory> createEntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity);
 		std::shared_ptr<Entity> createEntity(std::string name, std::string playerName, r2 position);
@@ -66,7 +67,6 @@ class SmartBoard : public ABoard {
 		~SmartBoard();
 
 		void update();
-		Player& findPlayer(std::string name);
 	// Visited methods for dispatching execute(board, command)
 		void execute(StopCommand& command);
 		void execute(MoveCommand& command);

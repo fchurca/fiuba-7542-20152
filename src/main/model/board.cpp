@@ -59,6 +59,10 @@ shared_ptr<Player> ABoard::createPlayer(string name, bool human) {
 	return (players[name] = make_shared<Player>(*this, name, human));
 }
 
+Player& ABoard::findPlayer(string name) {
+	return *(players.find(name)->second);
+}
+
 shared_ptr<Entity> ABoard::createEntity(string name, string playerName, r2 position) {
 	if (entityFactories.find(name) == entityFactories.end()) {
 		Logger::getInstance()->writeError("No existe el tipo de entidad " + name);
@@ -205,10 +209,6 @@ void SmartBoard::update() {
 	for(auto& e : entities) {
 		e->update();
 	}
-}
-
-Player& SmartBoard::findPlayer(string name) {
-	return *(players.find(name)->second);
 }
 
 void SmartBoard::execute(StopCommand& command) {

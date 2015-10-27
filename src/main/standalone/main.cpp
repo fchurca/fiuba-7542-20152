@@ -11,6 +11,7 @@
 #include "../gfx/game_window.h"
 
 #include "../remote_client/remote_client.h"
+#include "../remote_board/remote_board.h"
 #include "../server/server.h"
 
 using namespace std;
@@ -50,7 +51,7 @@ int main(int argc, char* argv[]) {
 		rulesetParser.parse();
 		if (client) {
 			// Acá estamos levantando el cliente. Lo siguiente en realidad es un RemoteBoard que se conecta por TCP/IP al daemon
-			game.setBoard(make_shared<SmartBoard>(rulesetParser, scenarioParser));
+			game.setBoard(make_shared<RemoteBoard>(rulesetParser));
 		} else {
 			game.setBoard(make_shared<SmartBoard>(rulesetParser, scenarioParser));
 		}
