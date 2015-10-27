@@ -11,13 +11,33 @@
 using namespace std;
 
 //-----------------------------------------------------------------------------
-ABoard::ABoard(string name, size_t dt, int sizeX, int sizeY, long maxResources) :
+ABoard::ABoard(RulesetParser& rulesetParser, string name, int sizeX, int sizeY, long maxResources) :
+	dt(rulesetParser.getConfiguracion().dt),
 	name(name),
-	dt(dt),
 	sizeX(sizeX), sizeY(sizeY),
 	maxResources(maxResources),
 	frame(0)
-{}
+{
+	stringstream message;
+	message << "Creating board " << this << " of size " << sizeX << "x" << sizeY;
+	Logger::getInstance()->writeInformation(message.str());
+	terrain.resize(sizeX * sizeY);
+
+	createEntityFactory(PROTAGONISTA_DEFAULT_NOMBRE, {PROTAGONISTA_DEFAULT_ANCHO_BASE, PROTAGONISTA_DEFAULT_ALTO_BASE}, VELOCIDAD_PERSONAJE_DEFAULT, ENTIDAD_DEFAULT_SIGHT_RADIUS,true, ENTIDAD_DEFAULT_CAPACITY);
+	createEntityFactory(ENTIDAD_DEFAULT_NOMBRE, {ENTIDAD_DEFAULT_ANCHO_BASE, ENTIDAD_DEFAULT_ALTO_BASE}, ENTIDAD_DEFAULT_SPEED, ENTIDAD_DEFAULT_SIGHT_RADIUS, true, ENTIDAD_DEFAULT_CAPACITY);
+	createEntityFactory(TERRENO_DEFAULT_NOMBRE, {TERRENO_DEFAULT_ANCHO_BASE, TERRENO_DEFAULT_ALTO_BASE}, TERRENO_DEFAULT_SPEED, TERRENO_DEFAULT_SIGHT_RADIUS, false, TERRENO_DEFAULT_CAPACITY);
+	createPlayer(DEFAULT_PLAYER_NAME, false);
+
+	for(auto& t : rulesetParser.getTiposEntidades()) {
+		createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, t.speed, t.sight_radius, t.solid, t.capacity);
+	}
+	for(auto& t : rulesetParser.getTiposTerrenos()) {
+		createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, t.speed, t.sight_radius, t.solid, t.capacity);
+	}
+	for (auto& t : rulesetParser.getTiposRecursos()) {
+		createEntityFactory(t.nombre, { t.ancho_base, t.alto_base }, t.speed, t.sight_radius, t.solid, t.capacity);
+	}
+}
 
 size_t ABoard::getFrame() {
 	return frame;
@@ -132,30 +152,15 @@ void ABoard::update() {
 
 
 SmartBoard::SmartBoard(RulesetParser& rulesetParser, ScenarioParser& scenarioParser) :
-	ABoard(scenarioParser.getEscenario().nombre,
-		rulesetParser.getConfiguracion().dt,
-		scenarioParser.getEscenario().size_x, scenarioParser.getEscenario().size_y,
-		scenarioParser.getEscenario().max_resources)
+	ABoard(rulesetParser,
+			scenarioParser.getEscenario().nombre,
+			scenarioParser.getEscenario().size_x, scenarioParser.getEscenario().size_y,
+			scenarioParser.getEscenario().max_resources)
 {
 	stringstream message;
-	message << "Creating board " << this << " of size " << sizeX << "x" << sizeY;
+	message << "Creating SmartBoard " << this;
 	Logger::getInstance()->writeInformation(message.str());
-	terrain.resize(sizeX * sizeY);
 
-	createEntityFactory(PROTAGONISTA_DEFAULT_NOMBRE, {PROTAGONISTA_DEFAULT_ANCHO_BASE, PROTAGONISTA_DEFAULT_ALTO_BASE}, VELOCIDAD_PERSONAJE_DEFAULT, ENTIDAD_DEFAULT_SIGHT_RADIUS,true, ENTIDAD_DEFAULT_CAPACITY);
-	createEntityFactory(ENTIDAD_DEFAULT_NOMBRE, {ENTIDAD_DEFAULT_ANCHO_BASE, ENTIDAD_DEFAULT_ALTO_BASE}, ENTIDAD_DEFAULT_SPEED, ENTIDAD_DEFAULT_SIGHT_RADIUS, true, ENTIDAD_DEFAULT_CAPACITY);
-	createEntityFactory(TERRENO_DEFAULT_NOMBRE, {TERRENO_DEFAULT_ANCHO_BASE, TERRENO_DEFAULT_ALTO_BASE}, TERRENO_DEFAULT_SPEED, TERRENO_DEFAULT_SIGHT_RADIUS, false, TERRENO_DEFAULT_CAPACITY);
-	createPlayer(DEFAULT_PLAYER_NAME, false);
-
-	for(auto& t : rulesetParser.getTiposEntidades()) {
-		createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, t.speed, t.sight_radius, t.solid, t.capacity);
-	}
-	for(auto& t : rulesetParser.getTiposTerrenos()) {
-		createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, t.speed, t.sight_radius, t.solid, t.capacity); 
-	}
-	for (auto& t : rulesetParser.getTiposRecursos()) {
-		createEntityFactory(t.nombre, { t.ancho_base, t.alto_base }, t.speed, t.sight_radius, t.solid, t.capacity);
-	}
 	auto te = scenarioParser.getEscenario();
 	for(auto& t : te.terrenos) {
 		setTerrain(t.tipoEntidad, t.pos.x, t.pos.y);

@@ -33,7 +33,7 @@ class ABoard {
 		const std::string name;
 		size_t dt;
 
-		ABoard(std::string name, size_t dt, int sizeX, int sizeY, long maxResources);
+		ABoard(RulesetParser& rulesetParser, std::string name, int sizeX, int sizeY, long maxResources);
 
 		virtual void update();
 		std::shared_ptr<Player> createPlayer(std::string name, bool human);
