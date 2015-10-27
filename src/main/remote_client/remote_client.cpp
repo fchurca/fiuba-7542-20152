@@ -39,35 +39,37 @@ RemoteClient::RemoteClient(Game& owner, Player& player) :
 
 void RemoteClient::run() {
 	auto& board = *owner.getBoard();
-	cout << "+\t" << frame
+	ostream& out = cout;
+	istream& in = cin;
+	out << "+\t" << frame
 		<< '\t' << player.getId() << '\t' << board.getPlayers().size()
 		<< '\t' << board.name << endl;
 
 	for(auto& p : board.getPlayers()) {
-		cout << p->serialize();
+		out << p->serialize();
 	}
-	cout << "T\t" << board.sizeX << '\t' << board.sizeY<< endl;
+	out << "T\t" << board.sizeX << '\t' << board.sizeY<< endl;
 	// TODO: EntityFactories
 	for(size_t x = board.sizeX - 1; x > 0; x--) {
 		for(size_t y = board.sizeY - 1; y > 0; y--) {
 			auto e = board.getTerrain(x, y);
-			cout << e->serialize();
+			out << e->serialize();
 		}
 	}
-	cout << "T" << endl;
-	cout << "Entities";
-	board.mapEntities([](shared_ptr<Entity> e) {cout << e->serialize();});
+	out << "T" << endl;
+	out << "Entities";
+	board.mapEntities([&out](shared_ptr<Entity> e) {out << e->serialize();});
 	string command;
-	while (!(command == "L" || cin.eof() || this->owner.willExit())) {
+	while (!(command == "L" || in.eof() || this->owner.willExit())) {
 		bool ack = false;
 		cerr << endl << ">";
 		stringstream answer;
-		cin >> command;
+		in >> command;
 		if (command == "L") {
 			ack = true;
 		} else if (command == "S") {
 			int i;
-			cin >> i;
+			in >> i;
 			auto e = board.findEntity(i);
 			if(e) {
 				if (&(e->owner) == &(this->player)) {
@@ -78,7 +80,7 @@ void RemoteClient::run() {
 		} else if (command == "M") {
 			int i;
 			double x, y;
-			cin >> i >> x >> y;
+			in >> i >> x >> y;
 			if (!this->owner.willExit()) {
 				auto e = board.findEntity(i);
 				if (e) {
@@ -90,7 +92,7 @@ void RemoteClient::run() {
 			}
 		} else if (command == "U") {
 			size_t frame;
-			cin >> frame;
+			in >> frame;
 			answer << this->frame << '\t';
 			board.mapEntities([this, &answer, frame](shared_ptr<Entity> e) {
 					if (e->getFrame() > frame) {
@@ -110,11 +112,13 @@ void RemoteClient::run() {
 			deletedMutex.unlock();
 			ack = true;
 		}
+		string payload;
 		if (ack) {
-			cout << "+" << answer.str() << endl;
+			payload = "+" + answer.str() + "\n";
 		} else {
-			cout << "-" << endl;
+			payload = "-\n";
 		}
+		out << payload;
 	}
 }
 
