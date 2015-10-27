@@ -11,6 +11,11 @@
 
 #include <iostream>
 using namespace std;
+
+shared_ptr<Socket> Socket::create() {
+	return make_shared<PosixSocket>();
+}
+
 //-----------------------------------------------------------------------------
 PosixSocket::PosixSocket() {
 

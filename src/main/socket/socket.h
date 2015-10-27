@@ -23,6 +23,7 @@ public:
 	Socket(){};
 	virtual ~Socket() {};
 public:
+	static std::shared_ptr<Socket> create();
 	virtual bool Connect(std::string hostIP, int hostPort) = 0;
 	virtual bool Listen(unsigned int port, int maxConnections) = 0;
 	virtual std::shared_ptr<Socket> Accept() = 0;

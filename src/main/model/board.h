@@ -27,10 +27,9 @@ class ABoard {
 		std::queue<std::shared_ptr<Command>> commands;
 		std::mutex commandMutex;
 	public:
-		const long maxResources;
-		const int
-			sizeX, sizeY;
-		const std::string name;
+		long maxResources;
+		int sizeX, sizeY;
+		std::string name;
 		size_t dt;
 
 		ABoard(RulesetParser& rulesetParser, std::string name, int sizeX, int sizeY, long maxResources);

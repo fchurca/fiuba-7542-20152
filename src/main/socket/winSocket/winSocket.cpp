@@ -1,6 +1,12 @@
 //-----------------------------------------------------------------------------
 #include "winSocket.h"
 //-----------------------------------------------------------------------------
+using namespace std;
+
+shared_ptr<Socket> Socket::create() {
+	return make_shared<WinSocket>();
+}
+
 WinSocket::WinSocket(unsigned int uiPort)
 {
 	int error = WSAStartup (0x0202, &wsaData);   // Fill in WSA info
