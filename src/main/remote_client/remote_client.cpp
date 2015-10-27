@@ -40,7 +40,7 @@ RemoteClient::RemoteClient(Game& owner, Player& player, shared_ptr<Socket> socke
 
 void RemoteClient::run() {
 	auto& board = *owner.getBoard();
-	ostream& out = cout;
+	stringstream out;
 	istream& in = cin;
 	out << "+\t" << frame
 		<< '\t' << player.getId() << '\t' << board.getPlayers().size()
@@ -60,6 +60,9 @@ void RemoteClient::run() {
 	out << "T" << endl;
 	out << "Entities";
 	board.mapEntities([&out](shared_ptr<Entity> e) {out << e->serialize();});
+	string payload = out.str();
+	socket->Send((void*)payload.c_str(), payload.length());
+	cout << payload;
 	string command;
 	while (!(command == "L" || in.eof() || this->owner.willExit())) {
 		bool ack = false;
@@ -119,7 +122,8 @@ void RemoteClient::run() {
 		} else {
 			payload = "-\n";
 		}
-		out << payload;
+		socket->Send((void*)payload.c_str(), payload.length());
+		cout << payload;
 	}
 }
 
