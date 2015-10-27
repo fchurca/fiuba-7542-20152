@@ -46,7 +46,7 @@ bool PosixSocket::Connect(std::string hostIp,int hostPort){
 	// Conectamos
 	if(connect(this->sockfd, (struct sockaddr *)&sockaddr,
 		sizeof(struct sockaddr)) == -1)
-		throw "ERROR: No se pudo llevar a cabo la conexión.";
+		return false;
 
 
 	return true;

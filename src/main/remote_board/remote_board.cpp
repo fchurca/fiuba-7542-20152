@@ -17,7 +17,9 @@ RemoteBoard::RemoteBoard(RulesetParser& rulesetParser) :
 			0, 0, 0)
 {
 	socket = Socket::create();
-	socket->Connect("127.0.0.1", 8001);
+	if (!socket->Connect("127.0.0.1", 8001)) {
+		cerr << "Could not connect!" << endl;
+	}
 	cerr << "Creating RemoteBoard " << this << endl;
 	stringstream message;
 	message << "Creating RemoteBoard " << this;
