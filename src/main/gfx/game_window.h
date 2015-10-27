@@ -34,8 +34,6 @@ protected:
 	void focus();
 	ABoard& board;
 	std::shared_ptr<Entity> selection;
-	std::shared_ptr<MiniMap> minimap;
-	std::shared_ptr<IsoView> isoview;
 public:
 	GameWindow(Game& owner, Player& player, GraphicsParser& graphicsParser, RulesetParser& rulesetParser);
 	~GameWindow();
@@ -49,6 +47,8 @@ public:
 	void clearSelection();
 	void setSelection();
 	bool selectionController();
+	std::shared_ptr<MiniMap> minimap;
+	std::shared_ptr<IsoView> isoview;
 friend SpriteSheet;
 };
 #endif // __GFX_GAMEWINDOW_H__
