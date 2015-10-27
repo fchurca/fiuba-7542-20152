@@ -16,6 +16,7 @@ private:
 protected:
 public:
 	void drawMinimap(SDL_Renderer* renderer);
+	SDL_Point boardToScreenPosition(r2 boardPos);
 	MiniMap(GameWindow& owner);
 	~MiniMap();
 };

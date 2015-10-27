@@ -6,7 +6,7 @@ using namespace std;
 
 IsoView::IsoView(GameWindow& owner, RulesetParser& rulesetParser) :
 	owner(owner),
-	size(3 * owner.ancho_pantalla / 4, 3 * owner.alto_pantalla / 4),
+	size(owner.ancho_pantalla, 3 * owner.alto_pantalla / 4),
 	offset(0, 0)
 {
 	addSpriteSheet(ENTIDAD_DEFAULT_NOMBRE, ENTIDAD_DEFAULT_IMAGEN, ENTIDAD_DEFAULT_PIXEL_REF_X, ENTIDAD_DEFAULT_PIXEL_REF_Y, ENTIDAD_DEFAULT_ALTO_SPRITE, ENTIDAD_DEFAULT_ANCHO_SPRITE, ENTIDAD_DEFAULT_CANTIDAD_SPRITES, ENTIDAD_DEFAULT_FPS, ENTIDAD_DEFAULT_DELAY);
