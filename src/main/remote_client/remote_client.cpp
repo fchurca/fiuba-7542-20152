@@ -1,13 +1,17 @@
-#include "remote_client.h"
-#include "../model/entity.h"
-#include "../model/board.h"
-#include "../model/game.h"
-#include "../socket/socket.h"
-
 #include <iostream>
 #include <sstream>
 
+#include "remote_client.h"
+
+#include "../model/board.h"
+#include "../model/charnames.h"
+#include "../model/entity.h"
+#include "../model/game.h"
+
+#include "../socket/socket.h"
+
 using namespace std;
+using namespace charnames;
 
 void RemoteClient::setFrame() {
 	auto board = owner.getBoard();
@@ -42,14 +46,14 @@ void RemoteClient::run() {
 	auto& board = *owner.getBoard();
 	stringstream out;
 	istream& in = cin;
-	out << "+\t" << frame
-		<< '\t' << player.getId() << '\t' << board.getPlayers().size()
-		<< '\t' << board.name << endl;
+	out << ack << ht << frame
+		<< ht << player.getId() << ht << board.getPlayers().size()
+		<< ht << board.name << endl;
 
 	for(auto& p : board.getPlayers()) {
 		out << p->serialize();
 	}
-	out << "T\t" << board.sizeX << '\t' << board.sizeY<< endl;
+	out << "T\t" << board.sizeX << ht << board.sizeY<< endl;
 	// TODO: EntityFactories
 	for(size_t x = board.sizeX - 1; x > 0; x--) {
 		for(size_t y = board.sizeY - 1; y > 0; y--) {
@@ -97,7 +101,7 @@ void RemoteClient::run() {
 		} else if (command == "U") {
 			size_t frame;
 			in >> frame;
-			answer << this->frame << '\t';
+			answer << this->frame << ht;
 			board.mapEntities([this, &answer, frame](shared_ptr<Entity> e) {
 					if (e->getFrame() > frame) {
 					answer << serialize(*e);
@@ -141,16 +145,16 @@ string RemoteClient::serialize(double d) {
 
 string RemoteClient::serialize(r2 r) {
 	stringstream ret;
-	ret << serialize(r.x) << '\t' << serialize(r.y);
+	ret << serialize(r.x) << ht << serialize(r.y);
 	return ret.str();
 }
 
 string RemoteClient::serialize(Entity& e) {
 	stringstream ret;
-	ret << "E\t" << e.getId() << '\t' << e.name << '\t'
-		<< e.getFrame() << '\t'
-		<< e.owner.getId() << '\t'
-		<< serialize(e.getPosition()) << '\t'
+	ret << "E\t" << e.getId() << ht << e.name << ht
+		<< e.getFrame() << ht
+		<< e.owner.getId() << ht
+		<< serialize(e.getPosition()) << ht
 		<< serialize(e.getOrientation()) << endl;
 	return ret.str();
 }
