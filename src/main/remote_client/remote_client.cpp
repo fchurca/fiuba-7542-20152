@@ -123,5 +123,7 @@ void RemoteClient::run() {
 }
 
 RemoteClient::~RemoteClient() {
-	th.join();
+	if(running) {
+		th.join();
+	}
 }
