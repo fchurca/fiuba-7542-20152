@@ -1,9 +1,10 @@
 #include <sstream>
 
 #include "sprite_sheet.h"
+#include "isoview.h"
 #include "game_window.h"
 
-SpriteSheet::SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay, GameWindow & owner) : owner(owner){
+SpriteSheet::SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay, IsoView & owner) : owner(owner){
 	std::stringstream message;
 	message << "Creating SpriteSheet " << this
 		<< " with path " << pPath
@@ -95,8 +96,8 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ) {
 }
 
 void SpriteSheet::render(Entity & entity, SDL_Renderer* renderer){
-	Visibility state = owner.player.getVisibility(entity);
-	bool playerIsActive = owner.player.getActive();
+	Visibility state = owner.owner.player.getVisibility(entity);
+	bool playerIsActive = owner.owner.player.getActive();
 
 	if (total_sprites == 0){
 		currentFrame = 0;

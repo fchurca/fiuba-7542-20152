@@ -10,7 +10,7 @@
 #include "../model/entity.h"
 #include "../defines/defines.h"
 
-class GameWindow;
+class IsoView;
 
 class SpriteSheet {
 private:
@@ -35,8 +35,8 @@ private:
 	void clear();
 
 public:
-	GameWindow & owner;
-	SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay, GameWindow & owner );
+	IsoView & owner;
+	SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay, IsoView & owner );
 	~SpriteSheet();
 	void render(Entity& entity, SDL_Renderer* renderer);
 	void update();
