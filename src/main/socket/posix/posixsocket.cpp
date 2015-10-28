@@ -9,6 +9,8 @@
 #include <signal.h>
 #include <netdb.h>
 
+#include <cstring>
+
 #include <iostream>
 using namespace std;
 
@@ -33,21 +35,25 @@ bool PosixSocket::Connect(std::string hostIp,int hostPort){
 
 	// Obtenemos host
 	struct hostent *he = gethostbyname(hostIp.c_str());
+	if (!he) {
+		return false;
+	}
+
+	// Obtenemos socket
+	if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+		return false;
+	}
 
 	// Cargamos datos de la conexión a realizar
+	memset(&sockaddr, '\0', sizeof(sockaddr));
 	sockaddr.sin_family = AF_INET;
 	sockaddr.sin_port = htons(hostPort);
-	// destinoDir.sin_addr.s_addr = inet_addr(ipDestino.c_str());
-	sockaddr.sin_addr = *((struct in_addr *)he->h_addr);
-
-	//Ver si es necesario
-	//memset(&(sockaddr.sin_zero), '\0', sizeof(sockaddr.sin_zero));
+	memcpy(&sockaddr.sin_addr, he->h_addr, he->h_length);
 
 	// Conectamos
-	if(connect(this->sockfd, (struct sockaddr *)&sockaddr,
-		sizeof(struct sockaddr)) == -1)
+	if(connect(sockfd, (struct sockaddr *)&sockaddr, sizeof(struct sockaddr)) == -1) {
 		return false;
-
+	}
 
 	return true;
 }
