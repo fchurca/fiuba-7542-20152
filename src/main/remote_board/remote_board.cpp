@@ -39,19 +39,8 @@ RemoteBoard::RemoteBoard(RulesetParser& rulesetParser) :
 		*socket >> pname;
 		createPlayer(pname, true);
 		// Assigned player
-		{
-			// TODO: deduplicate
-			// Resources
-			char c = nul;
-			*socket >> c;
-			while(c == gs) {
-				c = nul;
-				string resName = "";
-				long resAmount = 0;
-				*socket >> resName >> resAmount >> c;
-				findPlayer(pname).grantResources(resName, resAmount);
-			}
-		}
+		cerr << "Player " << pname << ht << endl;
+		updateResources(pname);
 		// Other players
 		{
 			char c = nul;
@@ -59,21 +48,11 @@ RemoteBoard::RemoteBoard(RulesetParser& rulesetParser) :
 			while(c == gs) {
 				c = nul;
 				string pname;
-				*socket >> pname >> c;
+				*socket >> pname;
 				createPlayer(pname, false);
-				{
-					// TODO: deduplicate
-					// Resources
-					char c = nul;
-					*socket >> c;
-					while(c == gs) {
-						c = nul;
-						string resName = "";
-						long resAmount = 0;
-						*socket >> resName >> resAmount >> c;
-						findPlayer(pname).grantResources(resName, resAmount);
-					}
-				}
+				cerr << "Player " << pname << ht << endl;
+				updateResources(pname);
+				*socket >> c;
 			}
 		}
 		// Terrain
@@ -108,8 +87,9 @@ RemoteBoard::RemoteBoard(RulesetParser& rulesetParser) :
 				double orientation;
 				*socket >> id >> ename >> owner >> f >> pos.x >> pos.y >> orientation >> c;
 				auto e = createEntity(ename, owner, pos);
-				cerr << ename << ht << owner << ht <<
-					pos.x << ',' << pos.y << ht << e->sight_radius << ht << (e?"OK":"XX") << endl;
+				e->setFrame(f);
+				e->setId(id);
+				e->setOrientation(orientation);
 			}
 		}
 
@@ -134,6 +114,23 @@ void RemoteBoard::update() {
 	for(auto& e : entities) {
 		e->update();
 	}
+}
+
+void RemoteBoard::updateResources(string playerName) {
+	// TODO: deduplicate
+	// Resources
+	cerr << "Resources for " << playerName << endl;
+	char c = nul;
+	*socket >> c;
+	while(c == gs) {
+		c = nul;
+		string resName = "";
+		long resAmount = 0;
+		*socket >> resName >> resAmount >> c;
+		findPlayer(playerName).grantResources(resName, resAmount);
+		cerr << "`" << resName << "`:" << resAmount << endl;
+	}
+	cerr << endl;
 }
 
 void RemoteBoard::execute(StopCommand& command) {

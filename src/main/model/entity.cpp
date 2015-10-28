@@ -257,6 +257,10 @@ double Entity::getOrientation() {
 	return orientation;
 }
 
+void Entity::setOrientation(double newOrientation) {
+	orientation = newOrientation;
+}
+
 Directions Entity::getDirection(){
 	return static_cast<Directions>((unsigned)floor(4*orientation/M_PI+.5)%8);
 }
@@ -274,12 +278,19 @@ size_t Entity::getId() {
 	return id;
 }
 
+void Entity::setId(size_t newId) {
+	id = newId;
+}
+
 void Entity::setFrame() {
-	frame = board.getFrame();
+	setFrame(board.getFrame());
 }
 
 size_t Entity::getFrame() {
 	return frame;
+}
+void Entity::setFrame(size_t newFrame) {
+	frame = newFrame;
 }
 
 bool Entity::operator==(Entity& other) {

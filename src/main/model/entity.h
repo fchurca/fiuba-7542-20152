@@ -49,10 +49,12 @@ class Entity {
 		double sqDistance();
 		double distance();
 		double getOrientation();
+		void setOrientation(double newOrientation);
 		Directions getDirection();// TODO: Pertenece a vista
 		void setDeletable();
 		bool getDeletable();
 		size_t getId();
+		void setId(size_t newId);
 
 		template<typename L> void mapVisible(L fun);
 
@@ -62,6 +64,7 @@ class Entity {
 		void update();
 
 		size_t getFrame();
+		void setFrame(size_t newFrame);
 
 		bool operator==(Entity& other);
 		bool operator!=(Entity& other);

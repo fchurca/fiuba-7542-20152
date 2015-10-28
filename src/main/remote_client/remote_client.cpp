@@ -64,11 +64,6 @@ void RemoteClient::run() {
 	board.mapEntities([this](shared_ptr<Entity> e) {*socket << gs << *e;});
 	*socket << nul;
 	socket->flushOut();
-/*
-		<< ht << board.name << lf;
-	*socket << "Entities";
-	board.mapEntities([this](shared_ptr<Entity> e) {*socket << *e;});
-	socket->flushOut();*/
 	string command;
 	while (!(command == "L" || in.eof() || this->owner.willExit())) {
 		bool ack = false;
