@@ -37,6 +37,7 @@ class Player {
 		std::map<std::string, long> getResources();
 		bool canGrantResources(std::string resource, long r);
 		bool grantResources(std::string resource, long r);
+		bool setResources(std::string resource, long r);
 		size_t getId();
 		void setId(size_t newId);
 		bool getActive();

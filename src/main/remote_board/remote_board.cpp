@@ -18,7 +18,6 @@ RemoteBoard::RemoteBoard(RulesetParser& rulesetParser) :
 			"Loading...",
 			0, 0, 0)
 {
-	cerr << "Creating RemoteBoard " << this << endl;
 	stringstream message;
 	message << "Creating RemoteBoard " << this;
 	Logger::getInstance()->writeInformation(message.str());
@@ -33,13 +32,12 @@ RemoteBoard::RemoteBoard(RulesetParser& rulesetParser) :
 	char c = nul;
 	*socket >> c;
 	if (c == ack) {
-		*socket >> name >> sizeX >> sizeY >> frame;
+		*socket >> name >> sizeX >> sizeY >> frame >> maxResources;
 		terrain.resize(sizeX * sizeY);
 		string pname;
 		*socket >> pname;
 		createPlayer(pname, true);
 		// Assigned player
-		cerr << "Player " << pname << ht << endl;
 		updateResources(pname);
 		// Other players
 		{
@@ -50,7 +48,6 @@ RemoteBoard::RemoteBoard(RulesetParser& rulesetParser) :
 				string pname;
 				*socket >> pname;
 				createPlayer(pname, false);
-				cerr << "Player " << pname << ht << endl;
 				updateResources(pname);
 				*socket >> c;
 			}
@@ -92,7 +89,6 @@ RemoteBoard::RemoteBoard(RulesetParser& rulesetParser) :
 				e->setOrientation(orientation);
 			}
 		}
-
 	}
 }
 
@@ -116,22 +112,49 @@ void RemoteBoard::update() {
 	}
 	*socket << 'U' << frame;
 	socket->flushOut();
-	char ackSink = nul, eotSink = nul;
+	char ackSink = nul;
 	*socket >> ackSink;
 	if(ackSink == ack) {
-		*socket >> frame >> eotSink;
-		if(eotSink == eot) {
-			cerr << "We are now at frame " << frame;
-		}
-	} else {
-		cerr << "Could not update frame!" << endl;
+		*socket >> frame;
+		char next = nul;
+		do {
+			*socket >> next;
+			switch (next) {
+				case 'E':
+					{
+						size_t id, f;
+						string ename, owner;
+						r2 pos;
+						double orientation;
+						*socket >> id >> ename >> owner >> f >> pos.x >> pos.y >> orientation;
+						auto e = findEntity(id);
+						e->setFrame(f);
+						e->setPosition(pos);
+						e->setOrientation(orientation);
+					}
+					break;
+				case 'D':
+					{
+						size_t id;
+						*socket >> id;
+						auto e = findEntity(id);
+						e->setDeletable();
+					}
+					break;
+				case 'P':
+					{
+						string pname;
+						*socket >> pname;
+						updateResources(pname);
+					}
+					break;
+			}
+		} while(next != eot);
 	}
 }
 
 void RemoteBoard::updateResources(string playerName) {
-	// TODO: deduplicate
 	// Resources
-	cerr << "Resources for " << playerName << endl;
 	char c = nul;
 	*socket >> c;
 	while(c == gs) {
@@ -139,15 +162,19 @@ void RemoteBoard::updateResources(string playerName) {
 		string resName = "";
 		long resAmount = 0;
 		*socket >> resName >> resAmount >> c;
-		findPlayer(playerName).grantResources(resName, resAmount);
-		cerr << "`" << resName << "`:" << resAmount << endl;
+		cerr << resAmount << endl;
+		findPlayer(playerName).setResources(resName, resAmount);
 	}
-	cerr << endl;
 }
 
 void RemoteBoard::execute(StopCommand& command) {
+	*socket << 'S' << command.entityId;
+	socket->flushOut();
 }
 
 void RemoteBoard::execute(MoveCommand& command) {
+	*socket << 'M' << command.entityId
+		<< command.position.x << command.position.y;
+	socket->flushOut();
 }
 

@@ -47,7 +47,7 @@ RemoteClient::RemoteClient(Game& owner, Player& player, shared_ptr<Socket> socke
 void RemoteClient::run() {
 	auto& board = *owner.getBoard();
 	*socket << ack << board.name << board.sizeX << board.sizeY << frame
-		<< player;
+		<< board.maxResources << player;
 	for(auto p : board.getPlayers()) {
 		if (p->getId() != player.getId()) {
 			*socket << gs << *p;
@@ -73,7 +73,8 @@ void RemoteClient::run() {
 		case 'S':
 			{
 				int i;
-				*socket >> i;
+				char eotSink;
+				*socket >> i >> eotSink;
 				auto e = board.findEntity(i);
 				if(e) {
 					if (&(e->owner) == &(this->player)) {
@@ -86,7 +87,8 @@ void RemoteClient::run() {
 			{
 				int i;
 				double x, y;
-				*socket >> i >> x >> y;
+				char eotSink;
+				*socket >> i >> x >> y >> eotSink;
 				if (!this->owner.willExit()) {
 					auto e = board.findEntity(i);
 					if (e) {
@@ -105,24 +107,22 @@ void RemoteClient::run() {
 				cerr << "Update requested from frame " << frame
 					<< ", request " << (eotSink == eot?"":"in") << "correctly terminated" << endl;
 				*socket << ack << this->frame;
-				/*
 				board.mapEntities([this, frame](shared_ptr<Entity> e) {
 						if (e->getFrame() > frame) {
-						*socket << *e;
+						*socket << 'E' << *e;
 						}
 						});
-				for(auto& p : board.getPlayers()) {
-					if (p->getFrame() > frame) {
-						*socket << *p;
-					}
-				}
 				deletedMutex.lock();
 				while (deleted.size() > 0) {
-					*socket << "D\t" << deleted.front() << lf;
+					*socket << 'D' << deleted.front();
 					deleted.pop();
 				}
 				deletedMutex.unlock();
-				*/
+				for(auto& p : board.getPlayers()) {
+					if (p->getFrame() > frame) {
+						*socket << 'P' << *p;
+					}
+				}
 				socket->flushOut();
 			}
 			break;
@@ -152,6 +152,7 @@ Socket& operator<<(Socket& socket, Player& p) {
 	socket << p.name;
 	for(auto& i : p.getResources()) {
 		socket << gs << i.first << i.second;
+		cerr << i.second << endl;
 	}
 	socket << nul;
 

@@ -2,6 +2,7 @@
 #define _MODEL_REMOTEBOARD_H_
 
 #include <memory>
+#include <vector>
 
 #include "../model/board.h"
 #include "../socket/socket.h"

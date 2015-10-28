@@ -241,6 +241,10 @@ r2 Entity::getPosition() {
 	return position;
 }
 
+void Entity::setPosition(r2 newPos) {
+	position = newPos;
+}
+
 r2 Entity::trajectory() {
 	return target() - center();
 }

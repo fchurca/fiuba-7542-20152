@@ -45,6 +45,7 @@ class Entity {
 		int sight_radius;
 		int capacity;
 		r2 getPosition();
+		void setPosition(r2 newPos);
 		r2 trajectory();
 		double sqDistance();
 		double distance();

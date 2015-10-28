@@ -75,6 +75,12 @@ bool Player::grantResources(std::string resource, long r) {
 	return true;
 }
 
+bool Player::setResources(std::string resource, long r) {
+	resources[resource] = r;
+	setFrame();
+	return true;
+}
+
 size_t Player::getId() {
 	return id;
 }
