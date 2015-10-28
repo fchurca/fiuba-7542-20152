@@ -41,10 +41,10 @@ void Menu::draw(SDL_Renderer* renderer) {
 		//
 		//Segunda Columna//
 		for (auto p : owner.player.board.getPlayers()) {
-			if (owner.player.getActive())
-				segundaColumnaActivos = segundaColumnaActivos + completeLine(p->name, font);
+			if (p->getActive())
+				segundaColumnaActivos = segundaColumnaActivos + completeLine(p->name + "[A]", font);
 			else
-				segundaColumnaInactivos = segundaColumnaInactivos + completeLine(p->name, font);
+				segundaColumnaInactivos = segundaColumnaInactivos + completeLine(p->name + "[I]", font);
 		}
 
 		//Tercer Columna//
