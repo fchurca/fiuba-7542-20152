@@ -10,8 +10,14 @@ using namespace charnames;
 
 using namespace std;
 
-void Socket::flushIn() {
-	inBuffer.clear();
+Socket::Socket() : inBufferIndex(0) {
+}
+
+Socket::~Socket() {
+}
+
+bool Socket::flushIn() {
+	size_t oldSize = inBuffer.size();
 	const size_t bufsize = 4097;
 	char b[bufsize];
 	long size;
@@ -20,13 +26,17 @@ void Socket::flushIn() {
 		memset(b, nul, bufsize);
 		size = Recv((void *)b, bufsize-1);
 		if(size > 0) {
+			cont = b[size - 1] != eot;
+			if (!cont) {
+				size--;
+			}
 			cerr << size << " bytes partial: `" << b << '`';
 			inBuffer.insert(inBuffer.end(), b, b + size);
 			cerr << ", last char is " << (int)b[size - 1];
-			cont = b[size - 1] != ht;
 		} else {
 			cont = false;
 			if (size < 0) {
+				status = false;
 				cerr << "Error in connection!";
 			} else {
 				cerr << "Empty partial";
@@ -34,10 +44,21 @@ void Socket::flushIn() {
 		}
 		cerr << endl;
 	} while (cont);
+	return oldSize < inBuffer.size();
+}
+
+bool Socket::oFlushIn() {
+	bool ret = true;
+	if (inBufferIndex >= inBuffer.size()) {
+		inBuffer.clear();
+		ret = flushIn();
+		inBufferIndex = 0;
+	}
+	return ret;
 }
 
 void Socket::flushOut() {
-	outBuffer.push_back(eot);
+	*this << eot;
 	Send((void *)outBuffer.data(), outBuffer.size());
 	outBuffer.clear();
 }
@@ -52,9 +73,10 @@ Socket& Socket::operator<<(int i) {
 }
 
 Socket& Socket::operator<<(long l) {
-	auto n = htonl(l);
+	uint32_t n = htonl(l);
 	for(auto i = sizeof(n); i > 0; i--) {
-		*this << (char)n;
+		char c = n;
+		*this << c;
 		n >>= 8;
 	}
 }
@@ -73,5 +95,31 @@ Socket& Socket::operator<<(std::string s) {
 
 Socket& Socket::operator<<(double d) {
 	return *this << (int)(d * 100);
+}
+
+Socket& Socket::operator>>(char& c) {
+	if(oFlushIn()) {
+		c = inBuffer.data()[inBufferIndex++];
+	}
+	return *this;
+}
+
+Socket& Socket::operator>>(long& l) {
+	if(oFlushIn()) {
+		uint32_t ret = 0;
+		char c;
+		for(auto i = 0; i < sizeof(ret); i++) {
+			*this >> c;
+			ret |= ((uint32_t)c << (8 * i));
+		}
+		l = ntohl(ret);
+	}
+}
+
+Socket& Socket::operator>>(size_t& s) {
+	long l;
+	*this >> l;
+	s = (size_t)l;
+	return *this;
 }
 

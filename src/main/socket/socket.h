@@ -19,11 +19,11 @@ class Socket {
 		bool status;
 		int port;
 		std::string ip;
-
+		size_t inBufferIndex;
 
 	public:
-		Socket(){};
-		virtual ~Socket() {};
+		Socket();
+		virtual ~Socket();
 
 	public:
 		static std::shared_ptr<Socket> create();
@@ -47,7 +47,12 @@ class Socket {
 		Socket& operator<<(double d);
 		Socket& operator<<(std::string s);
 
-		void flushIn();
+		Socket& operator>>(char& c);
+		Socket& operator>>(long& l);
+		Socket& operator>>(size_t& s);
+
+		bool flushIn();
+		bool oFlushIn();
 		void flushOut();
 };
 

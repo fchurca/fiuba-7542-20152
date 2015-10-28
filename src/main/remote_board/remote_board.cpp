@@ -4,10 +4,12 @@
 
 #include "../model/board.h"
 #include "../model/command.h"
+#include "../model/charnames.h"
 #include "../model/entity.h"
 #include "../parser_yaml/ruleset_parser.h"
 
 using namespace std;
+using namespace charnames;
 
 #include <iostream>
 
@@ -25,8 +27,18 @@ RemoteBoard::RemoteBoard(RulesetParser& rulesetParser) :
 	if (!socket->Connect("127.0.0.1", 8001)) {
 		cerr << "Could not connect!" << endl;
 	}
-	socket->Recv(nullptr, 0);
-	socket->Send("L", 1);
+	if(!socket->flushIn()) {
+		cerr << "Could not connect!" << endl;
+	}
+	char c = nul;
+	*socket >> c;
+	if (c == ack) {
+		cerr << "Could connect!" << endl;
+		*socket >> frame;
+		cerr << "We are at frame " << frame << endl;
+		*socket << 'L';
+		socket->flushOut();
+	}
 
 	// Relleno con TERRENO_DEFAULT
 	for(size_t x = 0; x < sizeX; x++) {
