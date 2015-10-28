@@ -3,6 +3,7 @@
 #define MAIN_SERVER_SRC_SERVER_H_
 //-----------------------------------------------------------------------------
 #include <thread>
+#include <memory>
 #include "../socket/socket.h"
 #include "../model/game.h"
 //-----------------------------------------------------------------------------
@@ -16,7 +17,7 @@ private:
 	std::string ip;
 	int port;
 	int max_clients;
-	Socket* socket;
+	std::shared_ptr<Socket> socket;
 	std::thread th;
 	Game & game;
 

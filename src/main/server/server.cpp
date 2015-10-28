@@ -75,10 +75,7 @@ void Server::run()
 //-----------------------------------------------------------------------------
 bool Server::init()
 {
-	this->socket = nullptr;
-#ifndef _WIN32
-	this->socket =  new PosixSocket();
-#endif // ! _WIN32
+	this->socket = Socket::create();
 
 	if(this->socket->Listen(this->port,this->max_clients))
 	{
@@ -101,6 +98,8 @@ void Server::stop()
 	//Cambio el estado del server
 	if (status) {
 		this->status = false;
+		auto dummy = Socket::create();
+		dummy->Connect("localhost", port); // TODO: check address
 		// Detenemos hilo hay q detener la funcion run
 		th.join();
 		// Cerramos el socket

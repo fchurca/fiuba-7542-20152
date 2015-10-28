@@ -46,7 +46,6 @@ RemoteClient::RemoteClient(Game& owner, Player& player, shared_ptr<Socket> socke
 
 void RemoteClient::run() {
 	auto& board = *owner.getBoard();
-	istream& in = cin;
 	*socket << ack << board.name << board.sizeX << board.sizeY << frame
 		<< player;
 	for(auto p : board.getPlayers()) {
@@ -65,16 +64,16 @@ void RemoteClient::run() {
 	*socket << nul;
 	socket->flushOut();
 	string command;
-	while (!(command == "L" || in.eof() || this->owner.willExit())) {
+	while (!(command == "L" || !socket->IsActive() || this->owner.willExit())) {
 		bool ack = false;
 		cerr << endl << ">";
 		socket->flushIn();
-		in >> command;
+		*socket >> command;
 		if (command == "L") {
 			ack = true;
 		} else if (command == "S") {
 			int i;
-			in >> i;
+			*socket >> i;
 			auto e = board.findEntity(i);
 			if(e) {
 				if (&(e->owner) == &(this->player)) {
@@ -85,7 +84,7 @@ void RemoteClient::run() {
 		} else if (command == "M") {
 			int i;
 			double x, y;
-			in >> i >> x >> y;
+			*socket >> i >> x >> y;
 			if (!this->owner.willExit()) {
 				auto e = board.findEntity(i);
 				if (e) {
@@ -97,7 +96,7 @@ void RemoteClient::run() {
 			}
 		} else if (command == "U") {
 			size_t frame;
-			in >> frame;
+			*socket >> frame;
 			*socket << this->frame;
 			board.mapEntities([this, frame](shared_ptr<Entity> e) {
 					if (e->getFrame() > frame) {
