@@ -128,6 +128,7 @@ void RemoteClient::run() {
 			break;
 		}
 	}
+	setDeletable();
 }
 
 RemoteClient::~RemoteClient() {

@@ -2,7 +2,7 @@
 #include "player.h"
 
 AClient::AClient(Game& owner, Player& player) :
-	deletable(true),
+	deletable(false),
 	owner(owner),
 	player(player)
 {

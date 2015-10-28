@@ -72,6 +72,12 @@ void Game::start() {
 		for(auto& c : clients) {
 			c.second->update();
 		}
+		for(auto& i : clients) {
+			if (i.second->getDeletable()) {
+				i.second->player.setActive(false);
+				clients.erase(i.second->player.name);
+			}
+		}
 		clientsMutex.unlock();
 
 		Logger::getInstance()->flush();
