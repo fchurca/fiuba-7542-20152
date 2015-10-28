@@ -36,7 +36,6 @@ RemoteBoard::RemoteBoard(RulesetParser& rulesetParser) :
 			}
 		}
 	}
-	createPlayer("PLACEHOLDER", true);
 }
 
 RemoteBoard::~RemoteBoard() {

@@ -47,31 +47,31 @@ RemoteClient::RemoteClient(Game& owner, Player& player, shared_ptr<Socket> socke
 void RemoteClient::run() {
 	auto& board = *owner.getBoard();
 	istream& in = cin;
-	*this << ack << ht << frame
+	*socket << ack << ht << frame
 		<< ht << player.getId() << ht << board.getPlayers().size()
 		<< ht << board.name << lf;
-	send();
+	socket->flushOut();
 
 	for(auto& p : board.getPlayers()) {
-		*this << p->serialize();
+		*socket << p->serialize();
 	}
-	*this << "T\t" << board.sizeX << ht << board.sizeY << lf;
+	*socket << "T\t" << board.sizeX << ht << board.sizeY << lf;
 	// TODO: EntityFactories
 	for(size_t x = board.sizeX - 1; x > 0; x--) {
 		for(size_t y = board.sizeY - 1; y > 0; y--) {
 			auto e = board.getTerrain(x, y);
-			*this << *e;
+			*socket << *e;
 		}
 	}
-	*this << "T" << lf;
-	*this << "Entities";
-	board.mapEntities([this](shared_ptr<Entity> e) {*this << *e;});
-	send();
+	*socket << "T" << lf;
+	*socket << "Entities";
+	board.mapEntities([this](shared_ptr<Entity> e) {*socket << *e;});
+	socket->flushOut();
 	string command;
 	while (!(command == "L" || in.eof() || this->owner.willExit())) {
 		bool ack = false;
 		cerr << endl << ">";
-		recv();
+		socket->flushIn();
 		in >> command;
 		if (command == "L") {
 			ack = true;
@@ -101,32 +101,34 @@ void RemoteClient::run() {
 		} else if (command == "U") {
 			size_t frame;
 			in >> frame;
-			*this << this->frame;
+			*socket << this->frame;
 			board.mapEntities([this, frame](shared_ptr<Entity> e) {
 					if (e->getFrame() > frame) {
-					*this << *e;
+					*socket << *e;
 					}
 					});
 			for(auto& p : board.getPlayers()) {
 				if (p->getFrame() > frame) {
-					*this << p->serialize();
+					*socket << p->serialize();
 				}
 			}
 			deletedMutex.lock();
 			while (deleted.size() > 0) {
-				*this << "D\t" << deleted.front() << lf;
+				*socket << "D\t" << deleted.front() << lf;
 				deleted.pop();
 			}
 			deletedMutex.unlock();
 			ack = true;
 		}
 		if (ack) {
-			outBuffer.insert(outBuffer.begin(), ack);
+			// TODO: emprolijar
+			socket->outBuffer.insert(socket->outBuffer.begin(), ack);
 		} else {
-			outBuffer.clear();
-			outBuffer.push_back(nak);
+			// TODO: emprolijar
+			socket->outBuffer.clear();
+			socket->outBuffer.push_back(nak);
 		}
-		send();
+		socket->flushOut();
 	}
 }
 
@@ -136,86 +138,16 @@ RemoteClient::~RemoteClient() {
 	}
 }
 
-void RemoteClient::recv() {
-	inBuffer.clear();
-	const size_t bufsize = 4096;
-	char b[bufsize];
-	long size;
-	bool cont = true;
-	do {
-		memset(b, nul, bufsize);
-		size = socket->Recv((void *)b, bufsize-1);
-		if(size > 0) {
-			cerr << size << " bytes partial: `" << b << '`';
-			inBuffer.insert(inBuffer.end(), b, b + size);
-			cerr << ", last char is " << (int)b[size - 1];
-			cont = b[size - 1] != ht;
-		} else {
-			cont = false;
-			if (size < 0) {
-				cerr << "Error in connection!";
-			} else {
-				cerr << "Empty partial";
-			}
-		}
-		cerr << endl;
-	} while (cont);
-	size_t s = (size_t)inBuffer.size() + 1;
-	char message[s];
-	strncpy(message, inBuffer.data(), s - 1);
-	message[s - 1] = nul;
-	cerr << "Received `" << message << '`' << endl;
+
+Socket& operator<<(Socket& socket, r2 r) {
+	return socket << r.x << r.y;
 }
 
-void RemoteClient::send() {
-	outBuffer.push_back(eot);
-	socket->Send((void *)outBuffer.data(), outBuffer.size());
-	outBuffer.clear();
-}
-
-RemoteClient& RemoteClient::operator<<(char c) {
-	outBuffer.push_back(c);
-	return *this;
-}
-
-RemoteClient& RemoteClient::operator<<(int i) {
-	return *this<<(long)i;
-}
-
-RemoteClient& RemoteClient::operator<<(long l) {
-	auto n = htonl(l);
-	for(auto i = sizeof(n); i > 0; i--) {
-		*this << (char)n;
-		n >>= 8;
-	}
-}
-
-RemoteClient& RemoteClient::operator<<(size_t s) {
-	return *this<<(long)s;
-}
-
-RemoteClient& RemoteClient::operator<<(std::string s) {
-	for(size_t i = 0; i < s.length(); i++) {
-		*this<<s[i];
-	}
-	*this<<nul;
-	return *this;
-}
-
-RemoteClient& RemoteClient::operator<<(double d) {
-	return *this << (int)(d * 100);
-}
-
-RemoteClient& RemoteClient::operator<<(r2 r) {
-	return *this << r.x << r.y;
-}
-
-RemoteClient& RemoteClient::operator<<(Entity& e) {
-	*this << e.getId() << e.name
+Socket& operator<<(Socket& socket, Entity& e) {
+	return socket << e.getId() << e.name
 		<< e.getFrame()
 		<< e.owner.getId()
 		<< e.getPosition()
 		<< e.getOrientation();
-	return *this;
 }
 
