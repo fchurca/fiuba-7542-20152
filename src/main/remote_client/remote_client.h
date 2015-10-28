@@ -23,6 +23,7 @@ class RemoteClient : public AClient{
 		std::mutex deletedMutex;
 		bool running;
 		std::shared_ptr<Socket> socket;
+		std::vector<char> inBuffer;
 		std::vector<char> outBuffer;
 		RemoteClient& operator<<(char c);
 		RemoteClient& operator<<(int i);
@@ -32,6 +33,7 @@ class RemoteClient : public AClient{
 		RemoteClient& operator<<(r2 r);
 		RemoteClient& operator<<(Entity& e);
 		RemoteClient& operator<<(std::string s);
+		void recv();
 		void send();
 	public:
 		RemoteClient(Game& owner, Player& player, std::shared_ptr<Socket> socket);

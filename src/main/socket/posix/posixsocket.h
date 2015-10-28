@@ -26,7 +26,7 @@ public:
 	bool Listen(unsigned int port, int maxConnections);
 	std::shared_ptr<Socket> Accept();
 	int Send(const void* data, int dataLenght);
-	int Recv(const void* data, int dataLenght);
+	int Recv(void* data, int dataLenght);
 	bool IsActive();
 	void Activate();
 	void deinit();

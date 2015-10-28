@@ -13,6 +13,8 @@
 using namespace std;
 using namespace charnames;
 
+#include <cstring>
+
 void RemoteClient::setFrame() {
 	auto board = owner.getBoard();
 	if (board) {
@@ -69,6 +71,7 @@ void RemoteClient::run() {
 	while (!(command == "L" || in.eof() || this->owner.willExit())) {
 		bool ack = false;
 		cerr << endl << ">";
+		recv();
 		in >> command;
 		if (command == "L") {
 			ack = true;
@@ -131,6 +134,32 @@ RemoteClient::~RemoteClient() {
 	if(running) {
 		th.join();
 	}
+}
+
+void RemoteClient::recv() {
+	inBuffer.clear();
+	const size_t bufsize = 4096;
+	char b[bufsize];
+	size_t size;
+	bool cont = true;
+	do {
+		memset(b, nul, bufsize);
+		size = socket->Recv((void *)b, bufsize-1);
+		inBuffer.insert(inBuffer.end(), b, b + size);
+		cerr << size << " bytes partial: `" << b << '`';
+		if(size > 0) {
+			cerr << ", last char is " << (int)b[size - 1];
+			cont = b[size - 1] != ht;
+		} else {
+			cont = false;
+		}
+		cerr << endl;
+	} while (cont);
+	size_t s = (size_t)inBuffer.size() + 1;
+	char message[s];
+	strncpy(message, inBuffer.data(), s - 1);
+	message[s - 1] = nul;
+	cerr << "Received `" << message << '`' << endl;
 }
 
 void RemoteClient::send() {

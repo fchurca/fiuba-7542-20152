@@ -123,13 +123,13 @@ int PosixSocket::Send(const void* data, int dataLenght)
 
 }
 //-----------------------------------------------------------------------------
-int PosixSocket::Recv(const void* data, int dataLenght)
+int PosixSocket::Recv(void* data, int dataLenght)
 {
 	cerr << "receive()" << endl;
 	//REVISAR
 	//memset(data, '\0', dataLenght);
 	// Recibimos datos en buffer
-	return recv(sockfd, &data, dataLenght, 0);
+	return recv(sockfd, data, dataLenght, 0);
 }
 //-----------------------------------------------------------------------------
 bool PosixSocket::IsActive()
