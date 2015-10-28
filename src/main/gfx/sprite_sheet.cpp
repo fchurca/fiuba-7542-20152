@@ -97,7 +97,7 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ) {
 
 void SpriteSheet::render(Entity & entity, SDL_Renderer* renderer){
 	Visibility state = owner.owner.player.getVisibility(entity);
-	bool playerIsActive = owner.owner.player.getActive();
+	bool playerIsActive = entity.owner.getActive();
 
 	if (total_sprites == 0){
 		currentFrame = 0;
