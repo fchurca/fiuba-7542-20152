@@ -140,18 +140,23 @@ void RemoteClient::recv() {
 	inBuffer.clear();
 	const size_t bufsize = 4096;
 	char b[bufsize];
-	size_t size;
+	long size;
 	bool cont = true;
 	do {
 		memset(b, nul, bufsize);
 		size = socket->Recv((void *)b, bufsize-1);
-		inBuffer.insert(inBuffer.end(), b, b + size);
-		cerr << size << " bytes partial: `" << b << '`';
 		if(size > 0) {
+			cerr << size << " bytes partial: `" << b << '`';
+			inBuffer.insert(inBuffer.end(), b, b + size);
 			cerr << ", last char is " << (int)b[size - 1];
 			cont = b[size - 1] != ht;
 		} else {
 			cont = false;
+			if (size < 0) {
+				cerr << "Error in connection!";
+			} else {
+				cerr << "Empty partial";
+			}
 		}
 		cerr << endl;
 	} while (cont);

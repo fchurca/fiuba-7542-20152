@@ -16,14 +16,17 @@ RemoteBoard::RemoteBoard(RulesetParser& rulesetParser) :
 			"Loading...",
 			0, 0, 0)
 {
-	socket = Socket::create();
-	if (!socket->Connect("127.0.0.1", 8001)) {
-		cerr << "Could not connect!" << endl;
-	}
 	cerr << "Creating RemoteBoard " << this << endl;
 	stringstream message;
 	message << "Creating RemoteBoard " << this;
 	Logger::getInstance()->writeInformation(message.str());
+
+	socket = Socket::create();
+	if (!socket->Connect("127.0.0.1", 8001)) {
+		cerr << "Could not connect!" << endl;
+	}
+	socket->Recv(nullptr, 0);
+	socket->Send("L", 1);
 
 	// Relleno con TERRENO_DEFAULT
 	for(size_t x = 0; x < sizeX; x++) {
