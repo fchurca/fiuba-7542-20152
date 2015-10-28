@@ -61,6 +61,8 @@ void RemoteClient::run() {
 			*socket << e->name;
 		}
 	}
+	board.mapEntities([this](shared_ptr<Entity> e) {*socket << gs << *e;});
+	*socket << nul;
 	socket->flushOut();
 /*
 		<< ht << board.name << lf;
@@ -144,9 +146,8 @@ Socket& operator<<(Socket& socket, r2 r) {
 }
 
 Socket& operator<<(Socket& socket, Entity& e) {
-	return socket << e.getId() << e.name
+	return socket << e.getId() << e.name << e.owner.name
 		<< e.getFrame()
-		<< e.owner.getId()
 		<< e.getPosition()
 		<< e.getOrientation();
 }

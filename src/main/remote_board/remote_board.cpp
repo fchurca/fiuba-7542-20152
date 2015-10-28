@@ -38,8 +38,10 @@ RemoteBoard::RemoteBoard(RulesetParser& rulesetParser) :
 		string pname;
 		*socket >> pname;
 		createPlayer(pname, true);
+		// Assigned player
 		{
 			// TODO: deduplicate
+			// Resources
 			char c = nul;
 			*socket >> c;
 			while(c == gs) {
@@ -50,6 +52,7 @@ RemoteBoard::RemoteBoard(RulesetParser& rulesetParser) :
 				findPlayer(pname).grantResources(resName, resAmount);
 			}
 		}
+		// Other players
 		{
 			char c = nul;
 			*socket >> c;
@@ -60,6 +63,7 @@ RemoteBoard::RemoteBoard(RulesetParser& rulesetParser) :
 				createPlayer(pname, false);
 				{
 					// TODO: deduplicate
+					// Resources
 					char c = nul;
 					*socket >> c;
 					while(c == gs) {
@@ -72,19 +76,19 @@ RemoteBoard::RemoteBoard(RulesetParser& rulesetParser) :
 				}
 			}
 		}
+		// Terrain
 		for(size_t x = 0; x < sizeX; x++) {
 			for(size_t y = 0; y < sizeY; y++) {
 				string tname = "";
 				*socket >> tname;
 				setTerrain(tname, x, y);
-				cerr << x << ',' << y << ':' << tname << ht;
+				if (!getTerrain(x, y)) {
+					cerr << x << ',' << y << ':' << tname << ht;
+				}
 			}
 		}
-
-		*socket << 'L';
-		socket->flushOut();
-
-		// Relleno con TERRENO_DEFAULT
+		cerr << endl;
+		// Relleno con TERRENO_DEFAULT (TODO: deduplicate)
 		for(size_t x = 0; x < sizeX; x++) {
 			for(size_t y = 0; y < sizeY; y++) {
 				if (!getTerrain(x, y)) {
@@ -92,6 +96,25 @@ RemoteBoard::RemoteBoard(RulesetParser& rulesetParser) :
 				}
 			}
 		}
+		{
+			// Entities
+			char c = nul;
+			*socket >> c;
+			while(c == gs) {
+				c = nul;
+				size_t id, f;
+				string ename, owner;
+				r2 pos;
+				double orientation;
+				*socket >> id >> ename >> owner >> f >> pos.x >> pos.y >> orientation >> c;
+				auto e = createEntity(ename, owner, pos);
+				cerr << ename << ht << owner << ht <<
+					pos.x << ',' << pos.y << ht << e->sight_radius << ht << (e?"OK":"XX") << endl;
+			}
+		}
+
+		*socket << 'L';
+		socket->flushOut();
 	}
 }
 
@@ -103,6 +126,11 @@ RemoteBoard::~RemoteBoard() {
 
 void RemoteBoard::update() {
 	ABoard::update();
+	for(auto& p : players) {
+		if(p.second->human) {
+			p.second->update();
+		}
+	}
 	for(auto& e : entities) {
 		e->update();
 	}

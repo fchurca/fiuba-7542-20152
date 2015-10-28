@@ -123,7 +123,14 @@ Socket& Socket::operator>>(size_t& s) {
 Socket& Socket::operator>>(int& i) {
 	long l;
 	*this >> l;
-	i = (size_t)l;
+	i = (int)l;
+	return *this;
+}
+
+Socket& Socket::operator>>(double& d) {
+	long l;
+	*this >> l;
+	d = ((double)l) / 100;
 	return *this;
 }
 

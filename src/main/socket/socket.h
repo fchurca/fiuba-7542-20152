@@ -51,6 +51,7 @@ class Socket {
 		Socket& operator>>(long& l);
 		Socket& operator>>(size_t& s);
 		Socket& operator>>(int& i);
+		Socket& operator>>(double& d);
 		Socket& operator>>(std::string& s);
 
 		bool flushIn();

@@ -149,9 +149,6 @@ void ABoard::update() {
 		commands.pop();
 	}
 	commandMutex.unlock();
-	for(auto& p : players) {
-		p.second->update();
-	}
 }
 
 
@@ -206,6 +203,9 @@ SmartBoard::~SmartBoard() {
 
 void SmartBoard::update() {
 	ABoard::update();
+	for(auto& p : players) {
+		p.second->update();
+	}
 	for(auto& e : entities) {
 		e->update();
 	}
