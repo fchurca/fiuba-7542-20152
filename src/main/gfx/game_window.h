@@ -4,6 +4,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "minimap.h"
 #include "isoview.h"
+#include "menu.h"
 #include "../model/abstract_client.h"
 #include "../model/game.h"
 #include "../log/logger.h"
@@ -14,14 +15,10 @@ class GraphicsParser;
 class RulesetParser;
 
 class GameWindow : public AClient {
-private:
-	std::string completeLine(std::string line, TTF_Font* font);
-	void drawMenu();
 protected:
 	SDL_Point mouse;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
-	TTF_Font* font;
 	unsigned int scroll_speed;
 	unsigned int margen_pantalla;
 	static bool sdlInitialized; // = false
@@ -49,6 +46,7 @@ public:
 	bool selectionController();
 	std::shared_ptr<MiniMap> minimap;
 	std::shared_ptr<IsoView> isoview;
+	std::shared_ptr<Menu> menu;
 friend SpriteSheet;
 };
 #endif // __GFX_GAMEWINDOW_H__
