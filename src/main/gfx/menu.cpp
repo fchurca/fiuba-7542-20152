@@ -42,9 +42,9 @@ void Menu::draw(SDL_Renderer* renderer) {
 		//Segunda Columna//
 		for (auto p : owner.player.board.getPlayers()) {
 			if (p->getActive())
-				segundaColumnaActivos = segundaColumnaActivos + completeLine(p->name + "[A]", font);
+				segundaColumnaActivos = segundaColumnaActivos + completeLine("[A]  " + p->name, font);
 			else
-				segundaColumnaInactivos = segundaColumnaInactivos + completeLine(p->name + "[I]", font);
+				segundaColumnaInactivos = segundaColumnaInactivos + completeLine("[I]  " + p->name, font);
 		}
 
 		//Tercer Columna//
