@@ -47,23 +47,23 @@ RemoteClient::RemoteClient(Game& owner, Player& player, shared_ptr<Socket> socke
 void RemoteClient::run() {
 	auto& board = *owner.getBoard();
 	istream& in = cin;
-	*socket << ack << board.name << frame
-		<< ht << player.getId() << ht << board.getPlayers().size()
-		<< ht << board.name << lf;
-	socket->flushOut();
-/*
-	for(auto& p : board.getPlayers()) {
-		*socket << p->serialize();
-	}
-	*socket << "T\t" << board.sizeX << ht << board.sizeY << lf;
-	// TODO: EntityFactories
-	for(size_t x = board.sizeX - 1; x > 0; x--) {
-		for(size_t y = board.sizeY - 1; y > 0; y--) {
-			auto e = board.getTerrain(x, y);
-			*socket << *e;
+	*socket << ack << board.name << board.sizeX << board.sizeY << frame
+		<< player;
+	for(auto p : board.getPlayers()) {
+		if (p->getId() != player.getId()) {
+			*socket << gs << *p;
 		}
 	}
-	*socket << "T" << lf;
+	*socket << nul;
+	for(size_t x = 0; x < board.sizeX; x++) {
+		for(size_t y = 0; y < board.sizeY; y++) {
+			auto e = board.getTerrain(x, y);
+			*socket << e->name;
+		}
+	}
+	socket->flushOut();
+/*
+		<< ht << board.name << lf;
 	*socket << "Entities";
 	board.mapEntities([this](shared_ptr<Entity> e) {*socket << *e;});
 	socket->flushOut();*/
@@ -109,7 +109,7 @@ void RemoteClient::run() {
 					});
 			for(auto& p : board.getPlayers()) {
 				if (p->getFrame() > frame) {
-					*socket << p->serialize();
+					*socket << *p;
 				}
 			}
 			deletedMutex.lock();
@@ -149,5 +149,15 @@ Socket& operator<<(Socket& socket, Entity& e) {
 		<< e.owner.getId()
 		<< e.getPosition()
 		<< e.getOrientation();
+}
+
+Socket& operator<<(Socket& socket, Player& p) {
+	socket << p.name;
+	for(auto& i : p.getResources()) {
+		socket << gs << i.first << i.second;
+	}
+	socket << nul;
+
+	return socket;
 }
 

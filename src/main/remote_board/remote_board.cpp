@@ -33,19 +33,63 @@ RemoteBoard::RemoteBoard(RulesetParser& rulesetParser) :
 	char c = nul;
 	*socket >> c;
 	if (c == ack) {
-		cerr << "Could connect!" << endl;
-		*socket >> name >> frame;
-		cerr << "Board name is `" << name << '`' << endl;
-		cerr << "We are at frame " << frame << endl;
+		*socket >> name >> sizeX >> sizeY >> frame;
+		terrain.resize(sizeX * sizeY);
+		string pname;
+		*socket >> pname;
+		createPlayer(pname, true);
+		{
+			// TODO: deduplicate
+			char c = nul;
+			*socket >> c;
+			while(c == gs) {
+				c = nul;
+				string resName = "";
+				long resAmount = 0;
+				*socket >> resName >> resAmount >> c;
+				findPlayer(pname).grantResources(resName, resAmount);
+			}
+		}
+		{
+			char c = nul;
+			*socket >> c;
+			while(c == gs) {
+				c = nul;
+				string pname;
+				*socket >> pname >> c;
+				createPlayer(pname, false);
+				{
+					// TODO: deduplicate
+					char c = nul;
+					*socket >> c;
+					while(c == gs) {
+						c = nul;
+						string resName = "";
+						long resAmount = 0;
+						*socket >> resName >> resAmount >> c;
+						findPlayer(pname).grantResources(resName, resAmount);
+					}
+				}
+			}
+		}
+		for(size_t x = 0; x < sizeX; x++) {
+			for(size_t y = 0; y < sizeY; y++) {
+				string tname = "";
+				*socket >> tname;
+				setTerrain(tname, x, y);
+				cerr << x << ',' << y << ':' << tname << ht;
+			}
+		}
+
 		*socket << 'L';
 		socket->flushOut();
-	}
 
-	// Relleno con TERRENO_DEFAULT
-	for(size_t x = 0; x < sizeX; x++) {
-		for(size_t y = 0; y < sizeY; y++) {
-			if (!getTerrain(x, y)) {
-				setTerrain(TERRENO_DEFAULT_NOMBRE, x, y);
+		// Relleno con TERRENO_DEFAULT
+		for(size_t x = 0; x < sizeX; x++) {
+			for(size_t y = 0; y < sizeY; y++) {
+				if (!getTerrain(x, y)) {
+					setTerrain(TERRENO_DEFAULT_NOMBRE, x, y);
+				}
 			}
 		}
 	}

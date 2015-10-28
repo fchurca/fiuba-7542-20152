@@ -99,13 +99,3 @@ bool Player::getActive() {
 	return active || !human;
 }
 
-string Player::serialize() {
-	stringstream ret;
-	ret << "P\t" << id << '\t' << name << '\t' << active;
-	for (auto& i : resources) {
-		ret << '\t' << i.first << '\t' << i.second;
-	}
-	ret << endl;
-	return ret.str();
-}
-

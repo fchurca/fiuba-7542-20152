@@ -120,6 +120,13 @@ Socket& Socket::operator>>(size_t& s) {
 	return *this;
 }
 
+Socket& Socket::operator>>(int& i) {
+	long l;
+	*this >> l;
+	i = (size_t)l;
+	return *this;
+}
+
 Socket& Socket::operator>>(string& s) {
 	s = "";
 	char c;

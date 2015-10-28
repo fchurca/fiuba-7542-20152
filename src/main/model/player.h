@@ -42,7 +42,6 @@ class Player {
 		bool getActive();
 		void setActive(bool newActive);
 		size_t getFrame();
-		std::string serialize();
 };
 
 #endif
