@@ -11,7 +11,8 @@ using namespace std;
 Player::Player(ABoard& board, std::string name, bool human) :
 	board(board),
 	name(name),
-	human(human)
+	human(human),
+	active(false)
 {
 	static size_t idCount = 1;
 	id = idCount++;
