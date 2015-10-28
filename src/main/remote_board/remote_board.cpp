@@ -93,12 +93,12 @@ RemoteBoard::RemoteBoard(RulesetParser& rulesetParser) :
 			}
 		}
 
-		*socket << 'L';
-		socket->flushOut();
 	}
 }
 
 RemoteBoard::~RemoteBoard() {
+	*socket << 'L';
+	socket->flushOut();
 	stringstream message;
 	message << "Killing RemoteBoard " << this;
 	Logger::getInstance()->writeInformation(message.str());
@@ -113,6 +113,18 @@ void RemoteBoard::update() {
 	}
 	for(auto& e : entities) {
 		e->update();
+	}
+	*socket << 'U' << frame;
+	socket->flushOut();
+	char ackSink = nul, eotSink = nul;
+	*socket >> ackSink;
+	if(ackSink == ack) {
+		*socket >> frame >> eotSink;
+		if(eotSink == eot) {
+			cerr << "We are now at frame " << frame;
+		}
+	} else {
+		cerr << "Could not update frame!" << endl;
 	}
 }
 

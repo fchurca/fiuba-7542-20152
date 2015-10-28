@@ -68,9 +68,11 @@ void Game::start() {
 		GameTimer::update();
 		board->update(); // Model
 		// Acá actualizamos a todos los clientes
+		clientsMutex.lock();
 		for(auto& c : clients) {
 			c.second->update();
 		}
+		clientsMutex.unlock();
 
 		Logger::getInstance()->flush();
 		if (!GameTimer::wait(GameTimer::getCurrent() + board->dt)) {

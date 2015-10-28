@@ -5,11 +5,15 @@ class Game;
 class Player;
 
 class AClient{
+	protected:
+		bool deletable;
+		void setDeletable();
 	public:
 		virtual void update() = 0;
 		Game& owner;
 		Player& player;
 		AClient(Game& owner, Player& player);
+		bool getDeletable();
 };
 
 #endif // _MODEL_ABSTRACTCLIENT_H_

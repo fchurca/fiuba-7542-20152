@@ -63,68 +63,70 @@ void RemoteClient::run() {
 	board.mapEntities([this](shared_ptr<Entity> e) {*socket << gs << *e;});
 	*socket << nul;
 	socket->flushOut();
-	string command;
-	while (!(command == "L" || !socket->IsActive() || this->owner.willExit())) {
-		bool ack = false;
-		cerr << endl << ">";
-		socket->flushIn();
+	char command = nul;
+	while (!(command == 'L' || this->owner.willExit())) {
+		cerr << "Listening to new command..." << endl;
 		*socket >> command;
-		if (command == "L") {
-			ack = true;
-		} else if (command == "S") {
-			int i;
-			*socket >> i;
-			auto e = board.findEntity(i);
-			if(e) {
-				if (&(e->owner) == &(this->player)) {
-					board.pushCommand(make_shared<StopCommand>(e->getId()));
-					ack = true;
-				}
-			}
-		} else if (command == "M") {
-			int i;
-			double x, y;
-			*socket >> i >> x >> y;
-			if (!this->owner.willExit()) {
+		switch (command) {
+		case 'L':
+			break;
+		case 'S':
+			{
+				int i;
+				*socket >> i;
 				auto e = board.findEntity(i);
-				if (e) {
+				if(e) {
 					if (&(e->owner) == &(this->player)) {
-						board.pushCommand(make_shared<MoveCommand>(e->getId(), r2(x, y)));
-						ack = true;
+						board.pushCommand(make_shared<StopCommand>(e->getId()));
 					}
 				}
 			}
-		} else if (command == "U") {
-			size_t frame;
-			*socket >> frame;
-			*socket << this->frame;
-			board.mapEntities([this, frame](shared_ptr<Entity> e) {
-					if (e->getFrame() > frame) {
-					*socket << *e;
+			break;
+		case 'M':
+			{
+				int i;
+				double x, y;
+				*socket >> i >> x >> y;
+				if (!this->owner.willExit()) {
+					auto e = board.findEntity(i);
+					if (e) {
+						if (&(e->owner) == &(this->player)) {
+							board.pushCommand(make_shared<MoveCommand>(e->getId(), r2(x, y)));
+						}
 					}
-					});
-			for(auto& p : board.getPlayers()) {
-				if (p->getFrame() > frame) {
-					*socket << *p;
 				}
 			}
-			deletedMutex.lock();
-			while (deleted.size() > 0) {
-				*socket << "D\t" << deleted.front() << lf;
-				deleted.pop();
+			break;
+		case 'U':
+			{
+				size_t frame;
+				char eotSink;
+				*socket >> frame >> eotSink;
+				cerr << "Update requested from frame " << frame
+					<< ", request " << (eotSink == eot?"":"in") << "correctly terminated" << endl;
+				*socket << ack << this->frame;
+				/*
+				board.mapEntities([this, frame](shared_ptr<Entity> e) {
+						if (e->getFrame() > frame) {
+						*socket << *e;
+						}
+						});
+				for(auto& p : board.getPlayers()) {
+					if (p->getFrame() > frame) {
+						*socket << *p;
+					}
+				}
+				deletedMutex.lock();
+				while (deleted.size() > 0) {
+					*socket << "D\t" << deleted.front() << lf;
+					deleted.pop();
+				}
+				deletedMutex.unlock();
+				*/
+				socket->flushOut();
 			}
-			deletedMutex.unlock();
-			ack = true;
+			break;
 		}
-		if (ack) {
-			// TODO: emprolijar
-			socket->outBuffer.insert(socket->outBuffer.begin(), ack);
-		} else {
-			// TODO: emprolijar
-			socket->outBuffer.clear();
-			*socket << nak;
-		}
-		socket->flushOut();
 	}
 }
 
