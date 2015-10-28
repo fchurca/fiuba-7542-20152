@@ -50,6 +50,7 @@ class Socket {
 		Socket& operator>>(char& c);
 		Socket& operator>>(long& l);
 		Socket& operator>>(size_t& s);
+		Socket& operator>>(std::string& s);
 
 		bool flushIn();
 		bool oFlushIn();

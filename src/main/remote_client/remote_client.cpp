@@ -47,7 +47,7 @@ RemoteClient::RemoteClient(Game& owner, Player& player, shared_ptr<Socket> socke
 void RemoteClient::run() {
 	auto& board = *owner.getBoard();
 	istream& in = cin;
-	*socket << ack << frame
+	*socket << ack << board.name << frame
 		<< ht << player.getId() << ht << board.getPlayers().size()
 		<< ht << board.name << lf;
 	socket->flushOut();

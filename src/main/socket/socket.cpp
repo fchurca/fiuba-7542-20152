@@ -26,10 +26,6 @@ bool Socket::flushIn() {
 		memset(b, nul, bufsize);
 		size = Recv((void *)b, bufsize-1);
 		if(size > 0) {
-			cont = b[size - 1] != eot;
-			if (!cont) {
-				size--;
-			}
 			cerr << size << " bytes partial: `" << b << '`';
 			inBuffer.insert(inBuffer.end(), b, b + size);
 			cerr << ", last char is " << (int)b[size - 1];
@@ -43,7 +39,7 @@ bool Socket::flushIn() {
 			}
 		}
 		cerr << endl;
-	} while (cont);
+	} while (false); // FIXME
 	return oldSize < inBuffer.size();
 }
 
@@ -114,12 +110,25 @@ Socket& Socket::operator>>(long& l) {
 		}
 		l = ntohl(ret);
 	}
+	return *this;
 }
 
 Socket& Socket::operator>>(size_t& s) {
 	long l;
 	*this >> l;
 	s = (size_t)l;
+	return *this;
+}
+
+Socket& Socket::operator>>(string& s) {
+	s = "";
+	char c;
+	do {
+		*this >> c;
+		if(c) {
+			s += c;
+		}
+	} while (c);
 	return *this;
 }
 

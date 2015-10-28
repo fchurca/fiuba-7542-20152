@@ -34,7 +34,8 @@ RemoteBoard::RemoteBoard(RulesetParser& rulesetParser) :
 	*socket >> c;
 	if (c == ack) {
 		cerr << "Could connect!" << endl;
-		*socket >> frame;
+		*socket >> name >> frame;
+		cerr << "Board name is `" << name << '`' << endl;
 		cerr << "We are at frame " << frame << endl;
 		*socket << 'L';
 		socket->flushOut();
