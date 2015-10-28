@@ -12,7 +12,7 @@ using namespace std;
 
 void Socket::flushIn() {
 	inBuffer.clear();
-	const size_t bufsize = 4096;
+	const size_t bufsize = 4097;
 	char b[bufsize];
 	long size;
 	bool cont = true;
@@ -34,11 +34,6 @@ void Socket::flushIn() {
 		}
 		cerr << endl;
 	} while (cont);
-	size_t s = (size_t)inBuffer.size() + 1;
-	char message[s];
-	strncpy(message, inBuffer.data(), s - 1);
-	message[s - 1] = nul;
-	cerr << "Received `" << message << '`' << endl;
 }
 
 void Socket::flushOut() {
