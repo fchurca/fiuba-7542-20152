@@ -129,8 +129,10 @@ void Entity::addTarget(r2 newTarget) {
 				if (p == cpos) {
 					continue;
 				} 
-				if ((owner.getVisibility(p) != INVISIBLE) && !(canEnter(rectangle::box(p - size/2, cpos - size/2, size)))) {
-					continue;
+				if ((owner.getVisibility(p) != INVISIBLE)) {
+					if (!(canEnter(rectangle::box(p - size/2, cpos - size/2, size)))) {
+						continue;
+					}
 				}
 				auto n = make_shared<TSNode>(p, (cpos - p).length() + c->g, .0, c);
 				n->f = f(*n);
