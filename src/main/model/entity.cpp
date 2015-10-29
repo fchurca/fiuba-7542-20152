@@ -78,6 +78,10 @@ void Entity::addTarget(r2 newTarget) {
 	r2
 		end = round(targeted() ? waypoints.back() : position),
 		start = round(newTarget);
+	if(start.x < 0 || start.x > board.sizeX ||
+			start.y < 0 || start.y > board.sizeY) {
+		return;
+	}
 
 	priority_queue<TSNode, vector<shared_ptr<TSNode>>, compare> open;
 	auto h = [&end](r2& p) {return (p - end).length();};
