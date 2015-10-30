@@ -3,15 +3,20 @@
 #include <string>
 #include <vector>
 
+#include "../log/logger.h"
+
+#include "../gfx/game_window.h"
+
+#include "../model/game.h"
+
+#include "../parser_yaml/client_parser.h"
 #include "../parser_yaml/graphics_parser.h"
 #include "../parser_yaml/ruleset_parser.h"
 #include "../parser_yaml/scenario_parser.h"
-#include "../log/logger.h"
-#include "../model/game.h"
-#include "../gfx/game_window.h"
 
 #include "../remote_client/remote_client.h"
 #include "../remote_board/remote_board.h"
+
 #include "../server/server.h"
 
 using namespace std;
@@ -51,7 +56,9 @@ int main(int argc, char* argv[]) {
 		Server server(game, serverParser);
 		if (client) {
 			// Acá estamos levantando el cliente. Lo siguiente en realidad es un RemoteBoard que se conecta por TCP/IP al daemon
-			game.setBoard(make_shared<RemoteBoard>(rulesetParser));
+			ClientParser clientParser(CLIENT_SERVER_CONFIG_FILE_PATH, CLIENT_SERVER_CONFIG_FILE_PATH_DEFAULT);
+			clientParser.parse();
+			game.setBoard(make_shared<RemoteBoard>(rulesetParser, clientParser));
 		} else {
 			ScenarioParser scenarioParser(SCENARIO_CONFIG_FILE_PATH, SCENARIO_CONFIG_FILE_PATH_DEFAULT);
 			scenarioParser.parse();

@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "../model/board.h"
+#include "../parser_yaml/client_parser.h"
 #include "../socket/socket.h"
 
 class RemoteBoard : public ABoard {
@@ -12,7 +13,7 @@ class RemoteBoard : public ABoard {
 		std::shared_ptr<Socket> socket;
 		void updateResources(std::string playerName);
 	public:
-		RemoteBoard(RulesetParser& rulesetParser);
+		RemoteBoard(RulesetParser& rulesetParser, ClientParser& clientParser);
 		~RemoteBoard();
 
 		void update();

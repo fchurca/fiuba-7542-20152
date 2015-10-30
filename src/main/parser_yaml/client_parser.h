@@ -9,13 +9,12 @@
 #include "../log/logger.h"
 
 struct TagClientConfiguration {
-	std::string server_ip;
-	unsigned int server_port;
+	std::string address;
+	unsigned int port;
 };
 
 
-class ClientParser : public GenericParser
-{
+class ClientParser : public GenericParser {
 private:
 	void setClientConfiguration(const YAML::Node& node, TagClientConfiguration& configuration);
 	void setClientConfigurationDefault(TagClientConfiguration& configuration);

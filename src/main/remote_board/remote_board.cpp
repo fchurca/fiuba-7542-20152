@@ -6,6 +6,8 @@
 #include "../model/command.h"
 #include "../model/charnames.h"
 #include "../model/entity.h"
+
+#include "../parser_yaml/client_parser.h"
 #include "../parser_yaml/ruleset_parser.h"
 
 using namespace std;
@@ -13,7 +15,7 @@ using namespace charnames;
 
 #include <iostream>
 
-RemoteBoard::RemoteBoard(RulesetParser& rulesetParser) :
+RemoteBoard::RemoteBoard(RulesetParser& rulesetParser, ClientParser& clientParser) :
 	ABoard(rulesetParser,
 			"Loading...",
 			0, 0, 0)
@@ -23,7 +25,8 @@ RemoteBoard::RemoteBoard(RulesetParser& rulesetParser) :
 	Logger::getInstance()->writeInformation(message.str());
 
 	socket = Socket::create();
-	if (!socket->Connect("127.0.0.1", 8001)) {
+	auto conf = clientParser.getClientConfiguracion();
+	if (!socket->Connect(conf.address, conf.port)) {
 		cerr << "Could not connect!" << endl;
 	}
 	if(!socket->flushIn()) {

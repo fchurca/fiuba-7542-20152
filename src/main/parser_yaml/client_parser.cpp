@@ -2,7 +2,8 @@
 
 using namespace std;
 
-ClientParser::ClientParser(std::string filename, std::string filenameDefault) : GenericParser(filename, filenameDefault) {
+ClientParser::ClientParser(std::string filename, std::string filenameDefault) :
+	GenericParser(filename, filenameDefault) {
 }
 
 ClientParser::~ClientParser(void) {
@@ -31,13 +32,13 @@ TagClientConfiguration ClientParser::getClientConfiguracion() {
 
 void ClientParser::setClientConfiguration(const YAML::Node& node, TagClientConfiguration& configuration) {
 	if (node.Type() == YAML::NodeType::Map) {
-		if (!obtenerValorScalarAlfaNumerico(node, "server_ip", configuration.server_ip)) {
+		if (!obtenerValorScalarAlfaNumerico(node, "server_ip", configuration.address)) {
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (server_ip).");
-			configuration.server_ip = CLIENT_SERVER_IP_DEFAULT;
+			configuration.address = CLIENT_SERVER_IP_DEFAULT;
 		}
-		if (!obtenerValorScalarNumericoPositivo(node, "server_port", configuration.server_port)) {
+		if (!obtenerValorScalarNumericoPositivo(node, "server_port", configuration.port)) {
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (server_port).");
-			configuration.server_port = CLIENT_SERVER_PORT_DEFAULT;
+			configuration.port = CLIENT_SERVER_PORT_DEFAULT;
 		}
 	}
 	else {
@@ -47,6 +48,7 @@ void ClientParser::setClientConfiguration(const YAML::Node& node, TagClientConfi
 }
 
 void ClientParser::setClientConfigurationDefault(TagClientConfiguration& configuration) {
-	configuration.server_ip = CLIENT_SERVER_IP_DEFAULT;
-	configuration.server_port = CLIENT_SERVER_PORT_DEFAULT;
+	configuration.address = CLIENT_SERVER_IP_DEFAULT;
+	configuration.port = CLIENT_SERVER_PORT_DEFAULT;
 }
+
