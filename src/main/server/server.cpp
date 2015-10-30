@@ -1,10 +1,6 @@
 //-----------------------------------------------------------------------------
 #include "server.h"
-#include "clientconexion.h"
 #include "../socket/socket.h"
-#ifndef _WIN32
-#include "../socket/posix/posixsocket.h"
-#endif // ! _WIN32
 #include "../model/game.h"
 #include "../remote_client/remote_client.h"
 
@@ -16,7 +12,7 @@ using namespace std;
 //-----------------------------------------------------------------------------
 Server::Server(Game& game) :
 	port(8001),
-	ip("127.0.0.1"),
+	address("127.0.0.1"),
 	max_clients(4),
 	status(false),
 	socket(nullptr),
@@ -24,14 +20,6 @@ Server::Server(Game& game) :
 {
 }
 
-Server::Server(Configuration* config, Game& game) : game(game) {
-	this->port = std::stoi(config->port);
-	this->ip = config->ip;
-	this->max_clients = config->max_clients;
-	this->status = false;
-	this->socket = 0;
-
-}
 //-----------------------------------------------------------------------------
 Server::~Server() {
 	stop();
@@ -77,7 +65,6 @@ bool Server::init() {
 	}
 
 	if (!status) {
-		cerr << "Could not open a new socket at " << ip << ":" << port << endl;
 		return false;
 	}
 

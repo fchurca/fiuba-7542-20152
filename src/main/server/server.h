@@ -7,14 +7,11 @@
 #include "../socket/socket.h"
 #include "../model/game.h"
 //-----------------------------------------------------------------------------
-#include "configuration.h"
-#include "clientconexion.h"
-//-----------------------------------------------------------------------------
 class Server {
 
 private:
 	bool status;
-	std::string ip;
+	std::string address;
 	int port;
 	int max_clients;
 	std::shared_ptr<Socket> socket;
@@ -23,7 +20,6 @@ private:
 
 public:
 	Server(Game& game);
-	Server(Configuration* config, Game& game);
 	virtual ~Server();
 
 public:
@@ -31,9 +27,6 @@ public:
 	void stop();
 	void start();
 	void run();
-
-private:
-	std::vector<ClientConexion*> adminClients;
 
 public:
 	bool isActive();
