@@ -30,8 +30,8 @@ class Socket {
 		virtual bool Connect(std::string hostIP, int hostPort) = 0;
 		virtual bool Listen(unsigned int port, int maxConnections) = 0;
 		virtual std::shared_ptr<Socket> Accept() = 0;
-		virtual int Send(const void* data, int dataLenght) = 0;
-		virtual int Recv(void* data, int dataLenght) = 0;
+		virtual ssize_t Send(const void* data, size_t dataLenght) = 0;
+		virtual ssize_t Recv(void* data, size_t dataLenght) = 0;
 		virtual bool IsActive() = 0;
 		virtual void Activate() = 0;
 		virtual void deinit() = 0;

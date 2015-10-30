@@ -23,8 +23,8 @@ public:
 	bool Connect(std::string hostIp, int hostPort);
 	bool Listen(unsigned int port, int maxConnections);
 	std::shared_ptr<Socket> Accept();
-	int Send(const void* data, int dataLenght);
-	int Recv(void* data, int dataLenght);
+	ssize_t Send(const void* data, size_t dataLenght);
+	ssize_t Recv(void* data, size_t dataLenght);
 	bool IsActive();
 	void Activate();
 	void deinit();

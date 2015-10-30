@@ -21,13 +21,10 @@ PosixSocket::PosixSocket() {
 
 //-----------------------------------------------------------------------------
 PosixSocket::~PosixSocket() {
-	if(close(sockfd) == -1) {
-		std::cerr << "ERROR: No se ha podido cerrar el socket." << std::endl;
-	}
+	deinit();
 }
 //-----------------------------------------------------------------------------
 bool PosixSocket::Connect(std::string hostIp,int hostPort){
-	cerr << "connect()" << endl;
 	// Usamos connect cuando tenemos que conectarnos a un server
 
 	// Obtenemos host
@@ -55,11 +52,11 @@ bool PosixSocket::Connect(std::string hostIp,int hostPort){
 	return true;
 }
 //-----------------------------------------------------------------------------
-bool PosixSocket::Listen(unsigned int port, int maxConnections)
-{
+bool PosixSocket::Listen(unsigned int port, int maxConnections) {
 	cerr << "listen()" << endl;
-	if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+	if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
 		return false;
+	}
 
 	status =  true;
 
@@ -68,25 +65,19 @@ bool PosixSocket::Listen(unsigned int port, int maxConnections)
 
 	sockaddr.sin_addr.s_addr = htonl(INADDR_ANY);
 
-	if(	bind(sockfd,
-			(struct sockaddr *)&sockaddr,
-			sizeof(sockaddr)) < 0)
-	{
+	if(bind(sockfd, (struct sockaddr *)&sockaddr, sizeof(sockaddr)) < 0) {
 		return false;
 	}
 
 	// Comenzamos la escucha
-	if ( listen(sockfd, maxConnections) < 0)
-	{
+	if(listen(sockfd, maxConnections) < 0) {
 		return false;
 	}
 
 	return true;
 }
 //-----------------------------------------------------------------------------
-shared_ptr<Socket> PosixSocket::Accept()
-{
-	cerr << "accept()" << endl;
+shared_ptr<Socket> PosixSocket::Accept() {
 	unsigned sin_size = sizeof(struct sockaddr_in);
 	//Revisar
 	auto socket_client = make_shared<PosixSocket>();
@@ -95,58 +86,47 @@ shared_ptr<Socket> PosixSocket::Accept()
 
 	socket_client->sockfd = sockfd_client;
 	// Corroboramos si no se cerró el socket
-	if(status != 1) return nullptr;
+	if(status != 1) {
+		return nullptr;
+	}
 
 	return socket_client;
 
 }
 //-----------------------------------------------------------------------------
-int PosixSocket::Send(const void* data, int dataLenght)
-{
+ssize_t PosixSocket::Send(const void* data, size_t dataLenght) {
 	cerr << "send()" << endl;
 	// Cantidad de bytes que han sido enviados
-	int total_bytes = 0;
-	// Cantidad de bytes que faltan enviar
-	int residuary_bytes = dataLenght;
-	// Variable auxiliar
-	int n;
+	size_t total_bytes = 0;
 
-	while(residuary_bytes > 0)
-	{
+	for(ssize_t n = 0; total_bytes < dataLenght; total_bytes += n) {
 		// Realizamos envío de bytes
-		n = send(sockfd, (char *) data + total_bytes, residuary_bytes, 0);
+		n = send(sockfd, (char *) data + total_bytes, dataLenght - total_bytes, 0);
 
-		if(n == -1)	return -1;
-
-		total_bytes += n;
-		residuary_bytes -= n;
+		if(n < 0) {
+			return n;
+		}
 	}
 
-	return 0;
+	return total_bytes;
 
 }
 //-----------------------------------------------------------------------------
-int PosixSocket::Recv(void* data, int dataLenght)
-{
-	cerr << "receive()" << endl;
-	//REVISAR
-	//memset(data, '\0', dataLenght);
-	// Recibimos datos en buffer
+ssize_t PosixSocket::Recv(void* data, size_t dataLenght) {
+	memset(data, '\0', dataLenght);
 	return recv(sockfd, data, dataLenght, 0);
 }
 //-----------------------------------------------------------------------------
-bool PosixSocket::IsActive()
-{
+bool PosixSocket::IsActive() {
 	return status;
 }
 //-----------------------------------------------------------------------------
-void PosixSocket::deinit()
-{
+void PosixSocket::deinit() {
 	this->status = false;
+	close(sockfd);
 }
 //-----------------------------------------------------------------------------
-void PosixSocket::Activate()
-{
+void PosixSocket::Activate() {
 	this->status = true;
 }
 //-----------------------------------------------------------------------------
