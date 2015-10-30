@@ -37,8 +37,7 @@ Server::~Server() {
 	stop();
 }
 //----------------------------------------------------------------------------
-bool Server::isActive()
-{
+bool Server::isActive() {
 	return this->status && !game.willExit();
 }
 //-----------------------------------------------------------------------------
@@ -46,39 +45,33 @@ void Server::start() {
 	th = thread(&Server::run, this);
 }
 
-void Server::run()
-{
-	cerr << "Server::run()" << endl;
-	while(this->isActive())
-	{
+void Server::run() {
+	while(this->isActive()) {
 		shared_ptr<Socket> socketCLI;
 
 		// Aceptamos nuevo cliente accept es bloqueante
 		//cuando se recibe un nuevo cliente, se genera una conexion para atenderlo y se lo carga en el vector
 		//de conexiones
 
-		// Fede, en este punto es donde si queres la conexion puede ser un "Cliente... y tener logica"
-		//Osea cambiamos esa clase a lo que modela el cliente en el servidor y usa sockets para comunicacion
 		socketCLI = this->socket->Accept();
 
-		//Si hubo problemas en el socket salir y loggear
-		if(!this->socket->IsActive() || !socketCLI) break;
-
-		// Generamos una nueva conexión para ese cliente
-		auto player = game.getAvailablePlayer();
-		if (player) {
-			game.addClient(make_shared<RemoteClient>(game, *player, socketCLI));
+		if(socketCLI) {
+			// Generamos una nueva conexión para ese cliente
+			auto player = game.getAvailablePlayer();
+			if (player) {
+				game.addClient(make_shared<RemoteClient>(game, *player, socketCLI));
+			}
+		} else {
+			//Si hubo problemas en el socket salir y loggear
+			stop();
 		}
 	}
-
 }
 //-----------------------------------------------------------------------------
-bool Server::init()
-{
+bool Server::init() {
 	this->socket = Socket::create();
 
-	if(this->socket->Listen(this->port,this->max_clients))
-	{
+	if(this->socket->Listen(this->port,this->max_clients)) {
 		// si se establece el listen el server queda levantado
 		this->status = true;
 	}
@@ -93,8 +86,7 @@ bool Server::init()
 	return true;
 }
 //-----------------------------------------------------------------------------
-void Server::stop()
-{
+void Server::stop() {
 	//Cambio el estado del server
 	if (status) {
 		this->status = false;
