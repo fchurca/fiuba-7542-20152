@@ -188,4 +188,5 @@ bool RemoteBoard::flushOut() {
 	if(!socket->flushOut()) {
 		return false;
 	}
+	return true;
 }
