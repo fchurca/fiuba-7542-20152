@@ -97,7 +97,7 @@ RemoteBoard::RemoteBoard(RulesetParser& rulesetParser, ClientParser& clientParse
 
 RemoteBoard::~RemoteBoard() {
 	*socket << 'L';
-	socket->flushOut();
+	flushOut();
 	stringstream message;
 	message << "Killing RemoteBoard " << this;
 	Logger::getInstance()->writeInformation(message.str());
@@ -114,45 +114,48 @@ void RemoteBoard::update() {
 		e->update();
 	}
 	*socket << 'U' << frame;
-	socket->flushOut();
-	char ackSink = nul;
-	*socket >> ackSink;
-	if(ackSink == ack) {
-		*socket >> frame;
-		char next = nul;
-		do {
-			*socket >> next;
-			switch (next) {
-				case 'E':
-					{
-						size_t id, f;
-						string ename, owner;
-						r2 pos;
-						double orientation;
-						*socket >> id >> ename >> owner >> f >> pos.x >> pos.y >> orientation;
-						auto e = findEntity(id);
-						e->setFrame(f);
-						e->setPosition(pos);
-						e->setOrientation(orientation);
-					}
-					break;
-				case 'D':
-					{
-						size_t id;
-						*socket >> id;
-						auto e = findEntity(id);
-						e->setDeletable();
-					}
-					break;
-				case 'P':
-					{
-						string pname;
-						*socket >> pname;
-						updateResources(pname);
-					}
-					break;
-			}
-		} while(next != eot);
+	if(flushOut()) {
+		char ackSink = nul;
+		*socket >> ackSink;
+		if(ackSink == ack) {
+			*socket >> frame;
+			char next = nul;
+			do {
+				*socket >> next;
+				switch (next) {
+					case 'E':
+						{
+							size_t id, f;
+							string ename, owner;
+							r2 pos;
+							double orientation;
+							*socket >> id >> ename >> owner >> f >> pos.x >> pos.y >> orientation;
+							auto e = findEntity(id);
+							e->setFrame(f);
+							e->setPosition(pos);
+							e->setOrientation(orientation);
+						}
+						break;
+					case 'D':
+						{
+							size_t id;
+							*socket >> id;
+							auto e = findEntity(id);
+							e->setDeletable();
+						}
+						break;
+					case 'P':
+						{
+							string pname;
+							*socket >> pname;
+							updateResources(pname);
+						}
+						break;
+				}
+			} while(next != eot);
+		}
+	} else {
+		cerr << "Server died!" << endl;
 	}
 }
 
@@ -172,12 +175,17 @@ void RemoteBoard::updateResources(string playerName) {
 
 void RemoteBoard::execute(StopCommand& command) {
 	*socket << 'S' << command.entityId;
-	socket->flushOut();
+	flushOut();
 }
 
 void RemoteBoard::execute(MoveCommand& command) {
 	*socket << 'M' << command.entityId
 		<< command.position.x << command.position.y;
-	socket->flushOut();
+	flushOut();
 }
 
+bool RemoteBoard::flushOut() {
+	if(!socket->flushOut()) {
+		return false;
+	}
+}

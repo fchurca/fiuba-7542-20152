@@ -12,6 +12,7 @@ class RemoteBoard : public ABoard {
 	protected:
 		std::shared_ptr<Socket> socket;
 		void updateResources(std::string playerName);
+		bool flushOut();
 	public:
 		RemoteBoard(RulesetParser& rulesetParser, ClientParser& clientParser);
 		~RemoteBoard();

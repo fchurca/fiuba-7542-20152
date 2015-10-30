@@ -53,10 +53,12 @@ bool Socket::oFlushIn() {
 	return ret;
 }
 
-void Socket::flushOut() {
+bool Socket::flushOut() {
 	*this << eot;
-	Send((void *)outBuffer.data(), outBuffer.size());
+	auto oldSize = outBuffer.size();
+	auto sent = Send((void *)outBuffer.data(), oldSize);
 	outBuffer.clear();
+	return sent == oldSize;
 }
 
 Socket& Socket::operator<<(char c) {

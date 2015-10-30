@@ -56,7 +56,7 @@ class Socket {
 
 		bool flushIn();
 		bool oFlushIn();
-		void flushOut();
+		bool flushOut();
 };
 
 
