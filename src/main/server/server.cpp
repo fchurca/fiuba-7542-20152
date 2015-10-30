@@ -20,6 +20,15 @@ Server::Server(Game& game) :
 {
 }
 
+Server::Server(Game& game, ServerParser& parser) :
+	status(false),
+	socket(nullptr),
+	game(game),
+	port(parser.getServerConfiguration().port),
+	address(parser.getServerConfiguration().ip),
+	max_clients(parser.getServerConfiguration().max_clients)
+{
+}
 //-----------------------------------------------------------------------------
 Server::~Server() {
 	stop();

@@ -2,10 +2,12 @@
 #ifndef MAIN_SERVER_SRC_SERVER_H_
 #define MAIN_SERVER_SRC_SERVER_H_
 //-----------------------------------------------------------------------------
-#include <thread>
 #include <memory>
-#include "../socket/socket.h"
+#include <thread>
+
 #include "../model/game.h"
+#include "../parser_yaml/server_parser.h"
+#include "../socket/socket.h"
 //-----------------------------------------------------------------------------
 class Server {
 
@@ -20,6 +22,7 @@ private:
 
 public:
 	Server(Game& game);
+	Server(Game& game, ServerParser& parser);
 	virtual ~Server();
 
 public:

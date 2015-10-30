@@ -41,18 +41,20 @@ int main(int argc, char* argv[]) {
 
 	bool restart = true;
 	do {
-		Game game;
-		Server server(game);
-		ScenarioParser scenarioParser(SCENARIO_CONFIG_FILE_PATH, SCENARIO_CONFIG_FILE_PATH_DEFAULT);
-		GraphicsParser graphicsParser(GRAPHICS_CONFIG_FILE_PATH, GRAPHICS_CONFIG_FILE_PATH_DEFAULT);
 		RulesetParser rulesetParser(RULESET_CONFIG_FILE_PATH, RULESET_CONFIG_FILE_PATH_DEFAULT);
-		scenarioParser.parse();
-		graphicsParser.parse();
 		rulesetParser.parse();
+
+		Game game;
+
+		ServerParser serverParser(SERVER_CONFIG_FILE_PATH, SERVER_CONFIG_FILE_PATH_DEFAULT);
+		serverParser.parse();
+		Server server(game, serverParser);
 		if (client) {
 			// Acá estamos levantando el cliente. Lo siguiente en realidad es un RemoteBoard que se conecta por TCP/IP al daemon
 			game.setBoard(make_shared<RemoteBoard>(rulesetParser));
 		} else {
+			ScenarioParser scenarioParser(SCENARIO_CONFIG_FILE_PATH, SCENARIO_CONFIG_FILE_PATH_DEFAULT);
+			scenarioParser.parse();
 			game.setBoard(make_shared<SmartBoard>(rulesetParser, scenarioParser));
 		}
 		if (daemon) {
@@ -61,6 +63,8 @@ int main(int argc, char* argv[]) {
 		}
 		auto graphicPlayer = game.getAvailablePlayer();
 		if (graphicPlayer) {
+			GraphicsParser graphicsParser(GRAPHICS_CONFIG_FILE_PATH, GRAPHICS_CONFIG_FILE_PATH_DEFAULT);
+			graphicsParser.parse();
 			game.addClient(make_shared<GameWindow>(game, *(graphicPlayer), graphicsParser, rulesetParser));
 		}
 		game.start();

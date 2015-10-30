@@ -1,8 +1,0 @@
-configuration:
-    ip: localhost
-    port: 8001
-    max_clients: 10
-paths:
-    original_path: C://original.yaml
-    default_path: C://default.yaml
- 
