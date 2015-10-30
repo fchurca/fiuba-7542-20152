@@ -58,7 +58,6 @@ int main(int argc, char* argv[]) {
 			game.setBoard(make_shared<SmartBoard>(rulesetParser, scenarioParser));
 		}
 		if (daemon) {
-			// Acá estamos levantando el server. Todo el siguiente bloque es por cliente nuevo
 			server.init();
 		}
 		auto graphicPlayer = game.getAvailablePlayer();
