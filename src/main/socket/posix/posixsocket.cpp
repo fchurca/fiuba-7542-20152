@@ -1,17 +1,14 @@
 //-----------------------------------------------------------------------------
-#include "posixsocket.h"
-#include <stdlib.h>
-#include <iostream>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
-#include <sys/wait.h>
-#include <signal.h>
-#include <netdb.h>
-
 #include <cstring>
-
 #include <iostream>
+
+#include <netdb.h>
+#include <unistd.h>
+#include <sys/socket.h>
+
+#include "posixsocket.h"
+
+
 using namespace std;
 
 shared_ptr<Socket> Socket::create() {
@@ -20,13 +17,13 @@ shared_ptr<Socket> Socket::create() {
 
 //-----------------------------------------------------------------------------
 PosixSocket::PosixSocket() {
-
 }
 
 //-----------------------------------------------------------------------------
 PosixSocket::~PosixSocket() {
-	//if(close(sockfd) == -1)
-	//		std::cerr << "ERROR: No se ha podido cerrar el socket." << std::endl
+	if(close(sockfd) == -1) {
+		std::cerr << "ERROR: No se ha podido cerrar el socket." << std::endl;
+	}
 }
 //-----------------------------------------------------------------------------
 bool PosixSocket::Connect(std::string hostIp,int hostPort){

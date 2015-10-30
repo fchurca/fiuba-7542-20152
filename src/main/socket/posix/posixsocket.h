@@ -2,14 +2,12 @@
 #ifndef SRC_MAIN_SOCKET_POSIX_POSIXSOCKET_H_
 #define SRC_MAIN_SOCKET_POSIX_POSIXSOCKET_H_
 //-----------------------------------------------------------------------------
-#include <string>
 #include <memory>
+#include <string>
+
 #include "../socket.h"
 //-----------------------------------------------------------------------------
-#include <sys/socket.h>
-#include <sys/types.h>
-#include <netinet/in.h>
-//-----------------------------------------------------------------------------
+
 class PosixSocket : public Socket {
 private:
 	int sockfd;
