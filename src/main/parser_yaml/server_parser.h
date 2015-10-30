@@ -17,22 +17,14 @@ struct TagServerConfiguration {
 	unsigned int max_clients;
 };
 
-struct TagServerPaths {
-	std::string original_path;
-	std::string default_path;
-};
-
 class ServerParser : public GenericParser{
 private:
 	void setServerConfiguration(const YAML::Node& node, TagServerConfiguration& configuration);
 	void setServerConfigurationDefault(TagServerConfiguration& configuration);
-	void setServerPaths(const YAML::Node& node, TagServerPaths& paths);
-	void setServerPathsDefault(TagServerPaths& paths);
 
 public:
 	ServerParser(std::string filename, std::string filenameDefault);
 	TagServerConfiguration getServerConfiguration();
-	TagServerPaths getServerPaths();
 	~ServerParser(void);
 };
 
