@@ -36,11 +36,10 @@ int main(int argc, char* argv[]) {
 				client = true;
 				logger.writeInformation("Starting game as client");
 				break;
-			default:
-				standalone = true;
-				logger.writeInformation("Starting game as standalone");
-				break;
 		}
+	} else {
+		standalone = true;
+		logger.writeInformation("Starting game as standalone");
 	}
 
 	bool restart = true;
@@ -49,10 +48,8 @@ int main(int argc, char* argv[]) {
 		rulesetParser.parse();
 
 		Game game;
+		shared_ptr<Server> server = nullptr;
 
-		ServerParser serverParser(SERVER_CONFIG_FILE_PATH, SERVER_CONFIG_FILE_PATH_DEFAULT);
-		serverParser.parse();
-		Server server(game, serverParser);
 		if (client) {
 			// Acá estamos levantando el cliente. Lo siguiente en realidad es un RemoteBoard que se conecta por TCP/IP al daemon
 			ClientParser clientParser(CLIENT_SERVER_CONFIG_FILE_PATH, CLIENT_SERVER_CONFIG_FILE_PATH_DEFAULT);
@@ -64,7 +61,10 @@ int main(int argc, char* argv[]) {
 			game.setBoard(make_shared<SmartBoard>(rulesetParser, scenarioParser));
 		}
 		if (daemon) {
-			server.init();
+			ServerParser serverParser(SERVER_CONFIG_FILE_PATH, SERVER_CONFIG_FILE_PATH_DEFAULT);
+			serverParser.parse();
+			server = make_shared<Server>(game, serverParser);
+			server->init(); // TODO: Delay until game.start()
 		}
 		auto graphicPlayer = game.getAvailablePlayer();
 		if (graphicPlayer) {
