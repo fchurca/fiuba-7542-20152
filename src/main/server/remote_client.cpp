@@ -89,12 +89,10 @@ void RemoteClient::run() {
 				double x, y;
 				char eotSink;
 				*socket >> i >> x >> y >> eotSink;
-				if (!this->owner.willExit()) {
-					auto e = board.findEntity(i);
-					if (e) {
-						if (&(e->owner) == &(this->player)) {
-							board.pushCommand(make_shared<MoveCommand>(e->getId(), r2(x, y)));
-						}
+				auto e = board.findEntity(i);
+				if (e) {
+					if (&(e->owner) == &(this->player)) {
+						board.pushCommand(make_shared<MoveCommand>(e->getId(), r2(x, y)));
 					}
 				}
 			}
