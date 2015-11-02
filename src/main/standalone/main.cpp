@@ -14,8 +14,7 @@
 #include "../parser_yaml/ruleset_parser.h"
 #include "../parser_yaml/scenario_parser.h"
 
-#include "../remote_client/remote_client.h"
-#include "../remote_board/remote_board.h"
+#include "../client/remote_board.h"
 
 #include "../server/server.h"
 

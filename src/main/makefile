@@ -7,7 +7,7 @@ all: bin/tp7542_standalone
 bin/tp7542_standalone: bin/standalone_main.o bin/geometry.o bin/logger.o bin/game_window.o bin/game_timer.o bin/controller.o bin/board.o bin/entity.o bin/sprite_sheet.o bin/game.o bin/entity_factory.o bin/player.o bin/abstract_client.o bin/remote_client.o bin/command.o bin/minimap.o bin/generic_parser.o bin/client_parser.o bin/graphics_parser.o bin/ruleset_parser.o bin/scenario_parser.o bin/server_parser.o bin/server.o bin/posix_socket.o bin/isoview.o bin/remote_board.o bin/menu.o bin/socket.o
 	$(CXX) -o $@ -lyaml-cpp -lSDL2 -lSDL2_image -lSDL2_ttf $^
 
-bin/standalone_main.o: standalone/main.cpp remote_client/remote_client.h
+bin/standalone_main.o: standalone/main.cpp server/remote_client.h
 	${CXXO}
 
 bin/geometry.o: model/geometry.cpp model/geometry.h
@@ -52,7 +52,7 @@ bin/controller.o: controllers/event_handler.cpp controllers/event_handler.h
 bin/board.o: model/board.cpp model/board.h model/entity.h model/entity_factory.h model/player.h
 	${CXXO}
 
-bin/remote_board.o: remote_board/remote_board.cpp remote_board/remote_board.h model/board.h
+bin/remote_board.o: client/remote_board.cpp client/remote_board.h model/board.h
 	${CXXO}
 
 bin/entity.o: model/entity.cpp model/entity.h model/geometry.h
@@ -73,7 +73,7 @@ bin/player.o: model/player.cpp model/player.h
 bin/abstract_client.o: model/abstract_client.cpp model/abstract_client.h model/player.h
 	${CXXO}
 
-bin/remote_client.o: remote_client/remote_client.cpp remote_client/remote_client.h
+bin/remote_client.o: server/remote_client.cpp server/remote_client.h
 	${CXXO}
 
 bin/command.o: model/command.cpp model/command.h model/board.h

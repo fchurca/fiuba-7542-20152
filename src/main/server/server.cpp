@@ -2,7 +2,7 @@
 #include "server.h"
 #include "../socket/socket.h"
 #include "../model/game.h"
-#include "../remote_client/remote_client.h"
+#include "remote_client.h"
 
 #include <iostream>
 
