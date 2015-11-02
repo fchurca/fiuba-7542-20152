@@ -15,7 +15,7 @@
 class ABoard;
 class ResourceEntity;
 
-class Entity : public IdMixin {
+class Entity : public IdMixin, public FrameMixin {
 	protected:
 		r2 position;	// Position (tile)
 		double speed;	// Speed (tiles/s)
@@ -23,7 +23,6 @@ class Entity : public IdMixin {
 		bool deletable;
 		bool solid;
 		double orientation;
-		size_t frame;
 		bool adjustPosition();
 		Entity();
 		virtual void collide(Entity* other);
@@ -62,7 +61,6 @@ class Entity : public IdMixin {
 
 		void update();
 
-		size_t getFrame();
 		void setFrame(size_t newFrame);
 
 		bool operator==(Entity& other);

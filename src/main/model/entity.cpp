@@ -288,9 +288,6 @@ void Entity::setFrame() {
 	setFrame(board.getFrame());
 }
 
-size_t Entity::getFrame() {
-	return frame;
-}
 void Entity::setFrame(size_t newFrame) {
 	frame = newFrame;
 }

@@ -9,6 +9,7 @@
 #include <queue>
 //-----------------------------------------------------------------------------
 #include "command.h"
+#include "mixins.h"
 #include "player.h"
 #include "../log/logger.h"
 
@@ -17,13 +18,12 @@ class EntityFactory;
 class ScenarioParser;
 class RulesetParser;
 
-class ABoard {
+class ABoard : public FrameMixin {
 	protected:
 		std::map<std::string, std::shared_ptr<Player>> players;
 		std::map<std::string, std::shared_ptr<EntityFactory>> entityFactories;
 		std::vector<std::shared_ptr<Entity>> entities;
 		std::vector<std::shared_ptr<Entity>> terrain;
-		size_t frame;
 		std::queue<std::shared_ptr<Command>> commands;
 		std::mutex commandMutex;
 	public:
@@ -46,7 +46,6 @@ class ABoard {
 		template<typename F> void mapEntities(F fun);
 		template<typename Pred>
 			std::vector<std::shared_ptr<Entity>> selectEntities(Pred pred);
-		size_t getFrame();
 		std::shared_ptr<Entity> findEntity(size_t id);
 		std::shared_ptr<Entity> findEntity(rectangle r);
 		std::shared_ptr<Entity> findEntity(r2 pos);

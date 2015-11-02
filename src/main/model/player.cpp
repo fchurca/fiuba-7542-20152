@@ -85,10 +85,6 @@ void Player::setFrame() {
 	frame = board.getFrame();
 }
 
-size_t Player::getFrame() {
-	return frame;
-}
-
 void Player::setActive(bool newActive) {
 	active = newActive;
 }

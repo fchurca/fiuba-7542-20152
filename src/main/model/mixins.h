@@ -3,13 +3,21 @@
 
 #include <cstdint>
 
+class FrameMixin {
+	protected:
+		std::size_t frame;
+		FrameMixin();
+	public:
+		std::size_t getFrame();
+};
+
 class IdMixin {
 	protected:
 		std::size_t id;
 		IdMixin();
 	public:
-		std::size_t getId();
-		void setId(std::size_t newId);
+		virtual std::size_t getId();
+		virtual void setId(std::size_t newId);
 };
 
 #endif // __MODEL_MIXINS_H__

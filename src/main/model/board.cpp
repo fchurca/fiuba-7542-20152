@@ -15,8 +15,7 @@ ABoard::ABoard(RulesetParser& rulesetParser, string name, int sizeX, int sizeY, 
 	dt(rulesetParser.getConfiguracion().dt),
 	name(name),
 	sizeX(sizeX), sizeY(sizeY),
-	maxResources(maxResources),
-	frame(0)
+	maxResources(maxResources)
 {
 	stringstream message;
 	message << "Creating board " << this << " of size " << sizeX << "x" << sizeY;
@@ -37,10 +36,6 @@ ABoard::ABoard(RulesetParser& rulesetParser, string name, int sizeX, int sizeY, 
 	for (auto& t : rulesetParser.getTiposRecursos()) {
 		createEntityFactory(t.nombre, { t.ancho_base, t.alto_base }, t.speed, t.sight_radius, t.solid, t.capacity);
 	}
-}
-
-size_t ABoard::getFrame() {
-	return frame;
 }
 
 std::vector<std::shared_ptr<Player>> ABoard::getPlayers() {

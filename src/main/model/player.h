@@ -18,11 +18,10 @@ typedef enum {
 	VISIBLE = 2,
 } Visibility;
 
-class Player : public IdMixin {
+class Player : public IdMixin, public FrameMixin {
 	protected:
 		std::vector<Visibility> map_visibility;
 		std::map<std::string, long> resources;
-		size_t frame;
 		void setFrame();
 		bool active;
 	public:
@@ -40,7 +39,6 @@ class Player : public IdMixin {
 		bool setResources(std::string resource, long r);
 		bool getActive();
 		void setActive(bool newActive);
-		size_t getFrame();
 };
 
 #endif
