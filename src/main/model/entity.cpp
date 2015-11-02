@@ -110,6 +110,10 @@ void Entity::addTarget(r2 newTarget) {
 		auto c = open.top();
 		open.pop();
 		auto cpos = c->position;
+		if (cpos.x < 0 || cpos.x >= board.sizeX ||
+				cpos.y < 0 || cpos.y >= board.sizeY) {
+			continue;
+		}
 		if(closed[(int)floor(cpos.x)][(int)floor(cpos.y)]) {
 			continue;
 		}
@@ -122,6 +126,10 @@ void Entity::addTarget(r2 newTarget) {
 		}
 		for(auto y = cpos.y - 1; y <= cpos.y + 1; y++) {
 			for(auto x = cpos.x - 1; x <= cpos.x + 1; x++) {
+				if (x < 0 || x >= board.sizeX ||
+						y < 0 || y >= board.sizeY) {
+					continue;
+				}
 				auto p = r2(x, y);
 				if (p == cpos) {
 					continue;
