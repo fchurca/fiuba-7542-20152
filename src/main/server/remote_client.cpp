@@ -64,7 +64,7 @@ void RemoteClient::run() {
 	*socket << nul;
 	socket->flushOut();
 	char command = nul;
-	while (!(command == 'L' || this->owner.willExit())) {
+	while (!(command == 'L' || !socket->IsActive() || this->owner.willExit())) {
 		cerr << "Listening to new command..." << endl;
 		*socket >> command;
 		switch (command) {

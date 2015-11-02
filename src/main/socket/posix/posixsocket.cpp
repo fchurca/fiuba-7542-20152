@@ -49,6 +49,8 @@ bool PosixSocket::Connect(std::string hostIp,int hostPort){
 		return false;
 	}
 
+	Activate();
+
 	return true;
 }
 //-----------------------------------------------------------------------------
@@ -58,7 +60,7 @@ bool PosixSocket::Listen(unsigned int port, int maxConnections) {
 		return false;
 	}
 
-	status =  true;
+	Activate();
 
 	sockaddr.sin_family = AF_INET;
 	sockaddr.sin_port = htons(port);
@@ -90,6 +92,8 @@ shared_ptr<Socket> PosixSocket::Accept() {
 		return nullptr;
 	}
 
+	socket_client->Activate();
+
 	return socket_client;
 
 }
@@ -101,9 +105,10 @@ ssize_t PosixSocket::Send(const void* data, size_t dataLenght) {
 
 	for(ssize_t n = 0; total_bytes < dataLenght; total_bytes += n) {
 		// Realizamos envío de bytes
-		n = send(sockfd, (char *) data + total_bytes, dataLenght - total_bytes, 0);
+		n = send(sockfd, (char *) data + total_bytes, dataLenght - total_bytes, MSG_NOSIGNAL);
 
 		if(n < 0) {
+			deinit();
 			return n;
 		}
 	}

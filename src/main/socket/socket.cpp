@@ -32,7 +32,7 @@ bool Socket::flushIn() {
 		} else {
 			cont = false;
 			if (size < 0) {
-				status = false;
+				deinit();
 				cerr << "Error in connection!";
 			} else {
 				cerr << "Empty partial";
