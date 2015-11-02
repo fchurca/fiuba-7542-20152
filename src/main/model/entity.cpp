@@ -73,14 +73,12 @@ class compare {
 };
 
 void Entity::addTarget(r2 newTarget) {
+	newTarget.x = clip(newTarget.x, 0, board.sizeX);
+	newTarget.y = clip(newTarget.y, 0, board.sizeY);
 	auto round = [](r2 a) {return r2(floor(a.x)+.5, floor(a.y)+.5);};
 	r2
 		end = round(targeted() ? waypoints.back() : position),
 		start = round(newTarget);
-	if(start.x < 0 || start.x > board.sizeX ||
-			start.y < 0 || start.y > board.sizeY) {
-		return;
-	}
 
 	priority_queue<TSNode, vector<shared_ptr<TSNode>>, compare> open;
 	auto h = [&end](r2& p) {return (p - end).length();};
