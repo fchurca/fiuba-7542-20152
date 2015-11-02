@@ -1,19 +1,17 @@
 #ifndef _MODEL_ABSTRACTCLIENT_H_
 #define _MODEL_ABSTRACTCLIENT_H_
 
+#include "mixins.h"
+
 class Game;
 class Player;
 
-class AClient{
-	protected:
-		bool deletable;
-		void setDeletable();
+class AClient : public DeletableMixin {
 	public:
 		virtual void update() = 0;
 		Game& owner;
 		Player& player;
 		AClient(Game& owner, Player& player);
-		bool getDeletable();
 };
 
 #endif // _MODEL_ABSTRACTCLIENT_H_

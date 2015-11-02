@@ -3,12 +3,21 @@
 
 #include <cstdint>
 
+class DeletableMixin {
+	protected:
+		bool deletable;
+		DeletableMixin();
+	public:
+		virtual void setDeletable();
+		virtual bool getDeletable();
+};
+
 class FrameMixin {
 	protected:
 		std::size_t frame;
 		FrameMixin();
 	public:
-		std::size_t getFrame();
+		virtual std::size_t getFrame();
 };
 
 class IdMixin {

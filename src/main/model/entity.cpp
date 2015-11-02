@@ -11,7 +11,6 @@ using namespace std;
 Entity::Entity(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity) :
 	position(position),
 	speed(speed),
-	deletable(false),
 	orientation(0),
 	size(size),
 	name(name),
@@ -276,12 +275,8 @@ Directions Entity::getDirection(){
 }
 
 void Entity::setDeletable() {
-	deletable = true;
+	DeletableMixin::setDeletable();
 	setFrame();
-}
-
-bool Entity::getDeletable() {
-	return deletable;
 }
 
 void Entity::setFrame() {

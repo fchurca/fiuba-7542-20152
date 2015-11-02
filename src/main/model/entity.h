@@ -15,12 +15,11 @@
 class ABoard;
 class ResourceEntity;
 
-class Entity : public IdMixin, public FrameMixin {
+class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 	protected:
 		r2 position;	// Position (tile)
 		double speed;	// Speed (tiles/s)
 		std::deque<r2> waypoints;
-		bool deletable;
 		bool solid;
 		double orientation;
 		bool adjustPosition();
@@ -51,8 +50,6 @@ class Entity : public IdMixin, public FrameMixin {
 		double getOrientation();
 		void setOrientation(double newOrientation);
 		Directions getDirection();// TODO: Pertenece a vista
-		void setDeletable();
-		bool getDeletable();
 
 		template<typename L> void mapVisible(L fun);
 
@@ -61,6 +58,7 @@ class Entity : public IdMixin, public FrameMixin {
 
 		void update();
 
+		void setDeletable();
 		void setFrame(size_t newFrame);
 
 		bool operator==(Entity& other);

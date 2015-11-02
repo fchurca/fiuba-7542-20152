@@ -2,12 +2,25 @@
 
 using namespace std;
 
+
+DeletableMixin::DeletableMixin() : deletable(false) {}
+
+bool DeletableMixin::getDeletable() {
+	return deletable;
+}
+
+void DeletableMixin::setDeletable() {
+	deletable = true;;
+}
+
+
 FrameMixin::FrameMixin() : frame(0) {
 }
 
 size_t FrameMixin::getFrame() {
 	return frame;
 }
+
 
 IdMixin::IdMixin() {}
 
