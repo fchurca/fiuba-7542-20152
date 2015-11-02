@@ -284,14 +284,6 @@ bool Entity::getDeletable() {
 	return deletable;
 }
 
-size_t Entity::getId() {
-	return id;
-}
-
-void Entity::setId(size_t newId) {
-	id = newId;
-}
-
 void Entity::setFrame() {
 	setFrame(board.getFrame());
 }

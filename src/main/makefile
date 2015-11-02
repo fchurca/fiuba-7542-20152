@@ -4,13 +4,10 @@ CXXO = $(CXX) -o $@ -c $<
 
 all: bin/tp7542_standalone
 
-bin/tp7542_standalone: bin/standalone_main.o bin/geometry.o bin/logger.o bin/game_window.o bin/game_timer.o bin/controller.o bin/board.o bin/entity.o bin/sprite_sheet.o bin/game.o bin/entity_factory.o bin/player.o bin/abstract_client.o bin/remote_client.o bin/command.o bin/minimap.o bin/generic_parser.o bin/client_parser.o bin/graphics_parser.o bin/ruleset_parser.o bin/scenario_parser.o bin/server_parser.o bin/server.o bin/posix_socket.o bin/isoview.o bin/remote_board.o bin/menu.o bin/socket.o
+bin/tp7542_standalone: bin/standalone_main.o bin/geometry.o bin/logger.o bin/game_window.o bin/game_timer.o bin/controller.o bin/board.o bin/entity.o bin/sprite_sheet.o bin/game.o bin/mixins.o bin/entity_factory.o bin/player.o bin/abstract_client.o bin/remote_client.o bin/command.o bin/minimap.o bin/generic_parser.o bin/client_parser.o bin/graphics_parser.o bin/ruleset_parser.o bin/scenario_parser.o bin/server_parser.o bin/server.o bin/posix_socket.o bin/isoview.o bin/remote_board.o bin/menu.o bin/socket.o
 	$(CXX) -o $@ -lyaml-cpp -lSDL2 -lSDL2_image -lSDL2_ttf $^
 
 bin/standalone_main.o: standalone/main.cpp server/remote_client.h
-	${CXXO}
-
-bin/geometry.o: model/geometry.cpp model/geometry.h
 	${CXXO}
 
 bin/isoview.o: gfx/isoview.cpp gfx/isoview.h
@@ -20,6 +17,12 @@ bin/menu.o: gfx/menu.cpp gfx/menu.o
 	${CXXO}
 
 bin/game_window.o: gfx/game_window.cpp gfx/game_window.h model/game.h model/board.h model/entity.h
+	${CXXO}
+
+bin/sprite_sheet.o: gfx/sprite_sheet.cpp gfx/sprite_sheet.h
+	${CXXO}
+
+bin/minimap.o: gfx/minimap.cpp gfx/minimap.h
 	${CXXO}
 
 bin/game_timer.o: gfx/game_timer.cpp gfx/game_timer.h
@@ -49,6 +52,12 @@ bin/server_parser.o: parser_yaml/server_parser.cpp parser_yaml/server_parser.h p
 bin/controller.o: controllers/event_handler.cpp controllers/event_handler.h
 	${CXXO}
 
+bin/mixins.o: model/mixins.cpp model/mixins.h
+	${CXXO}
+
+bin/geometry.o: model/geometry.cpp model/geometry.h
+	${CXXO}
+
 bin/board.o: model/board.cpp model/board.h model/entity.h model/entity_factory.h model/player.h
 	${CXXO}
 
@@ -59,9 +68,6 @@ bin/entity.o: model/entity.cpp model/entity.h model/geometry.h
 	${CXXO}
 
 bin/entity_factory.o: model/entity_factory.cpp model/entity_factory.h model/entity.h
-	${CXXO}
-
-bin/sprite_sheet.o: gfx/sprite_sheet.cpp gfx/sprite_sheet.h
 	${CXXO}
 
 bin/game.o: model/game.cpp model/game.h
@@ -77,9 +83,6 @@ bin/remote_client.o: server/remote_client.cpp server/remote_client.h
 	${CXXO}
 
 bin/command.o: model/command.cpp model/command.h model/board.h
-	${CXXO}
-
-bin/minimap.o: gfx/minimap.cpp gfx/minimap.h
 	${CXXO}
 
 bin/server.o: server/server.cpp server/server.h model/game.h

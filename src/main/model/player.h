@@ -7,6 +7,7 @@
 #include <map>
 
 #include "geometry.h"
+#include "mixins.h"
 
 class ABoard;
 class Entity;
@@ -17,11 +18,10 @@ typedef enum {
 	VISIBLE = 2,
 } Visibility;
 
-class Player {
+class Player : public IdMixin {
 	protected:
 		std::vector<Visibility> map_visibility;
 		std::map<std::string, long> resources;
-		size_t id;
 		size_t frame;
 		void setFrame();
 		bool active;
@@ -38,8 +38,6 @@ class Player {
 		bool canGrantResources(std::string resource, long r);
 		bool grantResources(std::string resource, long r);
 		bool setResources(std::string resource, long r);
-		size_t getId();
-		void setId(size_t newId);
 		bool getActive();
 		void setActive(bool newActive);
 		size_t getFrame();

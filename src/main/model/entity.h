@@ -7,6 +7,7 @@
 
 #include "../defines/defines.h"
 #include "geometry.h"
+#include "mixins.h"
 #include "player.h"
 
 //-----------------------------------------------------------------------------
@@ -14,13 +15,12 @@
 class ABoard;
 class ResourceEntity;
 
-class Entity {
+class Entity : public IdMixin {
 	protected:
 		r2 position;	// Position (tile)
 		double speed;	// Speed (tiles/s)
 		std::deque<r2> waypoints;
 		bool deletable;
-		size_t id;
 		bool solid;
 		double orientation;
 		size_t frame;
@@ -54,8 +54,6 @@ class Entity {
 		Directions getDirection();// TODO: Pertenece a vista
 		void setDeletable();
 		bool getDeletable();
-		size_t getId();
-		void setId(size_t newId);
 
 		template<typename L> void mapVisible(L fun);
 

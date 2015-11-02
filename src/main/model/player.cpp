@@ -81,14 +81,6 @@ bool Player::setResources(std::string resource, long r) {
 	return true;
 }
 
-size_t Player::getId() {
-	return id;
-}
-
-void Player::setId(size_t newId) {
-	id = newId;
-}
-
 void Player::setFrame() {
 	frame = board.getFrame();
 }
