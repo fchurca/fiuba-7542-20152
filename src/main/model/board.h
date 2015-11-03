@@ -33,6 +33,7 @@ class ABoard : public FrameMixin {
 		size_t dt;
 
 		ABoard(RulesetParser& rulesetParser, std::string name, int sizeX, int sizeY, long maxResources);
+		virtual ~ABoard();
 
 		virtual void update();
 		std::shared_ptr<Player> createPlayer(std::string name, bool human);

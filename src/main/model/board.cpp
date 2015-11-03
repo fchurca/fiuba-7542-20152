@@ -38,6 +38,8 @@ ABoard::ABoard(RulesetParser& rulesetParser, string name, int sizeX, int sizeY, 
 	}
 }
 
+ABoard::~ABoard() {}
+
 std::vector<std::shared_ptr<Player>> ABoard::getPlayers() {
 	std::vector<std::shared_ptr<Player>> ret;
 	for(auto& i : players) {

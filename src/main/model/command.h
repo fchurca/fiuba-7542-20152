@@ -9,6 +9,7 @@ class Command {
 	public:
 		const std::size_t entityId;
 		Command(std::size_t entityId);
+		virtual ~Command();
 	// Visitor methods for dispatching execute(board, command)
 		virtual void execute(ABoard& board) = 0;
 };

@@ -8,6 +8,7 @@ class DeletableMixin {
 		bool deletable;
 		DeletableMixin();
 	public:
+		virtual ~DeletableMixin();
 		virtual void setDeletable();
 		virtual bool getDeletable();
 };
@@ -17,6 +18,7 @@ class FrameMixin {
 		std::size_t frame;
 		FrameMixin();
 	public:
+		virtual ~FrameMixin();
 		virtual std::size_t getFrame();
 };
 
@@ -25,6 +27,7 @@ class IdMixin {
 		std::size_t id;
 		IdMixin();
 	public:
+		virtual ~IdMixin();
 		virtual std::size_t getId();
 		virtual void setId(std::size_t newId);
 };

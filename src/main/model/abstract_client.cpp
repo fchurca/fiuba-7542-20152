@@ -7,3 +7,5 @@ AClient::AClient(Game& owner, Player& player) :
 {
 }
 
+AClient::~AClient() {}
+

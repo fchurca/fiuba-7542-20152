@@ -12,6 +12,7 @@ class AClient : public DeletableMixin {
 		Game& owner;
 		Player& player;
 		AClient(Game& owner, Player& player);
+		virtual ~AClient();
 };
 
 #endif // _MODEL_ABSTRACTCLIENT_H_

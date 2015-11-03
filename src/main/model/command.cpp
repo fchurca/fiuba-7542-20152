@@ -2,6 +2,8 @@
 
 Command::Command(size_t entityId) : entityId(entityId){}
 
+Command::~Command() {}
+
 StopCommand::StopCommand(size_t entityId) : Command(entityId){}
 
 void StopCommand::execute(ABoard& board) {
