@@ -76,7 +76,7 @@ GameWindow::~GameWindow() {
 void GameWindow::render() {
 	isoview->draw(renderer);
 	SDL_Rect destinoFondoMenu = {0, 3*alto_pantalla/4, ancho_pantalla, alto_pantalla / 4};
-	SDL_SetRenderDrawColor(renderer, 8, 8, 8, 255);
+	SDL_SetRenderDrawColor(renderer, 15, 15, 15, 255);
 	SDL_RenderFillRect(renderer, &destinoFondoMenu);
 	menu->draw(renderer);
 	minimap->drawMinimap(renderer);

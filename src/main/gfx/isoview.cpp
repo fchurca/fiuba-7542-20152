@@ -29,6 +29,10 @@ IsoView::~IsoView() {
 	spriteSheets.clear();
 }
 
+SDL_Point IsoView::getSize() {
+	return {(int)size.x, (int)size.y};
+}
+
 void IsoView::draw(SDL_Renderer* renderer) {
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);

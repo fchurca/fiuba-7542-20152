@@ -15,6 +15,7 @@ private:
 	std::map<std::string, std::shared_ptr<SpriteSheet>> spriteSheets;
 public:
 	GameWindow& owner;
+	SDL_Point getSize();
 	void draw(SDL_Renderer* renderer);
 	IsoView(GameWindow& owner, RulesetParser& rulesetParser);
 	r2 screenToBoardPosition(SDL_Point screenPos);
