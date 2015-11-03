@@ -1,5 +1,7 @@
 #include "game_timer.h"
 
+#include <SDL2/SDL.h>
+
 int GameTimer::currentTime = 0;
 int GameTimer::lastTime= 0;
 int GameTimer::diffTime= 0;

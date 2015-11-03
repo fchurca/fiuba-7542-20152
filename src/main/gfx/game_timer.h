@@ -1,8 +1,6 @@
 #ifndef __GAMETIMER_H__
 #define __GAMETIMER_H__
 
-#include <SDL2/SDL.h>
-
 class GameTimer {
 private:
 	static int currentTime;

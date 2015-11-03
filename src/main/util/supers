@@ -1,0 +1,8 @@
+#! /bin/sh
+
+grep 'class.*:' `find . -name '*.h'` |
+sed 's/class\s*//;s/\s*{//;s/.*:\s*//g;s/,\?\s*public\s*/ /g;s/\s/\n/g' |
+grep '.' |
+sort |
+uniq
+
