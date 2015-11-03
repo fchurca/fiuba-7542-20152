@@ -13,8 +13,6 @@
 using namespace std;
 using namespace charnames;
 
-#include <iostream>
-
 RemoteBoard::RemoteBoard(RulesetParser& rulesetParser, ClientParser& clientParser) :
 	ABoard(rulesetParser,
 			"Loading...",
@@ -27,10 +25,12 @@ RemoteBoard::RemoteBoard(RulesetParser& rulesetParser, ClientParser& clientParse
 	socket = Socket::create();
 	auto conf = clientParser.getClientConfiguracion();
 	if (!socket->Connect(conf.address, conf.port)) {
-		cerr << "Could not connect!" << endl;
+		Logger::getInstance()->writeError("Could not connect!");
+		return;
 	}
 	if(!socket->flushIn()) {
-		cerr << "Could not connect!" << endl;
+		Logger::getInstance()->writeError("Could not connect!");
+		return;
 	}
 	char c = nul;
 	*socket >> c;
@@ -61,12 +61,8 @@ RemoteBoard::RemoteBoard(RulesetParser& rulesetParser, ClientParser& clientParse
 				string tname = "";
 				*socket >> tname;
 				setTerrain(tname, x, y);
-				if (!getTerrain(x, y)) {
-					cerr << x << ',' << y << ':' << tname << ht;
-				}
 			}
 		}
-		cerr << endl;
 		// Relleno con TERRENO_DEFAULT (TODO: deduplicate)
 		for(size_t x = 0; x < sizeX; x++) {
 			for(size_t y = 0; y < sizeY; y++) {
@@ -104,6 +100,9 @@ RemoteBoard::~RemoteBoard() {
 }
 
 void RemoteBoard::update() {
+	if(!isRunning()) {
+		return;
+	}
 	ABoard::update();
 	for(auto& p : players) {
 		if(p.second->human) {
@@ -114,49 +113,51 @@ void RemoteBoard::update() {
 		e->update();
 	}
 	*socket << 'U' << frame;
-	if(flushOut()) {
-		char ackSink = nul;
-		*socket >> ackSink;
-		if(ackSink == ack) {
-			*socket >> frame;
-			char next = nul;
-			do {
-				*socket >> next;
-				switch (next) {
-					case 'E':
-						{
-							size_t id, f;
-							string ename, owner;
-							r2 pos;
-							double orientation;
-							*socket >> id >> ename >> owner >> f >> pos.x >> pos.y >> orientation;
-							auto e = findEntity(id);
-							e->setFrame(f);
-							e->setPosition(pos);
-							e->setOrientation(orientation);
-						}
-						break;
-					case 'D':
-						{
-							size_t id;
-							*socket >> id;
-							auto e = findEntity(id);
-							e->setDeletable();
-						}
-						break;
-					case 'P':
-						{
-							string pname;
-							*socket >> pname;
-							updateResources(pname);
-						}
-						break;
-				}
-			} while(next != eot);
-		}
-	} else {
-		cerr << "Server died!" << endl;
+	if(!flushOut()) {
+		Logger::getInstance()->writeError("Lost connection to server!");
+		state = BoardState::error;
+		return;
 	}
+	char ackSink = nul;
+	*socket >> ackSink;
+	if(ackSink != ack) {
+		return;
+	}
+	*socket >> frame;
+	char next = nul;
+	do {
+		*socket >> next;
+		switch (next) {
+			case 'E':
+				{
+					size_t id, f;
+					string ename, owner;
+					r2 pos;
+					double orientation;
+					*socket >> id >> ename >> owner >> f >> pos.x >> pos.y >> orientation;
+					auto e = findEntity(id);
+					e->setFrame(f);
+					e->setPosition(pos);
+					e->setOrientation(orientation);
+				}
+				break;
+			case 'D':
+				{
+					size_t id;
+					*socket >> id;
+					auto e = findEntity(id);
+					e->setDeletable();
+				}
+				break;
+			case 'P':
+				{
+					string pname;
+					*socket >> pname;
+					updateResources(pname);
+				}
+				break;
+		}
+	} while(next != eot);
 }
 
 void RemoteBoard::updateResources(string playerName) {
@@ -168,7 +169,6 @@ void RemoteBoard::updateResources(string playerName) {
 		string resName = "";
 		long resAmount = 0;
 		*socket >> resName >> resAmount >> c;
-		cerr << resAmount << endl;
 		findPlayer(playerName).setResources(resName, resAmount);
 	}
 }

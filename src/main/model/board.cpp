@@ -15,7 +15,8 @@ ABoard::ABoard(RulesetParser& rulesetParser, string name, int sizeX, int sizeY, 
 	dt(rulesetParser.getConfiguracion().dt),
 	name(name),
 	sizeX(sizeX), sizeY(sizeY),
-	maxResources(maxResources)
+	maxResources(maxResources),
+	state(BoardState::building)
 {
 	stringstream message;
 	message << "Creating board " << this << " of size " << sizeX << "x" << sizeY;
@@ -36,6 +37,7 @@ ABoard::ABoard(RulesetParser& rulesetParser, string name, int sizeX, int sizeY, 
 	for (auto& t : rulesetParser.getTiposRecursos()) {
 		createEntityFactory(t.nombre, { t.ancho_base, t.alto_base }, t.speed, t.sight_radius, t.solid, t.capacity);
 	}
+	state = BoardState::running;
 }
 
 ABoard::~ABoard() {}
@@ -131,7 +133,18 @@ void ABoard::pushCommand(std::shared_ptr<Command> command) {
 	commandMutex.unlock();
 }
 
+enum ABoard::BoardState ABoard::getState() {
+	return state;
+}
+
+bool ABoard::isRunning() {
+	return state == BoardState::running;
+}
+
 void ABoard::update() {
+	if(!isRunning()) {
+		return;
+	}
 	frame++;
 	for(size_t i = 0; i < entities.size();) {
 		if (entities[i]->getDeletable()) {
@@ -199,6 +212,9 @@ SmartBoard::~SmartBoard() {
 }
 
 void SmartBoard::update() {
+	if(!isRunning()) {
+		return;
+	}
 	ABoard::update();
 	for(auto& p : players) {
 		p.second->update();

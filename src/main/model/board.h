@@ -26,6 +26,7 @@ class ABoard : public FrameMixin {
 		std::vector<std::shared_ptr<Entity>> terrain;
 		std::queue<std::shared_ptr<Command>> commands;
 		std::mutex commandMutex;
+		enum BoardState {building, running, finised, error} state;
 	public:
 		long maxResources;
 		int sizeX, sizeY;
@@ -35,6 +36,8 @@ class ABoard : public FrameMixin {
 		ABoard(RulesetParser& rulesetParser, std::string name, int sizeX, int sizeY, long maxResources);
 		virtual ~ABoard();
 
+		enum ABoard::BoardState getState();
+		bool isRunning();
 		virtual void update();
 		std::shared_ptr<Player> createPlayer(std::string name, bool human);
 		Player& findPlayer(std::string name);
