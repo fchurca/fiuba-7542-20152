@@ -14,6 +14,7 @@ MiniMap::~MiniMap() {}
 
 void MiniMap::drawMinimap(SDL_Renderer* renderer) {
 	////Minimapa
+	SDL_Point ts = {(int)ceil(2 * scale.x), (int)ceil(scale.y)};
 	for (int i = 0; i < owner.player.board.sizeX; i++) {
 		for (int j = 0; j < owner.player.board.sizeY; j++) {
 			std::shared_ptr<Entity> t = owner.player.board.getTerrain(i, j);
@@ -23,18 +24,21 @@ void MiniMap::drawMinimap(SDL_Renderer* renderer) {
 			}
 			auto p = boardToScreenPosition(t->getPosition());
 			SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
-			SDL_Rect terreno = { p.x, p.y, (int)ceil(2 * scale.x), (int)ceil(scale.y) };
+			SDL_Rect terreno = { p.x, p.y, ts.x, ts.y };
 			SDL_RenderFillRect(renderer, &terreno);
 		}
 	}
+	SDL_Point es = {(int)ceil((scale.x + scale.y) / 2), (int)ceil((scale.x + scale.y) / 2)};
+	SDL_Point d = {(ts.x - es.x)/2, (ts.y - es.y)/2};
 	for (auto e : owner.player.board.getEntities()) {
 		if (owner.player.getVisibility(*e) != INVISIBLE) {
 			SDL_Color color = getColor(e->owner.getId());
-			auto p = boardToScreenPosition(e->getPosition());
+			auto p = boardToScreenPosition(e->center()-r2(.5,.5));
+			p.x += d.x; p.y += d.y;
 			if (owner.getSelection() == e)
 				color = { 255,255,255 };
 			SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
-			SDL_Rect entidad = { p.x, p.y, (int)ceil((scale.x + scale.y) / 2), (int)ceil((scale.x + scale.y) / 2) };
+			SDL_Rect entidad = { p.x, p.y, es.x, es.y };
 			SDL_RenderFillRect(renderer, &entidad);
 		}
 	}
