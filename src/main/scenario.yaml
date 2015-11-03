@@ -107,3 +107,11 @@ escenario:
         isHuman: true
         entidades:
           - {x: 3, y: 3, tipo: mago }
+      - name: Ingleses
+        isHuman: true
+        entidades:
+          - {x: 7, y: 3, tipo: mago }
+      - name: Alemanes
+        isHuman: true
+        entidades:
+          - {x: 11, y: 3, tipo: mago }
