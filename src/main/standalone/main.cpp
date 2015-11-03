@@ -25,9 +25,15 @@ int main(int argc, char* argv[]) {
 	auto & logger = *Logger::getInstance();
 	logger.writeInformation("Start game");
 
-	bool standalone = false, daemon = false, client = false;
-	if (argc >= 2) {
-		switch (argv[1][0]) {
+	bool daemon = false, client = false;
+	string rulesetFile = RULESET_CONFIG_FILE_PATH;
+	string serverFile = SERVER_CONFIG_FILE_PATH;
+	string scenarioFile = SCENARIO_CONFIG_FILE_PATH;
+	string clientFile = CLIENT_SERVER_CONFIG_FILE_PATH;
+	string graphicsFile = GRAPHICS_CONFIG_FILE_PATH;
+
+	for(int i = 1; i < argc; i++) {
+		switch (argv[i][0]) {
 			case 'd': case 'D':
 				daemon = true;
 				logger.writeInformation("Starting game as daemon");
@@ -37,14 +43,11 @@ int main(int argc, char* argv[]) {
 				logger.writeInformation("Starting game as client");
 				break;
 		}
-	} else {
-		standalone = true;
-		logger.writeInformation("Starting game as standalone");
 	}
 
 	bool restart = true;
 	do {
-		RulesetParser rulesetParser(RULESET_CONFIG_FILE_PATH, RULESET_CONFIG_FILE_PATH_DEFAULT);
+		RulesetParser rulesetParser(rulesetFile, RULESET_CONFIG_FILE_PATH_DEFAULT);
 		rulesetParser.parse();
 
 		Game game;
@@ -52,23 +55,23 @@ int main(int argc, char* argv[]) {
 
 		if (client) {
 			// Acá estamos levantando el cliente. Lo siguiente en realidad es un RemoteBoard que se conecta por TCP/IP al daemon
-			ClientParser clientParser(CLIENT_SERVER_CONFIG_FILE_PATH, CLIENT_SERVER_CONFIG_FILE_PATH_DEFAULT);
+			ClientParser clientParser(clientFile, CLIENT_SERVER_CONFIG_FILE_PATH_DEFAULT);
 			clientParser.parse();
 			game.setBoard(make_shared<RemoteBoard>(rulesetParser, clientParser));
 		} else {
-			ScenarioParser scenarioParser(SCENARIO_CONFIG_FILE_PATH, SCENARIO_CONFIG_FILE_PATH_DEFAULT);
+			ScenarioParser scenarioParser(scenarioFile, SCENARIO_CONFIG_FILE_PATH_DEFAULT);
 			scenarioParser.parse();
 			game.setBoard(make_shared<SmartBoard>(rulesetParser, scenarioParser));
 		}
 		if (daemon) {
-			ServerParser serverParser(SERVER_CONFIG_FILE_PATH, SERVER_CONFIG_FILE_PATH_DEFAULT);
+			ServerParser serverParser(serverFile, SERVER_CONFIG_FILE_PATH_DEFAULT);
 			serverParser.parse();
 			server = make_shared<Server>(game, serverParser);
 			server->init(); // TODO: Delay until game.start()
 		}
 		auto graphicPlayer = game.getAvailablePlayer();
 		if (graphicPlayer) {
-			GraphicsParser graphicsParser(GRAPHICS_CONFIG_FILE_PATH, GRAPHICS_CONFIG_FILE_PATH_DEFAULT);
+			GraphicsParser graphicsParser(graphicsFile, GRAPHICS_CONFIG_FILE_PATH_DEFAULT);
 			graphicsParser.parse();
 			game.addClient(make_shared<GameWindow>(game, *(graphicPlayer), graphicsParser, rulesetParser));
 		}
