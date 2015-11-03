@@ -1,4 +1,3 @@
-#include <iostream>
 #include <sstream>
 
 #include "remote_client.h"
@@ -103,8 +102,6 @@ void RemoteClient::run() {
 				size_t frame;
 				char eotSink;
 				*socket >> frame >> eotSink;
-				cerr << "Update requested from frame " << frame
-					<< ", request " << (eotSink == eot?"":"in") << "correctly terminated" << endl;
 				*socket << ack << this->frame;
 				board.mapEntities([this, frame](shared_ptr<Entity> e) {
 						if (e->getFrame() > frame) {
@@ -153,7 +150,6 @@ Socket& operator<<(Socket& socket, Player& p) {
 	socket << p.name;
 	for(auto& i : p.getResources()) {
 		socket << gs << i.first << i.second;
-		cerr << i.second << endl;
 	}
 	socket << nul;
 

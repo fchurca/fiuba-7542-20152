@@ -1,6 +1,5 @@
 //-----------------------------------------------------------------------------
 #include <cstring>
-#include <iostream>
 
 #include <netdb.h>
 #include <unistd.h>
@@ -55,7 +54,6 @@ bool PosixSocket::Connect(std::string hostIp,int hostPort){
 }
 //-----------------------------------------------------------------------------
 bool PosixSocket::Listen(unsigned int port, int maxConnections) {
-	cerr << "listen()" << endl;
 	if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
 		return false;
 	}
@@ -99,7 +97,6 @@ shared_ptr<Socket> PosixSocket::Accept() {
 }
 //-----------------------------------------------------------------------------
 ssize_t PosixSocket::Send(const void* data, size_t dataLenght) {
-	cerr << "send()" << endl;
 	// Cantidad de bytes que han sido enviados
 	size_t total_bytes = 0;
 

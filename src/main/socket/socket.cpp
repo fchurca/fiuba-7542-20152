@@ -5,9 +5,6 @@
 #include "../model/charnames.h"
 
 using namespace charnames;
-
-#include <iostream>
-
 using namespace std;
 
 const size_t double_discretization_scale = 100;
@@ -28,19 +25,13 @@ bool Socket::flushIn() {
 		memset(b, nul, bufsize);
 		size = Recv((void *)b, bufsize-1);
 		if(size > 0) {
-			cerr << size << " bytes partial: `" << b << '`';
 			inBuffer.insert(inBuffer.end(), b, b + size);
-			cerr << ", last char is " << (int)b[size - 1];
 		} else {
 			cont = false;
 			if (size < 0) {
 				deinit();
-				cerr << "Error in connection!";
-			} else {
-				cerr << "Empty partial";
 			}
 		}
-		cerr << endl;
 	} while (false); // FIXME
 	return oldSize < inBuffer.size();
 }
