@@ -64,12 +64,13 @@ void RemoteClient::run() {
 	*socket << nul;
 	socket->flushOut();
 	char command = nul;
-	while (!(command == 'L' || !socket->IsActive() || this->owner.willExit())) {
-		cerr << "Listening to new command..." << endl;
+	while (!(command == 'L' || !socket->IsActive())) {
 		*socket >> command;
-		switch (command) {
-		case 'L':
+		if(owner.willExit()) {
+			(*socket << ack << frame << 'L').flushOut();
 			break;
+		}
+		switch (command) {
 		case 'S':
 			{
 				int i;
@@ -130,6 +131,7 @@ void RemoteClient::run() {
 }
 
 RemoteClient::~RemoteClient() {
+	socket->deinit();
 	if(running) {
 		th.join();
 	}

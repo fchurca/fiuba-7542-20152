@@ -13,6 +13,8 @@
 using namespace std;
 using namespace charnames;
 
+#include <iostream>
+
 RemoteBoard::RemoteBoard(RulesetParser& rulesetParser, ClientParser& clientParser) :
 	ABoard(rulesetParser,
 			"Loading...",
@@ -128,6 +130,14 @@ void RemoteBoard::update() {
 	do {
 		*socket >> next;
 		switch (next) {
+			case 'D':
+				{
+					size_t id;
+					*socket >> id;
+					auto e = findEntity(id);
+					e->setDeletable();
+				}
+				break;
 			case 'E':
 				{
 					size_t id, f;
@@ -141,12 +151,10 @@ void RemoteBoard::update() {
 					e->setOrientation(orientation);
 				}
 				break;
-			case 'D':
+			case 'L':
 				{
-					size_t id;
-					*socket >> id;
-					auto e = findEntity(id);
-					e->setDeletable();
+					state = BoardState::finished;
+					next = eot;
 				}
 				break;
 			case 'P':

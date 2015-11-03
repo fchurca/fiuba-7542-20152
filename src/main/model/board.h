@@ -26,7 +26,7 @@ class ABoard : public FrameMixin {
 		std::vector<std::shared_ptr<Entity>> terrain;
 		std::queue<std::shared_ptr<Command>> commands;
 		std::mutex commandMutex;
-		enum BoardState {building, running, finised, error} state;
+		enum BoardState {building, running, finished, error} state;
 	public:
 		long maxResources;
 		int sizeX, sizeY;
