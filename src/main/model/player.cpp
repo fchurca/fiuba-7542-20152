@@ -12,7 +12,7 @@ Player::Player(ABoard& board, std::string name, bool human) :
 	board(board),
 	name(name),
 	human(human),
-	active(false)
+	active(!human)
 {
 	static size_t idCount = 1;
 	id = idCount++;
@@ -90,6 +90,6 @@ void Player::setActive(bool newActive) {
 }
 
 bool Player::getActive() {
-	return active || !human;
+	return active;
 }
 

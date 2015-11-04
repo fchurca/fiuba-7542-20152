@@ -147,7 +147,7 @@ Socket& operator<<(Socket& socket, Entity& e) {
 }
 
 Socket& operator<<(Socket& socket, Player& p) {
-	socket << p.name;
+	socket << p.name << p.getActive();
 	for(auto& i : p.getResources()) {
 		socket << gs << i.first << i.second;
 	}

@@ -52,7 +52,8 @@ bool Game::addClient(std::shared_ptr<AClient> newClient) {
 	bool ret = true;
 	clientsMutex.lock();
 	if((&(newClient->owner) != this) ||
-			(clients.find(p.name) != clients.end())) {
+			(clients.find(p.name) != clients.end()) ||
+			!p.human) {
 		ret = false;
 	}
 	if(ret) {

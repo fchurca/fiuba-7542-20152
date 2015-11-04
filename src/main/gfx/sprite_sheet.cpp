@@ -117,8 +117,6 @@ void SpriteSheet::render(Entity & entity, SDL_Renderer* renderer){
 		SDL_RenderCopy(renderer, getLoadedTexture(renderer, state, playerIsActive), &clip, &renderQuad);
 }
 
-#include <iostream>
-
 void SpriteSheet::update(){
 	// Todas las entidades del mismo tipo tienen el mismo fps y delay. 
 	auto currentTick = GameTimer::getCurrent();

@@ -41,6 +41,7 @@ class Socket {
 		std::vector<char> outBuffer;
 
 		Socket& operator<<(char c);
+		Socket& operator<<(bool b);
 		Socket& operator<<(int i);
 		Socket& operator<<(long l);
 		Socket& operator<<(size_t s);
@@ -48,6 +49,7 @@ class Socket {
 		Socket& operator<<(std::string s);
 
 		Socket& operator>>(char& c);
+		Socket& operator>>(bool& b);
 		Socket& operator>>(long& l);
 		Socket& operator>>(size_t& s);
 		Socket& operator>>(int& i);

@@ -59,6 +59,10 @@ Socket& Socket::operator<<(char c) {
 	return *this;
 }
 
+Socket& Socket::operator<<(bool b) {
+	return *this << (b?(char)0xff:nul);
+}
+
 Socket& Socket::operator<<(int i) {
 	return *this<<(long)i;
 }
@@ -92,6 +96,13 @@ Socket& Socket::operator>>(char& c) {
 	if(oFlushIn()) {
 		c = inBuffer.data()[inBufferIndex++];
 	}
+	return *this;
+}
+
+Socket& Socket::operator>>(bool& b) {
+	char c = nul;
+	*this >> c;
+	b = (c != nul);
 	return *this;
 }
 

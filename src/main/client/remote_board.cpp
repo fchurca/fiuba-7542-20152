@@ -169,6 +169,11 @@ void RemoteBoard::update() {
 }
 
 void RemoteBoard::updateResources(string playerName) {
+	auto& p = findPlayer(playerName);
+	// Activity
+	bool a = false;
+	*socket >> a;
+	p.setActive(a);
 	// Resources
 	char c = nul;
 	*socket >> c;
@@ -177,7 +182,7 @@ void RemoteBoard::updateResources(string playerName) {
 		string resName = "";
 		long resAmount = 0;
 		*socket >> resName >> resAmount >> c;
-		findPlayer(playerName).setResources(resName, resAmount);
+		p.setResources(resName, resAmount);
 	}
 }
 
