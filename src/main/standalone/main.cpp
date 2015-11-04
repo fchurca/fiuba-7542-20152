@@ -34,15 +34,47 @@ int main(int argc, char* argv[]) {
 
 	for(int i = 1; i < argc; i++) {
 		switch (argv[i][0]) {
-			case 'd': case 'D':
-				daemon = true;
-				logger.writeInformation("Starting game as daemon");
-				break;
-			case 'c': case 'C':
+			// Client
+			case 'C':
+				i++;
+				if(i < argc) {
+					clientFile = argv[i];
+				}
+			case 'c':
 				client = true;
-				logger.writeInformation("Starting game as client");
+				logger.writeInformation("Starting game as client using " + clientFile);
 				break;
+			// Daemon
+			case 'D':
+				i++;
+				if(i < argc) {
+					serverFile = argv[i];
+				}
+			case 'd':
+				daemon = true;
+				logger.writeInformation("Starting game as daemon using " + serverFile);
+				break;
+			// Graphics
+			case 'G':
+				i++;
+				if(i < argc) {
+					graphicsFile = argv[i];
+				}
+				logger.writeInformation("Using custom graphics " + graphicsFile);
+				break;
+			// Ruleset
+			case 'R':
+				i++;
+				if(i < argc) {
+					rulesetFile = argv[i];
+				}
+				break;
+				logger.writeInformation("Using custom ruleset " + rulesetFile);
 		}
+	}
+
+	if(daemon && client) {
+		logger.writeInformation("Starting game as proxy");
 	}
 
 	bool restart = true;
