@@ -64,8 +64,8 @@ bool Game::addClient(std::shared_ptr<AClient> newClient) {
 }
 
 void Game::start() {
+	board->start();
 	while (!willExit()) {
-		board->update(); // Model
 		// Acá actualizamos a todos los clientes
 		clientsMutex.lock();
 		for(auto& c : clients) {
@@ -96,6 +96,7 @@ bool Game::willRestart() {
 
 void Game::exit() {
 	exit_p = true;
+	board->setState(ABoard::BoardState::finished);
 }
 
 bool Game::willExit() {
