@@ -65,7 +65,6 @@ bool Game::addClient(std::shared_ptr<AClient> newClient) {
 
 void Game::start() {
 	while (!willExit()) {
-		GameTimer::update();
 		board->update(); // Model
 		// Acá actualizamos a todos los clientes
 		clientsMutex.lock();

@@ -19,7 +19,7 @@ private:
 	double fps;	
 	double delay;
 	int counter; 
-	int tick;
+	TimePoint tick;
 	int currentFrame;
 	int pixel_ref_x;
 	int pixel_ref_y;

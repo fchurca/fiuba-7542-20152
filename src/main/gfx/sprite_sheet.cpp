@@ -25,7 +25,7 @@ SpriteSheet::SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int a
 	this->delay = delay;	// segundos
 	this->currentFrame = 0;
 	this->counter = 0;
-	this->tick = 0;
+	this->tick = Clock::now();
 }
 
 SpriteSheet::~SpriteSheet(){
@@ -77,7 +77,6 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ) {
 		this->delay = ENTIDAD_DEFAULT_DELAY;	// segundos
 		this->currentFrame = 0;
 		this->counter = 0;
-		this->tick = 0;
 	}
 	//	La default siempre deberia poder cargarla
 	if(!loadedSurface) {
@@ -118,14 +117,16 @@ void SpriteSheet::render(Entity & entity, SDL_Renderer* renderer){
 		SDL_RenderCopy(renderer, getLoadedTexture(renderer, state, playerIsActive), &clip, &renderQuad);
 }
 
+#include <iostream>
+
 void SpriteSheet::update(){
 	// Todas las entidades del mismo tipo tienen el mismo fps y delay. 
 	auto currentTick = GameTimer::getCurrent();
-	auto diffTime = currentTick - this->tick;
-	if ( ( (currentFrame != 0) || (diffTime >= (this->delay * 1000)) ) ) {
-		if ( (this->fps == 0) || (diffTime >= (1000 / this->fps ) ) ) {
+	auto diffTime = currentTick - tick;
+	if ( ( (currentFrame != 0) || (diffTime >= Ms((long)(delay * 1000))) ) ) {
+		if ( (this->fps == 0) || (diffTime >= Ms((long)(1000 / fps) ) ) ) {
 			//	Actualizo el tick del sprite sheet
-			this->tick = currentTick;
+			tick = currentTick;
 			counter++;
 		}
 	}

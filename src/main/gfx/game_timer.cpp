@@ -1,29 +1,25 @@
 #include "game_timer.h"
 
-#include <SDL2/SDL.h>
+#include <thread>
 
 using namespace std;
+using namespace std::chrono;
 
-long GameTimer::currentTime = 0;
+#include <iostream>
 
-long GameTimer::getCurrent(){
+TimePoint GameTimer::currentTime = Clock::now();
+
+TimePoint GameTimer::getCurrent(){
 	return currentTime;
 }
 
-void GameTimer::update(){
-	currentTime = SDL_GetTicks();	//Tiempo actual del juego en milisegundos;
-}
-
-bool GameTimer::waitUntil(long target) {
-	long dt = target - SDL_GetTicks();
-	bool ret = (dt > 0);
-	if (ret) {
-		SDL_Delay(dt);
-	}
-	return true;
-}
-
 bool GameTimer::elapse(long duration) {
-	return waitUntil(currentTime + duration);
+	auto target = currentTime + Ms(duration);
+	bool ret = target > Clock::now();
+	if(ret) {
+		this_thread::sleep_until(target);
+	}
+	currentTime = Clock::now();
+	return ret;
 }
 

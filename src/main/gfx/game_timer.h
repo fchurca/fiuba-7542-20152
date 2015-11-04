@@ -1,13 +1,17 @@
 #ifndef __GAMETIMER_H__
 #define __GAMETIMER_H__
 
+#include <chrono>
+
+using Clock = std::chrono::high_resolution_clock;
+using TimePoint = Clock::time_point;
+using Ms = std::chrono::milliseconds;
+
 class GameTimer {
 private:
-	static long currentTime;
+	static TimePoint currentTime;
 public:
-	static long getCurrent();
-	static void update();
-	static bool waitUntil(long target);
+	static TimePoint getCurrent();
 	static bool elapse(long duration);
 };
 
