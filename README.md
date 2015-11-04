@@ -18,10 +18,13 @@ cppcheck
 
 ## Dependencias runtime:
 ```
-resources/arial.ttf
 libsdl2
 libsdl2-image
 libsdl2-ttf
 libyaml-cpp
 ```
+
+## Licencia
+Ver el archivo `LICENSE` para el código fuente y documentación.
+Los archivos en `src/main/resources/` están regidos por sus respectivos autores.
 
