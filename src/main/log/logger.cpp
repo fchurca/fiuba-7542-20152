@@ -7,6 +7,7 @@ using namespace std;
 Logger * Logger::instance = nullptr;
 
 Logger::Logger(){
+	level = LOG_LEVEL_INFORMATION;
 	enabledError = true;
 	enabledWarning = true;
 	enabledInformation = true;
@@ -38,10 +39,18 @@ void Logger::destroyInstance() {
 /**
 *	Establece nivel de log
 */
-void Logger::setLevel(int level){
+void Logger::setLevel(int newLevel){
+	level =
+		(newLevel < 0)? 0:
+		(newLevel > LOG_LEVEL_INFORMATION)? LOG_LEVEL_INFORMATION:
+		newLevel;
 	enabledError = (level >= LOG_LEVEL_ERROR);
 	enabledWarning =  (level >= LOG_LEVEL_WARNING);;
 	enabledInformation =  (level >= LOG_LEVEL_INFORMATION);;
+}
+
+int Logger::getLevel() {
+	return level;
 }
 
 void Logger::flush() {

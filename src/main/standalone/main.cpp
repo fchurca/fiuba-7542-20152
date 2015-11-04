@@ -34,6 +34,13 @@ int main(int argc, char* argv[]) {
 
 	for(int i = 1; i < argc; i++) {
 		switch (argv[i][0]) {
+			// Verbosity
+			case 'q':
+				logger.setLevel(logger.getLevel() - 1);
+				break;
+			case 'v':
+				logger.setLevel(logger.getLevel() + 1);
+				break;
 			// Client
 			case 'C':
 				i++;

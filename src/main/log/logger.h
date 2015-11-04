@@ -18,6 +18,7 @@ private:
 	std::ofstream file;
 	std::string messageError;
 	std::string getCurrentTime();
+	int level;
 	int write(std::string message, std::string tipo);
 	void open();
 	void close();
@@ -26,6 +27,7 @@ public:
 	static Logger * getInstance();
 	static void destroyInstance();
 	void setLevel(int level);
+	int getLevel();
 	void flush();
 	int writeError(std::string message);
 	int writeWarning(std::string message);
