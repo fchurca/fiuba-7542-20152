@@ -7,13 +7,11 @@
 #include <memory>
 #include <mutex>
 #include <queue>
-#include <thread>
 //-----------------------------------------------------------------------------
 #include "command.h"
 #include "mixins.h"
 #include "player.h"
 #include "../log/logger.h"
-#include "../gfx/game_timer.h"
 
 class Entity;
 class EntityFactory;
@@ -21,8 +19,6 @@ class ScenarioParser;
 class RulesetParser;
 
 class ABoard : public FrameMixin {
-	public:
-		enum BoardState {building, running, finished, error};
 	protected:
 		std::map<std::string, std::shared_ptr<Player>> players;
 		std::map<std::string, std::shared_ptr<EntityFactory>> entityFactories;
@@ -30,10 +26,7 @@ class ABoard : public FrameMixin {
 		std::vector<std::shared_ptr<Entity>> terrain;
 		std::queue<std::shared_ptr<Command>> commands;
 		std::mutex commandMutex;
-		enum BoardState state;
-		bool started;
-		std::thread th;
-		GameTimer timer;
+		enum BoardState {building, running, finished, error} state;
 	public:
 		long maxResources;
 		int sizeX, sizeY;
@@ -44,10 +37,7 @@ class ABoard : public FrameMixin {
 		virtual ~ABoard();
 
 		enum ABoard::BoardState getState();
-		void setState(enum ABoard::BoardState newState);
 		bool isRunning();
-		void run();
-		void start();
 		virtual void update();
 		std::shared_ptr<Player> createPlayer(std::string name, bool human);
 		Player& findPlayer(std::string name);

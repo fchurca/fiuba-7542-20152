@@ -16,8 +16,7 @@ ABoard::ABoard(RulesetParser& rulesetParser, string name, int sizeX, int sizeY, 
 	name(name),
 	sizeX(sizeX), sizeY(sizeY),
 	maxResources(maxResources),
-	state(BoardState::building),
-	started(false)
+	state(BoardState::building)
 {
 	stringstream message;
 	message << "Creating board " << this << " of size " << sizeX << "x" << sizeY;
@@ -41,11 +40,7 @@ ABoard::ABoard(RulesetParser& rulesetParser, string name, int sizeX, int sizeY, 
 	state = BoardState::running;
 }
 
-ABoard::~ABoard() {
-	if(started) {
-		th.join();
-	}
-}
+ABoard::~ABoard() {}
 
 std::vector<std::shared_ptr<Player>> ABoard::getPlayers() {
 	std::vector<std::shared_ptr<Player>> ret;
@@ -142,26 +137,8 @@ enum ABoard::BoardState ABoard::getState() {
 	return state;
 }
 
-void ABoard::setState(enum ABoard::BoardState newState) {
-	state = newState;
-}
-
 bool ABoard::isRunning() {
 	return state == BoardState::running;
-}
-
-void ABoard::start() {
-	if(!started) {
-		started = true;
-		th = thread(&ABoard::run, this);
-	}
-}
-
-void ABoard::run() {
-	while (isRunning()) {
-		update();
-		timer.elapse(dt);
-	}
 }
 
 void ABoard::update() {
@@ -183,6 +160,7 @@ void ABoard::update() {
 	}
 	commandMutex.unlock();
 }
+
 
 SmartBoard::SmartBoard(RulesetParser& rulesetParser, ScenarioParser& scenarioParser) :
 	ABoard(rulesetParser,
