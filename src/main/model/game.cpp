@@ -1,7 +1,6 @@
 #include <sstream>
 
 #include "game.h"
-#include "../gfx/game_timer.h"
 
 Game::Game() :
 	exit_p(false), restart_p(false)
@@ -81,7 +80,7 @@ void Game::start() {
 		clientsMutex.unlock();
 
 		Logger::getInstance()->flush();
-		if (!GameTimer::elapse(board->dt)) {
+		if (!timer.elapse(board->dt)) {
 			Logger::getInstance()->writeInformation("Estamos laggeando!");
 		}
 	}

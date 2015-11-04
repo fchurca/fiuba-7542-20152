@@ -7,7 +7,7 @@ using namespace std::chrono;
 
 #include <iostream>
 
-TimePoint GameTimer::currentTime = Clock::now();
+GameTimer::GameTimer() : currentTime(Clock::now()) {}
 
 TimePoint GameTimer::getCurrent(){
 	return currentTime;

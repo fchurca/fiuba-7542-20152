@@ -119,7 +119,7 @@ void SpriteSheet::render(Entity & entity, SDL_Renderer* renderer){
 
 void SpriteSheet::update(){
 	// Todas las entidades del mismo tipo tienen el mismo fps y delay. 
-	auto currentTick = GameTimer::getCurrent();
+	auto currentTick = owner.owner.owner.timer.getCurrent();
 	auto diffTime = currentTick - tick;
 	if ( ( (currentFrame != 0) || (diffTime >= Ms((long)(delay * 1000))) ) ) {
 		if ( (this->fps == 0) || (diffTime >= Ms((long)(1000 / fps) ) ) ) {

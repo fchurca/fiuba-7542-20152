@@ -9,10 +9,11 @@ using Ms = std::chrono::milliseconds;
 
 class GameTimer {
 private:
-	static TimePoint currentTime;
+	TimePoint currentTime;
 public:
-	static TimePoint getCurrent();
-	static bool elapse(long duration);
+	GameTimer();
+	TimePoint getCurrent();
+	bool elapse(long duration);
 };
 
 #endif // __GAMETIMER_H__

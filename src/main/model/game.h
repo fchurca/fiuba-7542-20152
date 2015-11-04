@@ -9,6 +9,8 @@
 #include "../log/logger.h"
 #include "../model/board.h"
 
+#include "../gfx/game_timer.h"
+
 class Game {
 private:
 	void init();
@@ -19,6 +21,7 @@ private:
 	bool restart_p;
 	void clear();
 public:
+	GameTimer timer;
 	Game();
 	~Game();
 	std::shared_ptr<ABoard> getBoard();
