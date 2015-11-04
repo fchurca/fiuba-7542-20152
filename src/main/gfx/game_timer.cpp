@@ -2,30 +2,28 @@
 
 #include <SDL2/SDL.h>
 
-int GameTimer::currentTime = 0;
-int GameTimer::lastTime= 0;
-int GameTimer::diffTime= 0;
+using namespace std;
 
-int GameTimer::getCurrent(){
+long GameTimer::currentTime = 0;
+
+long GameTimer::getCurrent(){
 	return currentTime;
 }
 
-int GameTimer::getDiffTime(){
-	return diffTime;
-}
-
 void GameTimer::update(){
-	lastTime = currentTime;
 	currentTime = SDL_GetTicks();	//Tiempo actual del juego en milisegundos;
-	diffTime = currentTime - lastTime;	
 }
 
-bool GameTimer::wait(int target) {
-	int dt = target - SDL_GetTicks();
-	if(dt < 0) {
-		return false;
+bool GameTimer::waitUntil(long target) {
+	long dt = target - SDL_GetTicks();
+	bool ret = (dt > 0);
+	if (ret) {
+		SDL_Delay(dt);
 	}
-	SDL_Delay(dt);
 	return true;
+}
+
+bool GameTimer::elapse(long duration) {
+	return waitUntil(currentTime + duration);
 }
 

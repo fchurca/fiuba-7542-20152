@@ -81,7 +81,7 @@ void Game::start() {
 		clientsMutex.unlock();
 
 		Logger::getInstance()->flush();
-		if (!GameTimer::wait(GameTimer::getCurrent() + board->dt)) {
+		if (!GameTimer::elapse(board->dt)) {
 			Logger::getInstance()->writeInformation("Estamos laggeando!");
 		}
 	}

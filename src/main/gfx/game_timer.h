@@ -3,13 +3,12 @@
 
 class GameTimer {
 private:
-	static int currentTime;
-	static int lastTime;
-	static int diffTime;
+	static long currentTime;
 public:
-	static int getDiffTime();
-	static int getCurrent();
+	static long getCurrent();
 	static void update();
-	static bool wait(int target);
+	static bool waitUntil(long target);
+	static bool elapse(long duration);
 };
+
 #endif // __GAMETIMER_H__
