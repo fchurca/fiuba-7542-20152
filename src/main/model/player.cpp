@@ -87,6 +87,7 @@ void Player::setFrame() {
 
 void Player::setActive(bool newActive) {
 	active = newActive;
+	setFrame();
 }
 
 bool Player::getActive() {
