@@ -74,6 +74,7 @@ Socket& Socket::operator<<(long l) {
 		*this << c;
 		n >>= 8;
 	}
+	return *this;
 }
 
 Socket& Socket::operator<<(size_t s) {
