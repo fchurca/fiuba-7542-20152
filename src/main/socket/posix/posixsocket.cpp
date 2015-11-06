@@ -78,31 +78,30 @@ bool PosixSocket::Listen(unsigned int port, int maxConnections) {
 }
 //-----------------------------------------------------------------------------
 shared_ptr<Socket> PosixSocket::Accept() {
-	unsigned sin_size = sizeof(struct sockaddr_in);
-	//Revisar
+	socklen_t sin_size = sizeof(struct sockaddr_in);
+
 	auto socket_client = make_shared<PosixSocket>();
 
-	int sockfd_client = accept(sockfd, (struct sockaddr *)&(socket_client->sockaddr), &sin_size);
-
-	socket_client->sockfd = sockfd_client;
+	auto sockfd_client = accept(sockfd, (struct sockaddr *)&(socket_client->sockaddr), &sin_size);
 	// Corroboramos si no se cerró el socket
-	if(status != 1) {
+	if(sockfd_client < 0) {
 		return nullptr;
 	}
 
+	socket_client->sockfd = sockfd_client;
 	socket_client->Activate();
 
 	return socket_client;
 
 }
 //-----------------------------------------------------------------------------
-ssize_t PosixSocket::Send(const void* data, size_t dataLenght) {
+ssize_t PosixSocket::Send(const void* data, size_t dataLength) {
 	// Cantidad de bytes que han sido enviados
 	size_t total_bytes = 0;
 
-	for(ssize_t n = 0; total_bytes < dataLenght; total_bytes += n) {
+	for(ssize_t n = 0; total_bytes < dataLength; total_bytes += n) {
 		// Realizamos envío de bytes
-		n = send(sockfd, (char *) data + total_bytes, dataLenght - total_bytes, MSG_NOSIGNAL);
+		n = send(sockfd, (char *) data + total_bytes, dataLength - total_bytes, MSG_NOSIGNAL);
 
 		if(n < 0) {
 			deinit();
@@ -114,9 +113,9 @@ ssize_t PosixSocket::Send(const void* data, size_t dataLenght) {
 
 }
 //-----------------------------------------------------------------------------
-ssize_t PosixSocket::Recv(void* data, size_t dataLenght) {
-	memset(data, '\0', dataLenght);
-	return recv(sockfd, data, dataLenght, 0);
+ssize_t PosixSocket::Recv(void* data, size_t dataLength) {
+	memset(data, '\0', dataLength);
+	return recv(sockfd, data, dataLength, 0);
 }
 //-----------------------------------------------------------------------------
 bool PosixSocket::IsActive() {
