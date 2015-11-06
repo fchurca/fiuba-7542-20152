@@ -16,6 +16,8 @@ shared_ptr<Socket> Socket::create() {
 
 //-----------------------------------------------------------------------------
 PosixSocket::PosixSocket() {
+	memset(&sockaddr.sin_zero, '\0', sizeof(sockaddr.sin_zero));
+	sockaddr.sin_family = AF_INET;
 }
 
 //-----------------------------------------------------------------------------
@@ -38,13 +40,11 @@ bool PosixSocket::Connect(std::string hostIp,int hostPort){
 	}
 
 	// Cargamos datos de la conexión a realizar
-	memset(&sockaddr, '\0', sizeof(sockaddr));
-	sockaddr.sin_family = AF_INET;
 	sockaddr.sin_port = htons(hostPort);
 	memcpy(&sockaddr.sin_addr, he->h_addr, he->h_length);
 
 	// Conectamos
-	if(connect(sockfd, (struct sockaddr *)&sockaddr, sizeof(struct sockaddr)) == -1) {
+	if(connect(sockfd, (struct sockaddr *)&sockaddr, sizeof(sockaddr)) < 0) {
 		return false;
 	}
 
@@ -60,7 +60,6 @@ bool PosixSocket::Listen(unsigned int port, int maxConnections) {
 
 	Activate();
 
-	sockaddr.sin_family = AF_INET;
 	sockaddr.sin_port = htons(port);
 
 	sockaddr.sin_addr.s_addr = htonl(INADDR_ANY);
