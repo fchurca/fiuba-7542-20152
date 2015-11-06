@@ -116,7 +116,7 @@ bool IsoView::canDraw(shared_ptr<Entity> e) {
 		return false;
 	}
 	Entity& entity = *e;
-	SDL_Rect screenRect = { 0, 0, size.x, size.y };
+	SDL_Rect screenRect = { 0, 0, (int)size.x, (int)size.y };
 	auto it = spriteSheets.find(entity.name);
 	if (it == spriteSheets.end()) {
 		Logger::getInstance()->writeWarning("No existe SpriteSheet para este tipo de entidad" + entity.name);
@@ -145,7 +145,7 @@ r2 IsoView::screenToBoardPosition(SDL_Point screenPos) {
 SDL_Point IsoView::boardToScreenPosition(r2 boardPos) {
 	boardPos -= owner.getFocus();
 	SDL_Point ret = {
-		(int)((boardPos.x - boardPos.y) * TILE_WIDTH_DEFAULT / 2) + (size.x) / 2,
-		(int)((boardPos.x + boardPos.y) * TILE_HEIGHT_DEFAULT / 2) + (size.y - TILE_HEIGHT_DEFAULT) / 2 };
+		(int)(((boardPos.x - boardPos.y) * TILE_WIDTH_DEFAULT / 2) + (size.x) / 2),
+		(int)(((boardPos.x + boardPos.y) * TILE_HEIGHT_DEFAULT / 2) + (size.y - TILE_HEIGHT_DEFAULT) / 2) };
 	return ret;
 }

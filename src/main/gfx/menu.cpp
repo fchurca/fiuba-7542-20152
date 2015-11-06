@@ -66,23 +66,27 @@ void Menu::draw(SDL_Renderer* renderer) {
 
 		SDL_QueryTexture(textureMenu1, &format1, &access1, &w1, &h1);
 		SDL_Rect panel1 = { 0, 0, w1 , h1 };
-		SDL_Rect text1 = { offset.x, offset.y, (w1>size.x/3)? size.x/3 : w1, (h1>size.y) ? size.y : h1 };
+		SDL_Rect text1 = { (int)offset.x, (int)offset.y,
+			(int)((w1>size.x/3)? size.x/3 : w1), (int)((h1>size.y) ? size.y : h1) };
 		SDL_RenderCopy(renderer, textureMenu1, &panel1, &text1);
 
 		SDL_QueryTexture(textureMenu2A, &format2A, &access2A, &w2A, &h2A);
 		SDL_Rect panel2A = { 0, 0, w2A, h2A };
-		SDL_Rect text2A = { size.x / 3, offset.y, (w2A>size.x / 3) ? size.x / 3 : w2A, (h2A>size.y) ? size.y : h2A };
+		SDL_Rect text2A = { (int)(size.x / 3), (int)offset.y,
+			(int)((w2A>size.x / 3) ? size.x / 3 : w2A), (int)((h2A>size.y) ? size.y : h2A) };
 		SDL_RenderCopy(renderer, textureMenu2A, &panel2A, &text2A);
 		SDL_QueryTexture(textureMenu2I, &format2I, &access2I, &w2I, &h2I);
 		if (segundaColumnaInactivos != "" && (size.y - h2A > h2I)) {
 			SDL_Rect panel2I = { 0, 0, w2I, h2I };
-			SDL_Rect text2I = { size.x/3, h2A + offset.y, (w2I>size.x / 3) ? size.x / 3 : w2I, h2I };
+			SDL_Rect text2I = { (int)(size.x/3), (int)(h2A + offset.y),
+				(int)((w2I>size.x / 3) ? size.x / 3 : w2I), (int)h2I };
 			SDL_RenderCopy(renderer, textureMenu2I, &panel2I, &text2I);
 		}
 
 		SDL_QueryTexture(textureMenu3, &format3, &access3, &w3, &h3);
 		SDL_Rect panel3 = { 0, 0, w3, h3 };
-		SDL_Rect text3 = { 2 * size.x/3, offset.y, (w3>size.x / 3) ? size.x / 3 : w3, (h3>size.y) ? size.y : h3 };
+		SDL_Rect text3 = { (int)(2 * size.x/3), (int)(offset.y),
+			(int)((w3>size.x / 3) ? size.x / 3 : w3), (int)((h3>size.y) ? size.y : h3) };
 		SDL_RenderCopy(renderer, textureMenu3, &panel3, &text3);
 		SDL_FreeSurface(c1);
 		SDL_FreeSurface(c2A);
