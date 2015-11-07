@@ -14,7 +14,7 @@ MiniMap::~MiniMap() {}
 
 void MiniMap::draw(SDL_Renderer* renderer) {
 	//Dibujo fondo
-	SDL_Rect destinoFondoMinimapa = { offset.x, offset.y, size.x, size.y };
+	SDL_Rect destinoFondoMinimapa = { (int)offset.x, (int)offset.y, (int)size.x, (int)size.y };
 	SDL_SetRenderDrawColor(renderer, 15, 15, 15, 255);
 	SDL_RenderFillRect(renderer, &destinoFondoMinimapa);
 	////Minimapa

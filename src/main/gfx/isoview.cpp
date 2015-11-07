@@ -46,14 +46,14 @@ void IsoView::draw(SDL_Renderer* renderer) {
 		bd = bl.x + bl.y + 2, // Bottom diagonal
 		ld = ul.x - ul.y - 2, // Left diagonal
 		rd = ur.x - ur.y + 2; // Right diagonal
-	for (size_t x = max(0.0, ul.x),
+	for (size_t x = (size_t)max(0.0, ul.x),
 		maxx = min(((double)owner.player.board.sizeX), br.x);
 		x < maxx;
 		x++) {
 		if (x >= owner.player.board.sizeX) {
 			break;
 		}
-		for (size_t y = max(max(max(0.0, ur.y), ud - x), x - rd),
+		for (size_t y = (size_t)max(max(max(0.0, ur.y), ud - x), x - rd),
 			maxy = min(min(min(((double)owner.player.board.sizeY), bl.y), bd - x), x - ld);
 			y < maxy;
 			y++) {

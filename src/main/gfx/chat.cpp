@@ -15,7 +15,7 @@ Chat::~Chat() {
 
 void Chat::draw(SDL_Renderer* renderer, std::string inputText) {
 	//Dibujo fondo
-	SDL_Rect destinoFondoChat = { offset.x, offset.y, size.x, size.y };
+	SDL_Rect destinoFondoChat = { (int)offset.x, (int)offset.y, (int)size.x, (int)size.y };
 	SDL_SetRenderDrawColor(renderer, 15, 15, 15, 255);
 	SDL_RenderFillRect(renderer, &destinoFondoChat);
 
@@ -35,7 +35,7 @@ void Chat::draw(SDL_Renderer* renderer, std::string inputText) {
 	}
 	int access, w, h;
 	Uint32 format;
-	SDL_Surface * surface = TTF_RenderText_Blended_Wrapped(owner.font, textMessages.c_str(), colorBlanco, size.x);
+	SDL_Surface * surface = TTF_RenderText_Blended_Wrapped(owner.font, textMessages.c_str(), colorBlanco, (Uint32)size.x);
 	SDL_Texture * textureChat = SDL_CreateTextureFromSurface(renderer, surface);
 	SDL_QueryTexture(textureChat, &format, &access, &w, &h);
 	SDL_Rect panel = { 0, 0, w , h };
@@ -48,11 +48,11 @@ void Chat::draw(SDL_Renderer* renderer, std::string inputText) {
 	//Recuadro
 	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 	SDL_Point points[] = {
-		{offset.x, offset.y + maxMessages * size.y / (maxMessages + 1) },
-		{offset.x+size.x,offset.y + maxMessages * size.y / (maxMessages + 1) },
-		{ offset.x + size.x , offset.y+size.y },
-		{offset.x,offset.y + size.y },
-		{ offset.x, offset.y + maxMessages * size.y / (maxMessages + 1) } };
+		{ (int)offset.x, (int)(offset.y + maxMessages * size.y / (maxMessages + 1)) },
+		{ (int)(offset.x+size.x),(int)(offset.y + maxMessages * size.y / (maxMessages + 1)) },
+		{ (int)(offset.x + size.x) , (int)(offset.y+size.y) },
+		{ (int)offset.x,(int)(offset.y + size.y) },
+		{ (int)offset.x, (int)(offset.y + maxMessages * size.y / (maxMessages + 1)) } };
 	SDL_RenderDrawLines(renderer, points, 5);
 
 	//Nuevo mensaje
@@ -60,7 +60,7 @@ void Chat::draw(SDL_Renderer* renderer, std::string inputText) {
 	if (inputText != "")inputMessage = owner.completeLine(inputText, size.x);
 	int inputAccess, inputW, inputH;
 	Uint32 inputFormat;
-	SDL_Surface * inputSurface = TTF_RenderText_Blended_Wrapped(owner.font, inputMessage.c_str(), colorBlanco, size.x);
+	SDL_Surface * inputSurface = TTF_RenderText_Blended_Wrapped(owner.font, inputMessage.c_str(), colorBlanco, (Uint32)size.x);
 	SDL_Texture * inputTexture = SDL_CreateTextureFromSurface(renderer, inputSurface);
 	SDL_QueryTexture(inputTexture, &inputFormat, &inputAccess, &inputW, &inputH);
 	SDL_Rect inputPanel = { 0, 0, inputW , inputH };

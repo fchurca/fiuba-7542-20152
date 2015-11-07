@@ -14,7 +14,7 @@ Menu::~Menu() {
 
 void Menu::draw(SDL_Renderer* renderer) {
 	//Dibujo fondo
-	SDL_Rect destinoFondoMenu = { offset.x, offset.y, size.x, size.y };
+	SDL_Rect destinoFondoMenu = { (int)offset.x, (int)offset.y, (int)size.x, (int)size.y };
 	SDL_SetRenderDrawColor(renderer, 15, 15, 15, 255);
 	SDL_RenderFillRect(renderer, &destinoFondoMenu);
 	if (owner.font) {
@@ -43,13 +43,13 @@ void Menu::draw(SDL_Renderer* renderer) {
 		}
 		int access1, w1, h1, access2A, w2A, h2A, access2I, w2I, h2I, access3, w3, h3;
 		Uint32 format1, format2A, format2I, format3;
-		SDL_Surface * c1 = TTF_RenderText_Blended_Wrapped(owner.font, primerColumna.c_str(), colorBlanco, size.x / 3);
+		SDL_Surface * c1 = TTF_RenderText_Blended_Wrapped(owner.font, primerColumna.c_str(), colorBlanco, (Uint32)(size.x / 3));
 		SDL_Texture * textureMenu1 = SDL_CreateTextureFromSurface(renderer, c1);
-		SDL_Surface * c2A = TTF_RenderText_Blended_Wrapped(owner.font, segundaColumnaActivos.c_str(), colorBlanco, size.x / 3);
+		SDL_Surface * c2A = TTF_RenderText_Blended_Wrapped(owner.font, segundaColumnaActivos.c_str(), colorBlanco, (Uint32)(size.x / 3));
 		SDL_Texture * textureMenu2A = SDL_CreateTextureFromSurface(renderer, c2A);
-		SDL_Surface * c2I = TTF_RenderText_Blended_Wrapped(owner.font, segundaColumnaInactivos.c_str(), colorGris, size.x / 3);
+		SDL_Surface * c2I = TTF_RenderText_Blended_Wrapped(owner.font, segundaColumnaInactivos.c_str(), colorGris, (Uint32)(size.x / 3));
 		SDL_Texture * textureMenu2I = SDL_CreateTextureFromSurface(renderer, c2I);
-		SDL_Surface * c3 = TTF_RenderText_Blended_Wrapped(owner.font, terceraColumna.c_str(), colorBlanco, size.x / 3);
+		SDL_Surface * c3 = TTF_RenderText_Blended_Wrapped(owner.font, terceraColumna.c_str(), colorBlanco, (Uint32)(size.x / 3));
 		SDL_Texture * textureMenu3 = SDL_CreateTextureFromSurface(renderer, c3);
 
 		SDL_QueryTexture(textureMenu1, &format1, &access1, &w1, &h1);
