@@ -99,7 +99,7 @@ bool GenericParser::obtenerValorScalarNumericoPositivo(const YAML::Node & node, 
 					double p_decimal;
 					p_decimal = modf(num, &p_entera);
 					if (p_decimal == 0) {
-						salida = p_entera;
+						salida = (unsigned int)p_entera;
 						return true;
 					}
 					else
@@ -132,7 +132,7 @@ bool GenericParser::obtenerValorScalarNumericoPositivo(const YAML::Node & node, 
 					double p_decimal;
 					p_decimal = modf(num, &p_entera);
 					if (p_decimal == 0) {
-						salida = p_entera;
+						salida = (long)p_entera;
 						return true;
 					}
 					else

@@ -233,7 +233,7 @@ std::string GameWindow::completeLine(std::string line, double width) {
 	std::string result = line;
 	TTF_SizeText(font, " ", &espAncho, &espAlto);
 	TTF_SizeText(font, result.c_str(), &txtAncho, &txtAlto);
-	esp = floor((width - txtAncho) / espAncho);
+	esp = (int)floor((width - txtAncho) / espAncho);
 	if (txtAncho < width) {
 		if (esp * espAncho + txtAncho < width)
 			esp++;
