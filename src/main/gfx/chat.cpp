@@ -17,6 +17,7 @@ Chat::Chat(GameWindow& owner) :
 }
 
 Chat::~Chat() {
+	messages.clear();
 }
 
 void Chat::draw(SDL_Renderer* renderer) {
