@@ -7,13 +7,6 @@ Chat::Chat(GameWindow& owner) :
 	offset(0, 0),
 	maxMessages(5)
 {
-	messages.push_back("mensaje1aaaaaaaaaaaaaaaaaaaaa");
-	messages.push_back("mensaje2");
-	messages.push_back("mensaje3");
-	messages.push_back("mensaje1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-	messages.push_back("mensaje5");
-	messages.push_back("mensaje6");
-	messages.push_back("mensaje7");
 }
 
 Chat::~Chat() {

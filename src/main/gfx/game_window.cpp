@@ -135,6 +135,10 @@ void GameWindow::processInput(){
 							inputText.pop_back();
 						}
 						break;
+					case SDLK_RETURN:
+						chat->messages.push_back(inputText);
+						inputText = "";
+						break;
 				}
 				break;
 			case SDL_MOUSEBUTTONUP:

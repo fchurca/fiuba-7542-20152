@@ -12,9 +12,9 @@ private:
 	r2 size;
 	r2 offset;
 	int maxMessages;
-	std::vector<std::string> messages;
 protected:
 public:
+	std::vector<std::string> messages;
 	void draw(SDL_Renderer* renderer, std::string inputText);
 	Chat(GameWindow& owner);
 	~Chat();
