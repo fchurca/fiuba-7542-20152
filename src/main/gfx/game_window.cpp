@@ -51,6 +51,10 @@ GameWindow::GameWindow(Game& owner, Player& player, GraphicsParser& graphicsPars
 	if(player.entities().size() > 0)
 		selection = player.entities().at(0);
 	focus();
+	font = TTF_OpenFont(FUENTE_DEFAULT, 20);
+	if (!font) {
+		Logger::getInstance()->writeError("Error al abrir TTF");
+	}
 	minimap = std::make_shared<MiniMap>(*this);
 	isoview = std::make_shared<IsoView>(*this, rulesetParser);
 	menu = std::make_shared<Menu>(*this);
@@ -71,6 +75,7 @@ GameWindow::~GameWindow() {
 		Logger::getInstance()->writeWarning("Window never initialized");
 	}
 	clearSelection();
+	TTF_CloseFont(font);
 }
 
 void GameWindow::render() {
@@ -208,5 +213,17 @@ bool GameWindow::selectionController() {
 		return false;
 	}
 	return &(selection->owner) == &player;
+}
+
+std::string GameWindow::completeLine(std::string line, double width) {
+	int txtAncho, txtAlto, espAncho, espAlto, esp;
+	std::string result = line;
+	TTF_SizeText(font, " ", &espAncho, &espAlto);
+	TTF_SizeText(font, result.c_str(), &txtAncho, &txtAlto);
+	esp = floor((width - txtAncho) / espAncho);
+	if (esp * espAncho + txtAncho < width)
+		esp++;
+	result.insert(result.size(), esp, ' ');
+	return result;
 }
 

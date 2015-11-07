@@ -47,6 +47,8 @@ public:
 	std::shared_ptr<MiniMap> minimap;
 	std::shared_ptr<IsoView> isoview;
 	std::shared_ptr<Menu> menu;
+	TTF_Font* font;
+	std::string completeLine(std::string line, double width);
 friend SpriteSheet;
 };
 #endif // __GFX_GAMEWINDOW_H__

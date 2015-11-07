@@ -1,20 +1,22 @@
-#ifndef __GFX_MENU_H__
-#define __GFX_MENU_H__
+#ifndef __GFX_CHAT_H__
+#define __GFX_CHAT_H__
 #include <string>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
 #include "../model/geometry.h"
 class GameWindow;
 
-class Menu {
+class Chat {
 private:
 	GameWindow& owner;
 	r2 size;
 	r2 offset;
+	int maxMessages;
+	std::vector<std::string> messages;
 protected:
 public:
 	void draw(SDL_Renderer* renderer);
-	Menu(GameWindow& owner);
-	~Menu();
+	Chat(GameWindow& owner);
+	~Chat();
 };
-#endif // __GFX_MENU_H__
+#endif // __GFX_CHAT_H__
