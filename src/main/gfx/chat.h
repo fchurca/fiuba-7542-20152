@@ -14,6 +14,7 @@ private:
 	int maxMessages;
 protected:
 public:
+	bool typing;
 	std::vector<std::string> messages;
 	void draw(SDL_Renderer* renderer, std::string inputText);
 	Chat(GameWindow& owner);

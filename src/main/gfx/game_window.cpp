@@ -114,31 +114,39 @@ void GameWindow::processInput(){
 				owner.exit();
 				break;
 			case SDL_TEXTINPUT:
-				if(inputText.size() < 20) //Max largo del mensaje a ingresar.
+				if(inputText.size() < 20 && chat->typing) //Max largo del mensaje a ingresar.
 					inputText += e.text.text;
 				break;
 			case SDL_KEYDOWN:
 				Logger::getInstance()->writeInformation("Teclado");
 				switch(e.key.keysym.sym) {
 					case SDLK_r:
-						owner.restart();
+						if(!chat->typing)
+							owner.restart();
 						break;
 					case SDLK_s:
-						if (selectionController()) {
+						if (!chat->typing && selectionController()) {
 							board.pushCommand(make_shared<StopCommand>(selection->getId()));
 						}
 						break;
+					case SDLK_F2:
+						chat->typing = !chat->typing;
+						inputText = "";
+						break;
 					case SDLK_SPACE:
-						focus();
+						if(!chat->typing)
+							focus();
 						break;
 					case SDLK_BACKSPACE: 
-						if (inputText.length() > 0){
+						if (chat->typing && inputText.length() > 0){
 							inputText.pop_back();
 						}
 						break;
 					case SDLK_RETURN:
-						chat->messages.push_back(inputText);
-						inputText = "";
+						if (chat->typing) {
+							chat->messages.push_back(inputText);
+							inputText = "";
+						}
 						break;
 				}
 				break;

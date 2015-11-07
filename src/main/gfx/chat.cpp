@@ -7,6 +7,7 @@ Chat::Chat(GameWindow& owner) :
 	offset(0, 0),
 	maxMessages(5)
 {
+	typing = false;
 }
 
 Chat::~Chat() {
@@ -45,29 +46,31 @@ void Chat::draw(SDL_Renderer* renderer, std::string inputText) {
 	SDL_FreeSurface(surface);
 	SDL_DestroyTexture(textureChat);
 
-	//Recuadro
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-	SDL_Point points[] = {
-		{ (int)offset.x, (int)(offset.y + maxMessages * size.y / (maxMessages + 1)) },
-		{ (int)(offset.x+size.x),(int)(offset.y + maxMessages * size.y / (maxMessages + 1)) },
-		{ (int)(offset.x + size.x) , (int)(offset.y+size.y) },
-		{ (int)offset.x,(int)(offset.y + size.y) },
-		{ (int)offset.x, (int)(offset.y + maxMessages * size.y / (maxMessages + 1)) } };
-	SDL_RenderDrawLines(renderer, points, 5);
+	if (typing) {
+		//Recuadro
+		SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+		SDL_Point points[] = {
+			{ (int)offset.x, (int)(offset.y + maxMessages * size.y / (maxMessages + 1)) },
+			{ (int)(offset.x + size.x),(int)(offset.y + maxMessages * size.y / (maxMessages + 1)) },
+			{ (int)(offset.x + size.x) , (int)(offset.y + size.y) },
+			{ (int)offset.x,(int)(offset.y + size.y) },
+			{ (int)offset.x, (int)(offset.y + maxMessages * size.y / (maxMessages + 1)) } };
+		SDL_RenderDrawLines(renderer, points, 5);
 
-	//Nuevo mensaje
-	std::string inputMessage;
-	if (inputText != "")inputMessage = owner.completeLine(inputText, size.x);
-	int inputAccess, inputW, inputH;
-	Uint32 inputFormat;
-	SDL_Surface * inputSurface = TTF_RenderText_Blended_Wrapped(owner.font, inputMessage.c_str(), colorBlanco, (Uint32)size.x);
-	SDL_Texture * inputTexture = SDL_CreateTextureFromSurface(renderer, inputSurface);
-	SDL_QueryTexture(inputTexture, &inputFormat, &inputAccess, &inputW, &inputH);
-	SDL_Rect inputPanel = { 0, 0, inputW , inputH };
-	SDL_Rect inputTextRect = { (int)(offset.x), (int)(offset.y + maxMessages * size.y / (maxMessages + 1)),
-		(int)((inputW>size.x) ? size.x : inputW), (int)((inputH>size.y / (maxMessages + 1)) ? size.y / (maxMessages + 1) : inputH) };
-	SDL_RenderCopy(renderer, inputTexture, &inputPanel, &inputTextRect);
-	SDL_FreeSurface(inputSurface);
-	SDL_DestroyTexture(inputTexture);
+		//Nuevo mensaje
+		std::string inputMessage;
+		if (inputText != "")inputMessage = owner.completeLine(inputText, size.x);
+		int inputAccess, inputW, inputH;
+		Uint32 inputFormat;
+		SDL_Surface * inputSurface = TTF_RenderText_Blended_Wrapped(owner.font, inputMessage.c_str(), colorBlanco, (Uint32)size.x);
+		SDL_Texture * inputTexture = SDL_CreateTextureFromSurface(renderer, inputSurface);
+		SDL_QueryTexture(inputTexture, &inputFormat, &inputAccess, &inputW, &inputH);
+		SDL_Rect inputPanel = { 0, 0, inputW , inputH };
+		SDL_Rect inputTextRect = { (int)(offset.x), (int)(offset.y + maxMessages * size.y / (maxMessages + 1)),
+			(int)((inputW>size.x) ? size.x : inputW), (int)((inputH>size.y / (maxMessages + 1)) ? size.y / (maxMessages + 1) : inputH) };
+		SDL_RenderCopy(renderer, inputTexture, &inputPanel, &inputTextRect);
+		SDL_FreeSurface(inputSurface);
+		SDL_DestroyTexture(inputTexture);
+	}
 }
 		
