@@ -36,7 +36,7 @@ void MiniMap::draw(SDL_Renderer* renderer) {
 	SDL_Point d = {(ts.x - es.x)/2, (ts.y - es.y)/2};
 	for (auto e : owner.player.board.getEntities()) {
 		if (owner.player.getVisibility(*e) != INVISIBLE) {
-			SDL_Color color = getColor(e->owner.getId());
+			SDL_Color color = owner.getColor(e->owner.getId());
 			auto p = boardToScreenPosition(e->center()-r2(.5,.5));
 			p.x += d.x; p.y += d.y;
 			if (owner.getSelection() == e)
@@ -61,14 +61,6 @@ SDL_Color MiniMap::tmpGetColor(std::string name) {
 		return{ 127, 127, 127 };
 
 	return{ 0, 127, 0 };
-}
-
-
-SDL_Color MiniMap::getColor(int id) {
-	Uint8 r = (id & 2) * 255;
-	Uint8 g = (id & 1) * 255;
-	Uint8 b = (id & 4) * 255;
-	return{ r, g, b };
 }
 
 SDL_Point MiniMap::boardToScreenPosition(r2 p) {

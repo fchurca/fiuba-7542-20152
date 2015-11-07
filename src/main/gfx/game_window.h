@@ -52,6 +52,7 @@ public:
 	std::shared_ptr<Chat> chat;
 	TTF_Font* font;
 	std::string completeLine(std::string line, double width);
+	SDL_Color getColor(int id);
 friend SpriteSheet;
 };
 #endif // __GFX_GAMEWINDOW_H__

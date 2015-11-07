@@ -85,6 +85,13 @@ void IsoView::draw(SDL_Renderer* renderer) {
 			continue;
 		}
 		it->second->render(*e, renderer);
+		if (e->owner.name != DEFAULT_PLAYER_NAME && owner.player.getVisibility(*e) != INVISIBLE) {
+			SDL_Color color = owner.getColor(e->owner.getId());
+			SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
+			SDL_Point centro = boardToScreenPosition(e->center());
+			SDL_Rect linea = { (int)(centro.x - TILE_WIDTH_DEFAULT/4), (int)(centro.y), TILE_WIDTH_DEFAULT/2, 2 };
+			SDL_RenderFillRect(renderer, &linea);
+		}
 	}
 	if (owner.getSelection()) {
 		Uint8 q = 255;

@@ -250,3 +250,10 @@ std::string GameWindow::completeLine(std::string line, double width) {
 	return result;
 }
 
+SDL_Color GameWindow::getColor(int id) {
+	Uint8 r = (id & 2) * 255;
+	Uint8 g = (id & 1) * 255;
+	Uint8 b = (id & 4) * 255;
+	return{ r, g, b };
+}
+

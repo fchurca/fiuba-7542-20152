@@ -11,7 +11,6 @@ private:
 	r2 size;
 	r2 offset;
 	r2 scale;
-	SDL_Color getColor(int id);
 	SDL_Color tmpGetColor(std::string name);
 protected:
 public:
