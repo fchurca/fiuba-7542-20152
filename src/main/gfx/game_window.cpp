@@ -55,6 +55,7 @@ GameWindow::GameWindow(Game& owner, Player& player, GraphicsParser& graphicsPars
 	if (!font) {
 		Logger::getInstance()->writeError("Error al abrir TTF");
 	}
+	inputText = "";
 	minimap = std::make_shared<MiniMap>(*this);
 	isoview = std::make_shared<IsoView>(*this, rulesetParser);
 	menu = std::make_shared<Menu>(*this);
@@ -83,7 +84,7 @@ void GameWindow::render() {
 	isoview->draw(renderer);
 	menu->draw(renderer);
 	minimap->draw(renderer);
-	chat->draw(renderer);
+	chat->draw(renderer, inputText);
 
 	SDL_RenderPresent(renderer);
 	return;
@@ -112,6 +113,9 @@ void GameWindow::processInput(){
 			case SDL_QUIT:
 				owner.exit();
 				break;
+			case SDL_TEXTINPUT:
+				inputText += e.text.text;
+				break;
 			case SDL_KEYDOWN:
 				Logger::getInstance()->writeInformation("Teclado");
 				switch(e.key.keysym.sym) {
@@ -125,6 +129,11 @@ void GameWindow::processInput(){
 						break;
 					case SDLK_SPACE:
 						focus();
+						break;
+					case SDLK_BACKSPACE: 
+						if (inputText.length() > 0){
+							inputText.pop_back();
+						}
 						break;
 				}
 				break;
@@ -222,7 +231,7 @@ std::string GameWindow::completeLine(std::string line, double width) {
 	esp = floor((width - txtAncho) / espAncho);
 	if (esp * espAncho + txtAncho < width)
 		esp++;
-	result.insert(result.size(), esp, ' ');
+	if(esp > 0)result.insert(result.size(), esp, ' ');
 	return result;
 }
 

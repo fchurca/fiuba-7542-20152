@@ -15,7 +15,7 @@ private:
 	std::vector<std::string> messages;
 protected:
 public:
-	void draw(SDL_Renderer* renderer);
+	void draw(SDL_Renderer* renderer, std::string inputText);
 	Chat(GameWindow& owner);
 	~Chat();
 };

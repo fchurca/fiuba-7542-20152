@@ -17,6 +17,7 @@ class RulesetParser;
 
 class GameWindow : public AClient {
 protected:
+	std::string inputText;
 	SDL_Point mouse;
 	SDL_Window* window;
 	SDL_Renderer* renderer;

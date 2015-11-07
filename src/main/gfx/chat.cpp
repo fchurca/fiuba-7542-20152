@@ -7,10 +7,10 @@ Chat::Chat(GameWindow& owner) :
 	offset(0, 0),
 	maxMessages(5)
 {
-	messages.push_back("mensaje1");
+	messages.push_back("mensaje1aaaaaaaaaaaaaaaaaaaaa");
 	messages.push_back("mensaje2");
 	messages.push_back("mensaje3");
-	messages.push_back("mensaje4");
+	messages.push_back("mensaje1aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
 	messages.push_back("mensaje5");
 	messages.push_back("mensaje6");
 	messages.push_back("mensaje7");
@@ -20,7 +20,7 @@ Chat::~Chat() {
 	messages.clear();
 }
 
-void Chat::draw(SDL_Renderer* renderer) {
+void Chat::draw(SDL_Renderer* renderer, std::string inputText) {
 	//Dibujo fondo
 	SDL_Rect destinoFondoChat = { offset.x, offset.y, size.x, size.y };
 	SDL_SetRenderDrawColor(renderer, 15, 15, 15, 255);
@@ -40,9 +40,10 @@ void Chat::draw(SDL_Renderer* renderer) {
 			}
 		}
 	}
+	textMessages = textMessages + owner.completeLine(inputText, size.x);
 	int access, w, h;
 	Uint32 format;
-	SDL_Surface * surface = TTF_RenderText_Blended_Wrapped(owner.font, textMessages.c_str(), colorBlanco, size.x / 3);
+	SDL_Surface * surface = TTF_RenderText_Blended_Wrapped(owner.font, textMessages.c_str(), colorBlanco, size.x);
 	SDL_Texture * textureChat = SDL_CreateTextureFromSurface(renderer, surface);
 	SDL_QueryTexture(textureChat, &format, &access, &w, &h);
 	SDL_Rect panel = { 0, 0, w , h };
