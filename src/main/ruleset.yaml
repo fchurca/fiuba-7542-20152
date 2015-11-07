@@ -25,8 +25,8 @@ tipos_entidades:
     cantidad_sprites: 1
   - nombre: centro
     imagen: resources/centro.png
-    ancho_base: 3.5
-    alto_base: 3.5
+    ancho_base: 2
+    alto_base: 2
     pixel_ref_x: 60
     pixel_ref_y: 60
     fps: 0
@@ -36,8 +36,8 @@ tipos_entidades:
     cantidad_sprites: 1
   - nombre: cuartel
     imagen: resources/cuartel.png
-    ancho_base: 3.5
-    alto_base: 3.5
+    ancho_base: 2
+    alto_base: 2
     pixel_ref_x: 60
     pixel_ref_y: 60
     fps: 0
@@ -47,8 +47,8 @@ tipos_entidades:
     cantidad_sprites: 1
   - nombre: establo
     imagen: resources/establo.png
-    ancho_base: 3.5
-    alto_base: 3.5
+    ancho_base: 2
+    alto_base: 2
     pixel_ref_x: 60
     pixel_ref_y: 60
     fps: 0
@@ -58,8 +58,8 @@ tipos_entidades:
     cantidad_sprites: 1
   - nombre: torre
     imagen: resources/torre.png
-    ancho_base: 3.5
-    alto_base: 3.5
+    ancho_base: 2
+    alto_base: 2
     pixel_ref_x: 60
     pixel_ref_y: 60
     fps: 0
@@ -144,6 +144,45 @@ tipos_entidades:
     ancho_sprite: 60
     alto_sprite: 60
     cantidad_sprites: 5
+    sight_radius: 3
+    speed: 3
+  - nombre: dragon
+    imagen: resources/dragon.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 30
+    pixel_ref_y: 32
+    fps: 10
+    delay: 0
+    ancho_sprite: 60
+    alto_sprite: 60
+    cantidad_sprites: 5
+    sight_radius: 3
+    speed: 3
+  - nombre: hachero
+    imagen: resources/hachero.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 30
+    pixel_ref_y: 32
+    fps: 10
+    delay: 0
+    ancho_sprite: 60
+    alto_sprite: 60
+    cantidad_sprites: 5
+    sight_radius: 3
+    speed: 3
+  - nombre: ogro
+    imagen: resources/ogro.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 30
+    pixel_ref_y: 32
+    fps: 10
+    delay: 0
+    ancho_sprite: 60
+    alto_sprite: 60
+    cantidad_sprites: 4
     sight_radius: 3
     speed: 3
   - nombre: cubo
