@@ -13,6 +13,11 @@ Chat::~Chat() {
 }
 
 void Chat::draw(SDL_Renderer* renderer) {
+	//Dibujo fondo
+	SDL_Rect destinoFondoChat = { offset.x, offset.y, size.x, size.y };
+	SDL_SetRenderDrawColor(renderer, 15, 15, 15, 255);
+	SDL_RenderFillRect(renderer, &destinoFondoChat);
+
 	SDL_Color colorBlanco = { 255, 255, 255 };
 	if (owner.font) {
 	}

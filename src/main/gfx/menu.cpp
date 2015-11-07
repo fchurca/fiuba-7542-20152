@@ -13,6 +13,10 @@ Menu::~Menu() {
 
 
 void Menu::draw(SDL_Renderer* renderer) {
+	//Dibujo fondo
+	SDL_Rect destinoFondoMenu = { offset.x, offset.y, size.x, size.y };
+	SDL_SetRenderDrawColor(renderer, 15, 15, 15, 255);
+	SDL_RenderFillRect(renderer, &destinoFondoMenu);
 	if (owner.font) {
 		std::string primerColumna = "", segundaColumnaActivos = "", segundaColumnaInactivos = "", terceraColumna = "";
 		SDL_Color colorBlanco = { 255, 255, 255 };

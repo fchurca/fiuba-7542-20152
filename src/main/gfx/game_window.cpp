@@ -58,6 +58,7 @@ GameWindow::GameWindow(Game& owner, Player& player, GraphicsParser& graphicsPars
 	minimap = std::make_shared<MiniMap>(*this);
 	isoview = std::make_shared<IsoView>(*this, rulesetParser);
 	menu = std::make_shared<Menu>(*this);
+	chat = std::make_shared<Chat>(*this);
 }
 
 GameWindow::~GameWindow() {
@@ -80,11 +81,9 @@ GameWindow::~GameWindow() {
 
 void GameWindow::render() {
 	isoview->draw(renderer);
-	SDL_Rect destinoFondoMenu = {0, 3*alto_pantalla/4, ancho_pantalla, alto_pantalla / 4};
-	SDL_SetRenderDrawColor(renderer, 15, 15, 15, 255);
-	SDL_RenderFillRect(renderer, &destinoFondoMenu);
 	menu->draw(renderer);
-	minimap->drawMinimap(renderer);
+	minimap->draw(renderer);
+	chat->draw(renderer);
 
 	SDL_RenderPresent(renderer);
 	return;

@@ -5,6 +5,7 @@
 #include "minimap.h"
 #include "isoview.h"
 #include "menu.h"
+#include "chat.h"
 #include "../model/abstract_client.h"
 #include "../model/game.h"
 #include "../log/logger.h"
@@ -47,6 +48,7 @@ public:
 	std::shared_ptr<MiniMap> minimap;
 	std::shared_ptr<IsoView> isoview;
 	std::shared_ptr<Menu> menu;
+	std::shared_ptr<Chat> chat;
 	TTF_Font* font;
 	std::string completeLine(std::string line, double width);
 friend SpriteSheet;

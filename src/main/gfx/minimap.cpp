@@ -12,7 +12,11 @@ MiniMap::MiniMap(GameWindow& owner) :
 
 MiniMap::~MiniMap() {}
 
-void MiniMap::drawMinimap(SDL_Renderer* renderer) {
+void MiniMap::draw(SDL_Renderer* renderer) {
+	//Dibujo fondo
+	SDL_Rect destinoFondoMinimapa = { offset.x, offset.y, size.x, size.y };
+	SDL_SetRenderDrawColor(renderer, 15, 15, 15, 255);
+	SDL_RenderFillRect(renderer, &destinoFondoMinimapa);
 	////Minimapa
 	SDL_Point ts = {(int)ceil(2 * scale.x), (int)ceil(scale.y)};
 	for (int i = 0; i < owner.player.board.sizeX; i++) {
