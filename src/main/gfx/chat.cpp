@@ -7,6 +7,13 @@ Chat::Chat(GameWindow& owner) :
 	offset(0, 0),
 	maxMessages(5)
 {
+	messages.push_back("mensaje1");
+	messages.push_back("mensaje2");
+	messages.push_back("mensaje3");
+	messages.push_back("mensaje4");
+	messages.push_back("mensaje5");
+	messages.push_back("mensaje6");
+	messages.push_back("mensaje7");
 }
 
 Chat::~Chat() {
@@ -18,8 +25,30 @@ void Chat::draw(SDL_Renderer* renderer) {
 	SDL_SetRenderDrawColor(renderer, 15, 15, 15, 255);
 	SDL_RenderFillRect(renderer, &destinoFondoChat);
 
+	//Me quedo con los ultimos mensajes
+	while (messages.size() > maxMessages)
+		messages.erase(messages.begin());
+
+	//Texto
+	std::string textMessages = "";
 	SDL_Color colorBlanco = { 255, 255, 255 };
 	if (owner.font) {
+		for (int i = 0; i < maxMessages; i++) {
+			if (messages.size() > i) {
+				textMessages = textMessages + owner.completeLine(messages[i], size.x);
+			}
+		}
 	}
+	int access, w, h;
+	Uint32 format;
+	SDL_Surface * surface = TTF_RenderText_Blended_Wrapped(owner.font, textMessages.c_str(), colorBlanco, size.x / 3);
+	SDL_Texture * textureChat = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_QueryTexture(textureChat, &format, &access, &w, &h);
+	SDL_Rect panel = { 0, 0, w , h };
+	SDL_Rect text = { (int)offset.x, (int)offset.y,
+		(int)((w>size.x / 3) ? size.x : w), (int)((h>size.y) ? size.y : h) };
+	SDL_RenderCopy(renderer, textureChat, &panel, &text);
+	SDL_FreeSurface(surface);
+	SDL_DestroyTexture(textureChat);
 }
 		
