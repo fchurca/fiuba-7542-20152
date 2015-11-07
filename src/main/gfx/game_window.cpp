@@ -114,7 +114,8 @@ void GameWindow::processInput(){
 				owner.exit();
 				break;
 			case SDL_TEXTINPUT:
-				inputText += e.text.text;
+				if(inputText.size() < 20) //Max largo del mensaje a ingresar.
+					inputText += e.text.text;
 				break;
 			case SDL_KEYDOWN:
 				Logger::getInstance()->writeInformation("Teclado");
@@ -233,9 +234,11 @@ std::string GameWindow::completeLine(std::string line, double width) {
 	TTF_SizeText(font, " ", &espAncho, &espAlto);
 	TTF_SizeText(font, result.c_str(), &txtAncho, &txtAlto);
 	esp = floor((width - txtAncho) / espAncho);
-	if (esp * espAncho + txtAncho < width)
-		esp++;
-	if(esp > 0)result.insert(result.size(), esp, ' ');
+	if (txtAncho < width) {
+		if (esp * espAncho + txtAncho < width)
+			esp++;
+		if (esp > 0)result.insert(result.size(), esp, ' ');
+	}
 	return result;
 }
 

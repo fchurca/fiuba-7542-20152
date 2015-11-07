@@ -23,7 +23,7 @@ void Chat::draw(SDL_Renderer* renderer, std::string inputText) {
 	while (messages.size() > maxMessages)
 		messages.erase(messages.begin());
 
-	//Texto
+	//Mensajes anteriores
 	std::string textMessages = "";
 	SDL_Color colorBlanco = { 255, 255, 255 };
 	if (owner.font) {
@@ -33,7 +33,6 @@ void Chat::draw(SDL_Renderer* renderer, std::string inputText) {
 			}
 		}
 	}
-	textMessages = textMessages + owner.completeLine(inputText, size.x);
 	int access, w, h;
 	Uint32 format;
 	SDL_Surface * surface = TTF_RenderText_Blended_Wrapped(owner.font, textMessages.c_str(), colorBlanco, size.x);
@@ -41,9 +40,34 @@ void Chat::draw(SDL_Renderer* renderer, std::string inputText) {
 	SDL_QueryTexture(textureChat, &format, &access, &w, &h);
 	SDL_Rect panel = { 0, 0, w , h };
 	SDL_Rect text = { (int)offset.x, (int)offset.y,
-		(int)((w>size.x / 3) ? size.x : w), (int)((h>size.y) ? size.y : h) };
+		(int)((w>size.x) ? size.x : w), (int)((h>(maxMessages * size.y / (maxMessages + 1))) ? (maxMessages * size.y / (maxMessages + 1)) : h) };
 	SDL_RenderCopy(renderer, textureChat, &panel, &text);
 	SDL_FreeSurface(surface);
 	SDL_DestroyTexture(textureChat);
+
+	//Recuadro
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+	SDL_Point points[] = {
+		{offset.x, offset.y + maxMessages * size.y / (maxMessages + 1) },
+		{offset.x+size.x,offset.y + maxMessages * size.y / (maxMessages + 1) },
+		{ offset.x + size.x , offset.y+size.y },
+		{offset.x,offset.y + size.y },
+		{ offset.x, offset.y + maxMessages * size.y / (maxMessages + 1) } };
+	SDL_RenderDrawLines(renderer, points, 5);
+
+	//Nuevo mensaje
+	std::string inputMessage;
+	if (inputText != "")inputMessage = owner.completeLine(inputText, size.x);
+	int inputAccess, inputW, inputH;
+	Uint32 inputFormat;
+	SDL_Surface * inputSurface = TTF_RenderText_Blended_Wrapped(owner.font, inputMessage.c_str(), colorBlanco, size.x);
+	SDL_Texture * inputTexture = SDL_CreateTextureFromSurface(renderer, inputSurface);
+	SDL_QueryTexture(inputTexture, &inputFormat, &inputAccess, &inputW, &inputH);
+	SDL_Rect inputPanel = { 0, 0, inputW , inputH };
+	SDL_Rect inputTextRect = { (int)(offset.x), (int)(offset.y + maxMessages * size.y / (maxMessages + 1)),
+		(int)((inputW>size.x) ? size.x : inputW), (int)((inputH>size.y / (maxMessages + 1)) ? size.y / (maxMessages + 1) : inputH) };
+	SDL_RenderCopy(renderer, inputTexture, &inputPanel, &inputTextRect);
+	SDL_FreeSurface(inputSurface);
+	SDL_DestroyTexture(inputTexture);
 }
 		
