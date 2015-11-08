@@ -34,6 +34,39 @@ tipos_entidades:
     ancho_sprite: 128
     alto_sprite: 128
     cantidad_sprites: 1
+  - nombre: choza
+    imagen: resources/choza.png
+    ancho_base: 2
+    alto_base: 2
+    pixel_ref_x: 60
+    pixel_ref_y: 60
+    fps: 0
+    delay: 0
+    ancho_sprite: 128
+    alto_sprite: 128
+    cantidad_sprites: 1
+  - nombre: granero
+    imagen: resources/granero.png
+    ancho_base: 2
+    alto_base: 2
+    pixel_ref_x: 60
+    pixel_ref_y: 60
+    fps: 0
+    delay: 0
+    ancho_sprite: 128
+    alto_sprite: 128
+    cantidad_sprites: 1
+  - nombre: porton
+    imagen: resources/porton.png
+    ancho_base: 2
+    alto_base: 2
+    pixel_ref_x: 60
+    pixel_ref_y: 60
+    fps: 0
+    delay: 0
+    ancho_sprite: 128
+    alto_sprite: 128
+    cantidad_sprites: 1
   - nombre: cuartel
     imagen: resources/cuartel.png
     ancho_base: 2
