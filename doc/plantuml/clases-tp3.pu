@@ -1,0 +1,70 @@
+@startuml
+
+package Entities {
+abstract class Entity
+abstract class Structure
+abstract class Unit
+class Building
+class UnfinishedBuilding
+class Resource
+class Worker
+}
+
+Entity <|-- Structure
+Structure <|-- Building
+Building <|-- UnfinishedBuilding
+Structure <|-- Resource
+
+Entity <|-- Unit
+Unit <|-- Worker
+
+
+package Mixins {
+class Gauge
+abstract class EntityMixin
+abstract class ProgressMixin
+abstract class HealthMixin
+abstract class CargoMixin
+
+Entity <|-- EntityMixin
+
+EntityMixin <|-- ProgressMixin
+ProgressMixin o-- Gauge
+
+EntityMixin <|-- HealthMixin
+HealthMixin o-- Gauge
+
+EntityMixin <|-- CargoMixin
+CargoMixin o-- Gauge
+}
+
+HealthMixin <|-- Unit
+HealthMixin <|-- Building
+
+CargoMixin <|-- Resource
+CargoMixin <|-- Worker
+
+ProgressMixin <|-- UnfinishedBuilding
+
+
+package Interactions {
+abstract class Interaction
+class Attack
+class Build
+class Gather
+}
+
+Interaction <|-- Attack
+Attack --> Unit
+Attack --> HealthMixin
+
+Interaction <|-- Build
+Build --> Worker
+Build --> UnfinishedBuilding
+
+Interaction <|-- Gather
+Gather --> Worker
+Gather --> Resource
+
+@enduml
+
