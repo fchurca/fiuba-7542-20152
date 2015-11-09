@@ -6,62 +6,50 @@ Menu::Menu(GameWindow& owner) :
 	size(3 * owner.ancho_pantalla / 4, owner.alto_pantalla / 4),
 	offset(0, 3 * owner.alto_pantalla / 4)
 {
-	font = TTF_OpenFont(FUENTE_DEFAULT, 20);
-	if (!font) {
-		Logger::getInstance()->writeError("Error al abrir TTF");
-	}
 }
 
 Menu::~Menu() {
-	TTF_CloseFont(font);
 }
 
-std::string Menu::completeLine(std::string line, TTF_Font* font) {
-	int txtAncho, txtAlto, espAncho, espAlto, esp;
-	std::string result = line;
-	TTF_SizeText(font, " ", &espAncho, &espAlto);
-	TTF_SizeText(font, result.c_str(), &txtAncho, &txtAlto);
-	esp = floor((size.x / 3 - txtAncho) / espAncho);
-	if (esp * espAncho + txtAncho < size.x / 3)
-		esp++;
-	result.insert(result.size(), esp, ' ');
-	return result;
-}
 
 void Menu::draw(SDL_Renderer* renderer) {
-	if (font) {
+	//Dibujo fondo
+	SDL_Rect destinoFondoMenu = { (int)offset.x, (int)offset.y, (int)size.x, (int)size.y };
+	SDL_SetRenderDrawColor(renderer, 15, 15, 15, 255);
+	SDL_RenderFillRect(renderer, &destinoFondoMenu);
+	if (owner.font) {
 		std::string primerColumna = "", segundaColumnaActivos = "", segundaColumnaInactivos = "", terceraColumna = "";
 		SDL_Color colorBlanco = { 255, 255, 255 };
 		SDL_Color colorGris = { 127, 127, 127 };
 		//Primer Columna//
-		primerColumna = completeLine(owner.player.name, font);
+		primerColumna = owner.completeLine(owner.player.name, size.x / 3);
 		for (auto r : owner.player.getResources()) {
-			primerColumna = primerColumna + completeLine(r.first + "=" + std::to_string(r.second), font);
+			primerColumna = primerColumna + owner.completeLine(r.first + "=" + std::to_string(r.second), size.x / 3);
 		}
 		//
 		//Segunda Columna//
 		for (auto p : owner.player.board.getPlayers()) {
 			if (p->getActive())
-				segundaColumnaActivos = segundaColumnaActivos + completeLine("[A]  " + p->name, font);
+				segundaColumnaActivos = segundaColumnaActivos + owner.completeLine("[A]  " + p->name, size.x / 3);
 			else
-				segundaColumnaInactivos = segundaColumnaInactivos + completeLine("[I]  " + p->name, font);
+				segundaColumnaInactivos = segundaColumnaInactivos + owner.completeLine("[I]  " + p->name, size.x / 3);
 		}
 
 		//Tercer Columna//
 		std::shared_ptr<Entity> s = owner.getSelection();
 		if (s != nullptr) {
-			terceraColumna = terceraColumna + completeLine(s->name, font);
-			terceraColumna = terceraColumna + completeLine("(" + s->owner.name + ")", font);
+			terceraColumna = terceraColumna + owner.completeLine(s->name, size.x / 3);
+			terceraColumna = terceraColumna + owner.completeLine("(" + s->owner.name + ")", size.x / 3);
 		}
 		int access1, w1, h1, access2A, w2A, h2A, access2I, w2I, h2I, access3, w3, h3;
 		Uint32 format1, format2A, format2I, format3;
-		SDL_Surface * c1 = TTF_RenderText_Blended_Wrapped(font, primerColumna.c_str(), colorBlanco, size.x / 3);
+		SDL_Surface * c1 = TTF_RenderText_Blended_Wrapped(owner.font, primerColumna.c_str(), colorBlanco, (Uint32)(size.x / 3));
 		SDL_Texture * textureMenu1 = SDL_CreateTextureFromSurface(renderer, c1);
-		SDL_Surface * c2A = TTF_RenderText_Blended_Wrapped(font, segundaColumnaActivos.c_str(), colorBlanco, size.x / 3);
+		SDL_Surface * c2A = TTF_RenderText_Blended_Wrapped(owner.font, segundaColumnaActivos.c_str(), colorBlanco, (Uint32)(size.x / 3));
 		SDL_Texture * textureMenu2A = SDL_CreateTextureFromSurface(renderer, c2A);
-		SDL_Surface * c2I = TTF_RenderText_Blended_Wrapped(font, segundaColumnaInactivos.c_str(), colorGris, size.x / 3);
+		SDL_Surface * c2I = TTF_RenderText_Blended_Wrapped(owner.font, segundaColumnaInactivos.c_str(), colorGris, (Uint32)(size.x / 3));
 		SDL_Texture * textureMenu2I = SDL_CreateTextureFromSurface(renderer, c2I);
-		SDL_Surface * c3 = TTF_RenderText_Blended_Wrapped(font, terceraColumna.c_str(), colorBlanco, size.x / 3);
+		SDL_Surface * c3 = TTF_RenderText_Blended_Wrapped(owner.font, terceraColumna.c_str(), colorBlanco, (Uint32)(size.x / 3));
 		SDL_Texture * textureMenu3 = SDL_CreateTextureFromSurface(renderer, c3);
 
 		SDL_QueryTexture(textureMenu1, &format1, &access1, &w1, &h1);

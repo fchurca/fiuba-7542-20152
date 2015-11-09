@@ -46,14 +46,14 @@ void IsoView::draw(SDL_Renderer* renderer) {
 		bd = bl.x + bl.y + 2, // Bottom diagonal
 		ld = ul.x - ul.y - 2, // Left diagonal
 		rd = ur.x - ur.y + 2; // Right diagonal
-	for (size_t x = max(0.0, ul.x),
+	for (size_t x = (size_t)max(0.0, ul.x),
 		maxx = min(((double)owner.player.board.sizeX), br.x);
 		x < maxx;
 		x++) {
 		if (x >= owner.player.board.sizeX) {
 			break;
 		}
-		for (size_t y = max(max(max(0.0, ur.y), ud - x), x - rd),
+		for (size_t y = (size_t)max(max(max(0.0, ur.y), ud - x), x - rd),
 			maxy = min(min(min(((double)owner.player.board.sizeY), bl.y), bd - x), x - ld);
 			y < maxy;
 			y++) {
@@ -85,6 +85,13 @@ void IsoView::draw(SDL_Renderer* renderer) {
 			continue;
 		}
 		it->second->render(*e, renderer);
+		if (e->owner.name != DEFAULT_PLAYER_NAME && owner.player.getVisibility(*e) != INVISIBLE) {
+			SDL_Color color = owner.getColor(e->owner.getId());
+			SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
+			SDL_Point centro = boardToScreenPosition(e->center());
+			SDL_Rect linea = { (int)(centro.x - TILE_WIDTH_DEFAULT/4), (int)(centro.y), TILE_WIDTH_DEFAULT/2, 2 };
+			SDL_RenderFillRect(renderer, &linea);
+		}
 	}
 	if (owner.getSelection()) {
 		Uint8 q = 255;

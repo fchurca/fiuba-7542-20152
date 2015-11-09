@@ -51,9 +51,15 @@ GameWindow::GameWindow(Game& owner, Player& player, GraphicsParser& graphicsPars
 	if(player.entities().size() > 0)
 		selection = player.entities().at(0);
 	focus();
+	font = TTF_OpenFont(FUENTE_DEFAULT, 20);
+	if (!font) {
+		Logger::getInstance()->writeError("Error al abrir TTF");
+	}
+	inputText = "";
 	minimap = std::make_shared<MiniMap>(*this);
 	isoview = std::make_shared<IsoView>(*this, rulesetParser);
 	menu = std::make_shared<Menu>(*this);
+	chat = std::make_shared<Chat>(*this);
 }
 
 GameWindow::~GameWindow() {
@@ -71,15 +77,14 @@ GameWindow::~GameWindow() {
 		Logger::getInstance()->writeWarning("Window never initialized");
 	}
 	clearSelection();
+	TTF_CloseFont(font);
 }
 
 void GameWindow::render() {
 	isoview->draw(renderer);
-	SDL_Rect destinoFondoMenu = {0, 3*alto_pantalla/4, ancho_pantalla, alto_pantalla / 4};
-	SDL_SetRenderDrawColor(renderer, 15, 15, 15, 255);
-	SDL_RenderFillRect(renderer, &destinoFondoMenu);
 	menu->draw(renderer);
-	minimap->drawMinimap(renderer);
+	minimap->draw(renderer);
+	chat->draw(renderer, inputText);
 
 	SDL_RenderPresent(renderer);
 	return;
@@ -108,19 +113,40 @@ void GameWindow::processInput(){
 			case SDL_QUIT:
 				owner.exit();
 				break;
+			case SDL_TEXTINPUT:
+				if(inputText.size() < 20 && chat->typing) //Max largo del mensaje a ingresar.
+					inputText += e.text.text;
+				break;
 			case SDL_KEYDOWN:
 				Logger::getInstance()->writeInformation("Teclado");
 				switch(e.key.keysym.sym) {
 					case SDLK_r:
-						owner.restart();
+						if(!chat->typing)
+							owner.restart();
 						break;
 					case SDLK_s:
-						if (selectionController()) {
+						if (!chat->typing && selectionController()) {
 							board.pushCommand(make_shared<StopCommand>(selection->getId()));
 						}
 						break;
+					case SDLK_F2:
+						chat->typing = !chat->typing;
+						inputText = "";
+						break;
 					case SDLK_SPACE:
-						focus();
+						if(!chat->typing)
+							focus();
+						break;
+					case SDLK_BACKSPACE: 
+						if (chat->typing && inputText.length() > 0){
+							inputText.pop_back();
+						}
+						break;
+					case SDLK_RETURN:
+						if (chat->typing) {
+							chat->messages.push_back(inputText);
+							inputText = "";
+						}
 						break;
 				}
 				break;
@@ -208,5 +234,26 @@ bool GameWindow::selectionController() {
 		return false;
 	}
 	return &(selection->owner) == &player;
+}
+
+std::string GameWindow::completeLine(std::string line, double width) {
+	int txtAncho, txtAlto, espAncho, espAlto, esp;
+	std::string result = line;
+	TTF_SizeText(font, " ", &espAncho, &espAlto);
+	TTF_SizeText(font, result.c_str(), &txtAncho, &txtAlto);
+	esp = (int)floor((width - txtAncho) / espAncho);
+	if (txtAncho < width) {
+		if (esp * espAncho + txtAncho < width)
+			esp++;
+		if (esp > 0)result.insert(result.size(), esp, ' ');
+	}
+	return result;
+}
+
+SDL_Color GameWindow::getColor(int id) {
+	Uint8 r = (id & 2) * 255;
+	Uint8 g = (id & 1) * 255;
+	Uint8 b = (id & 4) * 255;
+	return{ r, g, b };
 }
 

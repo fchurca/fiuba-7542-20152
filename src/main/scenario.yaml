@@ -61,7 +61,9 @@ escenario:
       - {x: 9, y: 6, tipo: piedra }
       - {x: 9, y: 7, tipo: piedra }
     entidades:
-      - {x: 2, y: 9, tipo: cartel }
+      - {x: 2, y: 9, tipo: flag_blue }
+      - {x: 4, y: 9, tipo: flag_red }
+      - {x: 6, y: 9, tipo: flag_green }
       - {x: 5, y: 3, tipo: cartel }
       - {x: 5, y: 9, tipo: cartel }
       - {x: 3, y: 11, tipo: troncoNESW }
@@ -74,6 +76,10 @@ escenario:
       - {x: 11, y: 10, tipo: chancho }
       - {x: 11, y: 11, tipo: chancho }
       - {x: 5, y: 5, tipo: chancho }
+      - {x: 2, y: 20, tipo: torre }
+      - {x: 6, y: 20, tipo: centro }
+      - {x: 10, y: 20, tipo: establo }
+      - {x: 14, y: 20, tipo: cuartel }
       - {x: 15, y: 15, tipo: arbol }
       - {x: 15, y: 17, tipo: arbol }
       - {x: 17, y: 15, tipo: arbol }

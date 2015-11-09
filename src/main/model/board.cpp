@@ -174,7 +174,7 @@ SmartBoard::SmartBoard(RulesetParser& rulesetParser, ScenarioParser& scenarioPar
 
 	auto te = scenarioParser.getEscenario();
 	for(auto& t : te.terrenos) {
-		setTerrain(t.tipoEntidad, t.pos.x, t.pos.y);
+		setTerrain(t.tipoEntidad, (size_t)t.pos.x, (size_t)t.pos.y);
 	}
 	// Relleno con TERRENO_DEFAULT
 	for(size_t x = 0; x < sizeX; x++) {

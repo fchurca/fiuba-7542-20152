@@ -9,13 +9,11 @@ class GameWindow;
 class Menu {
 private:
 	GameWindow& owner;
-	TTF_Font* font;
 	r2 size;
 	r2 offset;
 protected:
 public:
 	void draw(SDL_Renderer* renderer);
-	std::string completeLine(std::string line, TTF_Font* font);
 	Menu(GameWindow& owner);
 	~Menu();
 };
