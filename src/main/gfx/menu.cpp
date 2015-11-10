@@ -29,10 +29,15 @@ void Menu::draw(SDL_Renderer* renderer) {
 		//
 		//Segunda Columna//
 		for (auto p : owner.player.board.getPlayers()) {
-			if (p->getActive())
-				segundaColumnaActivos = segundaColumnaActivos + owner.completeLine("[A]  " + p->name, size.x / 3);
-			else
-				segundaColumnaInactivos = segundaColumnaInactivos + owner.completeLine("[I]  " + p->name, size.x / 3);
+			if (!(p->getAlive())) {
+				segundaColumnaInactivos = segundaColumnaInactivos + owner.completeLine("[X] " + p->name, size.x / 3);
+			} else {
+				if (p->getActive()) {
+					segundaColumnaActivos = segundaColumnaActivos + owner.completeLine("[A] " + p->name, size.x / 3);
+				} else {
+					segundaColumnaInactivos = segundaColumnaInactivos + owner.completeLine("[I]  " + p->name, size.x / 3);
+				}
+			}
 		}
 
 		//Tercer Columna//

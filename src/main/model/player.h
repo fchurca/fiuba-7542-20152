@@ -24,6 +24,7 @@ class Player : public IdMixin, public FrameMixin {
 		std::map<std::string, long> resources;
 		void setFrame();
 		bool active;
+		bool alive;
 	public:
 		const std::string name;
 		const bool human;
@@ -39,6 +40,8 @@ class Player : public IdMixin, public FrameMixin {
 		bool setResources(std::string resource, long r);
 		bool getActive();
 		void setActive(bool newActive);
+		bool getAlive();
+		void kill();
 };
 
 #endif

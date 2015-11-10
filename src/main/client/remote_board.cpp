@@ -171,9 +171,12 @@ void RemoteBoard::update() {
 void RemoteBoard::updateResources(string playerName) {
 	auto& p = findPlayer(playerName);
 	// Activity
-	bool a = false;
-	*socket >> a;
-	p.setActive(a);
+	bool active = false, alive = true;
+	*socket >> active >> alive;
+	p.setActive(active);
+	if (!alive) {
+		p.kill();
+	}
 	// Resources
 	char c = nul;
 	*socket >> c;

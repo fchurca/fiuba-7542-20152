@@ -227,14 +227,18 @@ void SmartBoard::update() {
 void SmartBoard::execute(StopCommand& command) {
 	auto e = findEntity(command.entityId);
 	if (e) {
-		e->unsetTarget();
+		if (e->owner.getAlive()) {
+			e->unsetTarget();
+		}
 	}
 }
 
 void SmartBoard::execute(MoveCommand& command) {
 	auto e = findEntity(command.entityId);
 	if (e) {
-		e->addTarget(command.position);
+		if (e->owner.getAlive()) {
+			e->addTarget(command.position);
+		}
 	}
 }
 

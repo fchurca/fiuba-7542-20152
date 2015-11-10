@@ -12,7 +12,8 @@ Player::Player(ABoard& board, std::string name, bool human) :
 	board(board),
 	name(name),
 	human(human),
-	active(!human)
+	active(!human),
+	alive(true)
 {
 	static size_t idCount = 1;
 	id = idCount++;
@@ -26,16 +27,18 @@ vector<shared_ptr<Entity>> Player::entities() {
 }
 
 void Player::update() {
-	for (auto& v : map_visibility) {
-		if (v == VISIBLE) {
-			v = SEEN;
+	if(alive) {
+		for (auto& v : map_visibility) {
+			if (v == VISIBLE) {
+				v = SEEN;
+			}
 		}
-	}
-	vector<shared_ptr<Entity>> entitites = entities();
-	for (auto& e : entitites) {
-		e->mapVisible([this](r2 pos) {
+		vector<shared_ptr<Entity>> entitites = entities();
+		for (auto& e : entitites) {
+			e->mapVisible([this](r2 pos) {
 					map_visibility[(int)pos.y* board.sizeX + (int)pos.x] = VISIBLE;
-				});
+					});
+		}
 	}
 }
 
@@ -92,5 +95,14 @@ void Player::setActive(bool newActive) {
 
 bool Player::getActive() {
 	return active;
+}
+
+void Player::kill() {
+	alive = false;
+	setFrame();
+}
+
+bool Player::getAlive() {
+	return alive;
 }
 
