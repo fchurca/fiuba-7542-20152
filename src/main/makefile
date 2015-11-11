@@ -17,7 +17,7 @@ bin/standalone_main.o: standalone/main.cpp server/remote_client.h
 bin/isoview.o: gfx/isoview.cpp gfx/isoview.h
 	${CXXO}
 
-bin/menu.o: gfx/menu.cpp gfx/menu.o
+bin/menu.o: gfx/menu.cpp gfx/menu.h
 	${CXXO}
 
 bin/game_window.o: gfx/game_window.cpp gfx/game_window.h model/game.h model/board.h model/entity.h
