@@ -6,17 +6,37 @@ abstract class Structure
 abstract class Unit
 class Building
 class UnfinishedBuilding
+class TownCenter
+class Barracks
+class Flag
 class Resource
+class Tree
+class Mine
 class Worker
+class King
+class Soldier
+class Pikeman
+class Archer
 }
 
 Entity <|-- Structure
+
 Structure <|-- Building
 Building <|-- UnfinishedBuilding
+Building <|-- TownCenter
+Building <|-- Barracks
+Building <|-- Flag
+
 Structure <|-- Resource
+Resource <|-- Tree
+Resource <|-- Mine
 
 Entity <|-- Unit
+Unit <|-- King
 Unit <|-- Worker
+Unit <|-- Soldier
+Unit <|-- Pikeman
+Unit <|-- Archer
 
 
 package Mixins {
@@ -25,6 +45,7 @@ abstract class EntityMixin
 abstract class ProgressMixin
 abstract class HealthMixin
 abstract class CargoMixin
+}
 
 Entity <|-- EntityMixin
 
@@ -36,7 +57,6 @@ HealthMixin o-- Gauge
 
 EntityMixin <|-- CargoMixin
 CargoMixin o-- Gauge
-}
 
 HealthMixin <|-- Unit
 HealthMixin <|-- Building
@@ -65,6 +85,51 @@ Build --> UnfinishedBuilding
 Interaction <|-- Gather
 Gather --> Worker
 Gather --> Resource
+
+
+package Factories {
+abstract class EntityFactory
+abstract class UnitFactory
+abstract class StructureFactory
+abstract class BuildingFactory
+abstract class ResourceFactory
+class WorkerFactory
+class KingFactory
+class SoldierFactory
+class PikemanFactory
+class ArcherFactory
+class BarracksFactory
+class FlagFactory
+class TownCenterFactory
+class MineFactory
+class TreeFactory
+}
+
+EntityFactory <|--  UnitFactory
+EntityFactory <|--  StructureFactory
+StructureFactory <|--  BuildingFactory
+StructureFactory <|--  ResourceFactory
+
+UnitFactory <|--  WorkerFactory
+WorkerFactory --> Worker
+UnitFactory <|--  KingFactory
+KingFactory --> King
+UnitFactory <|--  SoldierFactory
+SoldierFactory --> Soldier
+UnitFactory <|--  PikemanFactory
+PikemanFactory --> Pikeman
+UnitFactory <|--  ArcherFactory
+ArcherFactory --> Archer
+BuildingFactory <|--  BarracksFactory
+BarracksFactory --> Barracks
+BuildingFactory <|--  FlagFactory
+FlagFactory --> Flag
+BuildingFactory <|--  TownCenterFactory
+TownCenterFactory --> TownCenter
+ResourceFactory <|--  MineFactory
+MineFactory --> Mine
+ResourceFactory <|--  TreeFactory
+TreeFactory --> Tree
 
 @enduml
 
