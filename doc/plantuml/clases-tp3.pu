@@ -1,22 +1,26 @@
 @startuml
 
 package Entities {
-abstract class Entity
-abstract class Structure
-abstract class Unit
+abstract class Entity {
+name
+position
+size
+}
+class Structure
+abstract class Unit {
+speed
+orientation
+strength
+range
+}
 class Building
 class UnfinishedBuilding
 class TownCenter
 class Barracks
 class Flag
 class Resource
-class Tree
-class Mine
 class Worker
 class King
-class Soldier
-class Pikeman
-class Archer
 }
 
 Entity <|-- Structure
@@ -28,26 +32,25 @@ Building <|-- Barracks
 Building <|-- Flag
 
 Structure <|-- Resource
-Resource <|-- Tree
-Resource <|-- Mine
 
 Entity <|-- Unit
 Unit <|-- King
 Unit <|-- Worker
-Unit <|-- Soldier
-Unit <|-- Pikeman
-Unit <|-- Archer
 
 
 package Mixins {
-class Gauge
+class Gauge {
+max
+min
+value
+}
 abstract class EntityMixin
 abstract class ProgressMixin
 abstract class HealthMixin
 abstract class CargoMixin
 }
 
-Entity <|-- EntityMixin
+Entity o-- Gauge : cooldown
 
 EntityMixin <|-- ProgressMixin
 ProgressMixin o-- Gauge
@@ -67,42 +70,62 @@ CargoMixin <|-- Worker
 ProgressMixin <|-- UnfinishedBuilding
 
 
-package Interactions {
-abstract class Interaction
-class Attack
-class Build
-class Gather
+package Commands {
+abstract class Command
+class StopCommand
+abstract class PositionalCommand {
+position
+}
+class MoveCommand
+class BuildCommand {
+buildingType
+}
+abstract class InteractionCommand
+class AttackCommand
+class RepairCommand
+class FollowCommand
+class GatherCommand
 }
 
-Interaction <|-- Attack
-Attack --> Unit
-Attack --> HealthMixin
+Command o-- Entity : subject
 
-Interaction <|-- Build
-Build --> Worker
-Build --> UnfinishedBuilding
+Command <|-- StopCommand
 
-Interaction <|-- Gather
-Gather --> Worker
-Gather --> Resource
+Command <|-- PositionalCommand
+
+PositionalCommand <|-- MoveCommand
+PositionalCommand <|-- BuildCommand
+
+Command <|-- InteractionCommand
+
+InteractionCommand o-- Entity : object
+
+InteractionCommand <|-- AttackCommand
+InteractionCommand <|-- RepairCommand
+InteractionCommand <|-- FollowCommand
 
 
 package Factories {
-abstract class EntityFactory
-abstract class UnitFactory
+abstract class EntityFactory {
+name
+size
+}
+class UnitFactory {
+speed
+strength
+health
+range
+}
 abstract class StructureFactory
 abstract class BuildingFactory
-abstract class ResourceFactory
+class ResourceFactory {
+capacity
+}
 class WorkerFactory
 class KingFactory
-class SoldierFactory
-class PikemanFactory
-class ArcherFactory
 class BarracksFactory
 class FlagFactory
 class TownCenterFactory
-class MineFactory
-class TreeFactory
 }
 
 EntityFactory <|--  UnitFactory
@@ -114,22 +137,12 @@ UnitFactory <|--  WorkerFactory
 WorkerFactory --> Worker
 UnitFactory <|--  KingFactory
 KingFactory --> King
-UnitFactory <|--  SoldierFactory
-SoldierFactory --> Soldier
-UnitFactory <|--  PikemanFactory
-PikemanFactory --> Pikeman
-UnitFactory <|--  ArcherFactory
-ArcherFactory --> Archer
 BuildingFactory <|--  BarracksFactory
 BarracksFactory --> Barracks
 BuildingFactory <|--  FlagFactory
 FlagFactory --> Flag
 BuildingFactory <|--  TownCenterFactory
 TownCenterFactory --> TownCenter
-ResourceFactory <|--  MineFactory
-MineFactory --> Mine
-ResourceFactory <|--  TreeFactory
-TreeFactory --> Tree
 
 @enduml
 
