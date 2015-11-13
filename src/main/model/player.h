@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <mutex>
 
 #include "geometry.h"
 #include "mixins.h"
@@ -20,6 +21,7 @@ typedef enum {
 
 class Player : public IdMixin, public FrameMixin {
 	protected:
+		std::mutex visibilitMutex;
 		std::vector<Visibility> map_visibility;
 		std::map<std::string, long> resources;
 		void setFrame();

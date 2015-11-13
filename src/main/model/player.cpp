@@ -28,6 +28,7 @@ vector<shared_ptr<Entity>> Player::entities() {
 
 void Player::update() {
 	if(alive) {
+		visibilitMutex.lock();
 		for (auto& v : map_visibility) {
 			if (v == VISIBLE) {
 				v = SEEN;
@@ -39,6 +40,7 @@ void Player::update() {
 					map_visibility[(int)pos.y* board.sizeX + (int)pos.x] = VISIBLE;
 					});
 		}
+		visibilitMutex.unlock();
 	}
 }
 
@@ -53,11 +55,14 @@ Visibility Player::getVisibility(Entity& e) {
 }
 
 Visibility Player::getVisibility(r2 pos) {
+	visibilitMutex.lock();
 	if (pos.x < 0 || pos.x >= board.sizeX ||
 		pos.y < 0 || pos.y >= board.sizeY) {
 		return INVISIBLE;
 	}
-	return map_visibility[(int)floor(pos.y) * board.sizeX + (int)floor(pos.x)];
+	auto ret = map_visibility[(int)floor(pos.y) * board.sizeX + (int)floor(pos.x)];
+	visibilitMutex.unlock();
+	return ret;
 }
 
 std::map<std::string, long> Player::getResources() {
