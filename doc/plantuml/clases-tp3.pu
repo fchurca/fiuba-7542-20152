@@ -14,9 +14,12 @@ strength
 range
 }
 class Building
+class ProducerBuilding {
+products
+current
+}
 class UnfinishedBuilding
 class TownCenter
-class Barracks
 class Flag
 class Resource
 class Worker
@@ -26,10 +29,10 @@ class King
 Entity <|-- Structure
 
 Structure <|-- Building
-Building <|-- UnfinishedBuilding
-Building <|-- TownCenter
-Building <|-- Barracks
 Building <|-- Flag
+Building <|-- UnfinishedBuilding
+Building <|-- ProducerBuilding
+ProducerBuilding <|-- TownCenter
 
 Structure <|-- Resource
 
@@ -47,10 +50,14 @@ value
 abstract class EntityMixin
 abstract class ProgressMixin
 abstract class HealthMixin
-abstract class CargoMixin
+abstract class CargoMixin {
+cargoType
+}
 }
 
 Entity o-- Gauge : cooldown
+
+ProducerBuilding o-- ProgressMixin
 
 EntityMixin <|-- ProgressMixin
 ProgressMixin o-- Gauge
@@ -76,6 +83,9 @@ class StopCommand
 abstract class PositionalCommand {
 position
 }
+class CreateCommand {
+unitType
+}
 class MoveCommand
 class BuildCommand {
 buildingType
@@ -90,6 +100,8 @@ class GatherCommand
 Command o-- Entity : subject
 
 Command <|-- StopCommand
+
+Command <|-- CreateCommand
 
 Command <|-- PositionalCommand
 
@@ -117,13 +129,14 @@ health
 range
 }
 abstract class StructureFactory
-abstract class BuildingFactory
+abstract class BuildingFactory {
+health
+}
 class ResourceFactory {
 capacity
 }
 class WorkerFactory
 class KingFactory
-class BarracksFactory
 class FlagFactory
 class TownCenterFactory
 }
@@ -137,8 +150,6 @@ UnitFactory <|--  WorkerFactory
 WorkerFactory --> Worker
 UnitFactory <|--  KingFactory
 KingFactory --> King
-BuildingFactory <|--  BarracksFactory
-BarracksFactory --> Barracks
 BuildingFactory <|--  FlagFactory
 FlagFactory --> Flag
 BuildingFactory <|--  TownCenterFactory
