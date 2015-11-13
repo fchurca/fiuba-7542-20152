@@ -290,3 +290,21 @@ tipos_recursos:
     ancho_sprite: 64
     alto_sprite: 35
     capacidad: 100
+  - nombre: madera
+    imagen: resources/madera.png
+    ancho_base: 1
+    alto_base: 1
+    pixel_ref_x: 32
+    pixel_ref_y: 3
+    ancho_sprite: 64
+    alto_sprite: 35
+    capacidad: 100
+  - nombre: piedras
+    imagen: resources/piedras.png
+    ancho_base: 1
+    alto_base: 1
+    pixel_ref_x: 32
+    pixel_ref_y: 3
+    ancho_sprite: 64
+    alto_sprite: 35
+    capacidad: 100

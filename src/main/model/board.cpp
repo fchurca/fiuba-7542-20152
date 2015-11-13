@@ -81,7 +81,7 @@ shared_ptr<Entity> ABoard::createEntity(string name, string playerName, r2 posit
 
 shared_ptr<EntityFactory> ABoard::createEntityFactory(string name, r2 size, double speed, int sight_radius, bool solid, int capacity) {
 	shared_ptr<EntityFactory> pFactory;
-	if(name == "carne" || name == "oro") {
+	if(name == "carne" || name == "oro" || name == "madera" || name == "piedras") {
 		pFactory = make_shared<ResourceEntityFactory>(name, size, speed, sight_radius, solid, capacity, *this);
 	} else {
 		pFactory = make_shared<EntityFactory>(name, size, speed, sight_radius, solid, capacity, *this);
