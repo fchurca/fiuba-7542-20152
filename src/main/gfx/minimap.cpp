@@ -35,15 +35,17 @@ void MiniMap::draw(SDL_Renderer* renderer) {
 	SDL_Point es = {(int)ceil((scale.x + scale.y) / 2), (int)ceil((scale.x + scale.y) / 2)};
 	SDL_Point d = {(ts.x - es.x)/2, (ts.y - es.y)/2};
 	for (auto e : owner.player.board.getEntities()) {
-		if (owner.player.getVisibility(*e) != INVISIBLE) {
-			SDL_Color color = owner.getColor(e->owner.getId());
-			auto p = boardToScreenPosition(e->center()-r2(.5,.5));
-			p.x += d.x; p.y += d.y;
-			if (owner.getSelection() == e)
-				color = { 255,255,255 };
-			SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
-			SDL_Rect entidad = { p.x, p.y, es.x, es.y };
-			SDL_RenderFillRect(renderer, &entidad);
+		if (e) {
+			if (owner.player.getVisibility(*e) != INVISIBLE) {
+				SDL_Color color = owner.getColor(e->owner.getId());
+				auto p = boardToScreenPosition(e->center()-r2(.5,.5));
+				p.x += d.x; p.y += d.y;
+				if (owner.getSelection() == e)
+					color = { 255,255,255 };
+				SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
+				SDL_Rect entidad = { p.x, p.y, es.x, es.y };
+				SDL_RenderFillRect(renderer, &entidad);
+			}
 		}
 	}
 	auto pul = boardToScreenPosition(owner.isoview->screenToBoardPosition({ 0,0 }));

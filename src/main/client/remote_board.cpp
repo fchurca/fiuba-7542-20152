@@ -135,7 +135,9 @@ void RemoteBoard::update() {
 					size_t id;
 					*socket >> id;
 					auto e = findEntity(id);
-					e->setDeletable();
+					if(e) {
+						e->setDeletable();
+					}
 				}
 				break;
 			case 'E':
