@@ -4,6 +4,7 @@
 #include "board.h"
 #include "entity.h"
 #include "entity_factory.h"
+#include "game.h"
 
 #include "../parser_yaml/ruleset_parser.h"
 #include "../parser_yaml/scenario_parser.h"
@@ -11,7 +12,8 @@
 using namespace std;
 
 //-----------------------------------------------------------------------------
-ABoard::ABoard(RulesetParser& rulesetParser, string name, int sizeX, int sizeY, long maxResources) :
+ABoard::ABoard(Game& game, RulesetParser& rulesetParser, string name, int sizeX, int sizeY, long maxResources) :
+	game(game),
 	dt(rulesetParser.getConfiguracion().dt),
 	name(name),
 	sizeX(sizeX), sizeY(sizeY),
@@ -171,6 +173,7 @@ void ABoard::update() {
 	frame++;
 	for(size_t i = 0; i < entities.size();) {
 		if (entities[i]->getDeletable()) {
+			game.notifyDeath(entities[i]->getId());
 			entities.erase(entities.begin() + i);
 		} else {
 			i++;
@@ -184,8 +187,9 @@ void ABoard::update() {
 	commandMutex.unlock();
 }
 
-SmartBoard::SmartBoard(RulesetParser& rulesetParser, ScenarioParser& scenarioParser) :
-	ABoard(rulesetParser,
+SmartBoard::SmartBoard(Game& game, RulesetParser& rulesetParser, ScenarioParser& scenarioParser) :
+	ABoard(game,
+			rulesetParser,
 			scenarioParser.getEscenario().nombre,
 			scenarioParser.getEscenario().size_x, scenarioParser.getEscenario().size_y,
 			scenarioParser.getEscenario().max_resources)

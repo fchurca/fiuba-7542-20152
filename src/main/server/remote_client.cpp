@@ -22,15 +22,7 @@ void RemoteClient::setFrame() {
 }
 
 void RemoteClient::update() {
-	auto board = this->owner.getBoard();
-	deletedMutex.lock();
-	board->mapEntities([this](shared_ptr<Entity> e) {
-			if (e->getDeletable()) {
-				deleted.push(e->getId());
-			}
-		});
 	setFrame();
-	deletedMutex.unlock();
 	if (!running) {
 		running = true;
 		th = thread(&RemoteClient::run, this);
@@ -104,10 +96,12 @@ void RemoteClient::run() {
 				*socket >> frame >> eotSink;
 				*socket << ack << this->frame;
 				board.mapEntities([this, frame](shared_ptr<Entity> e) {
-						if (e->getFrame() > frame) {
-						*socket << 'E' << *e;
-						}
-						});
+						if(e) {
+							if (e->getFrame() > frame) {
+								*socket << 'E' << *e;
+							}
+						}}
+						);
 				deletedMutex.lock();
 				while (deleted.size() > 0) {
 					*socket << 'D' << deleted.front();
@@ -132,6 +126,13 @@ RemoteClient::~RemoteClient() {
 	if(running) {
 		th.join();
 	}
+}
+
+void RemoteClient::notifyDeath(int id) {
+	auto board = this->owner.getBoard();
+	deletedMutex.lock();
+	deleted.push(id);
+	deletedMutex.unlock();
 }
 
 

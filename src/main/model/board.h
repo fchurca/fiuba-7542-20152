@@ -15,6 +15,7 @@
 #include "../log/logger.h"
 #include "../gfx/game_timer.h"
 
+class Game;
 class Entity;
 class EntityFactory;
 class ScenarioParser;
@@ -34,13 +35,14 @@ class ABoard : public FrameMixin {
 		bool started;
 		std::thread th;
 		GameTimer timer;
+		Game& game;
 	public:
 		long maxResources;
 		int sizeX, sizeY;
 		std::string name;
 		size_t dt;
 
-		ABoard(RulesetParser& rulesetParser, std::string name, int sizeX, int sizeY, long maxResources);
+		ABoard(Game& game, RulesetParser& rulesetParser, std::string name, int sizeX, int sizeY, long maxResources);
 		virtual ~ABoard();
 
 		enum ABoard::BoardState getState();
@@ -75,7 +77,7 @@ class SmartBoard : public ABoard {
 		SmartBoard();
 
 	public:
-		SmartBoard(RulesetParser& rulesetParser, ScenarioParser& scenarioParser);
+		SmartBoard(Game& game, RulesetParser& rulesetParser, ScenarioParser& scenarioParser);
 		~SmartBoard();
 
 		void update();

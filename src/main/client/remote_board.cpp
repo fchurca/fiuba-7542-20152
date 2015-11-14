@@ -13,10 +13,8 @@
 using namespace std;
 using namespace charnames;
 
-#include <iostream>
-
-RemoteBoard::RemoteBoard(RulesetParser& rulesetParser, ClientParser& clientParser) :
-	ABoard(rulesetParser,
+RemoteBoard::RemoteBoard(Game& game, RulesetParser& rulesetParser, ClientParser& clientParser) :
+	ABoard(game, rulesetParser,
 			"Loading...",
 			0, 0, 0)
 {

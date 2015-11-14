@@ -33,5 +33,6 @@ public:
 	bool willRestart();
 	void exit();
 	bool willExit();
+	void notifyDeath(int id);
 };
 #endif //__GAME_H__

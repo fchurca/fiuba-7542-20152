@@ -102,3 +102,10 @@ void Game::exit() {
 bool Game::willExit() {
 	return exit_p || restart_p || (!board->isRunning());
 }
+
+void Game::notifyDeath(int id) {
+	for (auto& c : clients) {
+		c.second->notifyDeath(id);
+	}
+}
+

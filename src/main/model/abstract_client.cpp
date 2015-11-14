@@ -9,3 +9,6 @@ AClient::AClient(Game& owner, Player& player) :
 
 AClient::~AClient() {}
 
+void AClient::notifyDeath(int id) {
+}
+

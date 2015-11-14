@@ -96,11 +96,11 @@ int main(int argc, char* argv[]) {
 			// Acá estamos levantando el cliente. Lo siguiente en realidad es un RemoteBoard que se conecta por TCP/IP al daemon
 			ClientParser clientParser(clientFile, CLIENT_SERVER_CONFIG_FILE_PATH_DEFAULT);
 			clientParser.parse();
-			game.setBoard(make_shared<RemoteBoard>(rulesetParser, clientParser));
+			game.setBoard(make_shared<RemoteBoard>(game, rulesetParser, clientParser));
 		} else {
 			ScenarioParser scenarioParser(scenarioFile, SCENARIO_CONFIG_FILE_PATH_DEFAULT);
 			scenarioParser.parse();
-			game.setBoard(make_shared<SmartBoard>(rulesetParser, scenarioParser));
+			game.setBoard(make_shared<SmartBoard>(game, rulesetParser, scenarioParser));
 		}
 		if (daemon) {
 			ServerParser serverParser(serverFile, SERVER_CONFIG_FILE_PATH_DEFAULT);

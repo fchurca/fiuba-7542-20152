@@ -28,6 +28,7 @@ class RemoteClient : public AClient{
 		~RemoteClient();
 		void update();
 		void run();
+		void notifyDeath(int id);
 };
 
 Socket& operator<<(Socket& socket, r2 r);
