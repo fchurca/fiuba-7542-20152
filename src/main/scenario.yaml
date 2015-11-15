@@ -109,15 +109,20 @@ escenario:
         isHuman: true
         entidades:
           - {x: 20, y: 20, tipo: cubo }
+          - {x: 21, y: 20, tipo: cubo }
       - name: Franceses
         isHuman: true
         entidades:
           - {x: 3, y: 3, tipo: mago }
+          - {x: 4, y: 3, tipo: mago }
       - name: Ingleses
         isHuman: true
         entidades:
           - {x: 7, y: 3, tipo: mago }
+          - {x: 8, y: 3, tipo: mago }
       - name: Alemanes
         isHuman: true
         entidades:
           - {x: 11, y: 3, tipo: mago }
+          - {x: 12, y: 3, tipo: mago }
+          - {x: 15, y: 3, tipo: centro }
