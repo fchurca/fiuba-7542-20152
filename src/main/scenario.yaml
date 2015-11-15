@@ -109,20 +109,23 @@ escenario:
         isHuman: true
         entidades:
           - {x: 20, y: 20, tipo: cubo }
-          - {x: 21, y: 20, tipo: cubo }
+          - {x: 20, y: 21, tipo: cubo }
+          - {x: 22, y: 15, tipo: centro }
       - name: Franceses
         isHuman: true
         entidades:
-          - {x: 3, y: 3, tipo: mago }
-          - {x: 4, y: 3, tipo: mago }
+          - {x: 7, y: 3, tipo: mago }
+          - {x: 7, y: 2, tipo: mago }
+          - {x: 6, y: 6, tipo: centro }
       - name: Ingleses
         isHuman: true
         entidades:
-          - {x: 7, y: 3, tipo: mago }
-          - {x: 8, y: 3, tipo: mago }
+          - {x: 11, y: 3, tipo: mago }
+          - {x: 11, y: 4, tipo: mago }
+          - {x: 10, y: 6, tipo: centro }
       - name: Alemanes
         isHuman: true
         entidades:
-          - {x: 11, y: 3, tipo: mago }
-          - {x: 12, y: 3, tipo: mago }
-          - {x: 15, y: 3, tipo: centro }
+          - {x: 17, y: 1, tipo: mago }
+          - {x: 18, y: 1, tipo: mago }
+          - {x: 15, y: 1, tipo: centro }
