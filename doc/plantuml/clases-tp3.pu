@@ -7,7 +7,7 @@ position
 size
 }
 class Structure
-abstract class Unit {
+class Unit {
 speed
 orientation
 strength
@@ -103,6 +103,8 @@ Command <|-- StopCommand
 
 Command <|-- CreateCommand
 
+Command <|-- GatherCommand
+
 Command <|-- PositionalCommand
 
 PositionalCommand <|-- MoveCommand
@@ -138,6 +140,7 @@ capacity
 class WorkerFactory
 class KingFactory
 class FlagFactory
+class ProducerBuildingFactory
 class TownCenterFactory
 }
 
@@ -145,14 +148,18 @@ EntityFactory <|--  UnitFactory
 EntityFactory <|--  StructureFactory
 StructureFactory <|--  BuildingFactory
 StructureFactory <|--  ResourceFactory
+ResourceFactory --> Resource
 
 UnitFactory <|--  WorkerFactory
 WorkerFactory --> Worker
 UnitFactory <|--  KingFactory
+UnitFactory --> Unit
 KingFactory --> King
 BuildingFactory <|--  FlagFactory
 FlagFactory --> Flag
-BuildingFactory <|--  TownCenterFactory
+BuildingFactory <|-- ProducerBuildingFactory
+ProducerBuildingFactory --> ProducerBuilding
+ProducerBuildingFactory <|-- TownCenterFactory
 TownCenterFactory --> TownCenter
 
 @enduml
