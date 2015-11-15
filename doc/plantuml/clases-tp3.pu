@@ -5,15 +5,17 @@ abstract class Entity {
 name
 position
 size
+solid
+sightRadius
 }
-class Structure
+abstract class Structure
 class Unit {
 speed
 orientation
 strength
 range
 }
-class Building
+abstract class Building
 class ProducerBuilding {
 products
 current
@@ -123,6 +125,8 @@ package Factories {
 abstract class EntityFactory {
 name
 size
+solid
+sightRadius
 }
 class UnitFactory {
 speed
@@ -140,7 +144,9 @@ capacity
 class WorkerFactory
 class KingFactory
 class FlagFactory
-class ProducerBuildingFactory
+class ProducerBuildingFactory {
+products
+}
 class TownCenterFactory
 }
 
