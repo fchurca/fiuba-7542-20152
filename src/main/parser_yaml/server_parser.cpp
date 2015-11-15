@@ -2,7 +2,7 @@
 
 using namespace std;
 
-ServerParser::ServerParser(std::string filename,std::string filenameDefault ) : GenericParser(filename, filenameDefault) {
+ServerParser::ServerParser(std::string filename) : GenericParser(filename, SERVER_CONFIG_FILE_PATH_DEFAULT) {
 }
 
 ServerParser::~ServerParser(void) {

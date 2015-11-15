@@ -42,7 +42,7 @@ private:
 	void setTipoTerrenoDefault(TagTipoEntidad& tipoTerreno, int i);
 	void setTipoRecursoDefault(TagTipoEntidad& tipoRecurso, int i);
 public:
-	RulesetParser(std::string filename, std::string filenameDefault);
+	RulesetParser(std::string filename);
 	TagConfiguracion getConfiguracion();
 	std::vector<TagTipoEntidad> getTiposEntidades();
 	std::vector<TagTipoEntidad> getTiposTerrenos();

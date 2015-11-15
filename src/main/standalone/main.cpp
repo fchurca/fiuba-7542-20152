@@ -86,7 +86,7 @@ int main(int argc, char* argv[]) {
 
 	bool restart = true;
 	do {
-		RulesetParser rulesetParser(rulesetFile, RULESET_CONFIG_FILE_PATH_DEFAULT);
+		RulesetParser rulesetParser(rulesetFile);
 		rulesetParser.parse();
 
 		Game game;
@@ -94,23 +94,23 @@ int main(int argc, char* argv[]) {
 
 		if (client) {
 			// Acá estamos levantando el cliente. Lo siguiente en realidad es un RemoteBoard que se conecta por TCP/IP al daemon
-			ClientParser clientParser(clientFile, CLIENT_SERVER_CONFIG_FILE_PATH_DEFAULT);
+			ClientParser clientParser(clientFile);
 			clientParser.parse();
 			game.setBoard(make_shared<RemoteBoard>(game, rulesetParser, clientParser));
 		} else {
-			ScenarioParser scenarioParser(scenarioFile, SCENARIO_CONFIG_FILE_PATH_DEFAULT);
+			ScenarioParser scenarioParser(scenarioFile);
 			scenarioParser.parse();
 			game.setBoard(make_shared<SmartBoard>(game, rulesetParser, scenarioParser));
 		}
 		if (daemon) {
-			ServerParser serverParser(serverFile, SERVER_CONFIG_FILE_PATH_DEFAULT);
+			ServerParser serverParser(serverFile);
 			serverParser.parse();
 			server = make_shared<Server>(game, serverParser);
 			server->init(); // TODO: Delay until game.start()
 		}
 		auto graphicPlayer = game.getAvailablePlayer();
 		if (graphicPlayer) {
-			GraphicsParser graphicsParser(graphicsFile, GRAPHICS_CONFIG_FILE_PATH_DEFAULT);
+			GraphicsParser graphicsParser(graphicsFile);
 			graphicsParser.parse();
 			game.addClient(make_shared<GameWindow>(game, *(graphicPlayer), graphicsParser, rulesetParser));
 		}

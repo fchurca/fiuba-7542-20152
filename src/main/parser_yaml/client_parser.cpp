@@ -2,8 +2,8 @@
 
 using namespace std;
 
-ClientParser::ClientParser(std::string filename, std::string filenameDefault) :
-	GenericParser(filename, filenameDefault) {
+ClientParser::ClientParser(std::string filename) :
+	GenericParser(filename, CLIENT_SERVER_CONFIG_FILE_PATH_DEFAULT) {
 }
 
 ClientParser::~ClientParser(void) {

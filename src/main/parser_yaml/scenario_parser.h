@@ -42,7 +42,7 @@ private:
 	void setEscenarioDefault(TagEscenario& escenario);
 	void setProtagonistaDefault(TagEntidad& protagonista);
 public:
-	ScenarioParser(std::string filename, std::string filenameDefault);
+	ScenarioParser(std::string filename);
 	TagEscenario getEscenario();
 	~ScenarioParser(void);
 };

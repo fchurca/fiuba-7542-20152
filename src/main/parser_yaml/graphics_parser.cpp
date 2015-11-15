@@ -2,7 +2,7 @@
 
 using namespace std;
 
-GraphicsParser::GraphicsParser(std::string filename, std::string filenameDefault) : GenericParser(filename,filenameDefault) {
+GraphicsParser::GraphicsParser(std::string filename) : GenericParser(filename,GRAPHICS_CONFIG_FILE_PATH_DEFAULT) {
 }
 
 GraphicsParser::~GraphicsParser(void) {

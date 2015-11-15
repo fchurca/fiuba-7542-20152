@@ -22,7 +22,7 @@ private:
 	void setPantallaDefault(TagPantalla& pantalla);
 
 public:
-	GraphicsParser(std::string filename, std::string filenameDefault);
+	GraphicsParser(std::string filename);
 	TagPantalla getPantalla();
 	~GraphicsParser(void);
 };

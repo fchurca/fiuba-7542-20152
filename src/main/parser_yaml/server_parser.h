@@ -23,7 +23,7 @@ private:
 	void setServerConfigurationDefault(TagServerConfiguration& configuration);
 
 public:
-	ServerParser(std::string filename, std::string filenameDefault);
+	ServerParser(std::string filename);
 	TagServerConfiguration getServerConfiguration();
 	~ServerParser(void);
 };

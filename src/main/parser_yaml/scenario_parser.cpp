@@ -2,7 +2,7 @@
 
 using namespace std;
 
-ScenarioParser::ScenarioParser(std::string filename, std::string filenameDefault) : GenericParser(filename, filenameDefault) {
+ScenarioParser::ScenarioParser(std::string filename) : GenericParser(filename, SCENARIO_CONFIG_FILE_PATH_DEFAULT) {
 }
 
 ScenarioParser::~ScenarioParser(void) {

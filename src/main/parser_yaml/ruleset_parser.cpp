@@ -2,7 +2,7 @@
 
 using namespace std;
 
-RulesetParser::RulesetParser(std::string filename, std::string filenameDefault) : GenericParser(filename, filenameDefault) {
+RulesetParser::RulesetParser(std::string filename) : GenericParser(filename, RULESET_CONFIG_FILE_PATH_DEFAULT) {
 }
 
 RulesetParser::~RulesetParser(void) {

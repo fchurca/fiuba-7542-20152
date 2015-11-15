@@ -20,7 +20,7 @@ private:
 	void setClientConfigurationDefault(TagClientConfiguration& configuration);
 
 public:
-	ClientParser(std::string filename, std::string filenameDefault);
+	ClientParser(std::string filename);
 	TagClientConfiguration getClientConfiguracion();
 	~ClientParser(void);
 };
