@@ -7,7 +7,7 @@
 #include "board.h"
 #include "entity.h"
 
-class ResourceEntityFactory;
+class ResourceFactory;
 
 class EntityFactory {
 	public:
@@ -26,9 +26,9 @@ class EntityFactory {
 		virtual void populate();
 };
 
-class ResourceEntityFactory: public EntityFactory {
+class ResourceFactory: public EntityFactory {
 	public:
-		ResourceEntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, ABoard& board);
+		ResourceFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, ABoard& board);
 		void populate();
 };
 

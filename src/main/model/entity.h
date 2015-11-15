@@ -13,7 +13,7 @@
 //-----------------------------------------------------------------------------
 
 class ABoard;
-class ResourceEntity;
+class Resource;
 
 class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 	protected:
@@ -23,10 +23,9 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 		bool solid;
 		double orientation;
 		bool adjustPosition();
-		Entity();
 		virtual void collide(Entity* other);
 		virtual void collide(Entity& other);
-		virtual void collide(ResourceEntity& other);
+		virtual void collide(Resource& other);
 		bool canEnter(rectangle r);
 		bool canEnter(r2 newPosition);
 		void setFrame();
@@ -54,7 +53,7 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 		template<typename L> void mapVisible(L fun);
 
 		Entity(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity);
-		~Entity();
+		virtual ~Entity();
 
 		void update();
 
@@ -65,12 +64,30 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 		bool operator!=(Entity& other);
 };
 
-class ResourceEntity : public Entity {
+class Unit : public Entity {};
+
+class Worker : public Entity {};
+
+class King : public Entity {};
+
+class Structure : public Entity {
+	public:
+		Structure(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity);
+		virtual ~Structure();
+};
+
+class Building : public Structure {};
+class UnfinishedBuilding : public Building {};
+class ProducerBuilding : public Building {};
+class TownCenter : public ProducerBuilding {};
+class Flag : public Building {};
+
+class Resource : public Structure {
 	protected:
 		void collide(Entity& other);
-		void collide(ResourceEntity& other);
+		void collide(Resource& other);
 	public:
-		ResourceEntity(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity);
+		Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity);
 };
 
 #include "entity.cxx"

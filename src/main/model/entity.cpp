@@ -176,7 +176,7 @@ void Entity::collide(Entity* other) {
 
 void Entity::collide(Entity& other) {}
 
-void Entity::collide(ResourceEntity& other) {}
+void Entity::collide(Resource& other) {}
 
 bool Entity::canEnter(rectangle r) {
 	auto& p = r.position;
@@ -301,10 +301,19 @@ bool Entity::operator!=(Entity& other) {
 	return !operator==(other);
 }
 
-ResourceEntity::ResourceEntity(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity):Entity(name, board, owner, position, size, speed, sight_radius, solid, capacity)
+
+Structure::Structure(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity):
+	Entity(name, board, owner, position, size, speed, sight_radius, solid, capacity)
 {}
 
-void ResourceEntity::collide(Entity& other) {
+Structure::~Structure() {}
+
+
+Resource::Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity):
+	Structure(name, board, owner, position, size, speed, sight_radius, solid, capacity)
+{}
+
+void Resource::collide(Entity& other) {
 	if(!getDeletable() &&
 			!other.getDeletable()) {
 		stringstream message;
@@ -321,5 +330,5 @@ void ResourceEntity::collide(Entity& other) {
 	}
 }
 
-void ResourceEntity::collide(ResourceEntity& other) {}
+void Resource::collide(Resource& other) {}
 

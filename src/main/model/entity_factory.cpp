@@ -29,7 +29,7 @@ EntityFactory::~EntityFactory() {
 
 std::shared_ptr<Entity> EntityFactory::createEntity(Player& player, r2 position) {
 	if(name == "carne" || name == "oro" || name == "madera" || name == "piedras") {
-		return std::make_shared<ResourceEntity>(name, board, player, position, size, speed, sight_radius, solid, capacity);
+		return std::make_shared<Resource>(name, board, player, position, size, speed, sight_radius, solid, capacity);
 	} else {
 		return std::make_shared<Entity>(name, board, player, position, size, speed, sight_radius, solid, capacity);
 	}
@@ -38,12 +38,12 @@ std::shared_ptr<Entity> EntityFactory::createEntity(Player& player, r2 position)
 void EntityFactory::populate() {
 }
 
-ResourceEntityFactory::ResourceEntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, ABoard& board) :
+ResourceFactory::ResourceFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, ABoard& board) :
 	EntityFactory(name, size, speed, sight_radius, solid, capacity, board)
 
 {}
 
-void ResourceEntityFactory::populate() {
+void ResourceFactory::populate() {
 	for(size_t n = board.sizeX*board.sizeY/10; n > 0; n--) {
 		if ((rand()%2) > 0) {
 			board.createEntity(name,
