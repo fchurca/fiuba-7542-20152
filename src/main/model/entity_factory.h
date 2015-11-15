@@ -7,8 +7,6 @@
 #include "board.h"
 #include "entity.h"
 
-class ResourceFactory;
-
 class EntityFactory {
 	public:
 		const std::string name;
@@ -20,15 +18,49 @@ class EntityFactory {
 		ABoard& board;
 
 		EntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, ABoard& board);
-		~EntityFactory();
+		virtual ~EntityFactory();
 
-		std::shared_ptr<Entity> createEntity(Player& player, r2 position);
+		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 		virtual void populate();
 };
 
-class ResourceFactory: public EntityFactory {
+class UnitFactory: public EntityFactory {
+	public:
+		UnitFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, ABoard& board);
+};
+
+class WorkerFactory: public UnitFactory {
+	public:
+		WorkerFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, ABoard& board);
+};
+class KingFactory: public UnitFactory {
+	public:
+		KingFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, ABoard& board);
+};
+
+class StructureFactory: public EntityFactory {
+	public:
+		StructureFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, ABoard& board);
+};
+
+class ResourceFactory: public StructureFactory {
 	public:
 		ResourceFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, ABoard& board);
+		std::shared_ptr<Entity> createEntity(Player& player, r2 position);
+		void populate();
+};
+
+class BuildingFactory: public StructureFactory {
+	public:
+		BuildingFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, ABoard& board);
+		std::shared_ptr<Entity> createEntity(Player& player, r2 position);
+		void populate();
+};
+
+class ProducerBuildingFactory: public StructureFactory {
+	public:
+		ProducerBuildingFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, ABoard& board);
+		std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 		void populate();
 };
 
