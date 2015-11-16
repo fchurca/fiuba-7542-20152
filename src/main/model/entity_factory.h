@@ -60,13 +60,13 @@ class FlagFactory: public BuildingFactory {
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 };
 
-class ProducerBuildingFactory: public BuildingFactory {
+class ProducerBuildingFactory: public BuildingFactory { // TODO: products
 	public:
 		ProducerBuildingFactory(std::string name, r2 size, int sight_radius, bool solid, ABoard& board);
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 };
 
-class TownCenterFactory: public ProducerBuildingFactory {
+class TownCenterFactory: public ProducerBuildingFactory { // TODO: products
 	public:
 		TownCenterFactory(std::string name, r2 size, int sight_radius, bool solid, ABoard& board);
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);

@@ -88,10 +88,24 @@ shared_ptr<Entity> ABoard::createEntity(string name, string playerName, r2 posit
 
 shared_ptr<EntityFactory> ABoard::createEntityFactory(string name, r2 size, double speed, int sight_radius, bool solid, int capacity) {
 	shared_ptr<EntityFactory> pFactory;
+	// if(behaviour == "resource")
 	if(name == "carne" || name == "oro" || name == "madera" || name == "piedras") {
 		pFactory = make_shared<ResourceFactory>(name, size, sight_radius, solid, capacity, *this);
+	// else if(behaviour == "unit")
 	} else {
 		pFactory = make_shared<UnitFactory>(name, size, speed, sight_radius, solid, *this);
+	// } else if(behaviour == "worker") {
+	//	pFactory = make_shared<WorkerFactory>(name, size, speed, sight_radius, solid, *this);
+	// } else if(behaviour == "king") {
+	//	pFactory = make_shared<KingFactory>(name, size, speed, sight_radius, solid, *this);
+	// } else if(behaviour == "producer_building") {
+	// TODO: products
+	//	pFactory = make_shared<ProducerBuildingFactory>(name, size, sight_radius, solid, *this);
+	// } else if(behaviour == "town_center") {
+	// TODO: products
+	//	pFactory = make_shared<TownCenterFactory>(name, size, sight_radius, solid, *this);
+	// } else if(behaviour == "flag") {
+	//	pFactory = make_shared<FlagFactory>(name, size, sight_radius, solid, *this);
 	}
 	entityFactories[name] = pFactory;
 	return pFactory;

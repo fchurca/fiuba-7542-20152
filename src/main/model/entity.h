@@ -95,13 +95,13 @@ class UnfinishedBuilding : public Building {
 		UnfinishedBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid);
 };
 
-class ProducerBuilding : public Building {
+class ProducerBuilding : public Building { // TODO: products
 	public:
 		virtual void update();
 		ProducerBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid);
 };
 
-class TownCenter : public ProducerBuilding {
+class TownCenter : public ProducerBuilding { // TODO: products
 	public:
 		void update();
 		TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid);
