@@ -330,24 +330,13 @@ void King::update() {
 }
 
 
-Structure::Structure(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid):
-	Entity(name, board, owner, position, size, sight_radius, solid)
-{}
-
-void Structure::update() {
-	Entity::update();
-}
-
-Structure::~Structure() {}
-
-
 Resource::Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity):
-	Structure(name, board, owner, position, size, sight_radius, solid),
+	Entity(name, board, owner, position, size, sight_radius, solid),
 	capacity(capacity)
 {}
 
 void Resource::update() {
-	Structure::update();
+	Entity::update();
 }
 
 void Resource::collide(Entity& other) {

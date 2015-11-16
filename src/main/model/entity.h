@@ -83,20 +83,13 @@ class King : public Unit {
 		King(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid);
 };
 
-class Structure : public Entity {
-	public:
-		virtual void update();
-		Structure(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid);
-		virtual ~Structure();
-};
-
-class Building : public Structure {};
+class Building : public Entity {};
 class UnfinishedBuilding : public Building {};
 class ProducerBuilding : public Building {};
 class TownCenter : public ProducerBuilding {};
 class Flag : public Building {};
 
-class Resource : public Structure {
+class Resource : public Entity {
 	protected:
 		void update();
 		void collide(Entity& other);

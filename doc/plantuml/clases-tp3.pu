@@ -1,5 +1,19 @@
 @startuml
 
+package Mixins {
+class Gauge {
+max
+min
+value
+}
+abstract class EntityMixin
+abstract class ProgressMixin
+abstract class HealthMixin
+abstract class CargoMixin {
+cargoType
+}
+}
+
 package Entities {
 abstract class Entity {
 name
@@ -8,7 +22,6 @@ size
 solid
 sightRadius
 }
-abstract class Structure
 class Unit {
 speed
 orientation
@@ -28,34 +41,18 @@ class Worker
 class King
 }
 
-Entity <|-- Structure
-
-Structure <|-- Building
+Entity <|-- Building
 Building <|-- Flag
 Building <|-- UnfinishedBuilding
 Building <|-- ProducerBuilding
 ProducerBuilding <|-- TownCenter
 
-Structure <|-- Resource
+Entity <|-- Resource
 
 Entity <|-- Unit
 Unit <|-- King
 Unit <|-- Worker
 
-
-package Mixins {
-class Gauge {
-max
-min
-value
-}
-abstract class EntityMixin
-abstract class ProgressMixin
-abstract class HealthMixin
-abstract class CargoMixin {
-cargoType
-}
-}
 
 Entity o-- Gauge : cooldown
 
@@ -134,7 +131,6 @@ strength
 health
 range
 }
-abstract class StructureFactory
 abstract class BuildingFactory {
 health
 }
@@ -153,9 +149,8 @@ class TownCenterFactory
 }
 
 EntityFactory <|--  UnitFactory
-EntityFactory <|--  StructureFactory
-StructureFactory <|--  BuildingFactory
-StructureFactory <|--  ResourceFactory
+EntityFactory <|--  BuildingFactory
+EntityFactory <|--  ResourceFactory
 ResourceFactory --> Resource
 
 UnitFactory <|--  WorkerFactory

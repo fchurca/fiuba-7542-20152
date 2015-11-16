@@ -11,13 +11,11 @@ class EntityFactory {
 	public:
 		const std::string name;
 		r2 size;
-		const double speed; // TODO: Belongs in UnitFactory
 		int sight_radius;
 		bool solid;
-		int capacity;
 		ABoard& board;
 
-		EntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, ABoard& board);
+		EntityFactory(std::string name, r2 size, int sight_radius, bool solid, ABoard& board);
 		virtual ~EntityFactory();
 
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position) =0; // TODO: This should be =0
@@ -26,13 +24,14 @@ class EntityFactory {
 
 class UnitFactory: public EntityFactory {
 	public:
+		const double speed;
 		UnitFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, ABoard& board);
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 };
 
 class WorkerFactory: public UnitFactory {
 	public:
-		WorkerFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, ABoard& board);
+		WorkerFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, ABoard& board);
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 };
 
@@ -42,31 +41,27 @@ class KingFactory: public UnitFactory {
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 };
 
-class StructureFactory: public EntityFactory {
+class ResourceFactory: public EntityFactory {
 	public:
-		StructureFactory(std::string name, r2 size, int sight_radius, bool solid, int capacity/*TODO: remove*/, ABoard& board);
-};
-
-class ResourceFactory: public StructureFactory {
-	public:
+		int capacity;
 		ResourceFactory(std::string name, r2 size, int sight_radius, bool solid, int capacity, ABoard& board);
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 		void populate();
 };
 
-class BuildingFactory: public StructureFactory {
+class BuildingFactory: public EntityFactory {
 	public:
 		BuildingFactory(std::string name, r2 size, int sight_radius, bool solid, ABoard& board);
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 };
 
-class FlagFactory: public StructureFactory {
+class FlagFactory: public BuildingFactory {
 	public:
 		FlagFactory(std::string name, r2 size, int sight_radius, bool solid, ABoard& board);
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 };
 
-class ProducerBuildingFactory: public StructureFactory {
+class ProducerBuildingFactory: public BuildingFactory {
 	public:
 		ProducerBuildingFactory(std::string name, r2 size, int sight_radius, bool solid, ABoard& board);
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
