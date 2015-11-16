@@ -305,15 +305,15 @@ bool Entity::operator!=(Entity& other) {
 Unit::~Unit() {}
 
 
-Structure::Structure(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity):
-	Entity(name, board, owner, position, size, speed, sight_radius, solid, capacity)
+Structure::Structure(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity):
+	Entity(name, board, owner, position, size, 0/*TODO: shouldn't exist*/, sight_radius, solid, capacity/*TODO: shouldn't exist*/)
 {}
 
 Structure::~Structure() {}
 
 
-Resource::Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity):
-	Structure(name, board, owner, position, size, speed, sight_radius, solid, capacity)
+Resource::Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity):
+	Structure(name, board, owner, position, size, sight_radius, solid, capacity/*TODO: should be local*/)
 {}
 
 void Resource::collide(Entity& other) {

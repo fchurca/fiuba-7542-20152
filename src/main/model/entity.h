@@ -74,7 +74,7 @@ class King : public Entity {};
 
 class Structure : public Entity {
 	public:
-		Structure(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity);
+		Structure(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity);
 		virtual ~Structure();
 };
 
@@ -89,7 +89,7 @@ class Resource : public Structure {
 		void collide(Entity& other);
 		void collide(Resource& other);
 	public:
-		Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity);
+		Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity);
 };
 
 #include "entity.cxx"

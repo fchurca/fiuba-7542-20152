@@ -5,11 +5,11 @@
 EntityFactory::EntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, ABoard& board):
 	name(name),
 	size(size),
-	speed(speed),
+	speed(speed), // TODO: Only in UnitFactory
 	board(board),
 	sight_radius(sight_radius),
 	solid(solid),
-	capacity(capacity)
+	capacity(capacity) // TODO: Only in ResourceFactory
 {
 	std::stringstream message;
 	message << "Created EntityFactory " << this
@@ -50,7 +50,7 @@ ResourceFactory::ResourceFactory(std::string name, r2 size, double speed, int si
 {}
 
 std::shared_ptr<Entity> ResourceFactory::createEntity(Player& player, r2 position) {
-	return std::make_shared<Resource>(name, board, player, position, size, speed, sight_radius, solid, capacity);
+	return std::make_shared<Resource>(name, board, player, position, size, sight_radius, solid, capacity);
 }
 
 void ResourceFactory::populate() {
