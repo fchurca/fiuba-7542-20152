@@ -141,7 +141,9 @@ health
 class ResourceFactory {
 capacity
 }
-class WorkerFactory
+class WorkerFactory {
+capacity
+}
 class KingFactory
 class FlagFactory
 class ProducerBuildingFactory {

@@ -27,16 +27,12 @@ EntityFactory::~EntityFactory() {
 	Logger::getInstance()->writeInformation(message.str());
 }
 
-std::shared_ptr<Entity> EntityFactory::createEntity(Player& player, r2 position) {
-	return std::make_shared<Entity>(name, board, player, position, size, speed, sight_radius, solid, capacity);
-}
-
 void EntityFactory::populate() {
 }
 
 
-UnitFactory::UnitFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, ABoard& board) :
-	EntityFactory(name, size, speed, sight_radius, solid, capacity, board)
+UnitFactory::UnitFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, ABoard& board) :
+	EntityFactory(name, size, speed, sight_radius, solid, 0/*TODO: remove*/, board)
 {}
 
 std::shared_ptr<Entity> UnitFactory::createEntity(Player& player, r2 position) {
@@ -45,7 +41,7 @@ std::shared_ptr<Entity> UnitFactory::createEntity(Player& player, r2 position) {
 
 
 WorkerFactory::WorkerFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, ABoard& board) :
-	UnitFactory(name, size, speed, sight_radius, solid, capacity, board)
+	UnitFactory(name, size, speed, sight_radius, solid, board)
 {}
 
 std::shared_ptr<Entity> WorkerFactory::createEntity(Player& player, r2 position) {

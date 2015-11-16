@@ -55,7 +55,7 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 		Entity(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity);
 		virtual ~Entity();
 
-		void update();
+		virtual void update();
 
 		void setDeletable();
 		void setFrame(size_t newFrame);
@@ -67,21 +67,25 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 class Unit : public Entity {
 	public:
 		Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid);
+		virtual void update();
 		virtual ~Unit();
 };
 
 class Worker : public Unit {
 	public:
+		void update();
 		Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid);
 };
 
 class King : public Unit {
 	public:
+		void update();
 		King(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid);
 };
 
 class Structure : public Entity {
 	public:
+		virtual void update();
 		Structure(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity);
 		virtual ~Structure();
 };
@@ -94,6 +98,7 @@ class Flag : public Building {};
 
 class Resource : public Structure {
 	protected:
+		void update();
 		void collide(Entity& other);
 		void collide(Resource& other);
 	public:

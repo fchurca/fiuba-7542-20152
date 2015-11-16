@@ -212,36 +212,6 @@ bool Entity::canEnter(r2 newPosition) {
 }
 
 void Entity::update() {
-	if (targeted()) {
-		auto traj = trajectory();
-		orientation = atan2(traj.y, traj.x);
-		auto dr = speed*board.dt/1000;
-		if (pow(dr, 2) < sqDistance()) {
-			auto newPos = position + r2::fromPolar(orientation, dr);
-			rectangle shapeCandidate(newPos, size);
-			auto colliders = board.selectEntities([this, shapeCandidate](shared_ptr<Entity> e) {
-					return (*e != *this) &&
-					(rectangle(e->position, e->size).intersects(shapeCandidate));
-					});
-			for(auto c : colliders) {
-				collide(c.get());
-			}
-			if (!canEnter(newPos)) {
-				auto destiny = waypoints.back();
-				unsetTarget();
-				addTarget(destiny);
-				return;
-			}
-			position = newPos;
-		} else {
-			position = target() - size/2;
-			waypoints.pop_front();
-		}
-		if (adjustPosition()) {
-			unsetTarget();
-		}
-		setFrame();
-	}
 }
 
 r2 Entity::center() {
@@ -308,20 +278,66 @@ Unit::Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size,
 	Entity(name, board, owner, position, size/*TODO: should be local*/, speed, sight_radius, solid, 0/*TODO: shouldn't exist*/)
 {}
 
+void Unit::update() {
+	Entity::update();
+	if (targeted()) {
+		auto traj = trajectory();
+		orientation = atan2(traj.y, traj.x);
+		auto dr = speed*board.dt/1000;
+		if (pow(dr, 2) < sqDistance()) {
+			auto newPos = position + r2::fromPolar(orientation, dr);
+			rectangle shapeCandidate(newPos, size);
+			auto colliders = board.selectEntities([this, shapeCandidate](shared_ptr<Entity> e) {
+					return (*e != *this) &&
+					(rectangle(e->getPosition(), e->size).intersects(shapeCandidate));
+					});
+			for(auto c : colliders) {
+				collide(c.get());
+			}
+			if (!canEnter(newPos)) {
+				auto destiny = waypoints.back();
+				unsetTarget();
+				addTarget(destiny);
+				return;
+			}
+			position = newPos;
+		} else {
+			position = target() - size/2;
+			waypoints.pop_front();
+		}
+		if (adjustPosition()) {
+			unsetTarget();
+		}
+		setFrame();
+	}
+}
+
 
 Worker::Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid) :
 	Unit(name, board, owner, position, size, speed, sight_radius, solid)
 {}
+
+void Worker::update() {
+	Unit::update();
+}
 
 
 King::King(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid) :
 	Unit(name, board, owner, position, size, speed, sight_radius, solid)
 {}
 
+void King::update() {
+	Unit::update();
+}
+
 
 Structure::Structure(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity):
 	Entity(name, board, owner, position, size, 0/*TODO: shouldn't exist*/, sight_radius, solid, capacity/*TODO: shouldn't exist*/)
 {}
+
+void Structure::update() {
+	Entity::update();
+}
 
 Structure::~Structure() {}
 
@@ -329,6 +345,10 @@ Structure::~Structure() {}
 Resource::Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity):
 	Structure(name, board, owner, position, size, sight_radius, solid, capacity/*TODO: should be local*/)
 {}
+
+void Resource::update() {
+	Structure::update();
+}
 
 void Resource::collide(Entity& other) {
 	if(!getDeletable() &&

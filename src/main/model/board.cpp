@@ -91,7 +91,7 @@ shared_ptr<EntityFactory> ABoard::createEntityFactory(string name, r2 size, doub
 	if(name == "carne" || name == "oro" || name == "madera" || name == "piedras") {
 		pFactory = make_shared<ResourceFactory>(name, size, sight_radius, solid, capacity, *this);
 	} else {
-		pFactory = make_shared<EntityFactory>(name, size, speed, sight_radius, solid, capacity, *this);
+		pFactory = make_shared<UnitFactory>(name, size, speed, sight_radius, solid, *this);
 	}
 	entityFactories[name] = pFactory;
 	return pFactory;
