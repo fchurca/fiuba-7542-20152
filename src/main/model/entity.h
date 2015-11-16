@@ -18,7 +18,6 @@ class Resource;
 class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 	protected:
 		r2 position;	// Position (tile)
-		double speed;	// Speed (tiles/s)
 		std::deque<r2> waypoints;
 		bool solid;
 		double orientation;
@@ -40,7 +39,6 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 		ABoard& board;
 		r2 center();
 		int sight_radius;
-		int capacity;
 		r2 getPosition();
 		void setPosition(r2 newPos);
 		r2 trajectory();
@@ -52,7 +50,7 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 
 		template<typename L> void mapVisible(L fun);
 
-		Entity(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity);
+		Entity(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid);
 		virtual ~Entity();
 
 		virtual void update();
@@ -65,6 +63,8 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 };
 
 class Unit : public Entity {
+	protected:
+		double speed;	// Speed (tiles/s)
 	public:
 		Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid);
 		virtual void update();
@@ -86,7 +86,7 @@ class King : public Unit {
 class Structure : public Entity {
 	public:
 		virtual void update();
-		Structure(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity);
+		Structure(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid);
 		virtual ~Structure();
 };
 
@@ -103,6 +103,7 @@ class Resource : public Structure {
 		void collide(Resource& other);
 	public:
 		Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity);
+		int capacity;
 };
 
 #include "entity.cxx"

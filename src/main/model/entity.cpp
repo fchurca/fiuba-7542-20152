@@ -8,17 +8,15 @@
 
 using namespace std;
 
-Entity::Entity(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity) :
+Entity::Entity(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid) :
 	position(position),
-	speed(speed),
 	orientation(0),
 	size(size),
 	name(name),
 	owner(owner),
 	board(board),
 	sight_radius(sight_radius),
-	solid(solid),
-	capacity(capacity)
+	solid(solid)
 {
 	static size_t idCount = 0;
 	id = idCount++;
@@ -275,7 +273,8 @@ bool Entity::operator!=(Entity& other) {
 Unit::~Unit() {}
 
 Unit::Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid) :
-	Entity(name, board, owner, position, size/*TODO: should be local*/, speed, sight_radius, solid, 0/*TODO: shouldn't exist*/)
+	Entity(name, board, owner, position, size, sight_radius, solid),
+	speed(speed)
 {}
 
 void Unit::update() {
@@ -331,8 +330,8 @@ void King::update() {
 }
 
 
-Structure::Structure(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity):
-	Entity(name, board, owner, position, size, 0/*TODO: shouldn't exist*/, sight_radius, solid, capacity/*TODO: shouldn't exist*/)
+Structure::Structure(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid):
+	Entity(name, board, owner, position, size, sight_radius, solid)
 {}
 
 void Structure::update() {
@@ -343,7 +342,8 @@ Structure::~Structure() {}
 
 
 Resource::Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity):
-	Structure(name, board, owner, position, size, sight_radius, solid, capacity/*TODO: should be local*/)
+	Structure(name, board, owner, position, size, sight_radius, solid),
+	capacity(capacity)
 {}
 
 void Resource::update() {
