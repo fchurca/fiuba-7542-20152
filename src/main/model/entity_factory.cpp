@@ -47,6 +47,47 @@ std::shared_ptr<Entity> WorkerFactory::createEntity(Player& player, r2 position)
 }
 
 
+KingFactory::KingFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, ABoard& board) :
+	UnitFactory(name, size, speed, sight_radius, solid, board)
+{}
+
+std::shared_ptr<Entity> KingFactory::createEntity(Player& player, r2 position) {
+	return std::make_shared<King>(name, board, player, position, size, speed, sight_radius, solid);
+}
+
+
+BuildingFactory::BuildingFactory(std::string name, r2 size, int sight_radius, bool solid, ABoard& board) :
+	EntityFactory(name, size, sight_radius, solid, board)
+{}
+
+
+ProducerBuildingFactory::ProducerBuildingFactory(std::string name, r2 size, int sight_radius, bool solid, ABoard& board) :
+	BuildingFactory(name, size, sight_radius, solid, board)
+{}
+
+std::shared_ptr<Entity> ProducerBuildingFactory::createEntity(Player& player, r2 position) {
+	return std::make_shared<ProducerBuilding>(name, board, player, position, size, sight_radius, solid);
+}
+
+
+FlagFactory::FlagFactory(std::string name, r2 size, int sight_radius, bool solid, ABoard& board) :
+	BuildingFactory(name, size, sight_radius, solid, board)
+{}
+
+std::shared_ptr<Entity> FlagFactory::createEntity(Player& player, r2 position) {
+	return std::make_shared<Flag>(name, board, player, position, size, sight_radius, solid);
+}
+
+
+TownCenterFactory::TownCenterFactory(std::string name, r2 size, int sight_radius, bool solid, ABoard& board) :
+	ProducerBuildingFactory(name, size, sight_radius, solid, board)
+{}
+
+std::shared_ptr<Entity> TownCenterFactory::createEntity(Player& player, r2 position) {
+	return std::make_shared<TownCenter>(name, board, player, position, size, sight_radius, solid);
+}
+
+
 ResourceFactory::ResourceFactory(std::string name, r2 size, int sight_radius, bool solid, int capacity, ABoard& board) :
 	EntityFactory(name, size, sight_radius, solid, board),
 	capacity(capacity)

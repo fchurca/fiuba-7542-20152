@@ -18,7 +18,7 @@ class EntityFactory {
 		EntityFactory(std::string name, r2 size, int sight_radius, bool solid, ABoard& board);
 		virtual ~EntityFactory();
 
-		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position) =0; // TODO: This should be =0
+		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position) =0;
 		virtual void populate();
 };
 
@@ -52,7 +52,6 @@ class ResourceFactory: public EntityFactory {
 class BuildingFactory: public EntityFactory {
 	public:
 		BuildingFactory(std::string name, r2 size, int sight_radius, bool solid, ABoard& board);
-		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 };
 
 class FlagFactory: public BuildingFactory {
@@ -64,6 +63,12 @@ class FlagFactory: public BuildingFactory {
 class ProducerBuildingFactory: public BuildingFactory {
 	public:
 		ProducerBuildingFactory(std::string name, r2 size, int sight_radius, bool solid, ABoard& board);
+		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
+};
+
+class TownCenterFactory: public ProducerBuildingFactory {
+	public:
+		TownCenterFactory(std::string name, r2 size, int sight_radius, bool solid, ABoard& board);
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 };
 

@@ -330,6 +330,51 @@ void King::update() {
 }
 
 
+Building::Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid) :
+	Entity(name, board, owner, position, size, sight_radius, solid)
+{}
+
+void Building::update() {
+	Entity::update();
+}
+
+
+UnfinishedBuilding::UnfinishedBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid) :
+	Building(name, board, owner, position, size, sight_radius, solid)
+{}
+
+void UnfinishedBuilding::update() {
+	Building::update();
+}
+
+
+ProducerBuilding::ProducerBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid) :
+	Building(name, board, owner, position, size, sight_radius, solid)
+{}
+
+void ProducerBuilding::update() {
+	Building::update();
+}
+
+
+Flag::Flag(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid) :
+	Building(name, board, owner, position, size, sight_radius, solid)
+{}
+
+void Flag::update() {
+	Building::update();
+}
+
+
+TownCenter::TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid) :
+	ProducerBuilding(name, board, owner, position, size, sight_radius, solid)
+{}
+
+void TownCenter::update() {
+	Building::update();
+}
+
+
 Resource::Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity):
 	Entity(name, board, owner, position, size, sight_radius, solid),
 	capacity(capacity)

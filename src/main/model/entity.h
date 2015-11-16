@@ -55,7 +55,7 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 
 		virtual void update();
 
-		void setDeletable();
+		virtual void setDeletable();
 		void setFrame(size_t newFrame);
 
 		bool operator==(Entity& other);
@@ -83,11 +83,35 @@ class King : public Unit {
 		King(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid);
 };
 
-class Building : public Entity {};
-class UnfinishedBuilding : public Building {};
-class ProducerBuilding : public Building {};
-class TownCenter : public ProducerBuilding {};
-class Flag : public Building {};
+class Building : public Entity {
+	public:
+		virtual void update();
+		Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid);
+};
+
+class UnfinishedBuilding : public Building {
+	public:
+		void update();
+		UnfinishedBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid);
+};
+
+class ProducerBuilding : public Building {
+	public:
+		virtual void update();
+		ProducerBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid);
+};
+
+class TownCenter : public ProducerBuilding {
+	public:
+		void update();
+		TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid);
+};
+
+class Flag : public Building {
+	public:
+		void update();
+		Flag(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid);
+};
 
 class Resource : public Entity {
 	protected:
