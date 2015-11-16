@@ -302,6 +302,9 @@ bool Entity::operator!=(Entity& other) {
 }
 
 
+Unit::~Unit() {}
+
+
 Structure::Structure(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int capacity):
 	Entity(name, board, owner, position, size, speed, sight_radius, solid, capacity)
 {}

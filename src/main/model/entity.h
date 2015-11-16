@@ -64,7 +64,9 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 		bool operator!=(Entity& other);
 };
 
-class Unit : public Entity {};
+class Unit : public Entity {
+	virtual ~Unit();
+};
 
 class Worker : public Entity {};
 
