@@ -304,6 +304,20 @@ bool Entity::operator!=(Entity& other) {
 
 Unit::~Unit() {}
 
+Unit::Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid) :
+	Entity(name, board, owner, position, size/*TODO: should be local*/, speed, sight_radius, solid, 0/*TODO: shouldn't exist*/)
+{}
+
+
+Worker::Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid) :
+	Unit(name, board, owner, position, size, speed, sight_radius, solid)
+{}
+
+
+King::King(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid) :
+	Unit(name, board, owner, position, size, speed, sight_radius, solid)
+{}
+
 
 Structure::Structure(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity):
 	Entity(name, board, owner, position, size, 0/*TODO: shouldn't exist*/, sight_radius, solid, capacity/*TODO: shouldn't exist*/)

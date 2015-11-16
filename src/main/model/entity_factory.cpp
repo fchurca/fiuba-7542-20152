@@ -39,14 +39,27 @@ UnitFactory::UnitFactory(std::string name, r2 size, double speed, int sight_radi
 	EntityFactory(name, size, speed, sight_radius, solid, capacity, board)
 {}
 
+std::shared_ptr<Entity> UnitFactory::createEntity(Player& player, r2 position) {
+	return std::make_shared<Unit>(name, board, player, position, size, speed, sight_radius, solid);
+}
 
-StructureFactory::StructureFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, ABoard& board) :
-	EntityFactory(name, size, speed, sight_radius, solid, capacity, board)
+
+WorkerFactory::WorkerFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, ABoard& board) :
+	UnitFactory(name, size, speed, sight_radius, solid, capacity, board)
+{}
+
+std::shared_ptr<Entity> WorkerFactory::createEntity(Player& player, r2 position) {
+	return std::make_shared<Worker>(name, board, player, position, size, speed, sight_radius, solid);
+}
+
+
+StructureFactory::StructureFactory(std::string name, r2 size, int sight_radius, bool solid, int capacity, ABoard& board) :
+	EntityFactory(name, size, 0 /*TODO: remove*/, sight_radius, solid, capacity, board)
 {}
 
 
-ResourceFactory::ResourceFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, ABoard& board) :
-	StructureFactory(name, size, speed, sight_radius, solid, capacity, board)
+ResourceFactory::ResourceFactory(std::string name, r2 size, int sight_radius, bool solid, int capacity, ABoard& board) :
+	StructureFactory(name, size, sight_radius, solid, capacity, board)
 {}
 
 std::shared_ptr<Entity> ResourceFactory::createEntity(Player& player, r2 position) {

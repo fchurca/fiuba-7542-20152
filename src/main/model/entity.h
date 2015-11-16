@@ -65,12 +65,20 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 };
 
 class Unit : public Entity {
-	virtual ~Unit();
+	public:
+		Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid);
+		virtual ~Unit();
 };
 
-class Worker : public Entity {};
+class Worker : public Unit {
+	public:
+		Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid);
+};
 
-class King : public Entity {};
+class King : public Unit {
+	public:
+		King(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid);
+};
 
 class Structure : public Entity {
 	public:
