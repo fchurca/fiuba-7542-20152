@@ -1,6 +1,73 @@
 configuracion:
     dt: 20
-tipos_entidades:
+tipos_unidades:
+  - nombre: mago
+    imagen: resources/mago.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 30
+    pixel_ref_y: 32
+    fps: 10
+    delay: 0
+    ancho_sprite: 60
+    alto_sprite: 60
+    cantidad_sprites: 5
+    sight_radius: 3
+    speed: 3
+    behaviour: worker
+  - nombre: dragon
+    imagen: resources/dragon.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 30
+    pixel_ref_y: 32
+    fps: 10
+    delay: 0
+    ancho_sprite: 60
+    alto_sprite: 60
+    cantidad_sprites: 5
+    sight_radius: 3
+    speed: 3
+  - nombre: hachero
+    imagen: resources/hachero.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 30
+    pixel_ref_y: 32
+    fps: 10
+    delay: 0
+    ancho_sprite: 60
+    alto_sprite: 60
+    cantidad_sprites: 5
+    sight_radius: 3
+    speed: 3
+  - nombre: ogro
+    imagen: resources/ogro.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 30
+    pixel_ref_y: 32
+    fps: 10
+    delay: 0
+    ancho_sprite: 60
+    alto_sprite: 60
+    cantidad_sprites: 4
+    sight_radius: 3
+    speed: 3
+  - nombre: cubo
+    imagen: resources/cubo_1_2.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 16
+    pixel_ref_y: 16
+    fps: 0
+    delay: 0
+    ancho_sprite: 32
+    alto_sprite: 32
+    cantidad_sprites: 1
+    sight_radius: 3
+    speed: 3
+tipos_estructuras:
   - nombre: troncoNESW
     imagen: resources/troncoNESW31.png
     ancho_base: 1
@@ -166,71 +233,6 @@ tipos_entidades:
     ancho_sprite: 48
     alto_sprite: 44
     cantidad_sprites: 15
-  - nombre: mago
-    imagen: resources/mago.png
-    ancho_base: 0.5
-    alto_base: 0.5
-    pixel_ref_x: 30
-    pixel_ref_y: 32
-    fps: 10
-    delay: 0
-    ancho_sprite: 60
-    alto_sprite: 60
-    cantidad_sprites: 5
-    sight_radius: 3
-    speed: 3
-  - nombre: dragon
-    imagen: resources/dragon.png
-    ancho_base: 0.5
-    alto_base: 0.5
-    pixel_ref_x: 30
-    pixel_ref_y: 32
-    fps: 10
-    delay: 0
-    ancho_sprite: 60
-    alto_sprite: 60
-    cantidad_sprites: 5
-    sight_radius: 3
-    speed: 3
-  - nombre: hachero
-    imagen: resources/hachero.png
-    ancho_base: 0.5
-    alto_base: 0.5
-    pixel_ref_x: 30
-    pixel_ref_y: 32
-    fps: 10
-    delay: 0
-    ancho_sprite: 60
-    alto_sprite: 60
-    cantidad_sprites: 5
-    sight_radius: 3
-    speed: 3
-  - nombre: ogro
-    imagen: resources/ogro.png
-    ancho_base: 0.5
-    alto_base: 0.5
-    pixel_ref_x: 30
-    pixel_ref_y: 32
-    fps: 10
-    delay: 0
-    ancho_sprite: 60
-    alto_sprite: 60
-    cantidad_sprites: 4
-    sight_radius: 3
-    speed: 3
-  - nombre: cubo
-    imagen: resources/cubo_1_2.png
-    ancho_base: 0.5
-    alto_base: 0.5
-    pixel_ref_x: 16
-    pixel_ref_y: 16
-    fps: 0
-    delay: 0
-    ancho_sprite: 32
-    alto_sprite: 32
-    cantidad_sprites: 1
-    sight_radius: 3
-    speed: 3
   - nombre: arbol
     imagen: resources/arbol.png
     ancho_base: 2

@@ -47,27 +47,52 @@ void RulesetParser::setConfiguracionDefault(TagConfiguracion& configuracion) {
 	configuracion.dt = DT_DEFAULT;
 }
 
-std::vector<TagTipoEntidad> RulesetParser::getTiposEntidades() {
-	Logger::getInstance()->writeInformation("YAML-CPP:Se obtiene informacion de los tipos de entidades.");
+std::vector<TagTipoEntidad> RulesetParser::getTiposUnidades() {
+	Logger::getInstance()->writeInformation("YAML-CPP:Se obtiene informacion de los tipos de unidades.");
 	std::vector<TagTipoEntidad> tiposDeEntidades;
-	if (this->doc.FindValue("tipos_entidades")) {
-		const YAML::Node& tipos = this->doc["tipos_entidades"];
+	if (this->doc.FindValue("tipos_unidades")) {
+		const YAML::Node& tipos = this->doc["tipos_unidades"];
 		if (tipos.Type() == YAML::NodeType::Sequence) {
 			for (unsigned int i = 0; i < tipos.size(); i++) {
-				Logger::getInstance()->writeInformation("YAML-CPP:Se obtiene informacion del tipo de entidad numero." + intToString(i));
+				Logger::getInstance()->writeInformation("YAML-CPP:Se obtiene informacion del tipo de unidad numero." + intToString(i));
 				TagTipoEntidad tipoEntidad;
-				setTipoEntidad(tipos[i], tipoEntidad, i);
+				setTipoUnidad(tipos[i], tipoEntidad, i);
 				tiposDeEntidades.push_back(tipoEntidad);
 			}
 		}
 		else {
-			Logger::getInstance()->writeWarning("YAML-CPP:El tag de tipos de entidad no es del tipo Sequence. Ubicar" + ubicarNodo(tipos.GetMark()));
-			Logger::getInstance()->writeInformation("YAML-CPP:No se toman tipos de entidad");
+			Logger::getInstance()->writeWarning("YAML-CPP:El tag de tipos de unidad no es del tipo Sequence. Ubicar" + ubicarNodo(tipos.GetMark()));
+			Logger::getInstance()->writeInformation("YAML-CPP:No se toman tipos de unidad");
 		}
 	}
 	else {
-		Logger::getInstance()->writeWarning("YAML-CPP:El tag de tipos no existe en el archivo.");
-		Logger::getInstance()->writeInformation("YAML-CPP:No se toman tipos de entidad");
+		Logger::getInstance()->writeWarning("YAML-CPP:El tag de tipos de unidades no existe en el archivo.");
+		Logger::getInstance()->writeInformation("YAML-CPP:No se toman tipos de unidades");
+	}
+	return tiposDeEntidades;
+}
+
+std::vector<TagTipoEntidad> RulesetParser::getTiposEstructuras() {
+	Logger::getInstance()->writeInformation("YAML-CPP:Se obtiene informacion de los tipos de estructuras.");
+	std::vector<TagTipoEntidad> tiposDeEntidades;
+	if (this->doc.FindValue("tipos_estructuras")) {
+		const YAML::Node& tipos = this->doc["tipos_estructuras"];
+		if (tipos.Type() == YAML::NodeType::Sequence) {
+			for (unsigned int i = 0; i < tipos.size(); i++) {
+				Logger::getInstance()->writeInformation("YAML-CPP:Se obtiene informacion del tipo de estructura numero." + intToString(i));
+				TagTipoEntidad tipoEntidad;
+				setTipoUnidad(tipos[i], tipoEntidad, i);
+				tiposDeEntidades.push_back(tipoEntidad);
+			}
+		}
+		else {
+			Logger::getInstance()->writeWarning("YAML-CPP:El tag de tipos de estructura no es del tipo Sequence. Ubicar" + ubicarNodo(tipos.GetMark()));
+			Logger::getInstance()->writeInformation("YAML-CPP:No se toman tipos de estructura");
+		}
+	}
+	else {
+		Logger::getInstance()->writeWarning("YAML-CPP:El tag de tipos de estructuras no existe en el archivo.");
+		Logger::getInstance()->writeInformation("YAML-CPP:No se toman tipos de estructuras");
 	}
 	return tiposDeEntidades;
 }
@@ -121,10 +146,10 @@ std::vector<TagTipoEntidad> RulesetParser::getTiposRecursos() {
 	return tiposDeRecursos;
 }
 
-void RulesetParser::setTipoEntidad(const YAML::Node& node, TagTipoEntidad& tipoEntidad, int i) {
+void RulesetParser::setTipoUnidad(const YAML::Node& node, TagTipoEntidad& tipoEntidad, int i) {
 	if (node.Type() == YAML::NodeType::Map) {
 		if (!obtenerValorScalarAlfaNumerico(node, "nombre", tipoEntidad.nombre)) {
-			Logger::getInstance()->writeInformation("YAML-CPP:El nombre del tipo de entidad se toma por default.");
+			Logger::getInstance()->writeInformation("YAML-CPP:El nombre del tipo de unidad se toma por default.");
 			tipoEntidad.nombre = ENTIDAD_DEFAULT_NOMBRE + intToString(i);
 		}
 		if ((!obtenerValorScalarAlfaNumerico(node, "imagen", tipoEntidad.imagen))
@@ -133,7 +158,7 @@ void RulesetParser::setTipoEntidad(const YAML::Node& node, TagTipoEntidad& tipoE
 			|| (!obtenerValorScalarNumericoPositivo(node, "ancho_sprite", tipoEntidad.ancho_sprite))
 			|| (!obtenerValorScalarNumericoPositivo(node, "alto_sprite", tipoEntidad.alto_sprite))
 			|| (!obtenerValorScalarNumericoPositivo(node, "cantidad_sprites", tipoEntidad.cantidad_sprites))) {
-			Logger::getInstance()->writeWarning("YAML-CPP:Datos de la imagen del tipo de entidad invalidos, se toman por default (path, pixel_ref_x, pixel_ref_y, ancho_sprite, alto_sprite, cantidad_sprites).");
+			Logger::getInstance()->writeWarning("YAML-CPP:Datos de la imagen del tipo de unidad invalidos, se toman por default (path, pixel_ref_x, pixel_ref_y, ancho_sprite, alto_sprite, cantidad_sprites).");
 			tipoEntidad.imagen = ENTIDAD_DEFAULT_IMAGEN;
 			tipoEntidad.pixel_ref_x = ENTIDAD_DEFAULT_PIXEL_REF_X;
 			tipoEntidad.pixel_ref_y = ENTIDAD_DEFAULT_PIXEL_REF_Y;
@@ -164,14 +189,73 @@ void RulesetParser::setTipoEntidad(const YAML::Node& node, TagTipoEntidad& tipoE
 		}
 		if (!obtenerValorScalarNumericoPositivo(node, "speed", tipoEntidad.speed)) {
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (velocidad personaje).");
-			tipoEntidad.speed = VELOCIDAD_PERSONAJE_DEFAULT;
+			tipoEntidad.speed = ENTIDAD_DEFAULT_SPEED;
 		}
 		tipoEntidad.solid = true;
 		tipoEntidad.capacity = ENTIDAD_DEFAULT_CAPACITY;
+		if (!obtenerValorScalarAlfaNumerico(node, "behaviour", tipoEntidad.behaviour)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (dehaviour).");
+			tipoEntidad.behaviour = ENTIDAD_DEFAULT_BEHAVIOUR;
+		}
 	}
 	else {
 		Logger::getInstance()->writeWarning("YAML-CPP:el contenido del tipo de entidad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
-		setTipoEntidadDefault(tipoEntidad, i);
+		setTipoUnidadDefault(tipoEntidad, i);
+	}
+}
+
+void RulesetParser::setTipoEstructura(const YAML::Node& node, TagTipoEntidad& tipoEntidad, int i) {
+	if (node.Type() == YAML::NodeType::Map) {
+		if (!obtenerValorScalarAlfaNumerico(node, "nombre", tipoEntidad.nombre)) {
+			Logger::getInstance()->writeInformation("YAML-CPP:El nombre del tipo de estructura se toma por default.");
+			tipoEntidad.nombre = ESTRUCTURA_DEFAULT_NOMBRE + intToString(i);
+		}
+		if ((!obtenerValorScalarAlfaNumerico(node, "imagen", tipoEntidad.imagen))
+			|| (!obtenerValorScalarNumericoPositivo(node, "pixel_ref_x", tipoEntidad.pixel_ref_x))
+			|| (!obtenerValorScalarNumericoPositivo(node, "pixel_ref_y", tipoEntidad.pixel_ref_y))
+			|| (!obtenerValorScalarNumericoPositivo(node, "ancho_sprite", tipoEntidad.ancho_sprite))
+			|| (!obtenerValorScalarNumericoPositivo(node, "alto_sprite", tipoEntidad.alto_sprite))
+			|| (!obtenerValorScalarNumericoPositivo(node, "cantidad_sprites", tipoEntidad.cantidad_sprites))) {
+			Logger::getInstance()->writeWarning("YAML-CPP:Datos de la imagen del tipo de estructura invalidos, se toman por default (path, pixel_ref_x, pixel_ref_y, ancho_sprite, alto_sprite, cantidad_sprites).");
+			tipoEntidad.imagen = ESTRUCTURA_DEFAULT_IMAGEN;
+			tipoEntidad.pixel_ref_x = ESTRUCTURA_DEFAULT_PIXEL_REF_X;
+			tipoEntidad.pixel_ref_y = ESTRUCTURA_DEFAULT_PIXEL_REF_Y;
+			tipoEntidad.alto_sprite = ESTRUCTURA_DEFAULT_ALTO_SPRITE;
+			tipoEntidad.ancho_sprite = ESTRUCTURA_DEFAULT_ANCHO_SPRITE;
+			tipoEntidad.cantidad_sprites = ESTRUCTURA_DEFAULT_CANTIDAD_SPRITES;
+		}
+		if (!obtenerValorScalarNumericoPositivo(node, "ancho_base", tipoEntidad.ancho_base)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (ancho_base).");
+			tipoEntidad.ancho_base = ESTRUCTURA_DEFAULT_ANCHO_BASE;
+		}
+		if (!obtenerValorScalarNumericoPositivo(node, "alto_base", tipoEntidad.alto_base)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (alto_base).");
+			tipoEntidad.alto_base = ESTRUCTURA_DEFAULT_ALTO_BASE;
+		}
+
+		if (!obtenerValorScalarNumericoPositivo(node, "fps", tipoEntidad.fps)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (fps).");
+			tipoEntidad.fps = ESTRUCTURA_DEFAULT_FPS;
+		}
+		if (!obtenerValorScalarNumericoPositivo(node, "delay", tipoEntidad.delay)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (delay).");
+			tipoEntidad.delay = ESTRUCTURA_DEFAULT_DELAY;
+		}
+		if (!obtenerValorScalarNumericoPositivo(node, "sight_radius", tipoEntidad.sight_radius)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (sight_radius).");
+			tipoEntidad.sight_radius = ESTRUCTURA_DEFAULT_SIGHT_RADIUS;
+		}
+		tipoEntidad.speed = ESTRUCTURA_DEFAULT_SPEED;
+		tipoEntidad.solid = true;
+		tipoEntidad.capacity = ESTRUCTURA_DEFAULT_CAPACITY;
+		if (!obtenerValorScalarAlfaNumerico(node, "behaviour", tipoEntidad.behaviour)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (dehaviour).");
+			tipoEntidad.behaviour = ESTRUCTURA_DEFAULT_BEHAVIOUR;
+		}
+	}
+	else {
+		Logger::getInstance()->writeWarning("YAML-CPP:el contenido del tipo de entidad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
+		setTipoEstructuraDefault(tipoEntidad, i);
 	}
 }
 
@@ -216,6 +300,7 @@ void RulesetParser::setTipoTerreno(const YAML::Node& node, TagTipoEntidad& tipoT
 		else
 			tipoTerreno.solid = true;
 		tipoTerreno.capacity = TERRENO_DEFAULT_CAPACITY;
+		tipoTerreno.behaviour = TERRENO_DEFAULT_BEHAVIOUR;
 	}
 	else {
 		Logger::getInstance()->writeWarning("YAML-CPP:El contenido del tipo de terreno ad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
@@ -303,7 +388,7 @@ void RulesetParser::setTipoTerrenoDefault(TagTipoEntidad& tipoEntidad, int i) {
 }
 
 
-void RulesetParser::setTipoEntidadDefault(TagTipoEntidad& tipoEntidad, int i) {
+void RulesetParser::setTipoUnidadDefault(TagTipoEntidad& tipoEntidad, int i) {
 	Logger::getInstance()->writeInformation("YAML-CPP:Se toma tipo de entidad por default.");
 	tipoEntidad.nombre = ENTIDAD_DEFAULT_NOMBRE + intToString(i);
 	tipoEntidad.imagen = ENTIDAD_DEFAULT_IMAGEN;
@@ -317,7 +402,28 @@ void RulesetParser::setTipoEntidadDefault(TagTipoEntidad& tipoEntidad, int i) {
 	tipoEntidad.ancho_sprite = ENTIDAD_DEFAULT_ANCHO_SPRITE;
 	tipoEntidad.cantidad_sprites = ENTIDAD_DEFAULT_CANTIDAD_SPRITES;
 	tipoEntidad.sight_radius = ENTIDAD_DEFAULT_SIGHT_RADIUS;
-	tipoEntidad.speed = VELOCIDAD_PERSONAJE_DEFAULT;
+	tipoEntidad.speed = ENTIDAD_DEFAULT_SPEED;
 	tipoEntidad.solid = true;
 	tipoEntidad.capacity = ENTIDAD_DEFAULT_CAPACITY;
+	tipoEntidad.behaviour = ENTIDAD_DEFAULT_BEHAVIOUR;
+}
+
+void RulesetParser::setTipoEstructuraDefault(TagTipoEntidad& tipoEntidad, int i) {
+	Logger::getInstance()->writeInformation("YAML-CPP:Se toma tipo de entidad por default.");
+	tipoEntidad.nombre = ESTRUCTURA_DEFAULT_NOMBRE + intToString(i);
+	tipoEntidad.imagen = ESTRUCTURA_DEFAULT_IMAGEN;
+	tipoEntidad.ancho_base = ESTRUCTURA_DEFAULT_ANCHO_BASE;
+	tipoEntidad.alto_base = ESTRUCTURA_DEFAULT_ALTO_BASE;
+	tipoEntidad.pixel_ref_x = ESTRUCTURA_DEFAULT_PIXEL_REF_X;
+	tipoEntidad.pixel_ref_y = ESTRUCTURA_DEFAULT_PIXEL_REF_Y;
+	tipoEntidad.fps = ESTRUCTURA_DEFAULT_FPS;
+	tipoEntidad.delay = ESTRUCTURA_DEFAULT_DELAY;
+	tipoEntidad.alto_sprite = ESTRUCTURA_DEFAULT_ALTO_SPRITE;
+	tipoEntidad.ancho_sprite = ESTRUCTURA_DEFAULT_ANCHO_SPRITE;
+	tipoEntidad.cantidad_sprites = ESTRUCTURA_DEFAULT_CANTIDAD_SPRITES;
+	tipoEntidad.sight_radius = ESTRUCTURA_DEFAULT_SIGHT_RADIUS;
+	tipoEntidad.speed = ESTRUCTURA_DEFAULT_SPEED;
+	tipoEntidad.solid = true;
+	tipoEntidad.capacity = ESTRUCTURA_DEFAULT_CAPACITY;
+	tipoEntidad.behaviour = ESTRUCTURA_DEFAULT_BEHAVIOUR;
 }

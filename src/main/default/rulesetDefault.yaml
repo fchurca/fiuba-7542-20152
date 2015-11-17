@@ -1,4 +1,73 @@
-tipos_entidades:
+configuracion:
+    dt: 50
+tipos_unidades:
+  - nombre: mago
+    imagen: resources/mago.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 30
+    pixel_ref_y: 32
+    fps: 10
+    delay: 0
+    ancho_sprite: 60
+    alto_sprite: 60
+    cantidad_sprites: 5
+    sight_radius: 3
+    speed: 3
+    behaviour: worker
+  - nombre: dragon
+    imagen: resources/dragon.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 30
+    pixel_ref_y: 32
+    fps: 10
+    delay: 0
+    ancho_sprite: 60
+    alto_sprite: 60
+    cantidad_sprites: 5
+    sight_radius: 3
+    speed: 3
+  - nombre: hachero
+    imagen: resources/hachero.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 30
+    pixel_ref_y: 32
+    fps: 10
+    delay: 0
+    ancho_sprite: 60
+    alto_sprite: 60
+    cantidad_sprites: 5
+    sight_radius: 3
+    speed: 3
+  - nombre: ogro
+    imagen: resources/ogro.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 30
+    pixel_ref_y: 32
+    fps: 10
+    delay: 0
+    ancho_sprite: 60
+    alto_sprite: 60
+    cantidad_sprites: 4
+    sight_radius: 3
+    speed: 3
+  - nombre: cubo
+    imagen: resources/cubo_1_2.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 16
+    pixel_ref_y: 16
+    fps: 0
+    delay: 0
+    ancho_sprite: 32
+    alto_sprite: 32
+    cantidad_sprites: 1
+    sight_radius: 3
+    speed: 3
+tipos_estructuras:
   - nombre: troncoNESW
     imagen: resources/troncoNESW31.png
     ancho_base: 1
@@ -20,6 +89,83 @@ tipos_entidades:
     delay: 0
     ancho_sprite: 128
     alto_sprite: 83
+    cantidad_sprites: 1
+  - nombre: centro
+    imagen: resources/centro.png
+    ancho_base: 2
+    alto_base: 2
+    pixel_ref_x: 60
+    pixel_ref_y: 60
+    fps: 0
+    delay: 0
+    ancho_sprite: 128
+    alto_sprite: 128
+    cantidad_sprites: 1
+  - nombre: choza
+    imagen: resources/choza.png
+    ancho_base: 2
+    alto_base: 2
+    pixel_ref_x: 60
+    pixel_ref_y: 60
+    fps: 0
+    delay: 0
+    ancho_sprite: 128
+    alto_sprite: 128
+    cantidad_sprites: 1
+  - nombre: granero
+    imagen: resources/granero.png
+    ancho_base: 2
+    alto_base: 2
+    pixel_ref_x: 60
+    pixel_ref_y: 60
+    fps: 0
+    delay: 0
+    ancho_sprite: 128
+    alto_sprite: 128
+    cantidad_sprites: 1
+  - nombre: porton
+    imagen: resources/porton.png
+    ancho_base: 2
+    alto_base: 2
+    pixel_ref_x: 60
+    pixel_ref_y: 60
+    fps: 0
+    delay: 0
+    ancho_sprite: 128
+    alto_sprite: 128
+    cantidad_sprites: 1
+  - nombre: cuartel
+    imagen: resources/cuartel.png
+    ancho_base: 2
+    alto_base: 2
+    pixel_ref_x: 60
+    pixel_ref_y: 60
+    fps: 0
+    delay: 0
+    ancho_sprite: 128
+    alto_sprite: 128
+    cantidad_sprites: 1
+  - nombre: establo
+    imagen: resources/establo.png
+    ancho_base: 2
+    alto_base: 2
+    pixel_ref_x: 60
+    pixel_ref_y: 60
+    fps: 0
+    delay: 0
+    ancho_sprite: 128
+    alto_sprite: 128
+    cantidad_sprites: 1
+  - nombre: torre
+    imagen: resources/torre.png
+    ancho_base: 2
+    alto_base: 2
+    pixel_ref_x: 60
+    pixel_ref_y: 60
+    fps: 0
+    delay: 0
+    ancho_sprite: 128
+    alto_sprite: 128
     cantidad_sprites: 1
   - nombre: chancho
     imagen: resources/chanchos.png
@@ -43,6 +189,39 @@ tipos_entidades:
     ancho_sprite: 32
     alto_sprite: 32
     cantidad_sprites: 1
+  - nombre: flag_blue
+    imagen: resources/flag_blue.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 16
+    pixel_ref_y: 16
+    fps: 0
+    delay: 0
+    ancho_sprite: 35
+    alto_sprite: 35
+    cantidad_sprites: 1
+  - nombre: flag_green
+    imagen: resources/flag_green.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 16
+    pixel_ref_y: 16
+    fps: 0
+    delay: 0
+    ancho_sprite: 35
+    alto_sprite: 35
+    cantidad_sprites: 1
+  - nombre: flag_red
+    imagen: resources/flag_red.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 16
+    pixel_ref_y: 16
+    fps: 0
+    delay: 0
+    ancho_sprite: 35
+    alto_sprite: 35
+    cantidad_sprites: 1
   - nombre: chanchoDelay
     imagen: resources/chanchos.png
     ancho_base: 0.5
@@ -54,36 +233,10 @@ tipos_entidades:
     ancho_sprite: 48
     alto_sprite: 44
     cantidad_sprites: 15
-  - nombre: mago
-    imagen: resources/mago.png
-    ancho_base: 0.5
-    alto_base: 0.5
-    pixel_ref_x: 30
-    pixel_ref_y: 32
-    fps: 10
-    delay: 0
-    ancho_sprite: 60
-    alto_sprite: 60
-    cantidad_sprites: 5
-    sight_radius: 3
-    speed: 3
-  - nombre: cubo
-    imagen: resources/cubo_1_2.png
-    ancho_base: 0.5
-    alto_base: 0.5
-    pixel_ref_x: 16
-    pixel_ref_y: 16
-    fps: 0
-    delay: 0
-    ancho_sprite: 32
-    alto_sprite: 32
-    cantidad_sprites: 1
-    sight_radius: 3
-    speed: 3
   - nombre: arbol
     imagen: resources/arbol.png
-    ancho_base: 1.9
-    alto_base: 1.9
+    ancho_base: 2
+    alto_base: 2
     pixel_ref_x: 49
     pixel_ref_y: 84
     fps: 0
@@ -132,6 +285,24 @@ tipos_recursos:
     capacidad: 100
   - nombre: oro
     imagen: resources/oro.png
+    ancho_base: 1
+    alto_base: 1
+    pixel_ref_x: 32
+    pixel_ref_y: 3
+    ancho_sprite: 64
+    alto_sprite: 35
+    capacidad: 100
+  - nombre: madera
+    imagen: resources/madera.png
+    ancho_base: 1
+    alto_base: 1
+    pixel_ref_x: 32
+    pixel_ref_y: 3
+    ancho_sprite: 64
+    alto_sprite: 35
+    capacidad: 100
+  - nombre: piedras
+    imagen: resources/piedras.png
     ancho_base: 1
     alto_base: 1
     pixel_ref_x: 32

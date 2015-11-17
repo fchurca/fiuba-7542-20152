@@ -24,6 +24,7 @@ struct TagTipoEntidad {
 	unsigned int speed;
 	bool solid;
 	unsigned int capacity;
+	std::string behaviour;
 };
 
 struct TagConfiguracion {
@@ -35,16 +36,19 @@ class RulesetParser : public GenericParser
 private:
 	void setConfiguracion(const YAML::Node& node, TagConfiguracion& configuracion);
 	void setConfiguracionDefault(TagConfiguracion& configuracion);
-	void setTipoEntidad(const YAML::Node& node, TagTipoEntidad& tipoEntidad, int i);
+	void setTipoUnidad(const YAML::Node& node, TagTipoEntidad& tipoEntidad, int i);
+	void setTipoEstructura(const YAML::Node& node, TagTipoEntidad& tipoEntidad, int i);
 	void setTipoTerreno(const YAML::Node& node, TagTipoEntidad& tipoTerreno, int i);
 	void setTipoRecurso(const YAML::Node& node, TagTipoEntidad& tipoTerreno, int i);
-	void setTipoEntidadDefault(TagTipoEntidad& tipoEntidad, int i);
+	void setTipoUnidadDefault(TagTipoEntidad& tipoEntidad, int i);
 	void setTipoTerrenoDefault(TagTipoEntidad& tipoTerreno, int i);
 	void setTipoRecursoDefault(TagTipoEntidad& tipoRecurso, int i);
+	void setTipoEstructuraDefault(TagTipoEntidad& tipoEntidad, int i);
 public:
 	RulesetParser(std::string filename);
 	TagConfiguracion getConfiguracion();
-	std::vector<TagTipoEntidad> getTiposEntidades();
+	std::vector<TagTipoEntidad> getTiposUnidades();
+	std::vector<TagTipoEntidad> getTiposEstructuras();
 	std::vector<TagTipoEntidad> getTiposTerrenos();
 	std::vector<TagTipoEntidad> getTiposRecursos();
 	~RulesetParser(void);
