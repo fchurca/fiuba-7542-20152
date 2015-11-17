@@ -129,3 +129,4 @@ escenario:
           - {x: 17, y: 1, tipo: mago }
           - {x: 18, y: 1, tipo: mago }
           - {x: 15, y: 1, tipo: centro }
+          - {x: 19, y: 1, tipo: bandera }

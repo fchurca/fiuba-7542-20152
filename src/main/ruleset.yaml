@@ -189,39 +189,18 @@ tipos_estructuras:
     ancho_sprite: 32
     alto_sprite: 32
     cantidad_sprites: 1
-  - nombre: flag_blue
-    imagen: resources/flag_blue.png
-    ancho_base: 0.5
-    alto_base: 0.5
-    pixel_ref_x: 16
-    pixel_ref_y: 16
+  - nombre: bandera
+    imagen: resources/flag.png
+    ancho_base: 2
+    alto_base: 2
+    pixel_ref_x: 41
+    pixel_ref_y: 65
     fps: 0
     delay: 0
-    ancho_sprite: 35
-    alto_sprite: 35
+    ancho_sprite: 82
+    alto_sprite: 96
     cantidad_sprites: 1
-  - nombre: flag_green
-    imagen: resources/flag_green.png
-    ancho_base: 0.5
-    alto_base: 0.5
-    pixel_ref_x: 16
-    pixel_ref_y: 16
-    fps: 0
-    delay: 0
-    ancho_sprite: 35
-    alto_sprite: 35
-    cantidad_sprites: 1
-  - nombre: flag_red
-    imagen: resources/flag_red.png
-    ancho_base: 0.5
-    alto_base: 0.5
-    pixel_ref_x: 16
-    pixel_ref_y: 16
-    fps: 0
-    delay: 0
-    ancho_sprite: 35
-    alto_sprite: 35
-    cantidad_sprites: 1
+    behaviour: flag
   - nombre: chanchoDelay
     imagen: resources/chanchos.png
     ancho_base: 0.5
