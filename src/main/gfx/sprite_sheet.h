@@ -12,7 +12,7 @@
 
 class IsoView;
 
-class SpriteSheet {
+class SpriteSheet : public EntityVisitor{
 private:
 	std::string path;
 
@@ -42,6 +42,7 @@ public:
 	void update();
 	SDL_Texture* getLoadedTexture(Visibility state, bool playerIsActive);
 	SDL_Rect targetRect(Entity& entity);
+	virtual void visit(Entity& e);
 };
 
 #endif // __SPRITESHEET_H__

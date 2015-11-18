@@ -67,7 +67,8 @@ void IsoView::draw() {
 			auto tile = owner.player.board.getTerrain(x, y);
 			if (tile) {
 				if (canDraw(tile)) {
-					spriteSheets[tile->name]->render(*tile);
+					//spriteSheets[tile->name]->render(*tile);
+					tile->visit(*(spriteSheets[tile->name]));
 				}
 			}
 		}
@@ -88,7 +89,8 @@ void IsoView::draw() {
 			Logger::getInstance()->writeWarning("No existe SpriteSheet para este tipo de entidad" + e->name);
 			continue;
 		}
-		it->second->render(*e);
+		//it->second->render(*e);
+		e->visit(*(it->second));
 		if (e->owner.name != DEFAULT_PLAYER_NAME && owner.player.getVisibility(*e) != INVISIBLE) {
 			SDL_Color color = owner.getColor(e->owner.getId());
 			SDL_SetRenderDrawColor(owner.getRenderer(), color.r, color.g, color.b, 255);

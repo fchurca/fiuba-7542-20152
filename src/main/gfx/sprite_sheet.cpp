@@ -117,6 +117,10 @@ void SpriteSheet::render(Entity & entity){
 		
 }
 
+void SpriteSheet::visit(Entity& e){
+	render(e);
+}
+
 void SpriteSheet::draw(int i, int j, SDL_Rect renderQuad, SDL_Texture* texture) {
 	//Fotograma a dibujar
 	SDL_Rect clip = { i * ancho_sprite, j * alto_sprite, ancho_sprite, alto_sprite };
