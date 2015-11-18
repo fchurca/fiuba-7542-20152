@@ -94,7 +94,7 @@ bool SpriteSheet::loadTexture() {
 	return texture && textureFOG;
 }
 
-void SpriteSheet::render(Entity & entity){
+void SpriteSheet::visit(Unit& entity){
 	Visibility state = owner.owner.player.getVisibility(entity);
 	bool playerIsActive = entity.owner.getActive();
 
@@ -113,12 +113,43 @@ void SpriteSheet::render(Entity & entity){
 	//	Dibujado
 	if (state != INVISIBLE) {//Aca hay que usar el canDraw
 		draw(entity.getDirection(), currentFrame, renderQuad, getLoadedTexture(state, playerIsActive));
-	}
-		
+	}	
 }
 
-void SpriteSheet::visit(Entity& e){
-	render(e);
+void SpriteSheet::visit(Entity& entity){
+	Visibility state = owner.owner.player.getVisibility(entity);
+	bool playerIsActive = entity.owner.getActive();
+
+	if (total_sprites == 0) {
+		currentFrame = 0;
+		Logger::getInstance()->writeWarning(" La cantidad de sprites debe ser mayor a cero " + path);
+	}
+	else {
+		currentFrame = counter % total_sprites;
+		if (currentFrame == 0)
+			counter = 0;
+	}
+
+	//	Ubicacion donde dibujar
+	SDL_Rect renderQuad = targetRect(entity);
+
+	//	Dibujado
+	if (state != INVISIBLE) {//Aca hay que usar el canDraw
+		draw(0, currentFrame, renderQuad, getLoadedTexture(state, playerIsActive));
+	}
+}
+
+void SpriteSheet::visit(Flag& entity) {
+	Visibility state = owner.owner.player.getVisibility(entity);
+	bool playerIsActive = entity.owner.getActive();
+
+	//	Ubicacion donde dibujar
+	SDL_Rect renderQuad = targetRect(entity);
+
+	//	Dibujado
+	if (state != INVISIBLE) {//Aca hay que usar el canDraw
+		draw(0, 0, renderQuad, getLoadedTexture(state, playerIsActive));
+	}
 }
 
 void SpriteSheet::draw(int i, int j, SDL_Rect renderQuad, SDL_Texture* texture) {

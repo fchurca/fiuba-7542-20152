@@ -38,11 +38,12 @@ public:
 	IsoView & owner;
 	SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay, IsoView & owner );
 	~SpriteSheet();
-	void render(Entity& entity);
 	void update();
 	SDL_Texture* getLoadedTexture(Visibility state, bool playerIsActive);
 	SDL_Rect targetRect(Entity& entity);
 	virtual void visit(Entity& e);
+	virtual void visit(Unit& e);
+	virtual void visit(Flag& e);
 };
 
 #endif // __SPRITESHEET_H__
