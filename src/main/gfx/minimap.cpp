@@ -1,10 +1,11 @@
 #include "game_window.h"
 #include "minimap.h"
+#include "../parser_yaml/graphics_parser.h"
 
-MiniMap::MiniMap(GameWindow& owner) :
+MiniMap::MiniMap(GameWindow& owner, GraphicsParser& graphicsParser) :
 	owner(owner),
-	size(owner.ancho_pantalla / 4, owner.alto_pantalla / 4),
-	offset(3 * owner.ancho_pantalla / 4, 3 * owner.alto_pantalla / 4)
+	size(graphicsParser.getPantalla().minimapa_ancho, graphicsParser.getPantalla().hud_alto),
+	offset(owner.ancho_pantalla - graphicsParser.getPantalla().minimapa_ancho, owner.alto_pantalla - graphicsParser.getPantalla().hud_alto)
 {
 	double d = owner.player.board.sizeX + owner.player.board.sizeY;
 	scale = r2(size.x / (d + 2), size.y / (d + 1));

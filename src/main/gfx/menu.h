@@ -5,6 +5,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "../model/geometry.h"
 class GameWindow;
+class GraphicsParser;
 
 class Menu {
 private:
@@ -14,7 +15,7 @@ private:
 protected:
 public:
 	void draw(SDL_Renderer* renderer);
-	Menu(GameWindow& owner);
+	Menu(GameWindow& owner, GraphicsParser& graphicsParser);
 	~Menu();
 };
 #endif // __GFX_MENU_H__

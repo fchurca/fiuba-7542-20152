@@ -11,6 +11,8 @@
 struct TagPantalla {
 	unsigned int ancho;
 	unsigned int alto;
+	unsigned int minimapa_ancho;
+	unsigned int hud_alto;
 	unsigned int margen_scroll;
 	unsigned int velocidad_scroll;
 };

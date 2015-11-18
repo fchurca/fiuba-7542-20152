@@ -25,6 +25,8 @@ enum Directions {
 //Pantalla Default
 #define ANCHO_DEFAULT  640
 #define ALTO_DEFAULT  480
+#define ANCHO_MINIMAPA_DEFAULT  200
+#define ALTO_HUD_DEFAULT  120
 
 //Configuracion Default
 #define VELOCIDAD_PERSONAJE_DEFAULT 1

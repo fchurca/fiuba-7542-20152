@@ -1,10 +1,11 @@
 #include "game_window.h"
 #include "menu.h"
+#include "../parser_yaml/graphics_parser.h"
 
-Menu::Menu(GameWindow& owner) :
+Menu::Menu(GameWindow& owner, GraphicsParser& graphicsParser) :
 	owner(owner),
-	size(3 * owner.ancho_pantalla / 4, owner.alto_pantalla / 4),
-	offset(0, 3 * owner.alto_pantalla / 4)
+	size(owner.ancho_pantalla - graphicsParser.getPantalla().minimapa_ancho, graphicsParser.getPantalla().hud_alto),
+	offset(0, owner.alto_pantalla - graphicsParser.getPantalla().hud_alto)
 {
 }
 

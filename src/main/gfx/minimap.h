@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include "../model/geometry.h"
 class GameWindow;
+class GraphicsParser;
 
 class MiniMap{
 private:
@@ -16,7 +17,7 @@ protected:
 public:
 	void draw(SDL_Renderer* renderer);
 	SDL_Point boardToScreenPosition(r2 boardPos);
-	MiniMap(GameWindow& owner);
+	MiniMap(GameWindow& owner, GraphicsParser& graphicsParser);
 	~MiniMap();
 };
 #endif // __GFX_MINIMAP_H__

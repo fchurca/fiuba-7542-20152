@@ -56,9 +56,9 @@ GameWindow::GameWindow(Game& owner, Player& player, GraphicsParser& graphicsPars
 		Logger::getInstance()->writeError("Error al abrir TTF");
 	}
 	inputText = "";
-	minimap = std::make_shared<MiniMap>(*this);
+	minimap = std::make_shared<MiniMap>(*this, graphicsParser);
 	isoview = std::make_shared<IsoView>(*this, rulesetParser);
-	menu = std::make_shared<Menu>(*this);
+	menu = std::make_shared<Menu>(*this, graphicsParser);
 	chat = std::make_shared<Chat>(*this);
 }
 
