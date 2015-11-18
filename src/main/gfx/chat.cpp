@@ -15,10 +15,10 @@ Chat::~Chat() {
 }
 
 void Chat::draw(SDL_Renderer* renderer, std::string inputText) {
-	//Dibujo fondo
-	SDL_Rect destinoFondoChat = { (int)offset.x, (int)offset.y, (int)size.x, (int)size.y };
-	SDL_SetRenderDrawColor(renderer, 15, 15, 15, 255);
-	SDL_RenderFillRect(renderer, &destinoFondoChat);
+	////Dibujo fondo Descomentar para tener fondo negro en el chat
+	//SDL_Rect destinoFondoChat = { (int)offset.x, (int)offset.y, (int)size.x, (int)size.y };
+	//SDL_SetRenderDrawColor(renderer, 15, 15, 15, 255);
+	//SDL_RenderFillRect(renderer, &destinoFondoChat);
 
 	//Me quedo con los ultimos mensajes
 	while (messages.size() > maxMessages)
