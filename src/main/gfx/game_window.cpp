@@ -49,7 +49,7 @@ GameWindow::GameWindow(Game& owner, Player& player, GraphicsParser& graphicsPars
 
 	auto tp = graphicsParser.getPantalla();
 	if(player.entities().size() > 0)
-		selection = player.entities().at(0);
+		selection.push_back(player.entities().at(0));
 	focus();
 	font = TTF_OpenFont(FUENTE_DEFAULT, 20);
 	if (!font) {
@@ -81,11 +81,15 @@ GameWindow::~GameWindow() {
 	TTF_CloseFont(font);
 }
 
+SDL_Renderer* GameWindow::getRenderer() {
+	return renderer;
+}
+
 void GameWindow::render() {
-	isoview->draw(renderer);
-	menu->draw(renderer);
-	minimap->draw(renderer);
-	chat->draw(renderer, inputText);
+	isoview->draw();
+	menu->draw();
+	minimap->draw();
+	chat->draw(inputText);
 	if (pressedClick) {
 		Uint8 q = 255;
 		SDL_SetRenderDrawColor(renderer, q, q, q, q);
@@ -103,9 +107,11 @@ void GameWindow::render() {
 }
 
 void GameWindow::update(){
-	if (getSelection()) {
-		if (getSelection()->getDeletable()) {
-			clearSelection();
+	int i = 0;
+	for (auto e : getSelection()){
+		i++;
+		if (e->getDeletable()) {
+			selection.erase(selection.begin()+i);
 		}
 	}
 	isoview->update();
@@ -137,8 +143,10 @@ void GameWindow::processInput(){
 							owner.restart();
 						break;
 					case SDLK_s:
-						if (!chat->typing && selectionController()) {
-							board.pushCommand(make_shared<StopCommand>(selection->getId()));
+						for (auto e : getSelection()) {
+							if (!chat->typing && selectionController(*e)) {
+								board.pushCommand(make_shared<StopCommand>(e->getId()));
+							}
 						}
 						break;
 					case SDLK_F2:
@@ -181,12 +189,15 @@ void GameWindow::processInput(){
 					}
 				if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_RIGHT) {
 					Logger::getInstance()->writeInformation("Boton derecho");
-					if (selectionController()) {
-						if (!(SDL_GetModState()&KMOD_SHIFT)) {
-							board.pushCommand(make_shared<StopCommand>(selection->getId()));
+					for (auto e : getSelection()) {
+						if (selectionController(*e)) {
+							if (!(SDL_GetModState()&KMOD_SHIFT)) {
+								board.pushCommand(make_shared<StopCommand>(e->getId()));
+							}
+							board.pushCommand(make_shared<MoveCommand>(e->getId(), boardMouse));
 						}
-						board.pushCommand(make_shared<MoveCommand>(selection->getId(), boardMouse));
 					}
+					
 				}
 				break;
 		}
@@ -226,8 +237,8 @@ void GameWindow::focus(r2 newFocus) {
 }
 
 void GameWindow::focus() {
-	if (getSelection()) {
-		focus(getSelection()->getPosition());
+	if (getSelection().size() > 0) {
+		focus(getSelection().at(0)->getPosition());
 	}
 }
 
@@ -235,23 +246,28 @@ r2 GameWindow::getFocus() {
 	return focusPosition;
 }
 
-shared_ptr<Entity> GameWindow::getSelection() {
+std::vector<std::shared_ptr<Entity>> GameWindow::getSelection() {
 	return selection;
 }
 
 void GameWindow::clearSelection() {
-	selection = nullptr;
+	selection.clear();
 }
 
 void GameWindow::setSelection() {
-	selection = (player.getVisibility(boardMouse) >= SEEN) ? board.findEntity(boardMouse) : nullptr;
+	selection.clear();
+	r2 boardClick = isoview->screenToBoardPosition(clickMouse);
+	r2 vertice = r2(min(boardClick.x, boardMouse.x), min(boardClick.y, boardMouse.y));
+	r2 size = r2(fabs(boardClick.x - boardMouse.x), fabs(boardClick.y - boardMouse.y));
+	if(player.getVisibility(boardMouse) >= SEEN && board.findEntity(boardMouse))
+		selection.push_back(board.findEntity(boardMouse)); //TODO: seleccionar varias Entities con clickMouse y boardMouse
 }
 
-bool GameWindow::selectionController() {
-	if (!getSelection()) {
+bool GameWindow::selectionController(Entity& e) {
+	if (!(getSelection().size() > 0)) {
 		return false;
 	}
-	return &(selection->owner) == &player;
+	return &(e.owner) == &player;
 }
 
 std::string GameWindow::completeLine(std::string line, double width) {

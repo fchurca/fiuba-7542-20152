@@ -37,9 +37,9 @@ SDL_Point IsoView::getSize() {
 	return {(int)size.x, (int)size.y};
 }
 
-void IsoView::draw(SDL_Renderer* renderer) {
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-	SDL_RenderClear(renderer);
+void IsoView::draw() {
+	SDL_SetRenderDrawColor(owner.getRenderer(), 0, 0, 0, 255);
+	SDL_RenderClear(owner.getRenderer());
 	// Dibujamos el terreno
 	r2 margin(1, 1),
 		ul = screenToBoardPosition({ 0, 0 }) - margin, // Upper Left
@@ -67,7 +67,7 @@ void IsoView::draw(SDL_Renderer* renderer) {
 			auto tile = owner.player.board.getTerrain(x, y);
 			if (tile) {
 				if (canDraw(tile)) {
-					spriteSheets[tile->name]->render(*tile, renderer);
+					spriteSheets[tile->name]->render(*tile);
 				}
 			}
 		}
@@ -88,20 +88,21 @@ void IsoView::draw(SDL_Renderer* renderer) {
 			Logger::getInstance()->writeWarning("No existe SpriteSheet para este tipo de entidad" + e->name);
 			continue;
 		}
-		it->second->render(*e, renderer);
+		it->second->render(*e);
 		if (e->owner.name != DEFAULT_PLAYER_NAME && owner.player.getVisibility(*e) != INVISIBLE) {
 			SDL_Color color = owner.getColor(e->owner.getId());
-			SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
+			SDL_SetRenderDrawColor(owner.getRenderer(), color.r, color.g, color.b, 255);
 			SDL_Point centro = boardToScreenPosition(e->center());
 			SDL_Rect linea = { (int)(centro.x - TILE_WIDTH_DEFAULT/4), (int)(centro.y), TILE_WIDTH_DEFAULT/2, 2 };
-			SDL_RenderFillRect(renderer, &linea);
+			SDL_RenderFillRect(owner.getRenderer(), &linea);
 		}
 	}
-	if (owner.getSelection()) {
-		Uint8 q = 255;
-		SDL_SetRenderDrawColor(renderer, q, q, q, q);
-		r2 p = owner.getSelection()->getPosition();
-		r2 s = owner.getSelection()->size;
+	Uint8 q = 255;
+	SDL_SetRenderDrawColor(owner.getRenderer(), q, q, q, q);
+	r2 p, s;
+	for (auto e : owner.getSelection()) {
+		p = e->getPosition();
+		s = e->size;
 		SDL_Point points[] = {
 			boardToScreenPosition(p),
 			boardToScreenPosition(p + r2(s.x, 0)),
@@ -109,7 +110,7 @@ void IsoView::draw(SDL_Renderer* renderer) {
 			boardToScreenPosition(p + r2(0, s.y)),
 			boardToScreenPosition(p) };
 
-		SDL_RenderDrawLines(renderer, points, 5);
+		SDL_RenderDrawLines(owner.getRenderer(), points, 5);
 	}
 }
 

@@ -35,7 +35,7 @@ protected:
 	void focus(r2 position);
 	void focus();
 	ABoard& board;
-	std::shared_ptr<Entity> selection;
+	std::vector<std::shared_ptr<Entity>> selection;
 public:
 	GameWindow(Game& owner, Player& player, GraphicsParser& graphicsParser, RulesetParser& rulesetParser);
 	~GameWindow();
@@ -45,10 +45,10 @@ public:
 	r2 getFocus();
 	int alto_pantalla;
 	int ancho_pantalla;
-	std::shared_ptr<Entity> getSelection();
+	std::vector<std::shared_ptr<Entity>> getSelection();
 	void clearSelection();
 	void setSelection();
-	bool selectionController();
+	bool selectionController(Entity& e);
 	std::shared_ptr<MiniMap> minimap;
 	std::shared_ptr<IsoView> isoview;
 	std::shared_ptr<Menu> menu;
@@ -56,6 +56,7 @@ public:
 	TTF_Font* font;
 	std::string completeLine(std::string line, double width);
 	SDL_Color getColor(int id);
+	SDL_Renderer* getRenderer();
 friend SpriteSheet;
 };
 #endif // __GFX_GAMEWINDOW_H__

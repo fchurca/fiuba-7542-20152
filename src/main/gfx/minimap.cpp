@@ -13,11 +13,11 @@ MiniMap::MiniMap(GameWindow& owner, GraphicsParser& graphicsParser) :
 
 MiniMap::~MiniMap() {}
 
-void MiniMap::draw(SDL_Renderer* renderer) {
+void MiniMap::draw() {
 	//Dibujo fondo
 	SDL_Rect destinoFondoMinimapa = { (int)offset.x, (int)offset.y, (int)size.x, (int)size.y };
-	SDL_SetRenderDrawColor(renderer, 15, 15, 15, 255);
-	SDL_RenderFillRect(renderer, &destinoFondoMinimapa);
+	SDL_SetRenderDrawColor(owner.getRenderer(), 15, 15, 15, 255);
+	SDL_RenderFillRect(owner.getRenderer(), &destinoFondoMinimapa);
 	////Minimapa
 	SDL_Point ts = {(int)ceil(2 * scale.x), (int)ceil(scale.y)};
 	for (int i = 0; i < owner.player.board.sizeX; i++) {
@@ -28,9 +28,9 @@ void MiniMap::draw(SDL_Renderer* renderer) {
 				color = tmpGetColor(t->name);
 			}
 			auto p = boardToScreenPosition(t->getPosition());
-			SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
+			SDL_SetRenderDrawColor(owner.getRenderer(), color.r, color.g, color.b, 255);
 			SDL_Rect terreno = { p.x, p.y, ts.x, ts.y };
-			SDL_RenderFillRect(renderer, &terreno);
+			SDL_RenderFillRect(owner.getRenderer(), &terreno);
 		}
 	}
 	SDL_Point es = {(int)ceil((scale.x + scale.y) / 2), (int)ceil((scale.x + scale.y) / 2)};
@@ -41,20 +41,24 @@ void MiniMap::draw(SDL_Renderer* renderer) {
 				SDL_Color color = owner.getColor(e->owner.getId());
 				auto p = boardToScreenPosition(e->center()-r2(.5,.5));
 				p.x += d.x; p.y += d.y;
-				if (owner.getSelection() == e)
-					color = { 255,255,255 };
-				SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
+				for (auto se : owner.getSelection()) {
+					if (se == e) {
+						color = { 255,255,255 };
+						break;
+					}	
+				}
+				SDL_SetRenderDrawColor(owner.getRenderer(), color.r, color.g, color.b, 255);
 				SDL_Rect entidad = { p.x, p.y, es.x, es.y };
-				SDL_RenderFillRect(renderer, &entidad);
+				SDL_RenderFillRect(owner.getRenderer(), &entidad);
 			}
 		}
 	}
 	auto pul = boardToScreenPosition(owner.isoview->screenToBoardPosition({ 0,0 }));
 	auto pbr = boardToScreenPosition(owner.isoview->screenToBoardPosition(owner.isoview->getSize()));
 	SDL_Point s = {pbr.x - pul.x, pbr.y - pul.y};
-	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+	SDL_SetRenderDrawColor(owner.getRenderer(), 255, 255, 255, 255);
 	SDL_Rect target = {pul.x, pul.y, s.x, s.y};
-	SDL_RenderDrawRect(renderer, &target);
+	SDL_RenderDrawRect(owner.getRenderer(), &target);
 }
 
 SDL_Color MiniMap::tmpGetColor(std::string name) {

@@ -15,7 +15,7 @@ private:
 	SDL_Color tmpGetColor(std::string name);
 protected:
 public:
-	void draw(SDL_Renderer* renderer);
+	void draw();
 	SDL_Point boardToScreenPosition(r2 boardPos);
 	MiniMap(GameWindow& owner, GraphicsParser& graphicsParser);
 	~MiniMap();

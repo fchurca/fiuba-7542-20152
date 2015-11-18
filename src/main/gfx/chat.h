@@ -16,7 +16,7 @@ protected:
 public:
 	bool typing;
 	std::vector<std::string> messages;
-	void draw(SDL_Renderer* renderer, std::string inputText);
+	void draw(std::string inputText);
 	Chat(GameWindow& owner);
 	~Chat();
 };

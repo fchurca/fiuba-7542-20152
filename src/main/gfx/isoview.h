@@ -16,7 +16,7 @@ private:
 public:
 	GameWindow& owner;
 	SDL_Point getSize();
-	void draw(SDL_Renderer* renderer);
+	void draw();
 	IsoView(GameWindow& owner, RulesetParser& rulesetParser);
 	r2 screenToBoardPosition(SDL_Point screenPos);
 	SDL_Point boardToScreenPosition(r2 boardPos);

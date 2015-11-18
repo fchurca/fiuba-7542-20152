@@ -48,16 +48,16 @@ void SpriteSheet::clear(){
 	}
 }
 
-SDL_Texture*  SpriteSheet::getLoadedTexture( SDL_Renderer* renderer, Visibility state, bool playerIsActive ){
+SDL_Texture*  SpriteSheet::getLoadedTexture(Visibility state, bool playerIsActive ){
 	if( !initialized )
-		initialized = loadTexture( renderer );
+		initialized = loadTexture();
 
 	if(state==VISIBLE && playerIsActive)
 		return texture;
 	return textureFOG;
 }
 
-bool SpriteSheet::loadTexture( SDL_Renderer* renderer ) {
+bool SpriteSheet::loadTexture() {
 	//	Libera la carga anterior, para poder recargar
 	clear();
 	//	Carga la imagen desde el path
@@ -85,8 +85,8 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ) {
 		Logger::getInstance()->writeError( "No se puede cargar la imagen Default ! " );
 	} else {
 		//	Textura de la superficie
-		texture = SDL_CreateTextureFromSurface(renderer, loadedSurface);
-		textureFOG = SDL_CreateTextureFromSurface(renderer, loadedSurface);
+		texture = SDL_CreateTextureFromSurface(owner.owner.getRenderer(), loadedSurface);
+		textureFOG = SDL_CreateTextureFromSurface(owner.owner.getRenderer(), loadedSurface);
 		SDL_SetTextureAlphaMod(textureFOG, 100);
 		//	Libera la superficie
 		SDL_FreeSurface( loadedSurface );
@@ -94,7 +94,7 @@ bool SpriteSheet::loadTexture( SDL_Renderer* renderer ) {
 	return texture && textureFOG;
 }
 
-void SpriteSheet::render(Entity & entity, SDL_Renderer* renderer){
+void SpriteSheet::render(Entity & entity){
 	Visibility state = owner.owner.player.getVisibility(entity);
 	bool playerIsActive = entity.owner.getActive();
 
@@ -112,15 +112,15 @@ void SpriteSheet::render(Entity & entity, SDL_Renderer* renderer){
 
 	//	Dibujado
 	if (state != INVISIBLE) {//Aca hay que usar el canDraw
-		draw(entity.getDirection(), currentFrame, renderQuad, getLoadedTexture(renderer, state, playerIsActive), renderer);
+		draw(entity.getDirection(), currentFrame, renderQuad, getLoadedTexture(state, playerIsActive));
 	}
 		
 }
 
-void SpriteSheet::draw(int i, int j, SDL_Rect renderQuad, SDL_Texture* texture, SDL_Renderer* renderer) {
+void SpriteSheet::draw(int i, int j, SDL_Rect renderQuad, SDL_Texture* texture) {
 	//Fotograma a dibujar
 	SDL_Rect clip = { i * ancho_sprite, j * alto_sprite, ancho_sprite, alto_sprite };
-	SDL_RenderCopy(renderer, texture, &clip, &renderQuad);
+	SDL_RenderCopy(owner.owner.getRenderer(), texture, &clip, &renderQuad);
 }
 
 void SpriteSheet::update(){

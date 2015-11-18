@@ -14,7 +14,7 @@ private:
 	r2 offset;
 protected:
 public:
-	void draw(SDL_Renderer* renderer);
+	void draw();
 	Menu(GameWindow& owner, GraphicsParser& graphicsParser);
 	~Menu();
 };
