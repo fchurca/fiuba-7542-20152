@@ -108,15 +108,19 @@ void SpriteSheet::render(Entity & entity, SDL_Renderer* renderer){
 	}
 
 	//	Ubicacion donde dibujar
-	auto renderQuad = targetRect(entity);
-	//	Parte de la imagen a levantar
-	SDL_Rect clip = { entity.getDirection() * ancho_sprite, currentFrame * alto_sprite, ancho_sprite, alto_sprite };
+	SDL_Rect renderQuad = targetRect(entity);
 
 	//	Dibujado
 	if (state != INVISIBLE) {//Aca hay que usar el canDraw
-		SDL_RenderCopy(renderer, getLoadedTexture(renderer, state, playerIsActive), &clip, &renderQuad);
+		draw(entity.getDirection(), currentFrame, renderQuad, getLoadedTexture(renderer, state, playerIsActive), renderer);
 	}
 		
+}
+
+void SpriteSheet::draw(int i, int j, SDL_Rect renderQuad, SDL_Texture* texture, SDL_Renderer* renderer) {
+	//Fotograma a dibujar
+	SDL_Rect clip = { i * ancho_sprite, j * alto_sprite, ancho_sprite, alto_sprite };
+	SDL_RenderCopy(renderer, texture, &clip, &renderQuad);
 }
 
 void SpriteSheet::update(){
@@ -134,6 +138,6 @@ void SpriteSheet::update(){
 
 SDL_Rect SpriteSheet::targetRect(Entity& entity) {
 	auto screenPos = owner.boardToScreenPosition(entity.getPosition());
-	SDL_Rect renderQuad = { screenPos.x - pixel_ref_x , screenPos.y - pixel_ref_y, ancho_sprite, alto_sprite };
+	SDL_Rect renderQuad = { screenPos.x - pixel_ref_x , screenPos.y - pixel_ref_y, ancho_sprite, alto_sprite};
 	return renderQuad;
 }

@@ -30,9 +30,9 @@ private:
 	bool initialized;//= FALSE;
 	SDL_Texture* texture;// = NULL;
 	SDL_Texture* textureFOG;// = NULL; //Creamos para prueba de fog un nuevo texture
-	int getFrameDirection(Directions direction);
 	bool loadTexture(SDL_Renderer* renderer);
 	void clear();
+	void draw(int i, int j, SDL_Rect position, SDL_Texture* texture, SDL_Renderer* renderer);
 
 public:
 	IsoView & owner;
