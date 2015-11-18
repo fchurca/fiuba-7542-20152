@@ -19,6 +19,8 @@ class GameWindow : public AClient {
 protected:
 	std::string inputText;
 	SDL_Point mouse;
+	SDL_Point clickMouse;
+	bool pressedClick;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	unsigned int scroll_speed;
@@ -29,6 +31,7 @@ protected:
 	void scroll();
 	r2 focusPosition;
 	r2 boardMouse;
+
 	void focus(r2 position);
 	void focus();
 	ABoard& board;

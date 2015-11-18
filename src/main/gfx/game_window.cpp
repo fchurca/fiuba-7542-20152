@@ -60,6 +60,7 @@ GameWindow::GameWindow(Game& owner, Player& player, GraphicsParser& graphicsPars
 	isoview = std::make_shared<IsoView>(*this, rulesetParser);
 	menu = std::make_shared<Menu>(*this, graphicsParser);
 	chat = std::make_shared<Chat>(*this);
+	pressedClick = false;
 }
 
 GameWindow::~GameWindow() {
@@ -85,6 +86,17 @@ void GameWindow::render() {
 	menu->draw(renderer);
 	minimap->draw(renderer);
 	chat->draw(renderer, inputText);
+	if (pressedClick) {
+		Uint8 q = 255;
+		SDL_SetRenderDrawColor(renderer, q, q, q, q);
+		SDL_Point points[] = {
+			clickMouse,
+			{mouse.x, clickMouse.y},
+			mouse,
+			{clickMouse.x, mouse.y},
+			clickMouse };
+		SDL_RenderDrawLines(renderer, points, 5);
+	}
 
 	SDL_RenderPresent(renderer);
 	return;
@@ -150,6 +162,12 @@ void GameWindow::processInput(){
 						break;
 				}
 				break;
+			case SDL_MOUSEBUTTONDOWN:
+				if (EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_LEFT) {
+					SDL_GetMouseState(&clickMouse.x, &clickMouse.y);
+					pressedClick = true;
+				}
+				break;
 			case SDL_MOUSEBUTTONUP:
 				ostringstream oss;
 				oss << "Mouse en " << mouse.x << "," << mouse.y;
@@ -157,10 +175,10 @@ void GameWindow::processInput(){
 				oss << "; mapa: " << boardMouse.x << "," << boardMouse.y;
 
 				Logger::getInstance()->writeInformation(oss.str().c_str());
-				if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_LEFT ) {
-					Logger::getInstance()->writeInformation("Boton Izquierdo");
-					setSelection();
-				}
+				if (EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_LEFT) {
+						setSelection();
+						pressedClick = false;
+					}
 				if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_RIGHT) {
 					Logger::getInstance()->writeInformation("Boton derecho");
 					if (selectionController()) {
