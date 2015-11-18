@@ -14,6 +14,7 @@
 
 class ABoard;
 class Resource;
+class EntityVisitor;
 
 class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 	protected:
@@ -60,6 +61,8 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 
 		bool operator==(Entity& other);
 		bool operator!=(Entity& other);
+
+		virtual void visit(EntityVisitor& v) = 0;
 };
 
 class Unit : public Entity {
@@ -68,6 +71,7 @@ class Unit : public Entity {
 	public:
 		Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid);
 		virtual void update();
+		virtual void visit(EntityVisitor& v);
 		virtual ~Unit();
 };
 
@@ -75,42 +79,51 @@ class Worker : public Unit {
 	public:
 		void update();
 		Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid);
+		virtual void visit(EntityVisitor& v);
 };
 
 class King : public Unit {
 	public:
 		void update();
 		King(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid);
+		virtual void visit(EntityVisitor& v);
 };
 
 class Building : public Entity {
 	public:
 		virtual void update();
 		Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid);
+		virtual void visit(EntityVisitor& v);
+		virtual ~Building();
 };
 
 class UnfinishedBuilding : public Building {
 	public:
 		void update();
 		UnfinishedBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid);
+		virtual void visit(EntityVisitor& v);
 };
 
 class ProducerBuilding : public Building { // TODO: products
 	public:
 		virtual void update();
 		ProducerBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid);
+		virtual void visit(EntityVisitor& v);
+		virtual ~ProducerBuilding();
 };
 
 class TownCenter : public ProducerBuilding { // TODO: products
 	public:
 		void update();
 		TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid);
+		virtual void visit(EntityVisitor& v);
 };
 
 class Flag : public Building {
 	public:
 		void update();
 		Flag(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid);
+		virtual void visit(EntityVisitor& v);
 };
 
 class Resource : public Entity {
@@ -121,7 +134,24 @@ class Resource : public Entity {
 	public:
 		Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity);
 		int capacity;
+		virtual void visit(EntityVisitor& v);
 };
+
+
+class EntityVisitor {
+	public:
+		virtual void visit(Entity& e) =0;
+		virtual void visit(Unit& u);
+		virtual void visit(Worker& w);
+		virtual void visit(King& k);
+		virtual void visit(Building& b);
+		virtual void visit(UnfinishedBuilding& u);
+		virtual void visit(ProducerBuilding& p);
+		virtual void visit(TownCenter& t);
+		virtual void visit(Flag& f);
+		virtual void visit(Resource& r);
+};
+
 
 #include "entity.cxx"
 //-----------------------------------------------------------------------------

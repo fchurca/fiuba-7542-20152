@@ -48,6 +48,10 @@ bool Entity::adjustPosition() {
 	return adjusted;
 }
 
+void Entity::visit(EntityVisitor& e) {
+	e.visit(*this);
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // HIC SVNT DRACONES
 ///////////////////////////////////////////////////////////////////////////////
@@ -311,6 +315,10 @@ void Unit::update() {
 	}
 }
 
+void Unit::visit(EntityVisitor& e) {
+	e.visit(*this);
+}
+
 
 Worker::Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid) :
 	Unit(name, board, owner, position, size, speed, sight_radius, solid)
@@ -318,6 +326,10 @@ Worker::Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 s
 
 void Worker::update() {
 	Unit::update();
+}
+
+void Worker::visit(EntityVisitor& e) {
+	e.visit(*this);
 }
 
 
@@ -329,6 +341,10 @@ void King::update() {
 	Unit::update();
 }
 
+void King::visit(EntityVisitor& e) {
+	e.visit(*this);
+}
+
 
 Building::Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid) :
 	Entity(name, board, owner, position, size, sight_radius, solid)
@@ -336,6 +352,13 @@ Building::Building(std::string name, ABoard& board, Player& owner, r2 position, 
 
 void Building::update() {
 	Entity::update();
+}
+
+Building::~Building() {
+}
+
+void Building::visit(EntityVisitor& e) {
+	e.visit(*this);
 }
 
 
@@ -347,6 +370,10 @@ void UnfinishedBuilding::update() {
 	Building::update();
 }
 
+void UnfinishedBuilding::visit(EntityVisitor& e) {
+	e.visit(*this);
+}
+
 
 ProducerBuilding::ProducerBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid) :
 	Building(name, board, owner, position, size, sight_radius, solid)
@@ -354,6 +381,13 @@ ProducerBuilding::ProducerBuilding(std::string name, ABoard& board, Player& owne
 
 void ProducerBuilding::update() {
 	Building::update();
+}
+
+ProducerBuilding::~ProducerBuilding() {
+}
+
+void ProducerBuilding::visit(EntityVisitor& e) {
+	e.visit(*this);
 }
 
 
@@ -365,6 +399,10 @@ void Flag::update() {
 	Building::update();
 }
 
+void Flag::visit(EntityVisitor& e) {
+	e.visit(*this);
+}
+
 
 TownCenter::TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid) :
 	ProducerBuilding(name, board, owner, position, size, sight_radius, solid)
@@ -372,6 +410,10 @@ TownCenter::TownCenter(std::string name, ABoard& board, Player& owner, r2 positi
 
 void TownCenter::update() {
 	Building::update();
+}
+
+void TownCenter::visit(EntityVisitor& e) {
+	e.visit(*this);
 }
 
 
@@ -402,4 +444,45 @@ void Resource::collide(Entity& other) {
 }
 
 void Resource::collide(Resource& other) {}
+
+void Resource::visit(EntityVisitor& e) {
+	e.visit(*this);
+}
+
+
+void EntityVisitor::visit(Unit& u) {
+	visit((Entity&) u);
+}
+
+void EntityVisitor::visit(Worker& w) {
+	visit((Unit&) w);
+}
+
+void EntityVisitor::visit(King& k) {
+	visit((Unit&) k);
+}
+
+void EntityVisitor::visit(Building& b) {
+	visit((Entity&) b);
+}
+
+void EntityVisitor::visit(UnfinishedBuilding& u) {
+	visit((Building&) u);
+}
+
+void EntityVisitor::visit(ProducerBuilding& p) {
+	visit((Building&) p);
+}
+
+void EntityVisitor::visit(TownCenter& t) {
+	visit((ProducerBuilding&) t);
+}
+
+void EntityVisitor::visit(Flag& f) {
+	visit((Building&) f);
+}
+
+void EntityVisitor::visit(Resource& r) {
+	visit((Entity&) r);
+}
 
