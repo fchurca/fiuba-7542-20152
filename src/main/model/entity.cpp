@@ -40,7 +40,7 @@ bool Entity::adjustPosition() {
 	double topX = board.sizeX - size.x;
 	double topY = board.sizeY - size.y;
 	r2 oldpos = position;
-	position = {clip(position.x, 0, topX),clip(position.y, 0, topY)};
+	position = { clip(position.x, 0, topX),clip(position.y, 0, topY) };
 	bool adjusted = oldpos != position;
 	if (adjusted) {
 		setFrame();
@@ -68,27 +68,27 @@ struct TSNode {
 };
 
 class compare {
-	public:
-		bool operator()(const shared_ptr<TSNode> a, const shared_ptr<TSNode> b) {
-			return a->f > b->f;
-		}
+public:
+	bool operator()(const shared_ptr<TSNode> a, const shared_ptr<TSNode> b) {
+		return a->f > b->f;
+	}
 };
 
 void Entity::addTarget(r2 newTarget) {
 	newTarget.x = clip(newTarget.x, 0, board.sizeX);
 	newTarget.y = clip(newTarget.y, 0, board.sizeY);
-	auto round = [](r2 a) {return r2(floor(a.x)+.5, floor(a.y)+.5);};
+	auto round = [](r2 a) {return r2(floor(a.x) + .5, floor(a.y) + .5); };
 	r2
 		end = round(targeted() ? waypoints.back() : position),
 		start = round(newTarget);
 
 	priority_queue<TSNode, vector<shared_ptr<TSNode>>, compare> open;
-	auto h = [&end](r2& p) {return (p - end).length();};
-	auto f = [&h](TSNode n) {return h(n.position) + n.g;};
+	auto h = [&end](r2& p) {return (p - end).length(); };
+	auto f = [&h](TSNode n) {return h(n.position) + n.g; };
 	auto straightenOnce = [this](shared_ptr<TSNode> n) {
-		if(n->previous) {
-			if(n->previous->previous) {
-				if(canEnter(rectangle::box(n->position, n->previous->previous->position, this->size))) {
+		if (n->previous) {
+			if (n->previous->previous) {
+				if (canEnter(rectangle::box(n->position, n->previous->previous->position, this->size))) {
 					n->previous = n->previous->previous;
 					return true;
 				}
@@ -97,11 +97,11 @@ void Entity::addTarget(r2 newTarget) {
 		return false;
 	};
 	auto straighten = [straightenOnce](shared_ptr<TSNode> n) {
-		while(straightenOnce(n));
+		while (straightenOnce(n));
 	};
 	bool closed[board.sizeX][board.sizeY];
-	for(size_t i = 0; i < board.sizeX; i++) {
-		for(size_t j = 0; j < board.sizeY; j++) {
+	for (size_t i = 0; i < board.sizeX; i++) {
+		for (size_t j = 0; j < board.sizeY; j++) {
 			closed[i][j] = false;
 		}
 	}
@@ -113,10 +113,10 @@ void Entity::addTarget(r2 newTarget) {
 		open.pop();
 		auto cpos = c->position;
 		if (cpos.x < 0 || cpos.x >= board.sizeX ||
-				cpos.y < 0 || cpos.y >= board.sizeY) {
+			cpos.y < 0 || cpos.y >= board.sizeY) {
 			continue;
 		}
-		if(closed[(int)floor(cpos.x)][(int)floor(cpos.y)]) {
+		if (closed[(int)floor(cpos.x)][(int)floor(cpos.y)]) {
 			continue;
 		}
 		closed[(int)floor(cpos.x)][(int)floor(cpos.y)] = true;
@@ -126,18 +126,18 @@ void Entity::addTarget(r2 newTarget) {
 			}
 			return;
 		}
-		for(auto y = cpos.y - 1; y <= cpos.y + 1; y++) {
-			for(auto x = cpos.x - 1; x <= cpos.x + 1; x++) {
+		for (auto y = cpos.y - 1; y <= cpos.y + 1; y++) {
+			for (auto x = cpos.x - 1; x <= cpos.x + 1; x++) {
 				if (x < 0 || x >= board.sizeX ||
-						y < 0 || y >= board.sizeY) {
+					y < 0 || y >= board.sizeY) {
 					continue;
 				}
 				auto p = r2(x, y);
 				if (p == cpos) {
 					continue;
-				} 
+				}
 				if ((owner.getVisibility(p) != INVISIBLE)) {
-					if (!(canEnter(rectangle::box(p - size/2, cpos - size/2, size)))) {
+					if (!(canEnter(rectangle::box(p - size / 2, cpos - size / 2, size)))) {
 						continue;
 					}
 				}
@@ -158,8 +158,8 @@ void Entity::unsetTarget() {
 }
 
 r2 Entity::target() {
-	return waypoints.size() > 0?
-		waypoints.front():
+	return waypoints.size() > 0 ?
+		waypoints.front() :
 		r2(0, 0);
 }
 
@@ -168,9 +168,9 @@ bool Entity::targeted() {
 }
 
 void Entity::collide(Entity* other) {
-	if(other) {
-		if(!deletable &&
-				!other->deletable) {
+	if (other) {
+		if (!deletable &&
+			!other->deletable) {
 			other->collide(*this);
 		}
 	}
@@ -187,27 +187,27 @@ bool Entity::canEnter(rectangle r) {
 		for (int dy = 0; dy < s.y + 1; dy++) {
 			auto t = board.getTerrain(floor(p.x + dx), floor(p.y + dy));
 			if (t) {
-				if(t->solid) {
+				if (t->solid) {
 					return false;
 				}
 			}
 		}
 	}
 	auto colliders = board.selectEntities([this, r](shared_ptr<Entity> e) {
-			return (*e != *this) &&
+		return (*e != *this) &&
 			e->solid &&
 			!e->deletable &&
 			(rectangle(e->position, e->size).intersects(r));
-			});
+	});
 	return colliders.size() == 0;
 }
 
 bool Entity::canEnter(r2 newPosition) {
 	auto newCenter = newPosition + size / 2;
 	if (newCenter.x < 0 ||
-			newCenter.y < 0 ||
-			newCenter.x >= board.sizeX ||
-			newCenter.y >= board.sizeY) {
+		newCenter.y < 0 ||
+		newCenter.x >= board.sizeX ||
+		newCenter.y >= board.sizeY) {
 		return false;
 	}
 	return canEnter(rectangle(newPosition, size));
@@ -217,7 +217,7 @@ void Entity::update() {
 }
 
 r2 Entity::center() {
-	return position + (size/2);
+	return position + (size / 2);
 }
 
 r2 Entity::getPosition() {
@@ -248,8 +248,8 @@ void Entity::setOrientation(double newOrientation) {
 	orientation = newOrientation;
 }
 
-Directions Entity::getDirection(){
-	return static_cast<Directions>((unsigned)floor(4*orientation/M_PI+.5)%8);
+Directions Entity::getDirection() {
+	return static_cast<Directions>((unsigned)floor(4 * orientation / M_PI + .5) % 8);
 }
 
 void Entity::setDeletable() {
@@ -281,20 +281,24 @@ Unit::Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size,
 	speed(speed)
 {}
 
+bool Unit::getIsInAction() {
+	return isInAction;
+}
+
 void Unit::update() {
 	Entity::update();
 	if (targeted()) {
 		auto traj = trajectory();
 		orientation = atan2(traj.y, traj.x);
-		auto dr = speed*board.dt/1000;
+		auto dr = speed*board.dt / 1000;
 		if (pow(dr, 2) < sqDistance()) {
 			auto newPos = position + r2::fromPolar(orientation, dr);
 			rectangle shapeCandidate(newPos, size);
 			auto colliders = board.selectEntities([this, shapeCandidate](shared_ptr<Entity> e) {
-					return (*e != *this) &&
+				return (*e != *this) &&
 					(rectangle(e->getPosition(), e->size).intersects(shapeCandidate));
-					});
-			for(auto c : colliders) {
+			});
+			for (auto c : colliders) {
 				collide(c.get());
 			}
 			if (!canEnter(newPos)) {
@@ -304,8 +308,9 @@ void Unit::update() {
 				return;
 			}
 			position = newPos;
-		} else {
-			position = target() - size/2;
+		}
+		else {
+			position = target() - size / 2;
 			waypoints.pop_front();
 		}
 		if (adjustPosition()) {
@@ -429,7 +434,7 @@ void Terrain::visit(EntityVisitor& e) {
 }
 
 
-Resource::Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity):
+Resource::Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity) :
 	Entity(name, board, owner, position, size, sight_radius, solid),
 	capacity(capacity)
 {}
@@ -439,16 +444,17 @@ void Resource::update() {
 }
 
 void Resource::collide(Entity& other) {
-	if(!getDeletable() &&
-			!other.getDeletable()) {
+	if (!getDeletable() &&
+		!other.getDeletable()) {
 		stringstream message;
 		message << "Un " << other.name << " de " << other.owner.name << " encontró" << name;
-		if(other.owner.grantResources(name, capacity)) {
+		if (other.owner.grantResources(name, capacity)) {
 			setDeletable();
 			message << "; ahora " << other.owner.name
 				<< " tiene " << other.owner.getResources()[name]
 				<< " " << name;
-		} else {
+		}
+		else {
 			message << "; pero no puede tomarlos";
 		}
 		Logger::getInstance()->writeInformation(message.str());
@@ -463,42 +469,41 @@ void Resource::visit(EntityVisitor& e) {
 
 
 void EntityVisitor::visit(Unit& u) {
-	visit((Entity&) u);
+	visit((Entity&)u);
 }
 
 void EntityVisitor::visit(Worker& w) {
-	visit((Unit&) w);
+	visit((Unit&)w);
 }
 
 void EntityVisitor::visit(King& k) {
-	visit((Unit&) k);
+	visit((Unit&)k);
 }
 
 void EntityVisitor::visit(Building& b) {
-	visit((Entity&) b);
+	visit((Entity&)b);
 }
 
 void EntityVisitor::visit(UnfinishedBuilding& u) {
-	visit((Building&) u);
+	visit((Building&)u);
 }
 
 void EntityVisitor::visit(ProducerBuilding& p) {
-	visit((Building&) p);
+	visit((Building&)p);
 }
 
 void EntityVisitor::visit(TownCenter& t) {
-	visit((ProducerBuilding&) t);
+	visit((ProducerBuilding&)t);
 }
 
 void EntityVisitor::visit(Flag& f) {
-	visit((Building&) f);
+	visit((Building&)f);
 }
 
 void EntityVisitor::visit(Resource& r) {
-	visit((Entity&) r);
+	visit((Entity&)r);
 }
 
 void EntityVisitor::visit(Terrain& r) {
 	visit((Entity&)r);
 }
-

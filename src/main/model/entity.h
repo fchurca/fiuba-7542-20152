@@ -68,10 +68,12 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 class Unit : public Entity {
 	protected:
 		double speed;	// Speed (tiles/s)
+		bool isInAction = false;
 	public:
 		Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid);
 		virtual void update();
 		virtual void visit(EntityVisitor& v);
+		bool getIsInAction();
 		virtual ~Unit();
 };
 
