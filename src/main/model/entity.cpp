@@ -416,6 +416,18 @@ void TownCenter::visit(EntityVisitor& e) {
 	e.visit(*this);
 }
 
+Terrain::Terrain(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid) :
+	Entity(name, board, owner, position, size, sight_radius, solid)
+{}
+
+void Terrain::update() {
+	Entity::update();
+}
+
+void Terrain::visit(EntityVisitor& e) {
+	e.visit(*this);
+}
+
 
 Resource::Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity):
 	Entity(name, board, owner, position, size, sight_radius, solid),
@@ -484,5 +496,9 @@ void EntityVisitor::visit(Flag& f) {
 
 void EntityVisitor::visit(Resource& r) {
 	visit((Entity&) r);
+}
+
+void EntityVisitor::visit(Terrain& r) {
+	visit((Entity&)r);
 }
 

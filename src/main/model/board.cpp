@@ -93,7 +93,9 @@ shared_ptr<EntityFactory> ABoard::createEntityFactory(string name, r2 size, doub
 	shared_ptr<EntityFactory> pFactory;
 	if (behaviour == "resource") {
 		pFactory = make_shared<ResourceFactory>(name, size, sight_radius, solid, capacity, *this);
-	} else if(behaviour == "unit") {
+	}else if (behaviour == "terrain") {
+		pFactory = make_shared<TerrainFactory>(name, size, sight_radius, solid, *this);
+	}else if(behaviour == "unit") {
 		pFactory = make_shared<UnitFactory>(name, size, speed, sight_radius, solid, *this);
 	 } else if(behaviour == "worker") {
 		pFactory = make_shared<WorkerFactory>(name, size, speed, sight_radius, solid, *this);

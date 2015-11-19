@@ -137,6 +137,14 @@ class Resource : public Entity {
 		virtual void visit(EntityVisitor& v);
 };
 
+class Terrain : public Entity {
+protected:
+	void update();
+public:
+	Terrain(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid);
+	virtual void visit(EntityVisitor& v);
+};
+
 
 class EntityVisitor {
 	public:
@@ -150,6 +158,7 @@ class EntityVisitor {
 		virtual void visit(TownCenter& t);
 		virtual void visit(Flag& f);
 		virtual void visit(Resource& r);
+		virtual void visit(Terrain& t);
 };
 
 

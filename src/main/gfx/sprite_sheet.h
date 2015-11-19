@@ -44,6 +44,7 @@ public:
 	virtual void visit(Entity& e);
 	virtual void visit(Unit& e);
 	virtual void visit(Flag& e);
+	virtual void visit(Terrain& e);
 };
 
 #endif // __SPRITESHEET_H__

@@ -92,7 +92,7 @@ enum Directions {
 #define TERRENO_DEFAULT_SIGHT_RADIUS 0
 #define TERRENO_DEFAULT_SPEED 0
 #define TERRENO_DEFAULT_CAPACITY 0 
-#define TERRENO_DEFAULT_BEHAVIOUR "unit"
+#define TERRENO_DEFAULT_BEHAVIOUR "terrain"
 
 //Recurso Default
 #define RECURSO_DEFAULT_NOMBRE "recurso_default"

@@ -87,6 +87,14 @@ std::shared_ptr<Entity> TownCenterFactory::createEntity(Player& player, r2 posit
 	return std::make_shared<TownCenter>(name, board, player, position, size, sight_radius, solid);
 }
 
+TerrainFactory::TerrainFactory(std::string name, r2 size, int sight_radius, bool solid, ABoard& board) :
+	EntityFactory(name, size, sight_radius, solid, board)
+{}
+
+std::shared_ptr<Entity> TerrainFactory::createEntity(Player& player, r2 position) {
+	return std::make_shared<Terrain>(name, board, player, position, size, sight_radius, solid);
+}
+
 
 ResourceFactory::ResourceFactory(std::string name, r2 size, int sight_radius, bool solid, int capacity, ABoard& board) :
 	EntityFactory(name, size, sight_radius, solid, board),

@@ -49,6 +49,12 @@ class ResourceFactory: public EntityFactory {
 		void populate();
 };
 
+class TerrainFactory : public EntityFactory {
+public:
+	TerrainFactory(std::string name, r2 size, int sight_radius, bool solid, ABoard& board);
+	virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
+};
+
 class BuildingFactory: public EntityFactory {
 	public:
 		BuildingFactory(std::string name, r2 size, int sight_radius, bool solid, ABoard& board);

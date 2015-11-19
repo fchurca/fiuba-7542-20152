@@ -158,6 +158,20 @@ void SpriteSheet::visit(Flag& entity) {
 	}
 }
 
+void SpriteSheet::visit(Terrain& entity) {
+	Visibility state = owner.owner.player.getVisibility(entity);
+	bool playerIsActive = entity.owner.getActive();
+
+	//	Ubicacion donde dibujar
+	SDL_Rect renderQuad = targetRect(entity);
+
+	//	Dibujado
+	if (state != INVISIBLE) {//Aca hay que usar el canDraw
+		draw(0, 0, renderQuad, getLoadedTexture(state, playerIsActive));
+	}
+}
+
+
 void SpriteSheet::draw(int i, int j, SDL_Rect renderQuad, SDL_Texture* texture) {
 	//Fotograma a dibujar
 	SDL_Rect clip = { i * ancho_sprite, j * alto_sprite, ancho_sprite, alto_sprite };
