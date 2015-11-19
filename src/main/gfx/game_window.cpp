@@ -258,10 +258,16 @@ void GameWindow::clearSelection() {
 
 void GameWindow::setSelection() {
 	selection.clear();
-	r2 boardClick = isoview->screenToBoardPosition(clickMouse);
-	r2 vertice = r2(min(boardClick.x, boardMouse.x), min(boardClick.y, boardMouse.y));
-	r2 size = r2(fabs(boardClick.x - boardMouse.x), fabs(boardClick.y - boardMouse.y));
-	std::vector<shared_ptr<Entity>> sel = board.findEntities(rectangle(vertice, size));
+	//AJUSTAR CALCULO 
+	r2 verticeSupIzq = r2(min(clickMouse.x, mouse.x), min(clickMouse.y, mouse.y));
+	r2 size = r2(fabs(clickMouse.x - mouse.x), fabs(clickMouse.y - mouse.y));
+	r2 verticeInfDer= verticeSupIzq + size;
+
+	r2 boardVerticeSI = isoview->screenToBoardPosition({(int)verticeSupIzq.x, (int)verticeSupIzq.y});
+	r2 boardVerticeID = isoview->screenToBoardPosition({ (int)verticeInfDer.x, (int)verticeInfDer.y });
+	r2 sizeBoard = r2(fabs(boardVerticeID.x - boardVerticeSI.x), fabs(boardVerticeID.y - boardVerticeSI.y));
+
+	std::vector<shared_ptr<Entity>> sel = board.findEntities(rectangle(boardVerticeSI, sizeBoard));
 	if (sel.size() > 0) {
 		for (auto e : sel) {
 			if (player.getVisibility(*e) >= SEEN)
