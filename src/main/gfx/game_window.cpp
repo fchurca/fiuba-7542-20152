@@ -59,6 +59,7 @@ GameWindow::GameWindow(Game& owner, Player& player, GraphicsParser& graphicsPars
 	minimap = std::make_shared<MiniMap>(*this, graphicsParser);
 	isoview = std::make_shared<IsoView>(*this, rulesetParser);
 	menu = std::make_shared<Menu>(*this, graphicsParser);
+	playersList = std::make_shared<PlayersList>(*this, graphicsParser);
 	chat = std::make_shared<Chat>(*this);
 	pressedClick = false;
 }
@@ -90,6 +91,7 @@ void GameWindow::render() {
 	menu->draw();
 	minimap->draw();
 	chat->draw(inputText);
+	playersList->draw();
 	if (pressedClick) {
 		Uint8 q = 255;
 		SDL_SetRenderDrawColor(renderer, q, q, q, q);
