@@ -81,7 +81,7 @@ std::vector<TagTipoEntidad> RulesetParser::getTiposEstructuras() {
 			for (unsigned int i = 0; i < tipos.size(); i++) {
 				Logger::getInstance()->writeInformation("YAML-CPP:Se obtiene informacion del tipo de estructura numero." + intToString(i));
 				TagTipoEntidad tipoEntidad;
-				setTipoUnidad(tipos[i], tipoEntidad, i);
+				setTipoEstructura(tipos[i], tipoEntidad, i);
 				tiposDeEntidades.push_back(tipoEntidad);
 			}
 		}
