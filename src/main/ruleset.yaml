@@ -190,15 +190,15 @@ tipos_estructuras:
     alto_sprite: 32
     cantidad_sprites: 1
   - nombre: bandera
-    imagen: resources/flag.png
-    ancho_base: 2
-    alto_base: 2
-    pixel_ref_x: 41
-    pixel_ref_y: 65
+    imagen: resources/flag_white.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 16
+    pixel_ref_y: 32
     fps: 0
     delay: 0
-    ancho_sprite: 82
-    alto_sprite: 96
+    ancho_sprite: 48
+    alto_sprite: 48
     cantidad_sprites: 1
     behaviour: flag
   - nombre: chanchoDelay

@@ -152,7 +152,8 @@ void SpriteSheet::visit(Flag& entity) {
 		SDL_Color color = owner.owner.getColor(entity.owner.getId());
 		SDL_SetRenderDrawColor(owner.owner.getRenderer(), color.r, color.g, color.b, 255);
 		auto screenPos = owner.boardToScreenPosition(entity.getPosition());
-		SDL_Rect flag = { screenPos.x-28, screenPos.y-63, 56, 55 };
+		//SDL_Rect flag = { screenPos.x-28, screenPos.y-63, 56, 55 };
+		SDL_Rect flag = { screenPos.x, screenPos.y - 26, 5, 10 };
 		SDL_RenderFillRect(owner.owner.getRenderer(), &flag);
 	}
 }
