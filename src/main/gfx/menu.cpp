@@ -21,7 +21,6 @@ void Menu::draw() {
 	if (owner.font) {
 		std::string primerColumna = "", terceraColumna = "";
 		SDL_Color colorBlanco = { 255, 255, 255 };
-		SDL_Color colorGris = { 127, 127, 127 };
 		//Primer Columna//
 		primerColumna = owner.completeLine(owner.player.name, size.x / 2);
 		for (auto r : owner.player.getResources()) {

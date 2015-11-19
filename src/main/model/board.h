@@ -64,6 +64,7 @@ class ABoard : public FrameMixin {
 			std::vector<std::shared_ptr<Entity>> selectEntities(Pred pred);
 		std::shared_ptr<Entity> findEntity(size_t id);
 		std::shared_ptr<Entity> findEntity(rectangle r);
+		std::vector<std::shared_ptr<Entity>> findEntities(rectangle r);
 		std::shared_ptr<Entity> findEntity(r2 pos);
 
 		void pushCommand(std::shared_ptr<Command> command);

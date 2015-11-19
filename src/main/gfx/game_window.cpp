@@ -261,8 +261,14 @@ void GameWindow::setSelection() {
 	r2 boardClick = isoview->screenToBoardPosition(clickMouse);
 	r2 vertice = r2(min(boardClick.x, boardMouse.x), min(boardClick.y, boardMouse.y));
 	r2 size = r2(fabs(boardClick.x - boardMouse.x), fabs(boardClick.y - boardMouse.y));
-	if(player.getVisibility(boardMouse) >= SEEN && board.findEntity(boardMouse))
-		selection.push_back(board.findEntity(boardMouse)); //TODO: seleccionar varias Entities con clickMouse y boardMouse
+	std::vector<shared_ptr<Entity>> sel = board.findEntities(rectangle(vertice, size));
+	if (sel.size() > 0) {
+		for (auto e : sel) {
+			if (player.getVisibility(*e) >= SEEN)
+				selection.push_back(e);
+		}
+	}
+		
 }
 
 bool GameWindow::selectionController(Entity& e) {

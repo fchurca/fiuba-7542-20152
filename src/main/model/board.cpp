@@ -148,6 +148,15 @@ shared_ptr<Entity> ABoard::findEntity(rectangle r) {
 	return (it == entities.end())? nullptr : *it;
 }
 
+std::vector<shared_ptr<Entity>> ABoard::findEntities(rectangle r) {
+	std::vector<shared_ptr<Entity>> ret;
+	for (auto e : entities) {
+		if (rectangle(e->getPosition(), e->size).intersects(r))
+			ret.push_back(e);
+	}
+	return ret;
+}
+
 shared_ptr<Entity> ABoard::findEntity(r2 pos) {
 	return findEntity(rectangle(pos, {0,0}));
 }
