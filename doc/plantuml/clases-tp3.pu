@@ -22,6 +22,7 @@ size
 solid
 sightRadius
 }
+class Terrain
 class Unit {
 speed
 orientation
@@ -42,6 +43,7 @@ class King
 }
 
 Entity <|-- Building
+Entity <|-- Terrain
 Building <|-- Flag
 Building <|-- UnfinishedBuilding
 Building <|-- ProducerBuilding
@@ -125,6 +127,7 @@ size
 solid
 sightRadius
 }
+class TerrainFactory
 class UnitFactory {
 speed
 strength
@@ -148,22 +151,40 @@ products
 class TownCenterFactory
 }
 
-EntityFactory <|--  UnitFactory
-EntityFactory <|--  BuildingFactory
-EntityFactory <|--  ResourceFactory
+EntityFactory <|-- UnitFactory
+EntityFactory <|-- TerrainFactory
+EntityFactory <|-- BuildingFactory
+EntityFactory <|-- ResourceFactory
 ResourceFactory --> Resource
 
-UnitFactory <|--  WorkerFactory
+UnitFactory <|-- WorkerFactory
 WorkerFactory --> Worker
-UnitFactory <|--  KingFactory
+UnitFactory <|-- KingFactory
 UnitFactory --> Unit
 KingFactory --> King
-BuildingFactory <|--  FlagFactory
+BuildingFactory <|-- FlagFactory
 FlagFactory --> Flag
 BuildingFactory <|-- ProducerBuildingFactory
 ProducerBuildingFactory --> ProducerBuilding
 ProducerBuildingFactory <|-- TownCenterFactory
 TownCenterFactory --> TownCenter
 
+
+package Visitor {
+abstract class EntityVisitor
+}
+
+Entity --> EntityVisitor
+EntityVisitor --> Entity
+EntityVisitor --> Unit
+EntityVisitor --> Worker
+EntityVisitor --> King
+EntityVisitor --> Building
+EntityVisitor --> UnfinishedBuilding
+EntityVisitor --> ProducerBuilding
+EntityVisitor --> TownCenter
+EntityVisitor --> Flag
+EntityVisitor --> Resource
+EntityVisitor --> Terrain
 @enduml
 
