@@ -201,6 +201,7 @@ tipos_estructuras:
     alto_sprite: 48
     cantidad_sprites: 1
     behaviour: flag
+    sight_radius: 10
   - nombre: chanchoDelay
     imagen: resources/chanchos.png
     ancho_base: 0.5
@@ -289,3 +290,4 @@ tipos_recursos:
     ancho_sprite: 64
     alto_sprite: 35
     capacidad: 100
+
