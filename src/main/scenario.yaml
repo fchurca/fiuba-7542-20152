@@ -111,18 +111,21 @@ escenario:
           - {x: 20, y: 20, tipo: cubo }
           - {x: 20, y: 21, tipo: cubo }
           - {x: 22, y: 15, tipo: centro }
+          - {x: 21, y: 17, tipo: bandera }
       - name: Franceses
         isHuman: true
         entidades:
           - {x: 7, y: 3, tipo: mago }
           - {x: 7, y: 2, tipo: mago }
           - {x: 6, y: 6, tipo: centro }
+          - {x: 7, y: 4, tipo: bandera }
       - name: Ingleses
         isHuman: true
         entidades:
           - {x: 11, y: 3, tipo: mago }
           - {x: 11, y: 4, tipo: mago }
           - {x: 10, y: 6, tipo: centro }
+          - {x: 12, y: 5, tipo: bandera }
       - name: Alemanes
         isHuman: true
         entidades:
@@ -130,3 +133,4 @@ escenario:
           - {x: 18, y: 1, tipo: mago }
           - {x: 15, y: 1, tipo: centro }
           - {x: 19, y: 1, tipo: bandera }
+
