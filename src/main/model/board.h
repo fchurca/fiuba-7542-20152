@@ -36,6 +36,7 @@ class ABoard : public FrameMixin {
 		std::thread th;
 		GameTimer timer;
 		Game& game;
+		void fillTerrain();
 	public:
 		long maxResources;
 		int sizeX, sizeY;

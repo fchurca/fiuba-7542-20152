@@ -64,13 +64,7 @@ RemoteBoard::RemoteBoard(Game& game, RulesetParser& rulesetParser, ClientParser&
 			}
 		}
 		// Relleno con TERRENO_DEFAULT (TODO: deduplicate)
-		for(size_t x = 0; x < sizeX; x++) {
-			for(size_t y = 0; y < sizeY; y++) {
-				if (!getTerrain(x, y)) {
-					setTerrain(TERRENO_DEFAULT_NOMBRE, x, y);
-				}
-			}
-		}
+		fillTerrain();
 		{
 			// Entities
 			char c = nul;

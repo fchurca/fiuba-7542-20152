@@ -52,6 +52,16 @@ ABoard::~ABoard() {
 	}
 }
 
+void ABoard::fillTerrain() {
+	for(size_t x = 0; x < sizeX; x++) {
+		for(size_t y = 0; y < sizeY; y++) {
+			if (!getTerrain(x, y)) {
+				setTerrain(TERRENO_DEFAULT_NOMBRE, x, y);
+			}
+		}
+	}
+}
+
 std::vector<std::shared_ptr<Player>> ABoard::getPlayers() {
 	std::vector<std::shared_ptr<Player>> ret;
 	for(auto& i : players) {
@@ -232,13 +242,7 @@ SmartBoard::SmartBoard(Game& game, RulesetParser& rulesetParser, ScenarioParser&
 		setTerrain(t.tipoEntidad, (size_t)t.pos.x, (size_t)t.pos.y);
 	}
 	// Relleno con TERRENO_DEFAULT
-	for(size_t x = 0; x < sizeX; x++) {
-		for(size_t y = 0; y < sizeY; y++) {
-			if (!getTerrain(x, y)) {
-				setTerrain(TERRENO_DEFAULT_NOMBRE, x, y);
-			}
-		}
-	}
+	fillTerrain();
 
 	for (auto& jugador : te.jugadores) {
 		createPlayer(jugador.name, jugador.isHuman);
