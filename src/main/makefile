@@ -8,7 +8,7 @@ CXXO = $(CXXT) -c $<
 
 all: bin/tp7542_standalone
 
-bin/tp7542_standalone: bin/standalone_main.o bin/geometry.o bin/logger.o bin/game_window.o bin/game_timer.o bin/controller.o bin/board.o bin/entity.o bin/sprite_sheet.o bin/game.o bin/mixins.o bin/entity_factory.o bin/player.o bin/abstract_client.o bin/remote_client.o bin/command.o bin/minimap.o bin/generic_parser.o bin/client_parser.o bin/graphics_parser.o bin/ruleset_parser.o bin/scenario_parser.o bin/server_parser.o bin/server.o bin/posix_socket.o bin/isoview.o bin/remote_board.o bin/menu.o bin/chat.o bin/socket.o
+bin/tp7542_standalone: bin/standalone_main.o bin/geometry.o bin/logger.o bin/game_window.o bin/game_timer.o bin/controller.o bin/board.o bin/entity.o bin/sprite_sheet.o bin/game.o bin/mixins.o bin/entity_factory.o bin/player.o bin/abstract_client.o bin/remote_client.o bin/command.o bin/minimap.o bin/generic_parser.o bin/client_parser.o bin/graphics_parser.o bin/ruleset_parser.o bin/scenario_parser.o bin/server_parser.o bin/server.o bin/posix_socket.o bin/isoview.o bin/remote_board.o bin/menu.o bin/chat.o bin/socket.o bin/players_list.o
 	${CXXT} $^ $(LDLIBS)
 
 bin/standalone_main.o: standalone/main.cpp server/remote_client.h
@@ -30,6 +30,9 @@ bin/minimap.o: gfx/minimap.cpp gfx/minimap.h
 	${CXXO}
 
 bin/chat.o: gfx/chat.cpp gfx/chat.h
+	${CXXO}
+
+bin/players_list.o: gfx/players_list.cpp gfx/players_list.h
 	${CXXO}
 
 bin/game_timer.o: gfx/game_timer.cpp gfx/game_timer.h
