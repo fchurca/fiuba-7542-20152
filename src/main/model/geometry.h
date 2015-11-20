@@ -1,7 +1,11 @@
 #ifndef _MODEL_GEOMETRY_H_
 #define _MODEL_GEOMETRY_H_
 
+#include <algorithm>
+
 #include <cmath>
+
+using namespace std;
 
 double clip(double x, double min, double max);
 

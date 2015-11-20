@@ -64,8 +64,11 @@ double r2::length() {
 rectangle::rectangle() {}
 
 rectangle::rectangle(r2 position, r2 size) :
-	position(position), size(size)
-{}
+	size({fabs(size.x), fabs(size.y)})
+{
+	this->position.x = min(position.x, position.x +  size.x);
+	this->position.y = min(position.y, position.y +  size.y);
+}
 
 bool rectangle::intersects(rectangle other) {
 	return position.x < other.position.x + other.size.x &&
