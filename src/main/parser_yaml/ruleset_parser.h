@@ -25,6 +25,8 @@ struct TagTipoEntidad {
 	bool solid;
 	unsigned int capacity;
 	std::string behaviour;
+	unsigned int health;
+	unsigned int armour;
 };
 
 struct TagConfiguracion {

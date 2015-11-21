@@ -191,12 +191,21 @@ void RulesetParser::setTipoUnidad(const YAML::Node& node, TagTipoEntidad& tipoEn
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (velocidad personaje).");
 			tipoEntidad.speed = ENTIDAD_DEFAULT_SPEED;
 		}
-		tipoEntidad.solid = true;
-		tipoEntidad.capacity = ENTIDAD_DEFAULT_CAPACITY;
 		if (!obtenerValorScalarAlfaNumerico(node, "behaviour", tipoEntidad.behaviour)) {
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (dehaviour).");
 			tipoEntidad.behaviour = ENTIDAD_DEFAULT_BEHAVIOUR;
 		}
+		if (!obtenerValorScalarNumericoPositivo(node, "health", tipoEntidad.health)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (health).");
+			tipoEntidad.health = ENTIDAD_DEFAULT_HEALTH;
+		}
+		if (!obtenerValorScalarNumericoPositivo(node, "armour", tipoEntidad.armour)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (armour).");
+			tipoEntidad.armour = ENTIDAD_DEFAULT_ARMOUR;
+		}
+		//DEFAULT NO USA
+		tipoEntidad.solid = true;
+		tipoEntidad.capacity = ENTIDAD_DEFAULT_CAPACITY;
 	}
 	else {
 		Logger::getInstance()->writeWarning("YAML-CPP:el contenido del tipo de entidad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
@@ -245,13 +254,22 @@ void RulesetParser::setTipoEstructura(const YAML::Node& node, TagTipoEntidad& ti
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (sight_radius).");
 			tipoEntidad.sight_radius = ESTRUCTURA_DEFAULT_SIGHT_RADIUS;
 		}
-		tipoEntidad.speed = ESTRUCTURA_DEFAULT_SPEED;
-		tipoEntidad.solid = true;
-		tipoEntidad.capacity = ESTRUCTURA_DEFAULT_CAPACITY;
 		if (!obtenerValorScalarAlfaNumerico(node, "behaviour", tipoEntidad.behaviour)) {
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (dehaviour).");
 			tipoEntidad.behaviour = ESTRUCTURA_DEFAULT_BEHAVIOUR;
 		}
+		if (!obtenerValorScalarNumericoPositivo(node, "health", tipoEntidad.health)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (health).");
+			tipoEntidad.health = ESTRUCTURA_DEFAULT_HEALTH;
+		}
+		if (!obtenerValorScalarNumericoPositivo(node, "armour", tipoEntidad.armour)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (armour).");
+			tipoEntidad.armour = ESTRUCTURA_DEFAULT_ARMOUR;
+		}
+		//DEFAULT NO USA
+		tipoEntidad.speed = ESTRUCTURA_DEFAULT_SPEED;
+		tipoEntidad.solid = true;
+		tipoEntidad.capacity = ESTRUCTURA_DEFAULT_CAPACITY;
 	}
 	else {
 		Logger::getInstance()->writeWarning("YAML-CPP:el contenido del tipo de entidad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
@@ -279,8 +297,6 @@ void RulesetParser::setTipoTerreno(const YAML::Node& node, TagTipoEntidad& tipoT
 			tipoTerreno.ancho_sprite = ENTIDAD_DEFAULT_ANCHO_SPRITE;
 			tipoTerreno.cantidad_sprites = ENTIDAD_DEFAULT_CANTIDAD_SPRITES;
 		}
-		tipoTerreno.ancho_base = TERRENO_DEFAULT_ANCHO_BASE;
-		tipoTerreno.alto_base = TERRENO_DEFAULT_ALTO_BASE;
 
 		if (!obtenerValorScalarNumericoPositivo(node, "fps", tipoTerreno.fps)) {
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (fps).");
@@ -290,8 +306,6 @@ void RulesetParser::setTipoTerreno(const YAML::Node& node, TagTipoEntidad& tipoT
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (delay).");
 			tipoTerreno.delay = TERRENO_DEFAULT_DELAY;
 		}
-		tipoTerreno.sight_radius = TERRENO_DEFAULT_SIGHT_RADIUS;
-		tipoTerreno.speed = TERRENO_DEFAULT_SPEED;
 		string solid;
 		if (!obtenerValorScalarAlfaNumerico(node, "solid", solid) || (solid != "true")) {
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default valor false(solid).");
@@ -299,8 +313,15 @@ void RulesetParser::setTipoTerreno(const YAML::Node& node, TagTipoEntidad& tipoT
 		}
 		else
 			tipoTerreno.solid = true;
+		//DEFAULT no USA
+		tipoTerreno.ancho_base = TERRENO_DEFAULT_ANCHO_BASE;
+		tipoTerreno.alto_base = TERRENO_DEFAULT_ALTO_BASE;
+		tipoTerreno.sight_radius = TERRENO_DEFAULT_SIGHT_RADIUS;
+		tipoTerreno.speed = TERRENO_DEFAULT_SPEED;
 		tipoTerreno.capacity = TERRENO_DEFAULT_CAPACITY;
 		tipoTerreno.behaviour = TERRENO_DEFAULT_BEHAVIOUR;
+		tipoTerreno.health = TERRENO_DEFAULT_HEALTH;
+		tipoTerreno.armour = TERRENO_DEFAULT_ARMOUR;
 	}
 	else {
 		Logger::getInstance()->writeWarning("YAML-CPP:El contenido del tipo de terreno ad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
@@ -326,23 +347,26 @@ void RulesetParser::setTipoRecurso(const YAML::Node& node, TagTipoEntidad& tipoR
 			tipoRecurso.alto_sprite = RECURSO_DEFAULT_ALTO_SPRITE;
 			tipoRecurso.ancho_sprite = RECURSO_DEFAULT_ANCHO_SPRITE;
 		}
-		tipoRecurso.cantidad_sprites = RECURSO_DEFAULT_CANTIDAD_SPRITES;
 		if ((!obtenerValorScalarNumericoPositivo(node, "ancho_base", tipoRecurso.ancho_base))
 			|| (!obtenerValorScalarNumericoPositivo(node, "alto_base", tipoRecurso.alto_base))) {
 			Logger::getInstance()->writeWarning("YAML-CPP:Datos de la imagen del tipo de terreno invalidos, se toman por default (alto_base, ancho_base).");
-			tipoRecurso.ancho_base = TERRENO_DEFAULT_ANCHO_BASE;
-			tipoRecurso.alto_base = TERRENO_DEFAULT_ALTO_BASE;
+			tipoRecurso.ancho_base = RECURSO_DEFAULT_ANCHO_BASE;
+			tipoRecurso.alto_base = RECURSO_DEFAULT_ALTO_BASE;
 		}
+		if (!obtenerValorScalarNumericoPositivo(node, "capacidad", tipoRecurso.capacity)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (capacity).");
+			tipoRecurso.capacity = RECURSO_DEFAULT_CAPACITY;
+		}
+		//DEFAULT NO USA
+		tipoRecurso.cantidad_sprites = RECURSO_DEFAULT_CANTIDAD_SPRITES;
 		tipoRecurso.fps = RECURSO_DEFAULT_FPS;
 		tipoRecurso.delay = RECURSO_DEFAULT_DELAY;
 		tipoRecurso.sight_radius = RECURSO_DEFAULT_SIGHT_RADIUS;
 		tipoRecurso.speed = RECURSO_DEFAULT_SPEED;
 		tipoRecurso.solid = false;
-		if (!obtenerValorScalarNumericoPositivo(node, "capacidad", tipoRecurso.capacity)) {
-			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (capacity).");
-			tipoRecurso.capacity = RECURSO_DEFAULT_CAPACITY;
-		}
 		tipoRecurso.behaviour = RECURSO_DEFAULT_BEHAVIOUR;
+		tipoRecurso.health = RECURSO_DEFAULT_HEALTH;
+		tipoRecurso.armour = RECURSO_DEFAULT_ARMOUR;
 	}
 	else {
 		Logger::getInstance()->writeWarning("YAML-CPP:El contenido del tipo de terreno ad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
@@ -368,6 +392,8 @@ void RulesetParser::setTipoRecursoDefault(TagTipoEntidad& tipoRecurso, int i) {
 	tipoRecurso.solid = false;
 	tipoRecurso.capacity = RECURSO_DEFAULT_CAPACITY;
 	tipoRecurso.behaviour = RECURSO_DEFAULT_BEHAVIOUR;
+	tipoRecurso.health = RECURSO_DEFAULT_HEALTH;
+	tipoRecurso.armour = RECURSO_DEFAULT_ARMOUR;
 }
 
 void RulesetParser::setTipoTerrenoDefault(TagTipoEntidad& tipoEntidad, int i) {
@@ -387,6 +413,9 @@ void RulesetParser::setTipoTerrenoDefault(TagTipoEntidad& tipoEntidad, int i) {
 	tipoEntidad.speed = TERRENO_DEFAULT_SPEED;
 	tipoEntidad.solid = false;
 	tipoEntidad.capacity = TERRENO_DEFAULT_CAPACITY;
+	tipoEntidad.behaviour = TERRENO_DEFAULT_BEHAVIOUR;
+	tipoEntidad.health = TERRENO_DEFAULT_HEALTH;
+	tipoEntidad.armour = TERRENO_DEFAULT_ARMOUR;
 }
 
 
@@ -408,6 +437,8 @@ void RulesetParser::setTipoUnidadDefault(TagTipoEntidad& tipoEntidad, int i) {
 	tipoEntidad.solid = true;
 	tipoEntidad.capacity = ENTIDAD_DEFAULT_CAPACITY;
 	tipoEntidad.behaviour = ENTIDAD_DEFAULT_BEHAVIOUR;
+	tipoEntidad.health = ENTIDAD_DEFAULT_HEALTH;
+	tipoEntidad.armour = ENTIDAD_DEFAULT_ARMOUR;
 }
 
 void RulesetParser::setTipoEstructuraDefault(TagTipoEntidad& tipoEntidad, int i) {
@@ -428,4 +459,6 @@ void RulesetParser::setTipoEstructuraDefault(TagTipoEntidad& tipoEntidad, int i)
 	tipoEntidad.solid = true;
 	tipoEntidad.capacity = ESTRUCTURA_DEFAULT_CAPACITY;
 	tipoEntidad.behaviour = ESTRUCTURA_DEFAULT_BEHAVIOUR;
+	tipoEntidad.health = ESTRUCTURA_DEFAULT_HEALTH;
+	tipoEntidad.armour = ESTRUCTURA_DEFAULT_ARMOUR;
 }
