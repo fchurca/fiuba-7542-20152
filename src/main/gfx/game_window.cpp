@@ -51,7 +51,7 @@ GameWindow::GameWindow(Game& owner, Player& player, GraphicsParser& graphicsPars
 	if(player.entities().size() > 0)
 		selection.push_back(player.entities().at(0));
 	focus();
-	font = TTF_OpenFont(FUENTE_DEFAULT, 20);
+	font = TTF_OpenFont(FUENTE_DEFAULT, graphicsParser.getPantalla().size_text);
 	if (!font) {
 		Logger::getInstance()->writeError("Error al abrir TTF");
 	}

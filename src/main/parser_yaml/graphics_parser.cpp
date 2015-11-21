@@ -47,6 +47,10 @@ void GraphicsParser::setPantalla(const YAML::Node& node, TagPantalla& pantalla) 
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (velocidad scroll).");
 			pantalla.velocidad_scroll = VELOCIDAD_SCROLL_DEFAULT;
 		}
+		if (!obtenerValorScalarNumericoPositivo(node, "size_text", pantalla.size_text)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (size_text).");
+			pantalla.size_text = SIZE_TEXT_DEFAULT;
+		}
 	}
 	else {
 		Logger::getInstance()->writeWarning("YAML-CPP:El contenido del tag de pantalla no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
@@ -62,4 +66,5 @@ void GraphicsParser::setPantallaDefault(TagPantalla& pantalla) {
 	pantalla.minimapa_ancho = ANCHO_MINIMAPA_DEFAULT;
 	pantalla.velocidad_scroll = VELOCIDAD_SCROLL_DEFAULT;
 	pantalla.margen_scroll = MARGEN_SCROLL_DEFAULT;
+	pantalla.size_text = SIZE_TEXT_DEFAULT;
 }

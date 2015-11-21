@@ -27,6 +27,7 @@ enum Directions {
 #define ALTO_DEFAULT  480
 #define ANCHO_MINIMAPA_DEFAULT  200
 #define ALTO_HUD_DEFAULT  120
+#define SIZE_TEXT_DEFAULT  14
 
 //Configuracion Default
 #define VELOCIDAD_PERSONAJE_DEFAULT 1

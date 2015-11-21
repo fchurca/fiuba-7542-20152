@@ -15,6 +15,7 @@ struct TagPantalla {
 	unsigned int hud_alto;
 	unsigned int margen_scroll;
 	unsigned int velocidad_scroll;
+	unsigned int size_text;
 };
 
 class GraphicsParser : public GenericParser

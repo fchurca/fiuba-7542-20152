@@ -5,3 +5,4 @@ pantalla:
     minimapa_ancho: 300
     margen_scroll: 45
     velocidad_scroll: 45
+    size_text: 14
