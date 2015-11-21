@@ -12,6 +12,7 @@ private:
 	GameWindow& owner;
 	r2 size;
 	r2 offset;
+	std::string outText;
 protected:
 public:
 	void draw();
