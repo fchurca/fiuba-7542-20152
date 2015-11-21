@@ -1,13 +1,18 @@
 #include "game_window.h"
 #include "chat.h"
+#include "../parser_yaml/graphics_parser.h"
 
-Chat::Chat(GameWindow& owner) :
+Chat::Chat(GameWindow& owner, GraphicsParser& graphicsParser) :
 	owner(owner),
-	size(owner.ancho_pantalla / 3, owner.alto_pantalla / 3),
-	offset(0, 0),
 	maxMessages(5)
 {
+	int w, h;
+	TTF_SizeText(owner.font, "M", &w, &h);
+	size.x = w * (MAX_LENGTH_MESSAGE + 5);
+	size.y = h * (maxMessages + 1);
 	typing = false;
+	offset.x = 0;
+	offset.y = owner.alto_pantalla - size.y - graphicsParser.getPantalla().hud_alto;
 }
 
 Chat::~Chat() {

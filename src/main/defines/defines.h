@@ -156,4 +156,7 @@ enum Directions {
 // Configuracion Client DEFAULT
 #define CLIENT_SERVER_IP_DEFAULT "localhost"
 #define CLIENT_SERVER_PORT_DEFAULT 8001
+
+//Input
+#define MAX_LENGTH_MESSAGE 20
 #endif

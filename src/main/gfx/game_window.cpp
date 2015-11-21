@@ -60,7 +60,7 @@ GameWindow::GameWindow(Game& owner, Player& player, GraphicsParser& graphicsPars
 	isoview = std::make_shared<IsoView>(*this, rulesetParser);
 	menu = std::make_shared<Menu>(*this, graphicsParser);
 	playersList = std::make_shared<PlayersList>(*this, graphicsParser);
-	chat = std::make_shared<Chat>(*this);
+	chat = std::make_shared<Chat>(*this, graphicsParser);
 	pressedClick = false;
 }
 
@@ -134,7 +134,7 @@ void GameWindow::processInput(){
 				owner.exit();
 				break;
 			case SDL_TEXTINPUT:
-				if(inputText.size() < 20 && chat->typing) //Max largo del mensaje a ingresar.
+				if(inputText.size() < MAX_LENGTH_MESSAGE && chat->typing) //Max largo del mensaje a ingresar.
 					inputText += e.text.text;
 				break;
 			case SDL_KEYDOWN:
