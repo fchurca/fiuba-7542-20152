@@ -1,7 +1,6 @@
 #ifndef __RULESETPARSER_H__
 #define __RULESETPARSER_H__
 
-#include <iostream>
 #include <fstream>
 #include "yaml-cpp/yaml.h"
 #include "generic_parser.h"

@@ -4,8 +4,6 @@
 #include "../model/game.h"
 #include "remote_client.h"
 
-#include <iostream>
-
 void idle_int(int param) {}
 
 using namespace std;

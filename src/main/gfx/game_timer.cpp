@@ -5,8 +5,6 @@
 using namespace std;
 using namespace std::chrono;
 
-#include <iostream>
-
 GameTimer::GameTimer() : currentTime(Clock::now()) {}
 
 TimePoint GameTimer::getCurrent(){

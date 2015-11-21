@@ -1,7 +1,6 @@
 #ifndef __CLIENTPARSER_H__
 #define __CLIENTPARSER_H__
 
-#include <iostream>
 #include <fstream>
 #include "yaml-cpp/yaml.h"
 #include "generic_parser.h"

@@ -269,8 +269,6 @@ void GameWindow::setSelection() {
 	selection.clear();
 	r2 sweepStart = isoview->screenToBoardPosition(clickMouse);
 	r2 sweepEnd = isoview->screenToBoardPosition(mouse);
-	cerr << "Barremos de " << sweepStart.x << "," << sweepStart.y
-		<< " hasta " << sweepEnd.x << "," << sweepEnd.y << endl;
 	selection = board.findEntities(rectangle(sweepStart, sweepEnd - sweepStart));
 }
 

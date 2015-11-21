@@ -1,7 +1,6 @@
 #ifndef __SERVERPARSER_H__
 #define __SERVERPARSER_H__
 
-#include <iostream>
 #include <fstream>
 #include <string>
 #include "yaml-cpp/yaml.h"

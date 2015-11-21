@@ -1,7 +1,6 @@
 #ifndef __SCENARIOPARSER_H__
 #define __SCENARIOPARSER_H__
 
-#include <iostream>
 #include <fstream>
 
 #include "yaml-cpp/yaml.h"

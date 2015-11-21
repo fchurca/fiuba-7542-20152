@@ -1,7 +1,6 @@
 #ifndef __GENERICPARSER_H__
 #define __GENERICPARSER_H__
 
-#include <iostream>
 #include <fstream>
 #include "yaml-cpp/yaml.h"
 #include "../log/logger.h"
