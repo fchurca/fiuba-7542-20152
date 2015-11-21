@@ -60,6 +60,10 @@ BuildingFactory::BuildingFactory(std::string name, r2 size, int sight_radius, bo
 	EntityFactory(name, size, sight_radius, solid, board)
 {}
 
+std::shared_ptr<Entity> BuildingFactory::createEntity(Player& player, r2 position) {
+	return std::make_shared<Building>(name, board, player, position, size, sight_radius, solid);
+}
+
 
 ProducerBuildingFactory::ProducerBuildingFactory(std::string name, r2 size, int sight_radius, bool solid, ABoard& board) :
 	BuildingFactory(name, size, sight_radius, solid, board)

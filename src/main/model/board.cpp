@@ -111,6 +111,8 @@ shared_ptr<EntityFactory> ABoard::createEntityFactory(string name, r2 size, doub
 		pFactory = make_shared<WorkerFactory>(name, size, speed, sight_radius, solid, *this);
 	 } else if(behaviour == "king") {
 		pFactory = make_shared<KingFactory>(name, size, speed, sight_radius, solid, *this);
+	 } else if (behaviour == "building") {
+		 pFactory = make_shared<BuildingFactory>(name, size, sight_radius, solid, *this);
 	 } else if(behaviour == "producer_building") {
 	 //TODO: products
 		pFactory = make_shared<ProducerBuildingFactory>(name, size, sight_radius, solid, *this);
