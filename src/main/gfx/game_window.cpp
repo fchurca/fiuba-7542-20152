@@ -62,6 +62,8 @@ GameWindow::GameWindow(Game& owner, Player& player, GraphicsParser& graphicsPars
 	playersList = std::make_shared<PlayersList>(*this, graphicsParser);
 	chat = std::make_shared<Chat>(*this, graphicsParser);
 	resourcesList = std::make_shared<ResourcesList>(*this, graphicsParser);
+	commandMenu = std::make_shared<CommandMenu>(*this, graphicsParser);
+	selectionMenu = std::make_shared<SelectionMenu>(*this, graphicsParser);
 	pressedClick = false;
 }
 
@@ -89,7 +91,9 @@ SDL_Renderer* GameWindow::getRenderer() {
 
 void GameWindow::render() {
 	isoview->draw();
-	menu->draw();
+	//menu->draw();TODO: MENU DEBERIA CONTENER A COMMANDMENU SELECTIONMENU MINIMAP
+	commandMenu->draw();
+	selectionMenu->draw();
 	minimap->draw();
 	chat->draw(inputText);
 	playersList->draw();

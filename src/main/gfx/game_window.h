@@ -8,6 +8,8 @@
 #include "chat.h"
 #include "players_list.h"
 #include "resources_list.h"
+#include "command_menu.h"
+#include "selection_menu.h"
 #include "../model/abstract_client.h"
 #include "../model/game.h"
 #include "../log/logger.h"
@@ -57,6 +59,8 @@ public:
 	std::shared_ptr<Chat> chat;
 	std::shared_ptr<PlayersList> playersList;
 	std::shared_ptr<ResourcesList> resourcesList;
+	std::shared_ptr<CommandMenu> commandMenu;
+	std::shared_ptr<SelectionMenu> selectionMenu;
 	TTF_Font* font;
 	std::string completeLine(std::string line, double width);
 	SDL_Color getColor(int id);
