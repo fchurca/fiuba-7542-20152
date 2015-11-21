@@ -342,6 +342,7 @@ void RulesetParser::setTipoRecurso(const YAML::Node& node, TagTipoEntidad& tipoR
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (capacity).");
 			tipoRecurso.capacity = RECURSO_DEFAULT_CAPACITY;
 		}
+		tipoRecurso.behaviour = RECURSO_DEFAULT_BEHAVIOUR;
 	}
 	else {
 		Logger::getInstance()->writeWarning("YAML-CPP:El contenido del tipo de terreno ad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
@@ -366,6 +367,7 @@ void RulesetParser::setTipoRecursoDefault(TagTipoEntidad& tipoRecurso, int i) {
 	tipoRecurso.speed = RECURSO_DEFAULT_SPEED;
 	tipoRecurso.solid = false;
 	tipoRecurso.capacity = RECURSO_DEFAULT_CAPACITY;
+	tipoRecurso.behaviour = RECURSO_DEFAULT_BEHAVIOUR;
 }
 
 void RulesetParser::setTipoTerrenoDefault(TagTipoEntidad& tipoEntidad, int i) {
