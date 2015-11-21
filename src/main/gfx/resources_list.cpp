@@ -29,7 +29,7 @@ void ResourcesList::draw() {
 	texto = owner.completeLine(texto, size.x);
 	int access, w, h;
 	Uint32 format;
-	SDL_Surface * c = TTF_RenderText_Blended_Wrapped(owner.font, texto.c_str(), colorBlanco, (Uint32)(size.x / 2));
+	SDL_Surface * c = TTF_RenderText_Blended_Wrapped(owner.font, texto.c_str(), colorBlanco, (Uint32)(size.x));
 	SDL_Texture * textureMenu = SDL_CreateTextureFromSurface(owner.getRenderer(), c);
 	SDL_QueryTexture(textureMenu, &format, &access, &w, &h);
 	SDL_Rect panel = { 0, 0, w, h };
