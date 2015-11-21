@@ -115,6 +115,28 @@ tipos_estructuras:
     ancho_sprite: 128
     alto_sprite: 128
     cantidad_sprites: 1
+  - nombre: centro_civico_1
+    imagen: resources/centro_civico_1.png
+    ancho_base: 7
+    alto_base: 6
+    pixel_ref_x: 150
+    pixel_ref_y: 100
+    fps: 0
+    delay: 0
+    ancho_sprite: 506
+    alto_sprite: 318
+    cantidad_sprites: 1
+  - nombre: centro_civico_2
+    imagen: resources/centro_civico_2.png
+    ancho_base: 7
+    alto_base: 9
+    pixel_ref_x: 210
+    pixel_ref_y: 30
+    fps: 0
+    delay: 0
+    ancho_sprite: 576
+    alto_sprite: 302
+    cantidad_sprites: 1
   - nombre: granero
     imagen: resources/granero.png
     ancho_base: 2
