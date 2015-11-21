@@ -101,12 +101,14 @@ void GameWindow::render() {
 	if (pressedClick) {
 		Uint8 q = 255;
 		SDL_SetRenderDrawColor(renderer, q, q, q, q);
+		r2 boardClick = isoview->screenToBoardPosition(clickMouse);
+		r2 boardMouse = isoview->screenToBoardPosition(mouse);
 		SDL_Point points[] = {
-			clickMouse,
-			{mouse.x, clickMouse.y},
-			mouse,
-			{clickMouse.x, mouse.y},
-			clickMouse };
+			isoview->boardToScreenPosition(boardClick),
+			isoview->boardToScreenPosition(r2(boardClick.x, boardMouse.y)),
+			isoview->boardToScreenPosition(boardMouse),
+			isoview->boardToScreenPosition(r2(boardMouse.x, boardClick.y)),
+			isoview->boardToScreenPosition(boardClick) };
 		SDL_RenderDrawLines(renderer, points, 5);
 	}
 
