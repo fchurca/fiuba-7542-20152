@@ -66,11 +66,7 @@ escenario:
       - {x: 6, y: 9, tipo: flag_green }
       - {x: 5, y: 3, tipo: cartel }
       - {x: 5, y: 9, tipo: cartel }
-      - {x: 3, y: 11, tipo: troncoNESW }
-      - {x: 3, y: 15, tipo: troncoNESW }
       - {x: 3, y: 14, tipo: chancho }
-      - {x: 0, y: 14, tipo: troncoNWSE }
-      - {x: 4, y: 14, tipo: troncoNWSE }
       - {x: 10, y: 10, tipo: chanchoDelay }
       - {x: 10, y: 11, tipo: chanchoDelay }
       - {x: 11, y: 10, tipo: chancho }
@@ -105,13 +101,6 @@ escenario:
       - {x: 19, y: 11, tipo: arbol }
       - {x: 21, y: 11, tipo: arbol }
     jugadores:
-      - name: Kybon
-        isHuman: true
-        entidades:
-          - {x: 20, y: 20, tipo: cubo }
-          - {x: 20, y: 21, tipo: cubo }
-          - {x: 22, y: 15, tipo: centro }
-          - {x: 21, y: 17, tipo: bandera }
       - name: Franceses
         isHuman: true
         entidades:
@@ -133,4 +122,3 @@ escenario:
           - {x: 18, y: 1, tipo: mago }
           - {x: 15, y: 1, tipo: centro }
           - {x: 19, y: 1, tipo: bandera }
-

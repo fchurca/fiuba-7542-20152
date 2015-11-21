@@ -5,6 +5,7 @@
 #include <SDL2/SDL_ttf.h>
 #include "../model/geometry.h"
 class GameWindow;
+class GraphicsParser;
 
 class Chat {
 private:
@@ -17,7 +18,7 @@ public:
 	bool typing;
 	std::vector<std::string> messages;
 	void draw(std::string inputText);
-	Chat(GameWindow& owner);
+	Chat(GameWindow& owner, GraphicsParser& graphicsParser);
 	~Chat();
 };
 #endif // __GFX_CHAT_H__

@@ -51,7 +51,7 @@ GameWindow::GameWindow(Game& owner, Player& player, GraphicsParser& graphicsPars
 	if(player.entities().size() > 0)
 		selection.push_back(player.entities().at(0));
 	focus();
-	font = TTF_OpenFont(FUENTE_DEFAULT, 20);
+	font = TTF_OpenFont(FUENTE_DEFAULT, graphicsParser.getPantalla().size_text);
 	if (!font) {
 		Logger::getInstance()->writeError("Error al abrir TTF");
 	}
@@ -60,7 +60,10 @@ GameWindow::GameWindow(Game& owner, Player& player, GraphicsParser& graphicsPars
 	isoview = std::make_shared<IsoView>(*this, rulesetParser);
 	menu = std::make_shared<Menu>(*this, graphicsParser);
 	playersList = std::make_shared<PlayersList>(*this, graphicsParser);
-	chat = std::make_shared<Chat>(*this);
+	chat = std::make_shared<Chat>(*this, graphicsParser);
+	resourcesList = std::make_shared<ResourcesList>(*this, graphicsParser);
+	commandMenu = std::make_shared<CommandMenu>(*this, graphicsParser);
+	selectionMenu = std::make_shared<SelectionMenu>(*this, graphicsParser);
 	pressedClick = false;
 }
 
@@ -88,10 +91,13 @@ SDL_Renderer* GameWindow::getRenderer() {
 
 void GameWindow::render() {
 	isoview->draw();
-	menu->draw();
+	//menu->draw();TODO: MENU DEBERIA CONTENER A COMMANDMENU SELECTIONMENU MINIMAP
+	commandMenu->draw();
+	selectionMenu->draw();
 	minimap->draw();
 	chat->draw(inputText);
 	playersList->draw();
+	resourcesList->draw();
 	if (pressedClick) {
 		Uint8 q = 255;
 		SDL_SetRenderDrawColor(renderer, q, q, q, q);
@@ -134,7 +140,7 @@ void GameWindow::processInput(){
 				owner.exit();
 				break;
 			case SDL_TEXTINPUT:
-				if(inputText.size() < 20 && chat->typing) //Max largo del mensaje a ingresar.
+				if(inputText.size() < MAX_LENGTH_MESSAGE && chat->typing) //Max largo del mensaje a ingresar.
 					inputText += e.text.text;
 				break;
 			case SDL_KEYDOWN:
