@@ -194,15 +194,15 @@ tipos_estructuras:
     alto_sprite: 32
     cantidad_sprites: 1
   - nombre: bandera
-    imagen: resources/flag_white.png
+    imagen: resources/estandarte.png
     ancho_base: 0.5
     alto_base: 0.5
-    pixel_ref_x: 16
-    pixel_ref_y: 32
+    pixel_ref_x: 24
+    pixel_ref_y: 85
     fps: 0
     delay: 0
     ancho_sprite: 48
-    alto_sprite: 48
+    alto_sprite: 96
     cantidad_sprites: 1
     behaviour: flag
     sight_radius: 10
@@ -294,4 +294,3 @@ tipos_recursos:
     ancho_sprite: 64
     alto_sprite: 35
     capacidad: 100
-
