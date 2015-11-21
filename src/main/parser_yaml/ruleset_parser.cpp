@@ -281,6 +281,7 @@ void RulesetParser::setTipoUnidad(const YAML::Node& node, TagTipoEntidad& tipoEn
 		//DEFAULT NO USA
 		tipoEntidad.solid = true;
 		tipoEntidad.capacity = ENTIDAD_DEFAULT_CAPACITY;
+		tipoEntidad.resource_name = ENTIDAD_DEFAULT_RESOURCE_NAME;
 	}
 	else {
 		Logger::getInstance()->writeWarning("YAML-CPP:el contenido del tipo de entidad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
@@ -364,6 +365,7 @@ void RulesetParser::setTipoEstructura(const YAML::Node& node, TagTipoEntidad& ti
 		tipoEntidad.speed = ESTRUCTURA_DEFAULT_SPEED;
 		tipoEntidad.solid = true;
 		tipoEntidad.capacity = ESTRUCTURA_DEFAULT_CAPACITY;
+		tipoEntidad.resource_name = ESTRUCTURA_DEFAULT_RESOURCE_NAME;
 	}
 	else {
 		Logger::getInstance()->writeWarning("YAML-CPP:el contenido del tipo de entidad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
@@ -417,6 +419,7 @@ void RulesetParser::setTipoTerreno(const YAML::Node& node, TagTipoEntidad& tipoT
 		tipoTerreno.health = TERRENO_DEFAULT_HEALTH;
 		tipoTerreno.armour = TERRENO_DEFAULT_ARMOUR;
 		tipoTerreno.products = std::vector<std::string>();
+		tipoTerreno.resource_name = TERRENO_DEFAULT_RESOURCE_NAME;
 	}
 	else {
 		Logger::getInstance()->writeWarning("YAML-CPP:El contenido del tipo de terreno ad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
@@ -451,6 +454,10 @@ void RulesetParser::setTipoRecurso(const YAML::Node& node, TagTipoEntidad& tipoR
 		if (!obtenerValorScalarNumericoPositivo(node, "capacidad", tipoRecurso.capacity)) {
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (capacity).");
 			tipoRecurso.capacity = RECURSO_DEFAULT_CAPACITY;
+		}
+		if (!obtenerValorScalarAlfaNumerico(node, "resource_name", tipoRecurso.resource_name)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (resource_name).");
+			tipoRecurso.resource_name = RECURSO_DEFAULT_RESOURCE_NAME;
 		}
 		//DEFAULT NO USA
 		tipoRecurso.cantidad_sprites = RECURSO_DEFAULT_CANTIDAD_SPRITES;
@@ -491,6 +498,7 @@ void RulesetParser::setTipoRecursoDefault(TagTipoEntidad& tipoRecurso, int i) {
 	tipoRecurso.health = RECURSO_DEFAULT_HEALTH;
 	tipoRecurso.armour = RECURSO_DEFAULT_ARMOUR;
 	tipoRecurso.products = std::vector<std::string>();
+	tipoRecurso.resource_name = RECURSO_DEFAULT_RESOURCE_NAME;
 }
 
 void RulesetParser::setTipoTerrenoDefault(TagTipoEntidad& tipoEntidad, int i) {
@@ -514,6 +522,7 @@ void RulesetParser::setTipoTerrenoDefault(TagTipoEntidad& tipoEntidad, int i) {
 	tipoEntidad.health = TERRENO_DEFAULT_HEALTH;
 	tipoEntidad.armour = TERRENO_DEFAULT_ARMOUR;
 	tipoEntidad.products = std::vector<std::string>();
+	tipoEntidad.resource_name = TERRENO_DEFAULT_RESOURCE_NAME;
 }
 
 
@@ -538,6 +547,7 @@ void RulesetParser::setTipoUnidadDefault(TagTipoEntidad& tipoEntidad, int i) {
 	tipoEntidad.health = ENTIDAD_DEFAULT_HEALTH;
 	tipoEntidad.armour = ENTIDAD_DEFAULT_ARMOUR;
 	tipoEntidad.products = std::vector<std::string>();
+	tipoEntidad.resource_name = ENTIDAD_DEFAULT_RESOURCE_NAME;
 }
 
 void RulesetParser::setTipoEstructuraDefault(TagTipoEntidad& tipoEntidad, int i) {
@@ -561,4 +571,5 @@ void RulesetParser::setTipoEstructuraDefault(TagTipoEntidad& tipoEntidad, int i)
 	tipoEntidad.health = ESTRUCTURA_DEFAULT_HEALTH;
 	tipoEntidad.armour = ESTRUCTURA_DEFAULT_ARMOUR;
 	tipoEntidad.products = std::vector<std::string>();
+	tipoEntidad.resource_name = ESTRUCTURA_DEFAULT_RESOURCE_NAME;
 }

@@ -28,6 +28,7 @@ struct TagTipoEntidad {
 	unsigned int health;
 	unsigned int armour;
 	std::vector<std::string> products;
+	std::string resource_name;
 };
 
 struct TagConfiguracion {
