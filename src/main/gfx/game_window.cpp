@@ -117,10 +117,11 @@ void GameWindow::render() {
 void GameWindow::update(){
 	int i = 0;
 	for (auto e : getSelection()){
-		i++;
 		if (e->getDeletable()) {
 			selection.erase(selection.begin()+i);
 		}
+		else
+			i++;
 	}
 	isoview->update();
 	processInput();

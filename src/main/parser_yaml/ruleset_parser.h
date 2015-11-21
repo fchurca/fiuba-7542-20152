@@ -27,6 +27,7 @@ struct TagTipoEntidad {
 	std::string behaviour;
 	unsigned int health;
 	unsigned int armour;
+	std::vector<std::string> products;
 };
 
 struct TagConfiguracion {
@@ -46,6 +47,8 @@ private:
 	void setTipoTerrenoDefault(TagTipoEntidad& tipoTerreno, int i);
 	void setTipoRecursoDefault(TagTipoEntidad& tipoRecurso, int i);
 	void setTipoEstructuraDefault(TagTipoEntidad& tipoEntidad, int i);
+	std::vector<TagTipoEntidad> getTiposUnidadesInternal();
+	std::vector<TagTipoEntidad> getTiposEstructurasInternal();
 public:
 	RulesetParser(std::string filename);
 	TagConfiguracion getConfiguracion();

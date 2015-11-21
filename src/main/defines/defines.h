@@ -63,6 +63,7 @@ enum Directions {
 #define ENTIDAD_DEFAULT_BEHAVIOUR "unit"
 #define ENTIDAD_DEFAULT_HEALTH 10
 #define ENTIDAD_DEFAULT_ARMOUR 5
+#define ENTIDAD_DEFAULT_PRODUCTS ""
 //Nombre de jugador inicial (terreno, etc)
 #define DEFAULT_PLAYER_NAME "Gaia"
 
@@ -82,6 +83,7 @@ enum Directions {
 #define PROTAGONISTA_DEFAULT_CANTIDAD_SPRITES  5
 #define PROTAGONISTA_DEFAULT_HEALTH 10
 #define PROTAGONISTA_DEFAULT_ARMOUR 5
+#define PROTAGONISTA_DEFAULT_PRODUCTS ""
 
 //Terreno Default
 #define TERRENO_DEFAULT_NOMBRE "terreno_default"
@@ -101,6 +103,7 @@ enum Directions {
 #define TERRENO_DEFAULT_BEHAVIOUR "terrain"
 #define TERRENO_DEFAULT_HEALTH 0
 #define TERRENO_DEFAULT_ARMOUR 0 
+#define TERRENO_DEFAULT_PRODUCTS ""
 
 //Recurso Default
 #define RECURSO_DEFAULT_NOMBRE "recurso_default"
@@ -120,6 +123,7 @@ enum Directions {
 #define RECURSO_DEFAULT_BEHAVIOUR "resource"
 #define RECURSO_DEFAULT_HEALTH 0
 #define RECURSO_DEFAULT_ARMOUR 0 
+#define RECURSO_DEFAULT_PRODUCTS ""
 
 //Recurso Default
 #define ESTRUCTURA_DEFAULT_NOMBRE "estructura_default"
@@ -139,6 +143,7 @@ enum Directions {
 #define ESTRUCTURA_DEFAULT_BEHAVIOUR "building"
 #define ESTRUCTURA_DEFAULT_HEALTH 10
 #define ESTRUCTURA_DEFAULT_ARMOUR 0 
+#define ESTRUCTURA_DEFAULT_PRODUCTS ""
 
 //Log Level
 #define LOG_LEVEL_OFF  0

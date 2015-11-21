@@ -48,6 +48,34 @@ void RulesetParser::setConfiguracionDefault(TagConfiguracion& configuracion) {
 }
 
 std::vector<TagTipoEntidad> RulesetParser::getTiposUnidades() {
+	std::vector<TagTipoEntidad> unidades = getTiposUnidadesInternal();
+	//VALIDAMOS PRODUCTS DE LAS UNIDADES
+	std::vector<TagTipoEntidad> estructuras = getTiposEstructurasInternal();
+	int counterUnidad, counterProduct;
+	bool exist;
+	counterUnidad = 0;
+	for (auto u : unidades) {
+		counterProduct = 0;
+		std::vector<std::string> products = u.products;
+		for (auto p : products) {
+			exist = false;
+			for (auto e : estructuras) {
+				if (e.nombre == p) {
+					exist = true;
+					break;
+				}
+			}
+			if (!exist)
+				unidades.at(counterUnidad).products.erase(unidades.at(counterUnidad).products.begin() + counterProduct);
+			else
+				counterProduct++;
+		}
+		counterUnidad++;
+	}
+	return unidades;
+}
+
+std::vector<TagTipoEntidad> RulesetParser::getTiposUnidadesInternal() {
 	Logger::getInstance()->writeInformation("YAML-CPP:Se obtiene informacion de los tipos de unidades.");
 	std::vector<TagTipoEntidad> tiposDeEntidades;
 	if (this->doc.FindValue("tipos_unidades")) {
@@ -73,6 +101,34 @@ std::vector<TagTipoEntidad> RulesetParser::getTiposUnidades() {
 }
 
 std::vector<TagTipoEntidad> RulesetParser::getTiposEstructuras() {
+	std::vector<TagTipoEntidad> estructuras = getTiposEstructurasInternal();
+	//VALIDAMOS PRODUCTS DE LAS ESTRUCTURAS
+	std::vector<TagTipoEntidad> unidades = getTiposUnidadesInternal();
+	int counterEstructura, counterProduct;
+	bool exist;
+	counterEstructura = 0;
+	for (auto e : estructuras) {
+		counterProduct = 0;
+		std::vector<std::string> products = e.products;
+		for (auto p : products) {
+			exist = false;
+			for (auto u : unidades) {
+				if (u.nombre == p) {
+					exist = true;
+					break;
+				}
+			}
+			if (!exist)
+				estructuras.at(counterEstructura).products.erase(estructuras.at(counterEstructura).products.begin() + counterProduct);
+			else
+				counterProduct++;
+		}
+		counterEstructura++;
+	}
+	return estructuras;
+}
+
+std::vector<TagTipoEntidad> RulesetParser::getTiposEstructurasInternal() {
 	Logger::getInstance()->writeInformation("YAML-CPP:Se obtiene informacion de los tipos de estructuras.");
 	std::vector<TagTipoEntidad> tiposDeEntidades;
 	if (this->doc.FindValue("tipos_estructuras")) {
@@ -203,6 +259,25 @@ void RulesetParser::setTipoUnidad(const YAML::Node& node, TagTipoEntidad& tipoEn
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (armour).");
 			tipoEntidad.armour = ENTIDAD_DEFAULT_ARMOUR;
 		}
+		std::string aux;
+		if (!obtenerValorScalarAlfaNumerico(node, "products", aux)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (products).");
+			aux = ESTRUCTURA_DEFAULT_PRODUCTS;
+		}
+		if (aux != "") {
+			std::stringstream iss(aux);
+			do
+			{
+				string sub;
+				iss >> sub;
+				if(sub!="")
+					tipoEntidad.products.push_back(sub);
+
+			} while (iss);
+		}
+		else {
+			tipoEntidad.products = std::vector<std::string>();
+		}
 		//DEFAULT NO USA
 		tipoEntidad.solid = true;
 		tipoEntidad.capacity = ENTIDAD_DEFAULT_CAPACITY;
@@ -266,6 +341,25 @@ void RulesetParser::setTipoEstructura(const YAML::Node& node, TagTipoEntidad& ti
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (armour).");
 			tipoEntidad.armour = ESTRUCTURA_DEFAULT_ARMOUR;
 		}
+		std::string aux;
+		if (!obtenerValorScalarAlfaNumerico(node, "products", aux)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (products).");
+			aux = ESTRUCTURA_DEFAULT_PRODUCTS;
+		}
+		if (aux != "") {
+			std::stringstream iss(aux);
+			do
+			{
+				string sub;
+				iss >> sub;
+				if (sub != "")
+					tipoEntidad.products.push_back(sub);
+
+			} while (iss);
+		}
+		else {
+			tipoEntidad.products = std::vector<std::string>();
+		}
 		//DEFAULT NO USA
 		tipoEntidad.speed = ESTRUCTURA_DEFAULT_SPEED;
 		tipoEntidad.solid = true;
@@ -322,6 +416,7 @@ void RulesetParser::setTipoTerreno(const YAML::Node& node, TagTipoEntidad& tipoT
 		tipoTerreno.behaviour = TERRENO_DEFAULT_BEHAVIOUR;
 		tipoTerreno.health = TERRENO_DEFAULT_HEALTH;
 		tipoTerreno.armour = TERRENO_DEFAULT_ARMOUR;
+		tipoTerreno.products = std::vector<std::string>();
 	}
 	else {
 		Logger::getInstance()->writeWarning("YAML-CPP:El contenido del tipo de terreno ad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
@@ -367,6 +462,7 @@ void RulesetParser::setTipoRecurso(const YAML::Node& node, TagTipoEntidad& tipoR
 		tipoRecurso.behaviour = RECURSO_DEFAULT_BEHAVIOUR;
 		tipoRecurso.health = RECURSO_DEFAULT_HEALTH;
 		tipoRecurso.armour = RECURSO_DEFAULT_ARMOUR;
+		tipoRecurso.products = std::vector<std::string>();
 	}
 	else {
 		Logger::getInstance()->writeWarning("YAML-CPP:El contenido del tipo de terreno ad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
@@ -394,6 +490,7 @@ void RulesetParser::setTipoRecursoDefault(TagTipoEntidad& tipoRecurso, int i) {
 	tipoRecurso.behaviour = RECURSO_DEFAULT_BEHAVIOUR;
 	tipoRecurso.health = RECURSO_DEFAULT_HEALTH;
 	tipoRecurso.armour = RECURSO_DEFAULT_ARMOUR;
+	tipoRecurso.products = std::vector<std::string>();
 }
 
 void RulesetParser::setTipoTerrenoDefault(TagTipoEntidad& tipoEntidad, int i) {
@@ -416,6 +513,7 @@ void RulesetParser::setTipoTerrenoDefault(TagTipoEntidad& tipoEntidad, int i) {
 	tipoEntidad.behaviour = TERRENO_DEFAULT_BEHAVIOUR;
 	tipoEntidad.health = TERRENO_DEFAULT_HEALTH;
 	tipoEntidad.armour = TERRENO_DEFAULT_ARMOUR;
+	tipoEntidad.products = std::vector<std::string>();
 }
 
 
@@ -439,6 +537,7 @@ void RulesetParser::setTipoUnidadDefault(TagTipoEntidad& tipoEntidad, int i) {
 	tipoEntidad.behaviour = ENTIDAD_DEFAULT_BEHAVIOUR;
 	tipoEntidad.health = ENTIDAD_DEFAULT_HEALTH;
 	tipoEntidad.armour = ENTIDAD_DEFAULT_ARMOUR;
+	tipoEntidad.products = std::vector<std::string>();
 }
 
 void RulesetParser::setTipoEstructuraDefault(TagTipoEntidad& tipoEntidad, int i) {
@@ -461,4 +560,5 @@ void RulesetParser::setTipoEstructuraDefault(TagTipoEntidad& tipoEntidad, int i)
 	tipoEntidad.behaviour = ESTRUCTURA_DEFAULT_BEHAVIOUR;
 	tipoEntidad.health = ESTRUCTURA_DEFAULT_HEALTH;
 	tipoEntidad.armour = ESTRUCTURA_DEFAULT_ARMOUR;
+	tipoEntidad.products = std::vector<std::string>();
 }

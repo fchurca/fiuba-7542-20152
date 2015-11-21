@@ -15,6 +15,7 @@ tipos_unidades:
     sight_radius: 3
     speed: 3
     behaviour: worker
+    products: p1 centro p3 p4
   - nombre: dragon
     imagen: resources/dragon.png
     ancho_base: 0.5
@@ -102,6 +103,7 @@ tipos_estructuras:
     alto_sprite: 128
     cantidad_sprites: 1
     behaviour: town_center
+    products: product3 mago product4
   - nombre: choza
     imagen: resources/choza.png
     ancho_base: 2
