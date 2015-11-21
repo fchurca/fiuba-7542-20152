@@ -7,7 +7,7 @@
 class GameWindow;
 class GraphicsParser;
 
-class CommandMenu {
+class CommandMenu : public EntityVisitor {
 private:
 	GameWindow& owner;
 	r2 size;
@@ -17,5 +17,9 @@ public:
 	void draw();
 	CommandMenu(GameWindow& owner, GraphicsParser& graphicsParser);
 	~CommandMenu();
+	virtual void visit(Entity& e);
+	virtual void visit(Unit& e);
+	virtual void visit(Worker& e);
+	virtual void visit(ProducerBuilding& e);
 };
 #endif // __GFX_COMMAND_MENU_H__

@@ -7,7 +7,7 @@
 class GameWindow;
 class GraphicsParser;
 
-class SelectionMenu {
+class SelectionMenu : public EntityVisitor {
 private:
 	GameWindow& owner;
 	r2 size;
@@ -17,5 +17,12 @@ public:
 	void draw();
 	SelectionMenu(GameWindow& owner, GraphicsParser& graphicsParser);
 	~SelectionMenu();
+	virtual void visit(Entity& e);
+	virtual void visit(Unit& e);
+	virtual void visit(Worker& e);
+	virtual void visit(Resource& e);
+	virtual void visit(Building& e);
+	virtual void visit(UnfinishedBuilding& e);
+	virtual void visit(ProducerBuilding& e);
 };
 #endif // __GFX_SELECTION_MENU_H__

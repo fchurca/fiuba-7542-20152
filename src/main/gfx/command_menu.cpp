@@ -13,6 +13,18 @@ CommandMenu::CommandMenu(GameWindow& owner, GraphicsParser& graphicsParser) :
 CommandMenu::~CommandMenu() {
 }
 
+void CommandMenu::visit(Entity& entity) {
+}
+void CommandMenu::visit(Unit& entity) {
+	visit((Entity&)entity);
+}
+void CommandMenu::visit(Worker& entity) {
+	visit((Unit&)entity);
+}
+void CommandMenu::visit(ProducerBuilding& entity) {
+	visit((Entity&)entity);
+}
+
 void CommandMenu::draw() {
 	//Dibujo fondo
 	SDL_Rect destinoFondoMenu = { (int)offset.x, (int)offset.y, (int)size.x, (int)size.y };

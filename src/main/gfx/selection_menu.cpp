@@ -13,6 +13,28 @@ SelectionMenu::SelectionMenu(GameWindow& owner, GraphicsParser& graphicsParser) 
 SelectionMenu::~SelectionMenu() {
 }
 
+void SelectionMenu::visit(Entity& entity) {
+}
+void SelectionMenu::visit(Unit& entity) {
+	visit((Entity&)entity);
+}
+void SelectionMenu::visit(Worker& entity) {
+	visit((Unit&)entity);
+}
+void SelectionMenu::visit(Resource& entity) {
+	visit((Entity&)entity);
+}
+void SelectionMenu::visit(Building& entity) {
+	visit((Entity&)entity);
+}
+void SelectionMenu::visit(UnfinishedBuilding& entity) {
+	visit((Building&)entity);
+}
+void SelectionMenu::visit(ProducerBuilding& entity) {
+	visit((Building&)entity);
+}
+
+
 void SelectionMenu::draw() {
 	//Dibujo fondo
 	SDL_Rect destinoFondoMenu = { (int)offset.x, (int)offset.y, (int)size.x, (int)size.y };
