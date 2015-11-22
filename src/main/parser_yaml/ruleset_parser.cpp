@@ -51,24 +51,41 @@ std::vector<TagTipoEntidad> RulesetParser::getTiposUnidades() {
 	std::vector<TagTipoEntidad> unidades = getTiposUnidadesInternal();
 	//VALIDAMOS PRODUCTS DE LAS UNIDADES
 	std::vector<TagTipoEntidad> estructuras = getTiposEstructurasInternal();
-	int counterUnidad, counterProduct;
+	std::vector<TagTipoEntidad> recursos = getTiposRecursos();
+	int counterUnidad, counterProduct, counterRecurso;
 	bool exist;
 	counterUnidad = 0;
 	for (auto u : unidades) {
 		counterProduct = 0;
-		std::vector<std::string> products = u.products;
+		std::vector<TagProduct> products = u.products;
 		for (auto p : products) {
 			exist = false;
 			for (auto e : estructuras) {
-				if (e.nombre == p) {
+				if (e.nombre == p.nombre) {
 					exist = true;
 					break;
 				}
 			}
 			if (!exist)
 				unidades.at(counterUnidad).products.erase(unidades.at(counterUnidad).products.begin() + counterProduct);
-			else
+			else {
+				counterRecurso = 0;
+				std::vector<TagCosto> costos = p.costos;
+				for (auto c : costos) {
+					exist = false;
+					for (auto r : recursos) {
+						if (r.resource_name == c.recurso) {
+							exist = true;
+							break;
+						}
+					}
+					if (!exist)
+						unidades.at(counterUnidad).products.at(counterProduct).costos.erase(unidades.at(counterUnidad).products.at(counterProduct).costos.begin() + counterRecurso);
+					else
+						counterRecurso++;
+				}
 				counterProduct++;
+			}	
 		}
 		counterUnidad++;
 	}
@@ -104,24 +121,41 @@ std::vector<TagTipoEntidad> RulesetParser::getTiposEstructuras() {
 	std::vector<TagTipoEntidad> estructuras = getTiposEstructurasInternal();
 	//VALIDAMOS PRODUCTS DE LAS ESTRUCTURAS
 	std::vector<TagTipoEntidad> unidades = getTiposUnidadesInternal();
-	int counterEstructura, counterProduct;
+	std::vector<TagTipoEntidad> recursos = getTiposRecursos();
+	int counterEstructura, counterProduct, counterRecurso;
 	bool exist;
 	counterEstructura = 0;
 	for (auto e : estructuras) {
 		counterProduct = 0;
-		std::vector<std::string> products = e.products;
+		std::vector<TagProduct> products = e.products;
 		for (auto p : products) {
 			exist = false;
 			for (auto u : unidades) {
-				if (u.nombre == p) {
+				if (u.nombre == p.nombre) {
 					exist = true;
 					break;
 				}
 			}
 			if (!exist)
 				estructuras.at(counterEstructura).products.erase(estructuras.at(counterEstructura).products.begin() + counterProduct);
-			else
+			else {
+				counterRecurso = 0;
+				std::vector<TagCosto> costos = p.costos;
+				for (auto c : costos) {
+					exist = false;
+					for (auto r : recursos) {
+						if (r.resource_name == c.recurso) {
+							exist = true;
+							break;
+						}
+					}
+					if (!exist)
+						estructuras.at(counterEstructura).products.at(counterProduct).costos.erase(estructuras.at(counterEstructura).products.at(counterProduct).costos.begin() + counterRecurso);
+					else
+						counterRecurso++;
+				}
 				counterProduct++;
+			}	
 		}
 		counterEstructura++;
 	}
@@ -259,25 +293,18 @@ void RulesetParser::setTipoUnidad(const YAML::Node& node, TagTipoEntidad& tipoEn
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (armour).");
 			tipoEntidad.armour = ENTIDAD_DEFAULT_ARMOUR;
 		}
-		std::string aux;
-		if (!obtenerValorScalarAlfaNumerico(node, "products", aux)) {
-			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (products).");
-			aux = ESTRUCTURA_DEFAULT_PRODUCTS;
+		std::vector<TagProduct> products;
+		if (node.FindValue("products")) {
+			const YAML::Node& nodeProducts = node["products"];
+			if (nodeProducts.Type() == YAML::NodeType::Sequence) {
+				for (unsigned int i = 0; i < nodeProducts.size(); i++) {
+					TagProduct p;
+					setProduct(nodeProducts[i], p, i);
+					products.push_back(p);
+				}
+			}
 		}
-		if (aux != "") {
-			std::stringstream iss(aux);
-			do
-			{
-				string sub;
-				iss >> sub;
-				if(sub!="")
-					tipoEntidad.products.push_back(sub);
-
-			} while (iss);
-		}
-		else {
-			tipoEntidad.products = std::vector<std::string>();
-		}
+		tipoEntidad.products = products;
 		//DEFAULT NO USA
 		tipoEntidad.solid = true;
 		tipoEntidad.capacity = ENTIDAD_DEFAULT_CAPACITY;
@@ -342,25 +369,18 @@ void RulesetParser::setTipoEstructura(const YAML::Node& node, TagTipoEntidad& ti
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (armour).");
 			tipoEntidad.armour = ESTRUCTURA_DEFAULT_ARMOUR;
 		}
-		std::string aux;
-		if (!obtenerValorScalarAlfaNumerico(node, "products", aux)) {
-			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (products).");
-			aux = ESTRUCTURA_DEFAULT_PRODUCTS;
+		std::vector<TagProduct> products;
+		if (node.FindValue("products")) {
+			const YAML::Node& nodeProducts = node["products"];
+			if (nodeProducts.Type() == YAML::NodeType::Sequence) {
+				for (unsigned int i = 0; i < nodeProducts.size(); i++) {
+					TagProduct p;
+					setProduct(nodeProducts[i], p, i);
+					products.push_back(p);
+				}
+			}
 		}
-		if (aux != "") {
-			std::stringstream iss(aux);
-			do
-			{
-				string sub;
-				iss >> sub;
-				if (sub != "")
-					tipoEntidad.products.push_back(sub);
-
-			} while (iss);
-		}
-		else {
-			tipoEntidad.products = std::vector<std::string>();
-		}
+		tipoEntidad.products = products;
 		//DEFAULT NO USA
 		tipoEntidad.speed = ESTRUCTURA_DEFAULT_SPEED;
 		tipoEntidad.solid = true;
@@ -418,7 +438,7 @@ void RulesetParser::setTipoTerreno(const YAML::Node& node, TagTipoEntidad& tipoT
 		tipoTerreno.behaviour = TERRENO_DEFAULT_BEHAVIOUR;
 		tipoTerreno.health = TERRENO_DEFAULT_HEALTH;
 		tipoTerreno.armour = TERRENO_DEFAULT_ARMOUR;
-		tipoTerreno.products = std::vector<std::string>();
+		tipoTerreno.products = std::vector<TagProduct>();
 		tipoTerreno.resource_name = TERRENO_DEFAULT_RESOURCE_NAME;
 	}
 	else {
@@ -469,12 +489,43 @@ void RulesetParser::setTipoRecurso(const YAML::Node& node, TagTipoEntidad& tipoR
 		tipoRecurso.behaviour = RECURSO_DEFAULT_BEHAVIOUR;
 		tipoRecurso.health = RECURSO_DEFAULT_HEALTH;
 		tipoRecurso.armour = RECURSO_DEFAULT_ARMOUR;
-		tipoRecurso.products = std::vector<std::string>();
+		tipoRecurso.products = std::vector<TagProduct>();
 	}
 	else {
 		Logger::getInstance()->writeWarning("YAML-CPP:El contenido del tipo de terreno ad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
 		setTipoRecursoDefault(tipoRecurso, i);
 	}
+}
+
+void RulesetParser::setProduct(const YAML::Node& node, TagProduct& product, int i) {
+	if (node.Type() == YAML::NodeType::Map) {
+		if (!obtenerValorScalarAlfaNumerico(node, "nombre", product.nombre)) {
+			product.nombre = PRODUCT_DEFAULT_NAME + intToString(i);
+		}
+		std::vector<TagCosto> costos;
+		if (node.FindValue("costos")) {
+			const YAML::Node& nodeCostos = node["costos"];
+			if (nodeCostos.Type() == YAML::NodeType::Sequence) {
+				for (unsigned int i = 0; i < nodeCostos.size(); i++) {
+					TagCosto c;
+					if (!obtenerValorScalarAlfaNumerico(nodeCostos[i], "recurso", c.recurso)) {
+						c.recurso = COSTO_DEFAULT_NAME + intToString(i);
+					}
+					if (!obtenerValorScalarNumericoPositivo(nodeCostos[i], "cantidad", c.cantidad)) {
+						c.cantidad = COSTO_DEFAULT_CANTIDAD;
+					}
+					costos.push_back(c);
+				}
+			}
+			product.costos = costos;
+		}
+		else {
+			product.nombre = PRODUCT_DEFAULT_NAME + intToString(i);
+			std::vector<TagCosto> costos;
+			product.costos = costos;
+		}
+	}
+
 }
 
 void RulesetParser::setTipoRecursoDefault(TagTipoEntidad& tipoRecurso, int i) {
@@ -497,7 +548,7 @@ void RulesetParser::setTipoRecursoDefault(TagTipoEntidad& tipoRecurso, int i) {
 	tipoRecurso.behaviour = RECURSO_DEFAULT_BEHAVIOUR;
 	tipoRecurso.health = RECURSO_DEFAULT_HEALTH;
 	tipoRecurso.armour = RECURSO_DEFAULT_ARMOUR;
-	tipoRecurso.products = std::vector<std::string>();
+	tipoRecurso.products = std::vector<TagProduct>();
 	tipoRecurso.resource_name = RECURSO_DEFAULT_RESOURCE_NAME;
 }
 
@@ -521,7 +572,7 @@ void RulesetParser::setTipoTerrenoDefault(TagTipoEntidad& tipoEntidad, int i) {
 	tipoEntidad.behaviour = TERRENO_DEFAULT_BEHAVIOUR;
 	tipoEntidad.health = TERRENO_DEFAULT_HEALTH;
 	tipoEntidad.armour = TERRENO_DEFAULT_ARMOUR;
-	tipoEntidad.products = std::vector<std::string>();
+	tipoEntidad.products = std::vector<TagProduct>();
 	tipoEntidad.resource_name = TERRENO_DEFAULT_RESOURCE_NAME;
 }
 
@@ -546,7 +597,7 @@ void RulesetParser::setTipoUnidadDefault(TagTipoEntidad& tipoEntidad, int i) {
 	tipoEntidad.behaviour = ENTIDAD_DEFAULT_BEHAVIOUR;
 	tipoEntidad.health = ENTIDAD_DEFAULT_HEALTH;
 	tipoEntidad.armour = ENTIDAD_DEFAULT_ARMOUR;
-	tipoEntidad.products = std::vector<std::string>();
+	tipoEntidad.products = std::vector<TagProduct>();
 	tipoEntidad.resource_name = ENTIDAD_DEFAULT_RESOURCE_NAME;
 }
 
@@ -570,6 +621,6 @@ void RulesetParser::setTipoEstructuraDefault(TagTipoEntidad& tipoEntidad, int i)
 	tipoEntidad.behaviour = ESTRUCTURA_DEFAULT_BEHAVIOUR;
 	tipoEntidad.health = ESTRUCTURA_DEFAULT_HEALTH;
 	tipoEntidad.armour = ESTRUCTURA_DEFAULT_ARMOUR;
-	tipoEntidad.products = std::vector<std::string>();
+	tipoEntidad.products = std::vector<TagProduct>();
 	tipoEntidad.resource_name = ESTRUCTURA_DEFAULT_RESOURCE_NAME;
 }

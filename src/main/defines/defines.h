@@ -151,6 +151,11 @@ enum Directions {
 #define ESTRUCTURA_DEFAULT_PRODUCTS ""
 #define ESTRUCTURA_DEFAULT_RESOURCE_NAME ""
 
+//Product
+#define PRODUCT_DEFAULT_NAME "product"
+#define COSTO_DEFAULT_NAME "recurso"
+#define COSTO_DEFAULT_CANTIDAD 0
+
 //Log Level
 #define LOG_LEVEL_OFF  0
 #define LOG_LEVEL_ERROR  1

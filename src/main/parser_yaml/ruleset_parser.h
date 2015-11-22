@@ -7,6 +7,16 @@
 #include "../defines/defines.h"
 #include "../log/logger.h"
 
+struct TagCosto {
+	std::string recurso;
+	unsigned int cantidad;
+};
+
+struct TagProduct {
+	std::string nombre;
+	std::vector<TagCosto> costos;
+};
+
 struct TagTipoEntidad {
 	std::string nombre;
 	std::string imagen;
@@ -26,7 +36,7 @@ struct TagTipoEntidad {
 	std::string behaviour;
 	unsigned int health;
 	unsigned int armour;
-	std::vector<std::string> products;
+	std::vector<TagProduct> products;
 	std::string resource_name;
 };
 
@@ -43,6 +53,7 @@ private:
 	void setTipoEstructura(const YAML::Node& node, TagTipoEntidad& tipoEntidad, int i);
 	void setTipoTerreno(const YAML::Node& node, TagTipoEntidad& tipoTerreno, int i);
 	void setTipoRecurso(const YAML::Node& node, TagTipoEntidad& tipoTerreno, int i);
+	void setProduct(const YAML::Node& node, TagProduct& tipoEntidad, int i);
 	void setTipoUnidadDefault(TagTipoEntidad& tipoEntidad, int i);
 	void setTipoTerrenoDefault(TagTipoEntidad& tipoTerreno, int i);
 	void setTipoRecursoDefault(TagTipoEntidad& tipoRecurso, int i);

@@ -15,7 +15,29 @@ tipos_unidades:
     sight_radius: 3
     speed: 3
     behaviour: worker
-    products: p1 Centro p3 p4
+    products:
+      - nombre: Porton
+        costos:
+          - recurso: Madera
+            cantidad: 10
+          - recurso: rec1
+            cantidad: 2
+          - recurso: Carne
+            cantidad: 2
+      - nombre: p1
+        costos:
+          - recurso: Madera
+            cantidad: 10
+          - recurso: rec1
+            cantidad: 2
+      - nombre: Centro
+        costos:
+          - recurso: Madera
+            cantidad: 10
+          - recurso: rec1
+            cantidad: 2
+          - recurso: Carne
+            cantidad: 2
   - nombre: Dragon
     imagen: resources/dragon.png
     ancho_base: 0.5
@@ -103,7 +125,19 @@ tipos_estructuras:
     alto_sprite: 128
     cantidad_sprites: 1
     behaviour: town_center
-    products: product3 Mago product4
+    products:
+      - nombre: p1
+        costos:
+          - recurso: Madera
+            cantidad: 10
+          - recurso: rec1
+            cantidad: 2
+      - nombre: Mago
+        costos:
+          - recurso: Madera
+            cantidad: 10
+          - recurso: rec1
+            cantidad: 2
   - nombre: Choza
     imagen: resources/choza.png
     ancho_base: 2
@@ -289,6 +323,7 @@ tipos_recursos:
     ancho_sprite: 64
     alto_sprite: 32
     capacidad: 100
+    resource_name: Carne
   - nombre: Oro
     imagen: resources/oro.png
     ancho_base: 1
@@ -298,6 +333,7 @@ tipos_recursos:
     ancho_sprite: 64
     alto_sprite: 35
     capacidad: 100
+    resource_name: Oro
   - nombre: Madera
     imagen: resources/madera.png
     ancho_base: 1
@@ -307,6 +343,7 @@ tipos_recursos:
     ancho_sprite: 64
     alto_sprite: 35
     capacidad: 100
+    resource_name: Madera
   - nombre: Piedras
     imagen: resources/piedras.png
     ancho_base: 1
@@ -316,3 +353,4 @@ tipos_recursos:
     ancho_sprite: 64
     alto_sprite: 35
     capacidad: 100
+    resource_name: Piedra
