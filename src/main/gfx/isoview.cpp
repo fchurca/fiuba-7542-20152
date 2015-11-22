@@ -101,20 +101,11 @@ void IsoView::draw() {
 			SDL_RenderFillRect(owner.getRenderer(), &linea);
 		}
 	}
-	Uint8 q = 255;
-	SDL_SetRenderDrawColor(owner.getRenderer(), q, q, q, q);
 	r2 p, s;
 	for (auto e : owner.getSelection()) {
 		p = e->getPosition();
 		s = e->size;
-		SDL_Point points[] = {
-			boardToScreenPosition(p),
-			boardToScreenPosition(p + r2(s.x, 0)),
-			boardToScreenPosition(p + s),
-			boardToScreenPosition(p + r2(0, s.y)),
-			boardToScreenPosition(p) };
-
-		SDL_RenderDrawLines(owner.getRenderer(), points, 5);
+		drawRhomb(p, p + s);
 	}
 }
 
@@ -164,4 +155,16 @@ SDL_Point IsoView::boardToScreenPosition(r2 boardPos) {
 		(int)(((boardPos.x - boardPos.y) * TILE_WIDTH_DEFAULT / 2) + (size.x) / 2),
 		(int)(((boardPos.x + boardPos.y) * TILE_HEIGHT_DEFAULT / 2) + (size.y - TILE_HEIGHT_DEFAULT) / 2) };
 	return ret;
+}
+
+void IsoView::drawRhomb(r2 corner1, r2 corner2) {
+	Uint8 q = 255;
+	SDL_SetRenderDrawColor(owner.getRenderer(), q, q, q, q);
+	SDL_Point points[] = {
+		boardToScreenPosition(corner1),
+		boardToScreenPosition(r2(corner1.x, corner2.y)),
+		boardToScreenPosition(corner2),
+		boardToScreenPosition(r2(corner2.x, corner1.y)),
+		boardToScreenPosition(corner1) };
+	SDL_RenderDrawLines(owner.getRenderer(), points, 5);
 }

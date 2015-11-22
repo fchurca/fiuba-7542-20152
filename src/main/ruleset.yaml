@@ -1,5 +1,5 @@
 configuracion:
-    dt: 20
+    dt: 50
 tipos_unidades:
   - nombre: mago
     imagen: resources/mago.png
@@ -220,11 +220,11 @@ tipos_estructuras:
     ancho_base: 0.5
     alto_base: 0.5
     pixel_ref_x: 24
-    pixel_ref_y: 85
+    pixel_ref_y: 60
     fps: 0
     delay: 0
     ancho_sprite: 48
-    alto_sprite: 96
+    alto_sprite: 70
     cantidad_sprites: 1
     behaviour: flag
     sight_radius: 10
