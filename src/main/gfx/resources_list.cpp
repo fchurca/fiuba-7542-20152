@@ -9,7 +9,7 @@ ResourcesList::ResourcesList(GameWindow& owner, GraphicsParser& graphicsParser) 
 	int h, w;
 	TTF_SizeText(owner.font, "A", &w, &h);
 	size.x = owner.ancho_pantalla - graphicsParser.getPantalla().minimapa_ancho;
-	size.y = h*2;
+	size.y = h;
 }
 
 ResourcesList::~ResourcesList() {
@@ -22,9 +22,9 @@ void ResourcesList::draw() {
 	SDL_SetRenderDrawColor(owner.getRenderer(), color.r * 0.65, color.g* 0.65, color.b* 0.65, 255);
 	SDL_RenderFillRect(owner.getRenderer(), &destinoFondoMenu);
 	SDL_Color colorBlanco = { 255, 255, 255 };
-	std::string texto = owner.completeLine(owner.player.name, size.x);
+	std::string texto = owner.player.name + "//";
 	for (auto r : owner.player.getResources()) {
-		texto = texto + r.first + "=" + std::to_string(r.second) + "//";
+		texto = texto + r.first + ":" + std::to_string(r.second) + "//";
 	}
 	texto = owner.completeLine(texto, size.x);
 	int access, w, h;
