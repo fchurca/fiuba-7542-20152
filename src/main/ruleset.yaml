@@ -1,5 +1,5 @@
 configuracion:
-    dt: 50
+    dt: 20
 tipos_unidades:
   - nombre: mago
     imagen: resources/mago.png

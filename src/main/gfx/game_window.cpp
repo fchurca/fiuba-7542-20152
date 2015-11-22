@@ -101,7 +101,7 @@ void GameWindow::render() {
 	if (pressedClick) {
 		r2 boardClick = isoview->screenToBoardPosition(clickMouse);
 		r2 boardMouse = isoview->screenToBoardPosition(mouse);
-		isoview->drawRhomb(boardClick, boardMouse);
+		isoview->drawRhombus(boardClick, boardMouse);
 	}
 
 	SDL_RenderPresent(renderer);
