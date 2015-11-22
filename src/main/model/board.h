@@ -59,7 +59,6 @@ class ABoard : public FrameMixin {
 		std::shared_ptr<Entity> createEntity(std::string name, std::string playerName, r2 position);
 		virtual std::shared_ptr<Entity> getTerrain(size_t x, size_t y);
 		void setTerrain(std::string name, size_t x, size_t y);
-		std::vector<std::shared_ptr<Entity>> getEntities();
 		template<typename F> void mapEntities(F fun);
 		template<typename Pred>
 			std::vector<std::shared_ptr<Entity>> selectEntities(Pred pred);

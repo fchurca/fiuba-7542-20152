@@ -144,10 +144,6 @@ void ABoard::setTerrain(string name, size_t x, size_t y) {
 	}
 }
 
-vector<shared_ptr<Entity>> ABoard::getEntities() {
-	return entities;
-}
-
 shared_ptr<Entity> ABoard::findEntity(size_t id) {
 	auto it = find_if(entities.begin(), entities.end(), [id](shared_ptr<Entity> e) {
 			return e?e->getId() == id:false;
