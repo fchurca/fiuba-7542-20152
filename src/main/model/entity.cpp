@@ -99,7 +99,8 @@ void Entity::addTarget(r2 newTarget) {
 	auto straighten = [straightenOnce](shared_ptr<TSNode> n) {
 		while (straightenOnce(n));
 	};
-	bool closed[board.sizeX][board.sizeY];
+	//bool closed[board.sizeX][board.sizeY];
+	bool closed[100][100];
 	for (size_t i = 0; i < board.sizeX; i++) {
 		for (size_t j = 0; j < board.sizeY; j++) {
 			closed[i][j] = false;

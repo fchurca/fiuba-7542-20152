@@ -3,35 +3,38 @@
 #define SRC_SOCKET_WINSOCKET_H_
 //-----------------------------------------------------------------------------
 /*
- * Interfaz comun para utilzar sockets. *
- */
+* Interfaz comun para utilzar sockets. *
+*/
 //-----------------------------------------------------------------------------
 #include <string>
 #include "../socket.h"
 //-----------------------------------------------------------------------------
+#include <windows.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
 //-----------------------------------------------------------------------------
 
-class WinSocket : Socket {
+class WinSocket : public Socket {
 
 private:
-	WSADATA wsaData;
-	struct addrinfo serv_addr;
-	//analizar si es necesario
-	struct sockaddr_in cli_addr;
+	SOCKET sockfd;
+	struct sockaddr_in sockaddr;			// Dirección del socket.
+	bool status;
+	unsigned int port;
 
 public:
-	WinSocket(unsigned int uiPort);
+	WinSocket();
+
 	virtual ~WinSocket();
-
 public:
-	void Connect(std::string hostIP, int hostPort);
-	bool Listen(int maxConnections);
-	Socket* Accept();
+	bool Connect(std::string hostIp, int hostPort);
+	bool Listen(unsigned int port, int maxConnections);
+	std::shared_ptr<Socket> Accept();
 	int Send(const void* data, int dataLenght);
-	int Recv(const void* data, int dataLenght);
+	int Recv(void* data, int dataLenght);
 	bool IsActive();
+	void Activate();
+	void deinit();
 
 };
 //-----------------------------------------------------------------------------
