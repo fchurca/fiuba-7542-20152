@@ -25,7 +25,7 @@ PosixSocket::~PosixSocket() {
 	deinit();
 }
 //-----------------------------------------------------------------------------
-bool PosixSocket::Connect(std::string hostIp,int hostPort){
+bool PosixSocket::Connect(std::string hostIp,size_t hostPort){
 	// Usamos connect cuando tenemos que conectarnos a un server
 
 	// Obtenemos host
@@ -35,9 +35,11 @@ bool PosixSocket::Connect(std::string hostIp,int hostPort){
 	}
 
 	// Obtenemos socket
-	if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+	auto s = socket(AF_INET, SOCK_STREAM, 0);
+	if(s < 0) {
 		return false;
 	}
+	sockfd = s;
 
 	// Cargamos datos de la conexión a realizar
 	sockaddr.sin_port = htons(hostPort);
@@ -53,10 +55,13 @@ bool PosixSocket::Connect(std::string hostIp,int hostPort){
 	return true;
 }
 //-----------------------------------------------------------------------------
-bool PosixSocket::Listen(unsigned int port, int maxConnections) {
-	if((sockfd = socket(AF_INET, SOCK_STREAM, 0)) < 0) {
+bool PosixSocket::Listen(size_t port, size_t maxConnections) {
+	auto s = socket(AF_INET, SOCK_STREAM, 0);
+	if(s < 0) {
 		return false;
 	}
+
+	sockfd = s;
 
 	Activate();
 
@@ -94,11 +99,11 @@ shared_ptr<Socket> PosixSocket::Accept() {
 
 }
 //-----------------------------------------------------------------------------
-ssize_t PosixSocket::Send(const void* data, size_t dataLength) {
+long PosixSocket::Send(const void* data, size_t dataLength) {
 	// Cantidad de bytes que han sido enviados
 	size_t total_bytes = 0;
 
-	for(ssize_t n = 0; total_bytes < dataLength; total_bytes += n) {
+	for(long n = 0; total_bytes < dataLength; total_bytes += n) {
 		// Realizamos envío de bytes
 		n = send(sockfd, (char *) data + total_bytes, dataLength - total_bytes, MSG_NOSIGNAL);
 
@@ -112,7 +117,7 @@ ssize_t PosixSocket::Send(const void* data, size_t dataLength) {
 
 }
 //-----------------------------------------------------------------------------
-ssize_t PosixSocket::Recv(void* data, size_t dataLength) {
+long PosixSocket::Recv(void* data, size_t dataLength) {
 	memset(data, '\0', dataLength);
 	return recv(sockfd, data, dataLength, 0);
 }

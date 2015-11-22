@@ -30,8 +30,8 @@ public:
 	bool Connect(std::string hostIp, int hostPort);
 	bool Listen(unsigned int port, int maxConnections);
 	std::shared_ptr<Socket> Accept();
-	int Send(const void* data, int dataLenght);
-	int Recv(void* data, int dataLenght);
+	long Send(const void* data, int dataLenght);
+	long Recv(void* data, int dataLenght);
 	bool IsActive();
 	void Activate();
 	void deinit();

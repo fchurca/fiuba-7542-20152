@@ -10,21 +10,17 @@
 
 class PosixSocket : public Socket {
 private:
-	int sockfd;
 	struct sockaddr_in sockaddr;			// Dirección del socket.
-	bool status;
-	unsigned int port;
-
 public:
 	PosixSocket();
 
 	virtual ~PosixSocket();
 public:
-	bool Connect(std::string hostIp, int hostPort);
-	bool Listen(unsigned int port, int maxConnections);
+	bool Connect(std::string hostIp, size_t hostPort);
+	bool Listen(size_t port, size_t maxConnections);
 	std::shared_ptr<Socket> Accept();
-	ssize_t Send(const void* data, size_t dataLength);
-	ssize_t Recv(void* data, size_t dataLength);
+	long Send(const void* data, size_t dataLength);
+	long Recv(void* data, size_t dataLength);
 	bool IsActive();
 	void Activate();
 	void deinit();

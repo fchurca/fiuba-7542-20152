@@ -15,21 +15,21 @@ public:
 
 class FrameMixin {
 protected:
-	size_t frame;
+	std::size_t frame;
 	FrameMixin();
 public:
 	virtual ~FrameMixin();
-	virtual size_t getFrame();
+	virtual std::size_t getFrame();
 };
 
 class IdMixin {
 protected:
-	size_t id;
+	std::size_t id;
 	IdMixin();
 public:
 	virtual ~IdMixin();
-	virtual size_t getId();
-	virtual void setId(size_t newId);
+	virtual std::size_t getId();
+	virtual void setId(std::size_t newId);
 };
 
 #endif // __MODEL_MIXINS_H__

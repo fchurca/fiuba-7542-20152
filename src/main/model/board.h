@@ -91,7 +91,6 @@ class SmartBoard : public ABoard {
 		void execute(MoveCommand& command);
 };
 
-#include "board.cxx"
 //-----------------------------------------------------------------------------
 #endif /* _MODEL_BOARD_H_ */
 //-----------------------------------------------------------------------------

@@ -15,9 +15,9 @@
 //-----------------------------------------------------------------------------
 class Socket {
 protected:
-	int sockfd;
+	size_t sockfd;
 	bool status;
-	int port;
+	size_t port;
 	std::string ip;
 	size_t inBufferIndex;
 
@@ -27,11 +27,11 @@ public:
 
 public:
 	static std::shared_ptr<Socket> create();
-	virtual bool Connect(std::string hostIP, int hostPort) = 0;
-	virtual bool Listen(unsigned int port, int maxConnections) = 0;
+	virtual bool Connect(std::string hostIP, size_t hostPort) = 0;
+	virtual bool Listen(size_t port, size_t maxConnections) = 0;
 	virtual std::shared_ptr<Socket> Accept() = 0;
-	virtual size_t Send(const void* data, size_t dataLength) = 0;
-	virtual size_t Recv(void* data, size_t dataLength) = 0;
+	virtual long Send(const void* data, size_t dataLength) = 0;
+	virtual long Recv(void* data, size_t dataLength) = 0;
 	virtual bool IsActive() = 0;
 	virtual void Activate() = 0;
 	virtual void deinit() = 0;

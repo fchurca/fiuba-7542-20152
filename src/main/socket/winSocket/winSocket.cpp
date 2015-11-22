@@ -109,7 +109,7 @@ bool WinSocket::IsActive()
 	return status;
 }
 
-int WinSocket::Recv(void* data, int dataLenght)
+long WinSocket::Recv(void* data, int dataLenght)
 {
 	//cerr << "receive()" << endl;
 	//REVISAR
@@ -119,7 +119,7 @@ int WinSocket::Recv(void* data, int dataLenght)
 	return 0;
 }
 
-int WinSocket::Send(const void* data, int dataLenght)
+long WinSocket::Send(const void* data, int dataLenght)
 {
 	////cerr << "send()" << endl;
 	//// Cantidad de bytes que han sido enviados
