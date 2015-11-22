@@ -261,7 +261,7 @@ void GameWindow::setSelection() {
 	selection.clear();
 	r2 sweepStart = isoview->screenToBoardPosition(clickMouse);
 	r2 sweepEnd = isoview->screenToBoardPosition(mouse);
-	selection = board.findEntities(rectangle(sweepStart, sweepEnd - sweepStart));
+	selection = board.selectEntities(rectangle(sweepStart, sweepEnd - sweepStart));
 }
 
 bool GameWindow::selectionController(Entity& e) {

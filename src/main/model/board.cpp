@@ -145,8 +145,8 @@ void ABoard::setTerrain(string name, size_t x, size_t y) {
 }
 
 void ABoard::mapEntities(EntityFunction fun) {
-	for(auto it = entities.begin(); it != entities.end(); it++) {
-		fun(*it);
+	for(size_t i = 0; i < entities.size(); i++) {
+		fun(entities[i]);
 	}
 }
 
@@ -158,30 +158,28 @@ std::vector<std::shared_ptr<Entity>> ABoard::selectEntities(EntityPredicate pred
 
 std::shared_ptr<Entity> ABoard::findEntity(EntityPredicate pred) {
 	shared_ptr<Entity> ret = nullptr;
-	for(auto it = entities.begin(); it != entities.end(); it++) {
-		if(pred(*it)) {
-			ret = *it;
-			it = entities.end();
+	for(size_t i = 0; i < entities.size(); i++) {
+		if(pred(entities[i])) {
+			ret = entities[i];
+			break;
 		}
 	}
 	return ret;
 }
 
 shared_ptr<Entity> ABoard::findEntity(size_t id) {
-	auto it = find_if(entities.begin(), entities.end(), [id](shared_ptr<Entity> e) {
+	return findEntity([id](shared_ptr<Entity> e) {
 			return e?e->getId() == id:false;
 			});
-	return (it == entities.end())? nullptr : *it;
 }
 
 shared_ptr<Entity> ABoard::findEntity(rectangle r) {
-	auto it = find_if(entities.begin(), entities.end(), [r](shared_ptr<Entity> e) {
+	return findEntity([r](shared_ptr<Entity> e) {
 			return rectangle(e->getPosition(), e->size).intersects(r);
 			});
-	return (it == entities.end())? nullptr : *it;
 }
 
-std::vector<shared_ptr<Entity>> ABoard::findEntities(rectangle r) {
+std::vector<shared_ptr<Entity>> ABoard::selectEntities(rectangle r) {
 	std::vector<shared_ptr<Entity>> ret;
 	for (auto e : entities) {
 		if (rectangle(e->getPosition(), e->size).intersects(r))

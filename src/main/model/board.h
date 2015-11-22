@@ -2,13 +2,13 @@
 #define _MODEL_BOARD_H_
 //-----------------------------------------------------------------------------
 #include <functional>
-#include <string>
-#include <vector>
 #include <map>
 #include <memory>
 #include <mutex>
 #include <queue>
+#include <string>
 #include <thread>
+#include <vector>
 //-----------------------------------------------------------------------------
 #include "command.h"
 #include "mixins.h"
@@ -65,10 +65,10 @@ class ABoard : public FrameMixin {
 		void setTerrain(std::string name, size_t x, size_t y);
 		void mapEntities(EntityFunction fun);
 		std::vector<std::shared_ptr<Entity>> selectEntities(EntityPredicate pred);
+		std::vector<std::shared_ptr<Entity>> selectEntities(rectangle r);
 		std::shared_ptr<Entity> findEntity(EntityPredicate pred);
 		std::shared_ptr<Entity> findEntity(size_t id);
 		std::shared_ptr<Entity> findEntity(rectangle r);
-		std::vector<std::shared_ptr<Entity>> findEntities(rectangle r);
 		std::shared_ptr<Entity> findEntity(r2 pos);
 
 		void pushCommand(std::shared_ptr<Command> command);
