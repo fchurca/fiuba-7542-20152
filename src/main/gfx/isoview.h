@@ -17,6 +17,7 @@ public:
 	GameWindow& owner;
 	SDL_Point getSize();
 	void draw();
+	void drawRhomb(r2 corner1, r2 corner2);
 	IsoView(GameWindow& owner, RulesetParser& rulesetParser);
 	r2 screenToBoardPosition(SDL_Point screenPos);
 	SDL_Point boardToScreenPosition(r2 boardPos);
