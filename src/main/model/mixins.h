@@ -1,7 +1,7 @@
 #ifndef __MODEL_MIXINS_H__
 #define __MODEL_MIXINS_H__
 
-#include <cstdint>
+#include <cstddef>
 
 class DeletableMixin {
 protected:
