@@ -144,6 +144,29 @@ void ABoard::setTerrain(string name, size_t x, size_t y) {
 	}
 }
 
+void ABoard::mapEntities(EntityFunction fun) {
+	for(auto it = entities.begin(); it != entities.end(); it++) {
+		fun(*it);
+	}
+}
+
+std::vector<std::shared_ptr<Entity>> ABoard::selectEntities(EntityPredicate pred) {
+	std::vector<std::shared_ptr<Entity>> ret;
+	mapEntities((EntityFunction)[&ret, pred] (std::shared_ptr<Entity> e) {if (pred(e)) {ret.push_back(e);};});
+	return ret;
+}
+
+std::shared_ptr<Entity> ABoard::findEntity(EntityPredicate pred) {
+	shared_ptr<Entity> ret = nullptr;
+	for(auto it = entities.begin(); it != entities.end(); it++) {
+		if(pred(*it)) {
+			ret = *it;
+			it = entities.end();
+		}
+	}
+	return ret;
+}
+
 shared_ptr<Entity> ABoard::findEntity(size_t id) {
 	auto it = find_if(entities.begin(), entities.end(), [id](shared_ptr<Entity> e) {
 			return e?e->getId() == id:false;

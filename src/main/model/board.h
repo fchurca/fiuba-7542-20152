@@ -1,6 +1,7 @@
 #ifndef _MODEL_BOARD_H_
 #define _MODEL_BOARD_H_
 //-----------------------------------------------------------------------------
+#include <functional>
 #include <string>
 #include <vector>
 #include <map>
@@ -20,6 +21,9 @@ class Entity;
 class EntityFactory;
 class ScenarioParser;
 class RulesetParser;
+
+using EntityFunction = std::function<void(std::shared_ptr<Entity>)>;
+using EntityPredicate = std::function<bool(std::shared_ptr<Entity>)>;
 
 class ABoard : public FrameMixin {
 	public:
@@ -59,9 +63,9 @@ class ABoard : public FrameMixin {
 		std::shared_ptr<Entity> createEntity(std::string name, std::string playerName, r2 position);
 		virtual std::shared_ptr<Entity> getTerrain(size_t x, size_t y);
 		void setTerrain(std::string name, size_t x, size_t y);
-		template<typename F> void mapEntities(F fun);
-		template<typename Pred>
-			std::vector<std::shared_ptr<Entity>> selectEntities(Pred pred);
+		void mapEntities(EntityFunction fun);
+		std::vector<std::shared_ptr<Entity>> selectEntities(EntityPredicate pred);
+		std::shared_ptr<Entity> findEntity(EntityPredicate pred);
 		std::shared_ptr<Entity> findEntity(size_t id);
 		std::shared_ptr<Entity> findEntity(rectangle r);
 		std::vector<std::shared_ptr<Entity>> findEntities(rectangle r);
