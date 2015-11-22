@@ -158,8 +158,7 @@ std::vector<std::shared_ptr<Entity>> ABoard::selectEntities(EntityPredicate pred
 
 std::vector<shared_ptr<Entity>> ABoard::selectEntities(rectangle r) {
 	return selectEntities([r](shared_ptr<Entity> e) {
-			return rectangle(e->getPosition(), e->size).intersects(r)
-			});
+			return rectangle(e->getPosition(), e->size).intersects(r); });
 }
 
 std::shared_ptr<Entity> ABoard::findEntity(EntityPredicate pred) {
@@ -175,14 +174,12 @@ std::shared_ptr<Entity> ABoard::findEntity(EntityPredicate pred) {
 
 shared_ptr<Entity> ABoard::findEntity(size_t id) {
 	return findEntity([id](shared_ptr<Entity> e) {
-			return e?e->getId() == id:false;
-			});
+			return e?e->getId() == id:false; });
 }
 
 shared_ptr<Entity> ABoard::findEntity(rectangle r) {
 	return findEntity([r](shared_ptr<Entity> e) {
-			return rectangle(e->getPosition(), e->size).intersects(r);
-			});
+			return rectangle(e->getPosition(), e->size).intersects(r); });
 }
 
 shared_ptr<Entity> ABoard::findEntity(r2 pos) {
