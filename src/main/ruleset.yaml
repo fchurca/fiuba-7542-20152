@@ -1,7 +1,7 @@
 configuracion:
     dt: 20
 tipos_unidades:
-  - nombre: mago
+  - nombre: Mago
     imagen: resources/mago.png
     ancho_base: 0.5
     alto_base: 0.5
@@ -15,8 +15,8 @@ tipos_unidades:
     sight_radius: 3
     speed: 3
     behaviour: worker
-    products: p1 centro p3 p4
-  - nombre: dragon
+    products: p1 Centro p3 p4
+  - nombre: Dragon
     imagen: resources/dragon.png
     ancho_base: 0.5
     alto_base: 0.5
@@ -29,7 +29,7 @@ tipos_unidades:
     cantidad_sprites: 5
     sight_radius: 3
     speed: 3
-  - nombre: hachero
+  - nombre: Hachero
     imagen: resources/hachero.png
     ancho_base: 0.5
     alto_base: 0.5
@@ -42,7 +42,7 @@ tipos_unidades:
     cantidad_sprites: 5
     sight_radius: 3
     speed: 3
-  - nombre: ogro
+  - nombre: Ogro
     imagen: resources/ogro.png
     ancho_base: 0.5
     alto_base: 0.5
@@ -55,7 +55,7 @@ tipos_unidades:
     cantidad_sprites: 4
     sight_radius: 3
     speed: 3
-  - nombre: cubo
+  - nombre: Cubo
     imagen: resources/cubo_1_2.png
     ancho_base: 0.5
     alto_base: 0.5
@@ -91,7 +91,7 @@ tipos_estructuras:
     ancho_sprite: 128
     alto_sprite: 83
     cantidad_sprites: 1
-  - nombre: centro
+  - nombre: Centro
     imagen: resources/centro.png
     ancho_base: 2
     alto_base: 2
@@ -103,8 +103,8 @@ tipos_estructuras:
     alto_sprite: 128
     cantidad_sprites: 1
     behaviour: town_center
-    products: product3 mago product4
-  - nombre: choza
+    products: product3 Mago product4
+  - nombre: Choza
     imagen: resources/choza.png
     ancho_base: 2
     alto_base: 2
@@ -115,7 +115,7 @@ tipos_estructuras:
     ancho_sprite: 128
     alto_sprite: 128
     cantidad_sprites: 1
-  - nombre: centro_civico_1
+  - nombre: Centro_Civico_1
     imagen: resources/centro_civico_1.png
     ancho_base: 7
     alto_base: 6
@@ -126,7 +126,7 @@ tipos_estructuras:
     ancho_sprite: 506
     alto_sprite: 318
     cantidad_sprites: 1
-  - nombre: centro_civico_2
+  - nombre: Centro_Civico_2
     imagen: resources/centro_civico_2.png
     ancho_base: 7
     alto_base: 9
@@ -137,7 +137,7 @@ tipos_estructuras:
     ancho_sprite: 576
     alto_sprite: 302
     cantidad_sprites: 1
-  - nombre: granero
+  - nombre: Granero
     imagen: resources/granero.png
     ancho_base: 2
     alto_base: 2
@@ -148,7 +148,7 @@ tipos_estructuras:
     ancho_sprite: 128
     alto_sprite: 128
     cantidad_sprites: 1
-  - nombre: porton
+  - nombre: Porton
     imagen: resources/porton.png
     ancho_base: 2
     alto_base: 2
@@ -159,7 +159,7 @@ tipos_estructuras:
     ancho_sprite: 128
     alto_sprite: 128
     cantidad_sprites: 1
-  - nombre: cuartel
+  - nombre: Cuartel
     imagen: resources/cuartel.png
     ancho_base: 2
     alto_base: 2
@@ -171,7 +171,7 @@ tipos_estructuras:
     alto_sprite: 128
     cantidad_sprites: 1
     behaviour: producer_building
-  - nombre: establo
+  - nombre: Establo
     imagen: resources/establo.png
     ancho_base: 2
     alto_base: 2
@@ -182,7 +182,7 @@ tipos_estructuras:
     ancho_sprite: 128
     alto_sprite: 128
     cantidad_sprites: 1
-  - nombre: torre
+  - nombre: Torre
     imagen: resources/torre.png
     ancho_base: 2
     alto_base: 2
@@ -193,7 +193,7 @@ tipos_estructuras:
     ancho_sprite: 128
     alto_sprite: 128
     cantidad_sprites: 1
-  - nombre: chancho
+  - nombre: Chancho
     imagen: resources/chanchos.png
     ancho_base: 0.5
     alto_base: 0.5
@@ -204,7 +204,7 @@ tipos_estructuras:
     ancho_sprite: 48
     alto_sprite: 44
     cantidad_sprites: 15
-  - nombre: cartel
+  - nombre: Cartel
     imagen: resources/cartel.png
     ancho_base: 0.5
     alto_base: 0.5
@@ -215,7 +215,7 @@ tipos_estructuras:
     ancho_sprite: 32
     alto_sprite: 32
     cantidad_sprites: 1
-  - nombre: bandera
+  - nombre: Bandera
     imagen: resources/estandarte.png
     ancho_base: 0.5
     alto_base: 0.5
@@ -228,7 +228,7 @@ tipos_estructuras:
     cantidad_sprites: 1
     behaviour: flag
     sight_radius: 10
-  - nombre: chanchoDelay
+  - nombre: ChanchoDelay
     imagen: resources/chanchos.png
     ancho_base: 0.5
     alto_base: 0.5
@@ -239,7 +239,7 @@ tipos_estructuras:
     ancho_sprite: 48
     alto_sprite: 44
     cantidad_sprites: 15
-  - nombre: arbol
+  - nombre: Arbol
     imagen: resources/arbol.png
     ancho_base: 2
     alto_base: 2
@@ -251,7 +251,7 @@ tipos_estructuras:
     alto_sprite: 143
     cantidad_sprites: 1
 tipos_terrenos:
-  - nombre: agua
+  - nombre: Agua
     imagen: resources/agua.png
     pixel_ref_x: 32
     pixel_ref_y: 0
@@ -261,7 +261,7 @@ tipos_terrenos:
     alto_sprite: 32
     cantidad_sprites: 1
     solid: true
-  - nombre: pasto
+  - nombre: Pasto
     imagen: resources/pasto.png
     pixel_ref_x: 32
     pixel_ref_y: 0
@@ -270,7 +270,7 @@ tipos_terrenos:
     ancho_sprite: 64
     alto_sprite: 32
     cantidad_sprites: 1
-  - nombre: piedra
+  - nombre: Piedra
     imagen: resources/piedra.png
     pixel_ref_x: 32
     pixel_ref_y: 0
@@ -280,7 +280,7 @@ tipos_terrenos:
     alto_sprite: 32
     cantidad_sprites: 1
 tipos_recursos:
-  - nombre: carne
+  - nombre: Carne
     imagen: resources/carne.png
     ancho_base: 1
     alto_base: 1
@@ -289,7 +289,7 @@ tipos_recursos:
     ancho_sprite: 64
     alto_sprite: 32
     capacidad: 100
-  - nombre: oro
+  - nombre: Oro
     imagen: resources/oro.png
     ancho_base: 1
     alto_base: 1
@@ -298,7 +298,7 @@ tipos_recursos:
     ancho_sprite: 64
     alto_sprite: 35
     capacidad: 100
-  - nombre: madera
+  - nombre: Madera
     imagen: resources/madera.png
     ancho_base: 1
     alto_base: 1
@@ -307,7 +307,7 @@ tipos_recursos:
     ancho_sprite: 64
     alto_sprite: 35
     capacidad: 100
-  - nombre: piedras
+  - nombre: Piedras
     imagen: resources/piedras.png
     ancho_base: 1
     alto_base: 1
