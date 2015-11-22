@@ -105,7 +105,7 @@ void IsoView::draw() {
 	for (auto e : owner.getSelection()) {
 		p = e->getPosition();
 		s = e->size;
-		drawRhomb(p, p + s);
+		drawRhombus(p, p + s);
 	}
 }
 
@@ -157,7 +157,7 @@ SDL_Point IsoView::boardToScreenPosition(r2 boardPos) {
 	return ret;
 }
 
-void IsoView::drawRhomb(r2 corner1, r2 corner2) {
+void IsoView::drawRhombus(r2 corner1, r2 corner2) {
 	Uint8 q = 255;
 	SDL_SetRenderDrawColor(owner.getRenderer(), q, q, q, q);
 	SDL_Point points[] = {
