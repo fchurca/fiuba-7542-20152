@@ -22,6 +22,19 @@ CargoMixin::CargoMixin(int min, int max, int value) :
 {}
 
 
+HealthMixin::HealthMixin(int max) :
+	health(max)
+{}
+
+HealthMixin::HealthMixin(int max, int value) :
+	health(max, value)
+{}
+
+HealthMixin::HealthMixin(int min, int max, int value) :
+	health(min, max, value)
+{}
+
+
 Entity::Entity(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid) :
 	position(position),
 	orientation(0),
@@ -290,8 +303,9 @@ bool Entity::operator!=(Entity& other) {
 
 Unit::~Unit() {}
 
-Unit::Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid) :
+Unit::Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health) :
 	Entity(name, board, owner, position, size, sight_radius, solid),
+	HealthMixin(health),
 	speed(speed)
 {}
 
@@ -339,8 +353,8 @@ void Unit::visit(EntityVisitor& e) {
 }
 
 
-Worker::Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid) :
-	Unit(name, board, owner, position, size, speed, sight_radius, solid)
+Worker::Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health) :
+	Unit(name, board, owner, position, size, speed, sight_radius, solid, health)
 {}
 
 void Worker::update() {
@@ -352,8 +366,8 @@ void Worker::visit(EntityVisitor& e) {
 }
 
 
-King::King(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid) :
-	Unit(name, board, owner, position, size, speed, sight_radius, solid)
+King::King(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health) :
+	Unit(name, board, owner, position, size, speed, sight_radius, solid, health)
 {}
 
 void King::update() {
@@ -365,8 +379,9 @@ void King::visit(EntityVisitor& e) {
 }
 
 
-Building::Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid) :
-	Entity(name, board, owner, position, size, sight_radius, solid)
+Building::Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health) :
+	Entity(name, board, owner, position, size, sight_radius, solid),
+	HealthMixin(health)
 {}
 
 void Building::update() {
@@ -381,8 +396,8 @@ void Building::visit(EntityVisitor& e) {
 }
 
 
-UnfinishedBuilding::UnfinishedBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid) :
-	Building(name, board, owner, position, size, sight_radius, solid)
+UnfinishedBuilding::UnfinishedBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health) :
+	Building(name, board, owner, position, size, sight_radius, solid, health)
 {}
 
 void UnfinishedBuilding::update() {
@@ -394,8 +409,8 @@ void UnfinishedBuilding::visit(EntityVisitor& e) {
 }
 
 
-ProducerBuilding::ProducerBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid) :
-	Building(name, board, owner, position, size, sight_radius, solid)
+ProducerBuilding::ProducerBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health) :
+	Building(name, board, owner, position, size, sight_radius, solid, health)
 {}
 
 void ProducerBuilding::update() {
@@ -410,8 +425,8 @@ void ProducerBuilding::visit(EntityVisitor& e) {
 }
 
 
-Flag::Flag(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid) :
-	Building(name, board, owner, position, size, sight_radius, solid)
+Flag::Flag(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health) :
+	Building(name, board, owner, position, size, sight_radius, solid, health)
 {}
 
 void Flag::update() {
@@ -423,8 +438,8 @@ void Flag::visit(EntityVisitor& e) {
 }
 
 
-TownCenter::TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid) :
-	ProducerBuilding(name, board, owner, position, size, sight_radius, solid)
+TownCenter::TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health) :
+	ProducerBuilding(name, board, owner, position, size, sight_radius, solid, health)
 {}
 
 void TownCenter::update() {

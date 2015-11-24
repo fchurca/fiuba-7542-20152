@@ -1,6 +1,9 @@
 #include "game_window.h"
 #include "selection_menu.h"
 #include "../parser_yaml/graphics_parser.h"
+
+#include <sstream>
+
 using namespace std;
 
 SelectionMenu::SelectionMenu(GameWindow& owner, GraphicsParser& graphicsParser) :
@@ -18,7 +21,9 @@ void SelectionMenu::visit(Entity& entity) {
 }
 void SelectionMenu::visit(Unit& entity) {
 	visit((Entity&)entity);
-	outText = outText + owner.completeLine("Salud: (--/--)", size.x);
+	stringstream ss;
+	ss << "Salud: " << entity.health.get() << "/" << entity.health.max;
+	outText = outText + owner.completeLine(ss.str().c_str(), size.x);
 }
 void SelectionMenu::visit(Worker& entity) {
 	visit((Unit&)entity);
@@ -26,11 +31,15 @@ void SelectionMenu::visit(Worker& entity) {
 }
 void SelectionMenu::visit(Resource& entity) {
 	visit((Entity&)entity);
-	outText = outText + owner.completeLine("Capacidad: (--/--)", size.x);
+	stringstream ss;
+	ss << "Capacidad: " << entity.cargo.get() << "/" << entity.cargo.max;
+	outText = outText + owner.completeLine(ss.str().c_str(), size.x);
 }
 void SelectionMenu::visit(Building& entity) {
 	visit((Entity&)entity);
-	outText = outText + owner.completeLine("Salud: (--/--)", size.x);
+	stringstream ss;
+	ss << "Salud: " << entity.health.get() << "/" << entity.health.max;
+	outText = outText + owner.completeLine(ss.str().c_str(), size.x);
 }
 void SelectionMenu::visit(UnfinishedBuilding& entity) {
 	visit((Building&)entity);

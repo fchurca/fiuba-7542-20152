@@ -106,24 +106,24 @@ shared_ptr<EntityFactory> ABoard::createEntityFactory(string name, r2 size, doub
 	}else if (behaviour == "terrain") {
 		pFactory = make_shared<TerrainFactory>(name, size, sight_radius, solid, *this);
 	}else if(behaviour == "unit") {
-		pFactory = make_shared<UnitFactory>(name, size, speed, sight_radius, solid, *this);
+		pFactory = make_shared<UnitFactory>(name, size, speed, sight_radius, solid, 100, *this); // TODO: Traer Health
 	 } else if(behaviour == "worker") {
-		pFactory = make_shared<WorkerFactory>(name, size, speed, sight_radius, solid, *this);
+		pFactory = make_shared<WorkerFactory>(name, size, speed, sight_radius, solid, 100, *this); // TODO: Traer Health
 	 } else if(behaviour == "king") {
-		pFactory = make_shared<KingFactory>(name, size, speed, sight_radius, solid, *this);
+		pFactory = make_shared<KingFactory>(name, size, speed, sight_radius, solid, 100, *this); // TODO: Traer Health
 	 } else if (behaviour == "building") {
-		 pFactory = make_shared<BuildingFactory>(name, size, sight_radius, solid, *this);
+		 pFactory = make_shared<BuildingFactory>(name, size, sight_radius, solid, 100, *this); // TODO: Traer Health
 	 } else if(behaviour == "producer_building") {
 	 //TODO: products
-		pFactory = make_shared<ProducerBuildingFactory>(name, size, sight_radius, solid, *this);
+		pFactory = make_shared<ProducerBuildingFactory>(name, size, sight_radius, solid, 100, *this); // TODO: Traer Health
 	 } else if(behaviour == "town_center") {
 	 //TODO: products
-		pFactory = make_shared<TownCenterFactory>(name, size, sight_radius, solid, *this);
+		pFactory = make_shared<TownCenterFactory>(name, size, sight_radius, solid, 100, *this); // TODO: Traer Health
 	 } else if(behaviour == "flag") {
-		pFactory = make_shared<FlagFactory>(name, size, sight_radius, solid, *this);
+		pFactory = make_shared<FlagFactory>(name, size, sight_radius, solid, 100, *this); // TODO: Traer Health
 	 }
 	 else {
-		 pFactory = make_shared<UnitFactory>(name, size, speed, sight_radius, solid, *this);
+		 pFactory = make_shared<UnitFactory>(name, size, speed, sight_radius, solid, 100, *this); // TODO: Traer Health
 	 }
 	entityFactories[name] = pFactory;
 	return pFactory;
