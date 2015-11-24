@@ -135,7 +135,7 @@ class Resource : public Entity {
 		void collide(Resource& other);
 	public:
 		Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity);
-		int capacity;
+		Gauge cargo;
 		virtual void visit(EntityVisitor& v);
 };
 

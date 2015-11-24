@@ -436,7 +436,7 @@ void Terrain::visit(EntityVisitor& e) {
 
 Resource::Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity) :
 	Entity(name, board, owner, position, size, sight_radius, solid),
-	capacity(capacity)
+	cargo(capacity)
 {}
 
 void Resource::update() {
@@ -448,7 +448,7 @@ void Resource::collide(Entity& other) {
 		!other.getDeletable()) {
 		stringstream message;
 		message << "Un " << other.name << " de " << other.owner.name << " encontró" << name;
-		if (other.owner.grantResources(name, capacity)) {
+		if (other.owner.grantResources(name, cargo.get())) {
 			setDeletable();
 			message << "; ahora " << other.owner.name
 				<< " tiene " << other.owner.getResources()[name]

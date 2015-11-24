@@ -12,6 +12,23 @@ double clip(double x, double min, double max);
 double interpolate(double x, double xa, double xb, double ya, double yb);
 
 
+class Gauge {
+	protected:
+		int value;
+		Gauge();
+		void clip();
+	public:
+		const int min;
+		const int max;
+		Gauge(int max);
+		Gauge(int min, int max);
+		Gauge(int min, int max, int value);
+		int get();
+		int inc(int d);
+		int set(int v);
+};
+
+
 class r2 {
 	public:
 		double x;

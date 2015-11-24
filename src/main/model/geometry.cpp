@@ -10,6 +10,40 @@ double interpolate(double x, double xa, double xb, double ya, double yb) {
 	return ya + (yb - ya) * (x - xa) / (xb - xa);
 }
 
+
+Gauge::Gauge() : Gauge(0) {}
+
+Gauge::Gauge(int max) :
+	Gauge(0, max, max)
+{}
+
+Gauge::Gauge(int min, int max) :
+	Gauge(min, max, max)
+{}
+
+Gauge::Gauge(int min, int max, int value) :
+	min(min), max(max), value(value)
+{}
+
+void Gauge::clip() {
+	value = ::min(::max(min, value), max);
+}
+
+int Gauge::get() {
+	return value;
+}
+
+int Gauge::inc(int d) {
+	return set(value + d);
+}
+
+int Gauge::set(int v) {
+	value = v;
+	clip();
+	return value;
+}
+
+
 r2::r2():x(0),y(0){}
 
 r2::r2(double x, double y):x(x),y(y){};
