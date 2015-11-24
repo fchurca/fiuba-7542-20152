@@ -8,6 +8,20 @@
 
 using namespace std;
 
+
+CargoMixin::CargoMixin(int max) :
+	cargo(max)
+{}
+
+CargoMixin::CargoMixin(int max, int value) :
+	cargo(max, value)
+{}
+
+CargoMixin::CargoMixin(int min, int max, int value) :
+	cargo(min, max, value)
+{}
+
+
 Entity::Entity(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid) :
 	position(position),
 	orientation(0),
@@ -436,7 +450,7 @@ void Terrain::visit(EntityVisitor& e) {
 
 Resource::Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity) :
 	Entity(name, board, owner, position, size, sight_radius, solid),
-	cargo(capacity)
+	CargoMixin(capacity)
 {}
 
 void Resource::update() {

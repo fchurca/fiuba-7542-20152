@@ -16,6 +16,16 @@ class ABoard;
 class Resource;
 class EntityVisitor;
 
+
+class CargoMixin {
+	public:
+		Gauge cargo;
+		CargoMixin(int max);
+		CargoMixin(int min, int max);
+		CargoMixin(int min, int max, int value);
+};
+
+
 class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 	protected:
 		r2 position;	// Position (tile)
@@ -128,14 +138,13 @@ class Flag : public Building {
 		virtual void visit(EntityVisitor& v);
 };
 
-class Resource : public Entity {
+class Resource : public Entity , public CargoMixin {
 	protected:
 		void update();
 		void collide(Entity& other);
 		void collide(Resource& other);
 	public:
 		Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity);
-		Gauge cargo;
 		virtual void visit(EntityVisitor& v);
 };
 

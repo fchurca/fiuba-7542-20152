@@ -21,7 +21,7 @@ class Gauge {
 		const int min;
 		const int max;
 		Gauge(int max);
-		Gauge(int min, int max);
+		Gauge(int max, int value);
 		Gauge(int min, int max, int value);
 		int get();
 		int inc(int d);

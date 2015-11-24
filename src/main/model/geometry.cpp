@@ -17,8 +17,8 @@ Gauge::Gauge(int max) :
 	Gauge(0, max, max)
 {}
 
-Gauge::Gauge(int min, int max) :
-	Gauge(min, max, max)
+Gauge::Gauge(int max, int value) :
+	Gauge(0, max, value)
 {}
 
 Gauge::Gauge(int min, int max, int value) :
