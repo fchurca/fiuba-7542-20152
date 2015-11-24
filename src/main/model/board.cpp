@@ -152,7 +152,7 @@ void ABoard::mapEntities(EntityFunction fun) {
 
 std::vector<std::shared_ptr<Entity>> ABoard::selectEntities(EntityPredicate pred) {
 	std::vector<std::shared_ptr<Entity>> ret;
-	mapEntities((EntityFunction)[&ret, pred] (std::shared_ptr<Entity> e) {if (pred(e)) {ret.push_back(e);};});
+	mapEntities([&ret, pred] (std::shared_ptr<Entity> e) {if (pred(e)) {ret.push_back(e);};});
 	return ret;
 }
 
