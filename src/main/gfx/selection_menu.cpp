@@ -50,13 +50,13 @@ void SelectionMenu::draw() {
 	outText = "";
 	SDL_Color colorBlanco = { 255, 255, 255 };
 	if (owner.font) {
-		if (owner.getSelection().size() > 1) {
-			for (auto e : owner.getSelection()) {
+		if (owner.sController->getSelection().size() > 1) {
+			for (auto e : owner.sController->getSelection()) {
 				outText = outText + owner.completeLine(e->name + "(" + e->owner.name + ")", size.x);
 			}
 		}
-		else if (owner.getSelection().size() == 1) {
-			owner.getSelection().at(0)->visit(*this);
+		else if (owner.sController->getSelection().size() == 1) {
+			owner.sController->getSelection().at(0)->visit(*this);
 		}
 		int access3, w3, h3;
 		Uint32 format3;

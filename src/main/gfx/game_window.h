@@ -36,11 +36,8 @@ protected:
 	void scroll();
 	r2 focusPosition;
 	r2 boardMouse;
-
 	void focus(r2 position);
 	void focus();
-	ABoard& board;
-	std::vector<std::shared_ptr<Entity>> selection;
 public:
 	GameWindow(Game& owner, Player& player, GraphicsParser& graphicsParser, RulesetParser& rulesetParser);
 	~GameWindow();
@@ -50,10 +47,8 @@ public:
 	r2 getFocus();
 	int alto_pantalla;
 	int ancho_pantalla;
-	std::vector<std::shared_ptr<Entity>> getSelection();
-	void clearSelection();
 	void setSelection();
-	bool selectionController(Entity& e);
+	ABoard& board;
 	std::shared_ptr<MiniMap> minimap;
 	std::shared_ptr<IsoView> isoview;
 	std::shared_ptr<Menu> menu;

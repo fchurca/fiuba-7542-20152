@@ -44,8 +44,14 @@ void CommandMenu::draw() {
 	outText = "";
 	SDL_Color colorBlanco = { 255, 255, 255 };
 	if (owner.font) {
-		if (owner.getSelection().size() > 0) {
-			owner.getSelection().at(0)->visit(*this);
+		if (owner.sController->getSelection().size() == 1) {
+			owner.sController->getSelection().at(0)->visit(*this);
+		}
+		else if (owner.sController->getSelection().size() > 1) {
+			outText = outText + owner.completeLine("[] Ir", size.x);
+			outText = outText + owner.completeLine("[] Atacar", size.x);
+			outText = outText + owner.completeLine("[] Seguir", size.x);
+			outText = outText + owner.completeLine("[] Parar", size.x);
 		}
 		int access1, w1, h1;
 		Uint32 format1;

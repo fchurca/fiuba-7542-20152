@@ -48,9 +48,6 @@ GameWindow::GameWindow(Game& owner, Player& player, GraphicsParser& graphicsPars
 	SDL_RenderPresent( renderer );
 
 	auto tp = graphicsParser.getPantalla();
-	if(player.entities().size() > 0)
-		selection.push_back(player.entities().at(0));
-	focus();
 	font = TTF_OpenFont(FUENTE_DEFAULT, graphicsParser.getPantalla().size_text);
 	if (!font) {
 		Logger::getInstance()->writeError("Error al abrir TTF");
@@ -65,6 +62,9 @@ GameWindow::GameWindow(Game& owner, Player& player, GraphicsParser& graphicsPars
 	commandMenu = std::make_shared<CommandMenu>(*this, graphicsParser);
 	selectionMenu = std::make_shared<SelectionMenu>(*this, graphicsParser);
 	sController = std::make_shared<SelectionController>(*this);
+	if (player.entities().size() > 0)
+		sController->setSelection(player.entities().at(0));
+	focus();
 	sweeping = false;
 }
 
@@ -82,7 +82,6 @@ GameWindow::~GameWindow() {
 	} else {
 		Logger::getInstance()->writeWarning("Window never initialized");
 	}
-	clearSelection();
 	TTF_CloseFont(font);
 }
 
@@ -110,14 +109,7 @@ void GameWindow::render() {
 }
 
 void GameWindow::update(){
-	int i = 0;
-	for (auto e : getSelection()){
-		if (e->getDeletable()) {
-			selection.erase(selection.begin()+i);
-		}
-		else
-			i++;
-	}
+	sController->update();
 	isoview->update();
 	processInput();
 	render();
@@ -147,8 +139,8 @@ void GameWindow::processInput(){
 							owner.restart();
 						break;
 					case SDLK_s:
-						for (auto e : getSelection()) {
-							if (!chat->typing && selectionController(*e)) {
+						for (auto e : sController->getSelection()) {
+							if (!chat->typing && e->owner.name == player.name) {
 								board.pushCommand(make_shared<StopCommand>(e->getId()));
 							}
 						}
@@ -193,8 +185,8 @@ void GameWindow::processInput(){
 					}
 				if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_RIGHT) {
 					Logger::getInstance()->writeInformation("Boton derecho");
-					for (auto e : getSelection()) {
-						if (selectionController(*e)) {
+					for (auto e : sController->getSelection()) {
+						if (e->owner.name == player.name) {
 							if (!(SDL_GetModState()&KMOD_SHIFT)) {
 								board.pushCommand(make_shared<StopCommand>(e->getId()));
 							}
@@ -241,8 +233,8 @@ void GameWindow::focus(r2 newFocus) {
 }
 
 void GameWindow::focus() {
-	if (getSelection().size() > 0) {
-		focus(getSelection().at(0)->getPosition());
+	if (sController->getSelection().size() > 0) {
+		focus(sController->getSelection().at(0)->getPosition());
 	}
 }
 
@@ -250,26 +242,10 @@ r2 GameWindow::getFocus() {
 	return focusPosition;
 }
 
-std::vector<std::shared_ptr<Entity>> GameWindow::getSelection() {
-	return selection;
-}
-
-void GameWindow::clearSelection() {
-	selection.clear();
-}
-
 void GameWindow::setSelection() {
-	selection.clear();
 	r2 sweepStart = isoview->screenToBoardPosition(mouseDown);
 	r2 sweepEnd = isoview->screenToBoardPosition(mouse);
-	selection = board.selectEntities(rectangle(sweepStart, sweepEnd - sweepStart));
-}
-
-bool GameWindow::selectionController(Entity& e) {
-	if (!(getSelection().size() > 0)) {
-		return false;
-	}
-	return &(e.owner) == &player;
+	sController->setSelection(rectangle(sweepStart, sweepEnd - sweepStart));
 }
 
 std::string GameWindow::completeLine(std::string line, double width) {

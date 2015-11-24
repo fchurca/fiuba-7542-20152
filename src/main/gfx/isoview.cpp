@@ -102,7 +102,7 @@ void IsoView::draw() {
 		}
 	}
 	r2 p, s;
-	for (auto e : owner.getSelection()) {
+	for (auto e : owner.sController->getSelection()) {
 		p = e->getPosition();
 		s = e->size;
 		drawRhombus(p, p + s);

@@ -42,7 +42,7 @@ void MiniMap::draw() {
 				SDL_Color color = this->owner.getColor(e->owner.getId());
 				auto p = this->boardToScreenPosition(e->center()-r2(.5,.5));
 				p.x += d.x; p.y += d.y;
-				for (auto se : owner.getSelection()) {
+				for (auto se : owner.sController->getSelection()) {
 					if (se == e) {
 						color = { 255,255,255 };
 						break;

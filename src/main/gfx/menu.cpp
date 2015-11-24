@@ -28,11 +28,11 @@ void Menu::draw() {
 		}
 
 		//Tercer Columna//
-		for (auto e : owner.getSelection()){
+		for (auto e : owner.sController->getSelection()){
 			terceraColumna = terceraColumna + owner.completeLine(e->name + "(" + e->owner.name + ")", size.x / 2);
 		}
 		int access1, w1, h1, access3, w3, h3;
-		Uint32 format1, format2A, format2I, format3;
+		Uint32 format1, format3;
 		SDL_Surface * c1 = TTF_RenderText_Blended_Wrapped(owner.font, primerColumna.c_str(), colorBlanco, (Uint32)(size.x / 2));
 		SDL_Texture * textureMenu1 = SDL_CreateTextureFromSurface(owner.getRenderer(), c1);
 		SDL_Surface * c3 = TTF_RenderText_Blended_Wrapped(owner.font, terceraColumna.c_str(), colorBlanco, (Uint32)(size.x / 2));
