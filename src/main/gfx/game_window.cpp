@@ -64,7 +64,7 @@ GameWindow::GameWindow(Game& owner, Player& player, GraphicsParser& graphicsPars
 	resourcesList = std::make_shared<ResourcesList>(*this, graphicsParser);
 	commandMenu = std::make_shared<CommandMenu>(*this, graphicsParser);
 	selectionMenu = std::make_shared<SelectionMenu>(*this, graphicsParser);
-	pressedClick = false;
+	sweeping = false;
 }
 
 GameWindow::~GameWindow() {
@@ -98,8 +98,8 @@ void GameWindow::render() {
 	chat->draw(inputText);
 	playersList->draw();
 	resourcesList->draw();
-	if (pressedClick) {
-		r2 boardClick = isoview->screenToBoardPosition(clickMouse);
+	if (isSweeping()) {
+		r2 boardClick = isoview->screenToBoardPosition(mouseDown);
 		r2 boardMouse = isoview->screenToBoardPosition(mouse);
 		isoview->drawRhombus(boardClick, boardMouse);
 	}
@@ -175,8 +175,8 @@ void GameWindow::processInput(){
 				break;
 			case SDL_MOUSEBUTTONDOWN:
 				if (EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_LEFT) {
-					SDL_GetMouseState(&clickMouse.x, &clickMouse.y);
-					pressedClick = true;
+					SDL_GetMouseState(&mouseDown.x, &mouseDown.y);
+					sweeping = true;
 				}
 				break;
 			case SDL_MOUSEBUTTONUP:
@@ -188,7 +188,7 @@ void GameWindow::processInput(){
 				Logger::getInstance()->writeInformation(oss.str().c_str());
 				if (EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_LEFT) {
 						setSelection();
-						pressedClick = false;
+						sweeping = false;
 					}
 				if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_RIGHT) {
 					Logger::getInstance()->writeInformation("Boton derecho");
@@ -259,7 +259,7 @@ void GameWindow::clearSelection() {
 
 void GameWindow::setSelection() {
 	selection.clear();
-	r2 sweepStart = isoview->screenToBoardPosition(clickMouse);
+	r2 sweepStart = isoview->screenToBoardPosition(mouseDown);
 	r2 sweepEnd = isoview->screenToBoardPosition(mouse);
 	selection = board.selectEntities(rectangle(sweepStart, sweepEnd - sweepStart));
 }
@@ -290,5 +290,9 @@ SDL_Color GameWindow::getColor(int id) {
 	Uint8 g = (id & 1) * 255;
 	Uint8 b = (id & 4) * 255;
 	return{ r, g, b };
+}
+
+bool GameWindow::isSweeping() {
+	return (sweeping && (mouse.x != mouseDown.x || mouse.y != mouseDown.y));
 }
 

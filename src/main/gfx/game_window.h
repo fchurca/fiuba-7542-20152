@@ -23,8 +23,8 @@ class GameWindow : public AClient {
 protected:
 	std::string inputText;
 	SDL_Point mouse;
-	SDL_Point clickMouse;
-	bool pressedClick;
+	SDL_Point mouseDown;
+	bool sweeping;
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	unsigned int scroll_speed;
@@ -65,6 +65,7 @@ public:
 	std::string completeLine(std::string line, double width);
 	SDL_Color getColor(int id);
 	SDL_Renderer* getRenderer();
+	bool isSweeping();
 friend SpriteSheet;
 };
 #endif // __GFX_GAMEWINDOW_H__
