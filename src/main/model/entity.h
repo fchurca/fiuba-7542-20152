@@ -2,10 +2,11 @@
 #ifndef _MODEL_ENTITY_H_
 #define _MODEL_ENTITY_H_
 //-----------------------------------------------------------------------------
-#include <string>
 #include <deque>
+#include <string>
 
 #include "../defines/defines.h"
+#include "command.h"
 #include "geometry.h"
 #include "mixins.h"
 #include "player.h"
@@ -40,9 +41,7 @@ class HealthMixin : public EntityMixin {
 class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 	protected:
 		r2 position;	// Position (tile)
-		std::deque<r2> waypoints;
 		bool solid;
-		double orientation;
 		bool adjustPosition();
 		virtual void collide(Entity* other);
 		virtual void collide(Entity& other);
@@ -50,25 +49,18 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 		bool canEnter(rectangle r);
 		bool canEnter(r2 newPosition);
 		void setFrame();
+		double orientation;
 	public:
 		Player& owner;
 		r2 size;
-		virtual void addTarget(r2 newTarget);
-		virtual void unsetTarget();
-		r2 target();
-		bool targeted();
 		const std::string name;
 		ABoard& board;
 		r2 center();
 		int sight_radius;
 		r2 getPosition();
 		void setPosition(r2 newPos);
-		r2 trajectory();
-		double sqDistance();
-		double distance();
 		double getOrientation();
 		void setOrientation(double newOrientation);
-		Directions getDirection();// TODO: Pertenece a vista
 
 		template<typename L> void mapVisible(L fun);
 
@@ -84,18 +76,33 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 		bool operator!=(Entity& other);
 
 		virtual void visit(EntityVisitor& v) = 0;
+		// TODO: Rest of commands
+		virtual void execute(MoveCommand& c);
+		virtual void execute(StopCommand& c);
 };
 
 class Unit : public Entity, public HealthMixin {
 	protected:
+		std::deque<r2> waypoints;
 		double speed;	// Speed (tiles/s)
 		bool isInAction = false;
 	public:
+		r2 trajectory();
+		virtual void addTarget(r2 newTarget);
+		virtual void unsetTarget();
+		double sqDistance();
+		double distance();
+		Directions getDirection();// TODO: Pertenece a vista
+		r2 target();
+		bool targeted();
 		Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health);
 		virtual void update();
 		virtual void visit(EntityVisitor& v);
 		bool getIsInAction();
 		virtual ~Unit();
+		// TODO: Rest of commands
+		virtual void execute(MoveCommand& c);
+		virtual void execute(StopCommand& c);
 };
 
 class Worker : public Unit {

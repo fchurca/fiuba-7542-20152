@@ -79,6 +79,104 @@ void Entity::visit(EntityVisitor& e) {
 	e.visit(*this);
 }
 
+void Entity::collide(Entity& other) {}
+
+void Entity::collide(Resource& other) {}
+
+bool Entity::canEnter(rectangle r) {
+	auto& p = r.position;
+	auto& s = r.size;
+	for (int dx = 0; dx < s.x + 1; dx++) {
+		for (int dy = 0; dy < s.y + 1; dy++) {
+			auto t = board.getTerrain(floor(p.x + dx), floor(p.y + dy));
+			if (t) {
+				if (t->solid) {
+					return false;
+				}
+			}
+		}
+	}
+	auto colliders = board.selectEntities([this, r](shared_ptr<Entity> e) {
+		return (*e != *this) &&
+			e->solid &&
+			!e->deletable &&
+			(rectangle(e->position, e->size).intersects(r));
+	});
+	return colliders.size() == 0;
+}
+
+bool Entity::canEnter(r2 newPosition) {
+	auto newCenter = newPosition + size / 2;
+	if (newCenter.x < 0 ||
+		newCenter.y < 0 ||
+		newCenter.x >= board.sizeX ||
+		newCenter.y >= board.sizeY) {
+		return false;
+	}
+	return canEnter(rectangle(newPosition, size));
+}
+
+void Entity::update() {
+}
+
+r2 Entity::center() {
+	return position + (size / 2);
+}
+
+r2 Entity::getPosition() {
+	return position;
+}
+
+void Entity::setPosition(r2 newPos) {
+	position = newPos;
+}
+
+void Entity::setDeletable() {
+	DeletableMixin::setDeletable();
+	setFrame();
+}
+
+void Entity::setFrame() {
+	setFrame(board.getFrame());
+}
+
+void Entity::setFrame(size_t newFrame) {
+	frame = newFrame;
+}
+
+bool Entity::operator==(Entity& other) {
+	return this == &other;
+}
+
+bool Entity::operator!=(Entity& other) {
+	return !operator==(other);
+}
+
+void Entity::collide(Entity* other) {
+	if (other) {
+		if (!deletable &&
+			!other->getDeletable()) {
+			other->collide(*this);
+		}
+	}
+}
+
+double Entity::getOrientation() {
+	return orientation;
+}
+
+void Entity::setOrientation(double newOrientation) {
+	orientation = newOrientation;
+}
+
+// TODO: Rest of commands
+void Entity::execute(MoveCommand& c) {
+}
+
+void Entity::execute(StopCommand& c) {
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////
 // HIC SVNT DRACONES
 ///////////////////////////////////////////////////////////////////////////////
@@ -101,7 +199,7 @@ public:
 	}
 };
 
-void Entity::addTarget(r2 newTarget) {
+void Unit::addTarget(r2 newTarget) {
 	newTarget.x = clip(newTarget.x, 0, board.sizeX);
 	newTarget.y = clip(newTarget.y, 0, board.sizeY);
 	auto round = [](r2 a) {return r2(floor(a.x) + .5, floor(a.y) + .5); };
@@ -180,126 +278,35 @@ void Entity::addTarget(r2 newTarget) {
 	}
 }
 
-void Entity::unsetTarget() {
+void Unit::unsetTarget() {
 	waypoints.clear();
 }
 
-r2 Entity::target() {
+r2 Unit::target() {
 	return waypoints.size() > 0 ?
 		waypoints.front() :
 		r2(0, 0);
 }
 
-bool Entity::targeted() {
+bool Unit::targeted() {
 	return waypoints.size() > 0;
 }
 
-void Entity::collide(Entity* other) {
-	if (other) {
-		if (!deletable &&
-			!other->deletable) {
-			other->collide(*this);
-		}
-	}
-}
-
-void Entity::collide(Entity& other) {}
-
-void Entity::collide(Resource& other) {}
-
-bool Entity::canEnter(rectangle r) {
-	auto& p = r.position;
-	auto& s = r.size;
-	for (int dx = 0; dx < s.x + 1; dx++) {
-		for (int dy = 0; dy < s.y + 1; dy++) {
-			auto t = board.getTerrain(floor(p.x + dx), floor(p.y + dy));
-			if (t) {
-				if (t->solid) {
-					return false;
-				}
-			}
-		}
-	}
-	auto colliders = board.selectEntities([this, r](shared_ptr<Entity> e) {
-		return (*e != *this) &&
-			e->solid &&
-			!e->deletable &&
-			(rectangle(e->position, e->size).intersects(r));
-	});
-	return colliders.size() == 0;
-}
-
-bool Entity::canEnter(r2 newPosition) {
-	auto newCenter = newPosition + size / 2;
-	if (newCenter.x < 0 ||
-		newCenter.y < 0 ||
-		newCenter.x >= board.sizeX ||
-		newCenter.y >= board.sizeY) {
-		return false;
-	}
-	return canEnter(rectangle(newPosition, size));
-}
-
-void Entity::update() {
-}
-
-r2 Entity::center() {
-	return position + (size / 2);
-}
-
-r2 Entity::getPosition() {
-	return position;
-}
-
-void Entity::setPosition(r2 newPos) {
-	position = newPos;
-}
-
-r2 Entity::trajectory() {
+r2 Unit::trajectory() {
 	return target() - center();
 }
 
-double Entity::sqDistance() {
+double Unit::sqDistance() {
 	return trajectory().sqLength();
 }
 
-double Entity::distance() {
+double Unit::distance() {
 	return trajectory().length();
 }
 
-double Entity::getOrientation() {
-	return orientation;
-}
-
-void Entity::setOrientation(double newOrientation) {
-	orientation = newOrientation;
-}
-
-Directions Entity::getDirection() {
+Directions Unit::getDirection() {
 	return static_cast<Directions>((unsigned)floor(4 * orientation / M_PI + .5) % 8);
 }
-
-void Entity::setDeletable() {
-	DeletableMixin::setDeletable();
-	setFrame();
-}
-
-void Entity::setFrame() {
-	setFrame(board.getFrame());
-}
-
-void Entity::setFrame(size_t newFrame) {
-	frame = newFrame;
-}
-
-bool Entity::operator==(Entity& other) {
-	return this == &other;
-}
-
-bool Entity::operator!=(Entity& other) {
-	return !operator==(other);
-}
-
 
 Unit::~Unit() {}
 
@@ -350,6 +357,15 @@ void Unit::update() {
 
 void Unit::visit(EntityVisitor& e) {
 	e.visit(*this);
+}
+
+// TODO: Rest of commands
+void Unit::execute(MoveCommand& c) {
+	addTarget(c.position);
+}
+
+void Unit::execute(StopCommand& c) {
+	unsetTarget();
 }
 
 

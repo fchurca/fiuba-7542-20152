@@ -300,7 +300,7 @@ void SmartBoard::execute(StopCommand& command) {
 	auto e = findEntity(command.entityId);
 	if (e) {
 		if (e->owner.getAlive()) {
-			e->unsetTarget();
+			e->execute(command);
 		}
 	}
 }
@@ -309,7 +309,7 @@ void SmartBoard::execute(MoveCommand& command) {
 	auto e = findEntity(command.entityId);
 	if (e) {
 		if (e->owner.getAlive()) {
-			e->addTarget(command.position);
+			e->execute(command);
 		}
 	}
 }
