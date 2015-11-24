@@ -64,6 +64,7 @@ GameWindow::GameWindow(Game& owner, Player& player, GraphicsParser& graphicsPars
 	resourcesList = std::make_shared<ResourcesList>(*this, graphicsParser);
 	commandMenu = std::make_shared<CommandMenu>(*this, graphicsParser);
 	selectionMenu = std::make_shared<SelectionMenu>(*this, graphicsParser);
+	sController = std::make_shared<SelectionController>(*this);
 	sweeping = false;
 }
 
