@@ -44,7 +44,7 @@ void CommandMenu::draw() {
 	outText = "";
 	SDL_Color colorBlanco = { 255, 255, 255 };
 	if (owner.font) {
-		if (owner.sController->getSelection().size() == 1) {
+		if ((owner.sController->getSelection().size() == 1) && (owner.player.name == owner.sController->getSelection().at(0)->owner.name)){
 			owner.sController->getSelection().at(0)->visit(*this);
 		}
 		else if (owner.sController->getSelection().size() > 1) {
