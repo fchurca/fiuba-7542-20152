@@ -58,7 +58,7 @@ Unit <|-- Worker
 
 Entity o-- Gauge : cooldown
 
-ProducerBuilding o-- ProgressMixin
+ProgressMixin <|-- ProducerBuilding
 
 EntityMixin <|-- ProgressMixin
 ProgressMixin o-- Gauge
@@ -155,6 +155,9 @@ EntityFactory <|-- UnitFactory
 EntityFactory <|-- TerrainFactory
 EntityFactory <|-- BuildingFactory
 EntityFactory <|-- ResourceFactory
+
+TerrainFactory --> Terrain
+
 ResourceFactory --> Resource
 
 UnitFactory <|-- WorkerFactory
