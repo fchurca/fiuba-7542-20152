@@ -149,23 +149,21 @@ void GameWindow::processInput(){
 					{
 						size_t i = e.key.keysym.sym - SDLK_1;
 						if (!chat->typing && commandMenu->showOptions) {
-							//if (commandMenu->isVisibleProducer) {
-							//	auto p = dynamic_cast<Building*>(sController->getSelection().front().get());
-							//	if (p) {
-							//		if (i < p->products.size()) {
-							//			int j = 0;
-							//			for (auto& prod : p->products) {
-							//				if (i == j) {
-							//					board.pushCommand(make_shared<CreateCommand>(p->getId(), prod.first));
-							//					j++;
-							//				}
-							//			}
-							//			
-							//		}
-							//	}	
-							//}
+							if (commandMenu->isVisibleProducer) {
+								auto p = dynamic_cast<Building*>(sController->getSelection().front().get());
+								if (p) {
+									if (i < p->products.size()) {
+										board.pushCommand(std::make_shared<CreateCommand>(p->getId(),p->products[i].name));
+									}
+								}	
+							}
 							if (commandMenu->isVisibleWorker) {
-								//CONSTRUIR PRODUCTO DEL WORKER SELECCIONADO 1.
+								auto w = dynamic_cast<Worker*>(sController->getSelection().front().get());
+								if (w) {
+									if (i < w->products.size()) {
+										board.pushCommand(std::make_shared<CreateCommand>(w->getId(), w->products[i].name));
+									}
+								}
 							}
 						}
 					}
