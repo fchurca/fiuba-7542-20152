@@ -295,9 +295,9 @@ SmartBoard::SmartBoard(Game& game, RulesetParser& rulesetParser, ScenarioParser&
 	}
 
 	// posinicialización
-	for(auto& f : entityFactories) {
-		f.second->populate();
-	}
+	//for(auto& f : entityFactories) {
+	//	f.second->populate();
+	//}
 }
 
 SmartBoard::~SmartBoard() {
