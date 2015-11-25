@@ -69,9 +69,9 @@ void CommandMenu::draw() {
 		}
 		else if (owner.sController->getSelection().size() > 1) {
 			outText = outText + owner.completeLine("[] Ir", size.x);
-			outText = outText + owner.completeLine("[] Atacar", size.x);
-			outText = outText + owner.completeLine("[] Seguir", size.x);
-			outText = outText + owner.completeLine("[] Parar", size.x);
+			outText = outText + owner.completeLine("[a] Atacar", size.x);
+			outText = outText + owner.completeLine("[f] Seguir", size.x);
+			outText = outText + owner.completeLine("[s] Parar", size.x);
 			currentSelection = nullptr;
 			isVisibleUnit = true;
 		}
