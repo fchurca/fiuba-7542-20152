@@ -223,14 +223,19 @@ void GameWindow::processInput(){
 					Logger::getInstance()->writeInformation("Boton derecho");
 					std::shared_ptr<Entity> obj = board.findEntity(rectangle(boardMouse,r2(0,0)));
 					for (auto e : sController->getSelection()) {
-						if (e->owner.name == player.name) {
+						if (e->owner.name == player.name && !obj) {
 							if (!(SDL_GetModState()&KMOD_SHIFT)) {
 								board.pushCommand(make_shared<StopCommand>(e->getId()));
 							}
 							board.pushCommand(make_shared<MoveCommand>(e->getId(), boardMouse));
 						}
+						else {
+							if (e->owner.name == player.name && obj) {
+								std::shared_ptr<Command> command = e->defaultCommand(*obj);
+								board.pushCommand(command);
+							}
+						}
 					}
-					
 				}
 				break;
 		}

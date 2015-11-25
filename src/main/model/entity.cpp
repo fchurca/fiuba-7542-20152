@@ -548,6 +548,78 @@ std::shared_ptr<Command> Entity::defaultCommand(Entity& u) {
 	return nullptr;
 }
 
+std::shared_ptr<Command> Unit::defaultCommand(Entity& u) {
+	if (!deletable &&
+		!u.getDeletable()) {
+		return u.giveDefaultCommand(*this);
+	}
+	return nullptr;
+}
+
+std::shared_ptr<Command> Worker::defaultCommand(Entity& u) {
+	if (!deletable &&
+		!u.getDeletable()) {
+		return u.giveDefaultCommand(*this);
+	}
+	return nullptr;
+}
+
+std::shared_ptr<Command> King::defaultCommand(Entity& u) {
+	if (!deletable &&
+		!u.getDeletable()) {
+		return u.giveDefaultCommand(*this);
+	}
+	return nullptr;
+}
+
+std::shared_ptr<Command> Building::defaultCommand(Entity& u) {
+	if (!deletable &&
+		!u.getDeletable()) {
+		return u.giveDefaultCommand(*this);
+	}
+	return nullptr;
+}
+
+std::shared_ptr<Command> TownCenter::defaultCommand(Entity& u) {
+	if (!deletable &&
+		!u.getDeletable()) {
+		return u.giveDefaultCommand(*this);
+	}
+	return nullptr;
+}
+
+std::shared_ptr<Command> UnfinishedBuilding::defaultCommand(Entity& u) {
+	if (!deletable &&
+		!u.getDeletable()) {
+		return u.giveDefaultCommand(*this);
+	}
+	return nullptr;
+}
+
+std::shared_ptr<Command> Terrain::defaultCommand(Entity& u) {
+	if (!deletable &&
+		!u.getDeletable()) {
+		return u.giveDefaultCommand(*this);
+	}
+	return nullptr;
+}
+
+std::shared_ptr<Command> Resource::defaultCommand(Entity& u) {
+	if (!deletable &&
+		!u.getDeletable()) {
+		return u.giveDefaultCommand(*this);
+	}
+	return nullptr;
+}
+
+std::shared_ptr<Command> Flag::defaultCommand(Entity& u) {
+	if (!deletable &&
+		!u.getDeletable()) {
+		return u.giveDefaultCommand(*this);
+	}
+	return nullptr;
+}
+
 std::shared_ptr<Command> Entity::giveDefaultCommand(Entity& u) {
 	return nullptr;
 }
@@ -588,5 +660,29 @@ std::shared_ptr<Command> Entity::giveDefaultCommand(Terrain& r) {
 	return giveDefaultCommand((Entity&)r);
 }
 
-//
+std::shared_ptr<Command> Unit::giveDefaultCommand(Entity& r) {
+	return nullptr;
+}
+
+std::shared_ptr<Command> Unit::giveDefaultCommand(Unit& r) {
+	return giveDefaultCommand((Entity&)r);
+}
+
+std::shared_ptr<Command> Building::giveDefaultCommand(Entity& r) {
+	return nullptr;
+}
+
+std::shared_ptr<Command> Building::giveDefaultCommand(Unit& r) {
+	return giveDefaultCommand((Entity&)r);
+}
+
+std::shared_ptr<Command> Flag::giveDefaultCommand(Entity& r) {
+	return nullptr;
+}
+
+std::shared_ptr<Command> Flag::giveDefaultCommand(Unit& r) {
+	return giveDefaultCommand((Entity&)r);
+}
+
+
 

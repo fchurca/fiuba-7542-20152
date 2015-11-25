@@ -127,6 +127,9 @@ class Unit : public Entity, public HealthMixin {
 		// TODO: Rest of commands
 		virtual void execute(MoveCommand& c);
 		virtual void execute(StopCommand& c);
+		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
+		virtual std::shared_ptr<Command> giveDefaultCommand(Entity& u);
+		virtual std::shared_ptr<Command> giveDefaultCommand(Unit& u);
 };
 
 class Worker : public Unit {
@@ -135,6 +138,7 @@ class Worker : public Unit {
 		Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius, std::vector<Budget> workerProducts);
 		virtual void visit(EntityVisitor& v);
 		std::vector<Budget> products;
+		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
 };
 
 class King : public Unit {
@@ -142,6 +146,7 @@ class King : public Unit {
 		void update();
 		King(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius);
 		virtual void visit(EntityVisitor& v);
+		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
 };
 
 class Building : public Entity, public HealthMixin {
@@ -151,11 +156,15 @@ class Building : public Entity, public HealthMixin {
 		std::vector<Budget> products;
 		virtual void visit(EntityVisitor& v);
 		virtual ~Building();
+		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
+		virtual std::shared_ptr<Command> giveDefaultCommand(Entity& u);
+		virtual std::shared_ptr<Command> giveDefaultCommand(Unit& u);
 };
 
 class UnfinishedBuilding : public Building {
 	public:
 		void update();
+		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
 		UnfinishedBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health);
 		virtual void visit(EntityVisitor& v);
 };
@@ -163,6 +172,7 @@ class UnfinishedBuilding : public Building {
 class TownCenter : public Building {
 	public:
 		void update();
+		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
 		TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::vector<Budget> producerProducts);
 		virtual void visit(EntityVisitor& v);
 };
@@ -172,6 +182,9 @@ class Flag : public Entity, public HealthMixin {
 		void update();
 		Flag(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health);
 		virtual void visit(EntityVisitor& v);
+		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
+		virtual std::shared_ptr<Command> giveDefaultCommand(Entity& u);
+		virtual std::shared_ptr<Command> giveDefaultCommand(Unit& u);
 };
 
 class Resource : public Entity , public CargoMixin {
@@ -183,6 +196,7 @@ class Resource : public Entity , public CargoMixin {
 		const std::string resource_name;
 		Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity, std::string resourceName);
 		virtual void visit(EntityVisitor& v);
+		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
 };
 
 class Terrain : public Entity {
@@ -191,6 +205,7 @@ protected:
 public:
 	Terrain(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid);
 	virtual void visit(EntityVisitor& v);
+	virtual std::shared_ptr<Command> defaultCommand(Entity& other);
 };
 
 
