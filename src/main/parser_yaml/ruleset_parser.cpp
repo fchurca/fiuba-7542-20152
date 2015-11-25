@@ -305,6 +305,14 @@ void RulesetParser::setTipoUnidad(const YAML::Node& node, TagTipoEntidad& tipoEn
 			}
 		}
 		tipoEntidad.products = products;
+		if (!obtenerValorScalarNumericoPositivo(node, "hit_force", tipoEntidad.hit_force)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (hit_force).");
+			tipoEntidad.hit_force = ENTIDAD_DEFAULT_HIT_FORCE;
+		}
+		if (!obtenerValorScalarNumericoPositivo(node, "hit_radius", tipoEntidad.hit_radius)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (hit_radius).");
+			tipoEntidad.hit_radius = ENTIDAD_DEFAULT_HIT_RADIUS;
+		}
 		//DEFAULT NO USA
 		tipoEntidad.solid = true;
 		tipoEntidad.capacity = ENTIDAD_DEFAULT_CAPACITY;
@@ -386,6 +394,8 @@ void RulesetParser::setTipoEstructura(const YAML::Node& node, TagTipoEntidad& ti
 		tipoEntidad.solid = true;
 		tipoEntidad.capacity = ESTRUCTURA_DEFAULT_CAPACITY;
 		tipoEntidad.resource_name = ESTRUCTURA_DEFAULT_RESOURCE_NAME;
+		tipoEntidad.hit_force = ESTRUCTURA_DEFAULT_HIT_FORCE;
+		tipoEntidad.hit_radius = ESTRUCTURA_DEFAULT_HIT_RADIUS;
 	}
 	else {
 		Logger::getInstance()->writeWarning("YAML-CPP:el contenido del tipo de entidad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
@@ -440,6 +450,8 @@ void RulesetParser::setTipoTerreno(const YAML::Node& node, TagTipoEntidad& tipoT
 		tipoTerreno.armour = TERRENO_DEFAULT_ARMOUR;
 		tipoTerreno.products = std::vector<TagProduct>();
 		tipoTerreno.resource_name = TERRENO_DEFAULT_RESOURCE_NAME;
+		tipoTerreno.hit_force = TERRENO_DEFAULT_HIT_FORCE;
+		tipoTerreno.hit_radius = TERRENO_DEFAULT_HIT_RADIUS;
 	}
 	else {
 		Logger::getInstance()->writeWarning("YAML-CPP:El contenido del tipo de terreno ad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
@@ -490,6 +502,8 @@ void RulesetParser::setTipoRecurso(const YAML::Node& node, TagTipoEntidad& tipoR
 		tipoRecurso.health = RECURSO_DEFAULT_HEALTH;
 		tipoRecurso.armour = RECURSO_DEFAULT_ARMOUR;
 		tipoRecurso.products = std::vector<TagProduct>();
+		tipoRecurso.hit_force = RECURSO_DEFAULT_HIT_FORCE;
+		tipoRecurso.hit_radius = RECURSO_DEFAULT_HIT_RADIUS;
 	}
 	else {
 		Logger::getInstance()->writeWarning("YAML-CPP:El contenido del tipo de terreno ad no es del tipo Map. Ubicar" + ubicarNodo(node.GetMark()));
@@ -550,6 +564,8 @@ void RulesetParser::setTipoRecursoDefault(TagTipoEntidad& tipoRecurso, int i) {
 	tipoRecurso.armour = RECURSO_DEFAULT_ARMOUR;
 	tipoRecurso.products = std::vector<TagProduct>();
 	tipoRecurso.resource_name = RECURSO_DEFAULT_RESOURCE_NAME;
+	tipoRecurso.hit_force = RECURSO_DEFAULT_HIT_FORCE;
+	tipoRecurso.hit_radius = RECURSO_DEFAULT_HIT_RADIUS;
 }
 
 void RulesetParser::setTipoTerrenoDefault(TagTipoEntidad& tipoEntidad, int i) {
@@ -574,6 +590,8 @@ void RulesetParser::setTipoTerrenoDefault(TagTipoEntidad& tipoEntidad, int i) {
 	tipoEntidad.armour = TERRENO_DEFAULT_ARMOUR;
 	tipoEntidad.products = std::vector<TagProduct>();
 	tipoEntidad.resource_name = TERRENO_DEFAULT_RESOURCE_NAME;
+	tipoEntidad.hit_force = TERRENO_DEFAULT_HIT_FORCE;
+	tipoEntidad.hit_radius = TERRENO_DEFAULT_HIT_RADIUS;
 }
 
 
@@ -599,6 +617,8 @@ void RulesetParser::setTipoUnidadDefault(TagTipoEntidad& tipoEntidad, int i) {
 	tipoEntidad.armour = ENTIDAD_DEFAULT_ARMOUR;
 	tipoEntidad.products = std::vector<TagProduct>();
 	tipoEntidad.resource_name = ENTIDAD_DEFAULT_RESOURCE_NAME;
+	tipoEntidad.hit_force = ENTIDAD_DEFAULT_HIT_FORCE;
+	tipoEntidad.hit_radius = ENTIDAD_DEFAULT_HIT_RADIUS;
 }
 
 void RulesetParser::setTipoEstructuraDefault(TagTipoEntidad& tipoEntidad, int i) {
@@ -623,4 +643,6 @@ void RulesetParser::setTipoEstructuraDefault(TagTipoEntidad& tipoEntidad, int i)
 	tipoEntidad.armour = ESTRUCTURA_DEFAULT_ARMOUR;
 	tipoEntidad.products = std::vector<TagProduct>();
 	tipoEntidad.resource_name = ESTRUCTURA_DEFAULT_RESOURCE_NAME;
+	tipoEntidad.hit_force = ESTRUCTURA_DEFAULT_HIT_FORCE;
+	tipoEntidad.hit_radius = ESTRUCTURA_DEFAULT_HIT_RADIUS;
 }
