@@ -27,6 +27,6 @@ public:
 	virtual void visit(Entity& e);
 	virtual void visit(Unit& e);
 	virtual void visit(Worker& e);
-	virtual void visit(ProducerBuilding& e);
+	virtual void visit(Building& e);
 };
 #endif // __GFX_COMMAND_MENU_H__

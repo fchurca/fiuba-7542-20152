@@ -125,7 +125,8 @@ class King : public Unit {
 class Building : public Entity, public HealthMixin {
 	public:
 		virtual void update();
-		Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health);
+		Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> producerProducts);
+		std::map<std::string, std::map<std::string, unsigned int>> products;
 		virtual void visit(EntityVisitor& v);
 		virtual ~Building();
 };
@@ -137,23 +138,14 @@ class UnfinishedBuilding : public Building {
 		virtual void visit(EntityVisitor& v);
 };
 
-class ProducerBuilding : public Building { 
-	public:
-		virtual void update();
-		ProducerBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> producerProducts);
-		virtual void visit(EntityVisitor& v);
-		std::map<std::string, std::map<std::string, unsigned int>> products;
-		virtual ~ProducerBuilding();
-};
-
-class TownCenter : public ProducerBuilding {
+class TownCenter : public Building {
 	public:
 		void update();
 		TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> producerProducts);
 		virtual void visit(EntityVisitor& v);
 };
 
-class Flag : public Building {
+class Flag : public Entity, public HealthMixin {
 	public:
 		void update();
 		Flag(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health);
@@ -188,7 +180,6 @@ class EntityVisitor {
 		virtual void visit(King& k);
 		virtual void visit(Building& b);
 		virtual void visit(UnfinishedBuilding& u);
-		virtual void visit(ProducerBuilding& p);
 		virtual void visit(TownCenter& t);
 		virtual void visit(Flag& f);
 		virtual void visit(Resource& r);

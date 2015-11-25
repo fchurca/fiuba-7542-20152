@@ -42,10 +42,7 @@ void HealthBar::visit(Building& entity) {
 	SDL_RenderFillRect(owner.owner.getRenderer(), &lineaSalud);
 }
 
-void HealthBar::visit(ProducerBuilding& entity) {
-	visit((Building&)entity);
-}
-
 void HealthBar::visit(UnfinishedBuilding& entity) {
 	visit((Building&)entity);
 }
+

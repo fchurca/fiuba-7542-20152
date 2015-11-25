@@ -50,7 +50,7 @@ void CommandMenu::visit(Worker& entity) {
 	}
 	isVisibleWorker = true;
 }
-void CommandMenu::visit(ProducerBuilding& entity) {
+void CommandMenu::visit(Building& entity) {
 	if (!showOptions) {
 		visit((Entity&)entity);
 		outText = outText + owner.completeLine("[p] Producir", size.x);
@@ -122,3 +122,4 @@ std::string CommandMenu::intToString(int i) {
 	resultado = aux.str();
 	return resultado;
 }
+
