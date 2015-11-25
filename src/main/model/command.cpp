@@ -32,3 +32,19 @@ InteractionCommand::InteractionCommand(size_t entityId, size_t targetId) :
 
 InteractionCommand::~InteractionCommand() {}
 
+RepairCommand::RepairCommand(size_t entityId, size_t targetId) :
+	InteractionCommand(entityId, targetId)
+{}
+
+void RepairCommand::execute(ABoard& board) {
+//	board.execute(*this); // TODO
+}
+
+AttackCommand::AttackCommand(size_t entityId, size_t targetId) :
+	InteractionCommand(entityId, targetId)
+{}
+
+void AttackCommand::execute(ABoard& board) {
+//	board.execute(*this); // TODO
+}
+

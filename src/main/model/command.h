@@ -42,5 +42,21 @@ class InteractionCommand : public Command {
 		virtual ~InteractionCommand();
 };
 
+class RepairCommand : public InteractionCommand {
+	public:
+		RepairCommand(std::size_t entityId, std::size_t targetId);
+	// Visitor methods for dispatching execute(board, command)
+		void execute(ABoard& board);
+};
+
+class AttackCommand : public InteractionCommand {
+	public:
+		AttackCommand(std::size_t entityId, std::size_t targetId);
+	// TODO: Dispatching react()
+	// Visitor methods for dispatching execute(board, command)
+		void execute(ABoard& board);
+};
+
+
 #endif // _COMMAND_H_
 
