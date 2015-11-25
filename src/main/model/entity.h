@@ -136,7 +136,7 @@ class UnfinishedBuilding : public Building {
 		virtual void visit(EntityVisitor& v);
 };
 
-class ProducerBuilding : public Building { // TODO: products
+class ProducerBuilding : public Building { 
 	public:
 		virtual void update();
 		ProducerBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> producerProducts);
@@ -145,7 +145,7 @@ class ProducerBuilding : public Building { // TODO: products
 		virtual ~ProducerBuilding();
 };
 
-class TownCenter : public ProducerBuilding { // TODO: products
+class TownCenter : public ProducerBuilding {
 	public:
 		void update();
 		TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> producerProducts);
@@ -162,10 +162,11 @@ class Flag : public Building {
 class Resource : public Entity , public CargoMixin {
 	protected:
 		void update();
+		std::string resource_name;
 		void collide(Entity& other);
 		void collide(Resource& other);
 	public:
-		Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity);
+		Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity, std::string resourceName);
 		virtual void visit(EntityVisitor& v);
 };
 

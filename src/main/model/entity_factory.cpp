@@ -104,13 +104,14 @@ std::shared_ptr<Entity> TerrainFactory::createEntity(Player& player, r2 position
 }
 
 
-ResourceFactory::ResourceFactory(std::string name, r2 size, int sight_radius, bool solid, int capacity, ABoard& board) :
+ResourceFactory::ResourceFactory(std::string name, r2 size, int sight_radius, bool solid, int capacity, std::string resourceName, ABoard& board) :
 	EntityFactory(name, size, sight_radius, solid, board),
-	capacity(capacity)
+	capacity(capacity),
+	resource_name(resourceName)
 {}
 
 std::shared_ptr<Entity> ResourceFactory::createEntity(Player& player, r2 position) {
-	return std::make_shared<Resource>(name, board, player, position, size, sight_radius, solid, capacity);
+	return std::make_shared<Resource>(name, board, player, position, size, sight_radius, solid, capacity, resource_name);
 }
 
 void ResourceFactory::populate() {

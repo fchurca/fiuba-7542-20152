@@ -46,7 +46,8 @@ class KingFactory: public UnitFactory {
 class ResourceFactory: public EntityFactory {
 	public:
 		const int capacity;
-		ResourceFactory(std::string name, r2 size, int sight_radius, bool solid, int capacity, ABoard& board);
+		std::string resource_name;
+		ResourceFactory(std::string name, r2 size, int sight_radius, bool solid, int capacity, std::string resource_name, ABoard& board);
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 		void populate();
 };

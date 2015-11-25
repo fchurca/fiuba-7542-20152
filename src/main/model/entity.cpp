@@ -481,9 +481,10 @@ void Terrain::visit(EntityVisitor& e) {
 }
 
 
-Resource::Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity) :
+Resource::Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity, std::string resourceName) :
 	Entity(name, board, owner, position, size, sight_radius, solid),
-	CargoMixin(capacity)
+	CargoMixin(capacity),
+	resource_name(resourceName)
 {}
 
 void Resource::update() {
