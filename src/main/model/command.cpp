@@ -46,6 +46,15 @@ void RepairCommand::execute(ABoard& board) {
 }
 
 
+GatherCommand::GatherCommand(size_t entityId, size_t targetId) :
+	InteractionCommand(entityId, targetId)
+{}
+
+void GatherCommand::execute(ABoard& board) {
+//	board.execute(*this); // TODO
+}
+
+
 AttackCommand::AttackCommand(size_t entityId, size_t targetId) :
 	InteractionCommand(entityId, targetId)
 {}

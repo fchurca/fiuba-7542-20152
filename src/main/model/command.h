@@ -57,6 +57,13 @@ class AttackCommand : public InteractionCommand {
 		void execute(ABoard& board);
 };
 
+class GatherCommand : public InteractionCommand {
+	public:
+		GatherCommand(std::size_t entityId, std::size_t targetId);
+	// Visitor methods for dispatching execute(board, command)
+		void execute(ABoard& board);
+};
+
 class EntityTypeCommand : public Command {
 	public:
 		const std::string entityType;

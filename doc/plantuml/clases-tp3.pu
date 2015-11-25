@@ -103,8 +103,6 @@ Command <|-- EntityTypeCommand
 
 EntityTypeCommand <|-- CreateCommand
 
-Command <|-- GatherCommand
-
 Command <|-- PositionalCommand
 
 PositionalCommand <|-- MoveCommand
@@ -118,6 +116,7 @@ InteractionCommand o-- Entity : object
 
 InteractionCommand <|-- AttackCommand
 InteractionCommand <|-- RepairCommand
+InteractionCommand <|-- GatherCommand
 
 
 package Factories {
