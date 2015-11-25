@@ -26,22 +26,22 @@ ABoard::ABoard(Game& game, RulesetParser& rulesetParser, string name, int sizeX,
 	Logger::getInstance()->writeInformation(message.str());
 	terrain.resize(sizeX * sizeY);
 
-	createEntityFactory(PROTAGONISTA_DEFAULT_NOMBRE, {PROTAGONISTA_DEFAULT_ANCHO_BASE, PROTAGONISTA_DEFAULT_ALTO_BASE}, VELOCIDAD_PERSONAJE_DEFAULT, ENTIDAD_DEFAULT_SIGHT_RADIUS,true, ENTIDAD_DEFAULT_CAPACITY, ENTIDAD_DEFAULT_BEHAVIOUR);
-	createEntityFactory(ENTIDAD_DEFAULT_NOMBRE, {ENTIDAD_DEFAULT_ANCHO_BASE, ENTIDAD_DEFAULT_ALTO_BASE}, ENTIDAD_DEFAULT_SPEED, ENTIDAD_DEFAULT_SIGHT_RADIUS, true, ENTIDAD_DEFAULT_CAPACITY, ENTIDAD_DEFAULT_BEHAVIOUR);
-	createEntityFactory(TERRENO_DEFAULT_NOMBRE, {TERRENO_DEFAULT_ANCHO_BASE, TERRENO_DEFAULT_ALTO_BASE}, TERRENO_DEFAULT_SPEED, TERRENO_DEFAULT_SIGHT_RADIUS, false, TERRENO_DEFAULT_CAPACITY, TERRENO_DEFAULT_BEHAVIOUR);
+	createEntityFactory(PROTAGONISTA_DEFAULT_NOMBRE, {PROTAGONISTA_DEFAULT_ANCHO_BASE, PROTAGONISTA_DEFAULT_ALTO_BASE}, VELOCIDAD_PERSONAJE_DEFAULT, ENTIDAD_DEFAULT_SIGHT_RADIUS,true, ENTIDAD_DEFAULT_CAPACITY, ENTIDAD_DEFAULT_BEHAVIOUR, ENTIDAD_DEFAULT_HEALTH);
+	createEntityFactory(ENTIDAD_DEFAULT_NOMBRE, {ENTIDAD_DEFAULT_ANCHO_BASE, ENTIDAD_DEFAULT_ALTO_BASE}, ENTIDAD_DEFAULT_SPEED, ENTIDAD_DEFAULT_SIGHT_RADIUS, true, ENTIDAD_DEFAULT_CAPACITY, ENTIDAD_DEFAULT_BEHAVIOUR, ENTIDAD_DEFAULT_HEALTH);
+	createEntityFactory(TERRENO_DEFAULT_NOMBRE, {TERRENO_DEFAULT_ANCHO_BASE, TERRENO_DEFAULT_ALTO_BASE}, TERRENO_DEFAULT_SPEED, TERRENO_DEFAULT_SIGHT_RADIUS, false, TERRENO_DEFAULT_CAPACITY, TERRENO_DEFAULT_BEHAVIOUR, TERRENO_DEFAULT_HEALTH);
 	createPlayer(DEFAULT_PLAYER_NAME, false);
 
 	for(auto& t : rulesetParser.getTiposUnidades()) {
-		createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, t.speed, t.sight_radius, t.solid, t.capacity, t.behaviour);
+		createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, t.speed, t.sight_radius, t.solid, t.capacity, t.behaviour, t.health);
 	}
 	for (auto& t : rulesetParser.getTiposEstructuras()) {
-		createEntityFactory(t.nombre, { t.ancho_base, t.alto_base }, t.speed, t.sight_radius, t.solid, t.capacity, t.behaviour);
+		createEntityFactory(t.nombre, { t.ancho_base, t.alto_base }, t.speed, t.sight_radius, t.solid, t.capacity, t.behaviour, t.health);
 	}
 	for(auto& t : rulesetParser.getTiposTerrenos()) {
-		createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, t.speed, t.sight_radius, t.solid, t.capacity, t.behaviour);
+		createEntityFactory(t.nombre, {t.ancho_base, t.alto_base}, t.speed, t.sight_radius, t.solid, t.capacity, t.behaviour, t.health);
 	}
 	for (auto& t : rulesetParser.getTiposRecursos()) {
-		createEntityFactory(t.nombre, { t.ancho_base, t.alto_base }, t.speed, t.sight_radius, t.solid, t.capacity, t.behaviour);
+		createEntityFactory(t.nombre, { t.ancho_base, t.alto_base }, t.speed, t.sight_radius, t.solid, t.capacity, t.behaviour, t.health);
 	}
 	state = BoardState::running;
 }
@@ -99,28 +99,28 @@ shared_ptr<Entity> ABoard::createEntity(string name, string playerName, r2 posit
 	return pEntity;
 }
 
-shared_ptr<EntityFactory> ABoard::createEntityFactory(string name, r2 size, double speed, int sight_radius, bool solid, int capacity, std::string behaviour) {
+shared_ptr<EntityFactory> ABoard::createEntityFactory(string name, r2 size, double speed, int sight_radius, bool solid, int capacity, std::string behaviour, int health) {
 	shared_ptr<EntityFactory> pFactory;
 	if (behaviour == "resource") {
 		pFactory = make_shared<ResourceFactory>(name, size, sight_radius, solid, capacity, *this);
 	}else if (behaviour == "terrain") {
 		pFactory = make_shared<TerrainFactory>(name, size, sight_radius, solid, *this);
 	}else if(behaviour == "unit") {
-		pFactory = make_shared<UnitFactory>(name, size, speed, sight_radius, solid, 100, *this); // TODO: Traer Health
+		pFactory = make_shared<UnitFactory>(name, size, speed, sight_radius, solid, health, *this); 
 	 } else if(behaviour == "worker") {
-		pFactory = make_shared<WorkerFactory>(name, size, speed, sight_radius, solid, 100, *this); // TODO: Traer Health
+		pFactory = make_shared<WorkerFactory>(name, size, speed, sight_radius, solid, health, *this); 
 	 } else if(behaviour == "king") {
-		pFactory = make_shared<KingFactory>(name, size, speed, sight_radius, solid, 100, *this); // TODO: Traer Health
+		pFactory = make_shared<KingFactory>(name, size, speed, sight_radius, solid, health, *this); 
 	 } else if (behaviour == "building") {
-		 pFactory = make_shared<BuildingFactory>(name, size, sight_radius, solid, 100, *this); // TODO: Traer Health
+		 pFactory = make_shared<BuildingFactory>(name, size, sight_radius, solid, health, *this); 
 	 } else if(behaviour == "producer_building") {
 	 //TODO: products
-		pFactory = make_shared<ProducerBuildingFactory>(name, size, sight_radius, solid, 100, *this); // TODO: Traer Health
+		pFactory = make_shared<ProducerBuildingFactory>(name, size, sight_radius, solid, health, *this); 
 	 } else if(behaviour == "town_center") {
 	 //TODO: products
-		pFactory = make_shared<TownCenterFactory>(name, size, sight_radius, solid, 100, *this); // TODO: Traer Health
+		pFactory = make_shared<TownCenterFactory>(name, size, sight_radius, solid, health, *this);
 	 } else if(behaviour == "flag") {
-		pFactory = make_shared<FlagFactory>(name, size, sight_radius, solid, 100, *this); // TODO: Traer Health
+		pFactory = make_shared<FlagFactory>(name, size, sight_radius, solid, health, *this); 
 	 }
 	 else {
 		 pFactory = make_shared<UnitFactory>(name, size, speed, sight_radius, solid, 100, *this); // TODO: Traer Health
