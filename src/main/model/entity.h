@@ -86,6 +86,7 @@ class Unit : public Entity, public HealthMixin {
 		std::deque<r2> waypoints;
 		double speed;	// Speed (tiles/s)
 		bool isInAction = false;
+
 	public:
 		r2 trajectory();
 		virtual void addTarget(r2 newTarget);
@@ -108,8 +109,9 @@ class Unit : public Entity, public HealthMixin {
 class Worker : public Unit {
 	public:
 		void update();
-		Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health);
+		Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> workerProducts);
 		virtual void visit(EntityVisitor& v);
+		std::map<std::string, std::map<std::string, unsigned int>> products;
 };
 
 class King : public Unit {
@@ -137,15 +139,16 @@ class UnfinishedBuilding : public Building {
 class ProducerBuilding : public Building { // TODO: products
 	public:
 		virtual void update();
-		ProducerBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health);
+		ProducerBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> producerProducts);
 		virtual void visit(EntityVisitor& v);
+		std::map<std::string, std::map<std::string, unsigned int>> products;
 		virtual ~ProducerBuilding();
 };
 
 class TownCenter : public ProducerBuilding { // TODO: products
 	public:
 		void update();
-		TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health);
+		TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> producerProducts);
 		virtual void visit(EntityVisitor& v);
 };
 

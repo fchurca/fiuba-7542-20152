@@ -39,12 +39,13 @@ std::shared_ptr<Entity> UnitFactory::createEntity(Player& player, r2 position) {
 }
 
 
-WorkerFactory::WorkerFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int health, ABoard& board) :
-	UnitFactory(name, size, speed, sight_radius, solid, health, board)
+WorkerFactory::WorkerFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> workerProducts , ABoard& board) :
+	UnitFactory(name, size, speed, sight_radius, solid, health, board),
+	products(workerProducts)
 {}
 
 std::shared_ptr<Entity> WorkerFactory::createEntity(Player& player, r2 position) {
-	return std::make_shared<Worker>(name, board, player, position, size, speed, sight_radius, solid, health);
+	return std::make_shared<Worker>(name, board, player, position, size, speed, sight_radius, solid, health, products);
 }
 
 
@@ -67,12 +68,13 @@ std::shared_ptr<Entity> BuildingFactory::createEntity(Player& player, r2 positio
 }
 
 
-ProducerBuildingFactory::ProducerBuildingFactory(std::string name, r2 size, int sight_radius, bool solid, int health, ABoard& board) :
-	BuildingFactory(name, size, sight_radius, solid, health, board)
+ProducerBuildingFactory::ProducerBuildingFactory(std::string name, r2 size, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> producerProducts, ABoard& board) :
+	BuildingFactory(name, size, sight_radius, solid, health, board),
+	products(producerProducts)
 {}
 
 std::shared_ptr<Entity> ProducerBuildingFactory::createEntity(Player& player, r2 position) {
-	return std::make_shared<ProducerBuilding>(name, board, player, position, size, sight_radius, solid, health);
+	return std::make_shared<ProducerBuilding>(name, board, player, position, size, sight_radius, solid, health, products);
 }
 
 
@@ -85,12 +87,12 @@ std::shared_ptr<Entity> FlagFactory::createEntity(Player& player, r2 position) {
 }
 
 
-TownCenterFactory::TownCenterFactory(std::string name, r2 size, int sight_radius, bool solid, int health, ABoard& board) :
-	ProducerBuildingFactory(name, size, sight_radius, solid, health, board)
+TownCenterFactory::TownCenterFactory(std::string name, r2 size, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> producerProducts, ABoard& board) :
+	ProducerBuildingFactory(name, size, sight_radius, solid, health, producerProducts, board)
 {}
 
 std::shared_ptr<Entity> TownCenterFactory::createEntity(Player& player, r2 position) {
-	return std::make_shared<TownCenter>(name, board, player, position, size, sight_radius, solid, health);
+	return std::make_shared<TownCenter>(name, board, player, position, size, sight_radius, solid, health, products);
 }
 
 TerrainFactory::TerrainFactory(std::string name, r2 size, int sight_radius, bool solid, ABoard& board) :

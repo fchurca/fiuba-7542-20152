@@ -32,8 +32,9 @@ class UnitFactory: public EntityFactory {
 
 class WorkerFactory: public UnitFactory {
 	public:
-		WorkerFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int health, ABoard& board);
+		WorkerFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> workerProducts, ABoard& board);
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
+		std::map<std::string, std::map < std::string, unsigned int >> products;
 };
 
 class KingFactory: public UnitFactory {
@@ -69,15 +70,16 @@ class FlagFactory: public BuildingFactory {
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 };
 
-class ProducerBuildingFactory: public BuildingFactory { // TODO: products
+class ProducerBuildingFactory: public BuildingFactory {
 	public:
-		ProducerBuildingFactory(std::string name, r2 size, int sight_radius, bool solid, int health, ABoard& board);
+		ProducerBuildingFactory(std::string name, r2 size, int sight_radius, bool solid, int health, std::map<std::string, std::map < std::string, unsigned int >> producerProducts, ABoard& board);
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
+		std::map<std::string, std::map < std::string, unsigned int >> products;
 };
 
-class TownCenterFactory: public ProducerBuildingFactory { // TODO: products
+class TownCenterFactory: public ProducerBuildingFactory {
 	public:
-		TownCenterFactory(std::string name, r2 size, int sight_radius, bool solid, int health, ABoard& board);
+		TownCenterFactory(std::string name, r2 size, int sight_radius, bool solid, int health, std::map<std::string, std::map < std::string, unsigned int >> producerProducts, ABoard& board);
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 };
 

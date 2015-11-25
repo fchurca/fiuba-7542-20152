@@ -369,8 +369,9 @@ void Unit::execute(StopCommand& c) {
 }
 
 
-Worker::Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health) :
-	Unit(name, board, owner, position, size, speed, sight_radius, solid, health)
+Worker::Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> workerProducts) :
+	Unit(name, board, owner, position, size, speed, sight_radius, solid, health),
+	products(workerProducts)
 {}
 
 void Worker::update() {
@@ -425,8 +426,9 @@ void UnfinishedBuilding::visit(EntityVisitor& e) {
 }
 
 
-ProducerBuilding::ProducerBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health) :
-	Building(name, board, owner, position, size, sight_radius, solid, health)
+ProducerBuilding::ProducerBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> producerProducts) :
+	Building(name, board, owner, position, size, sight_radius, solid, health),
+	products(producerProducts)
 {}
 
 void ProducerBuilding::update() {
@@ -454,8 +456,8 @@ void Flag::visit(EntityVisitor& e) {
 }
 
 
-TownCenter::TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health) :
-	ProducerBuilding(name, board, owner, position, size, sight_radius, solid, health)
+TownCenter::TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> producerProducts) :
+	ProducerBuilding(name, board, owner, position, size, sight_radius, solid, health, producerProducts)
 {}
 
 void TownCenter::update() {

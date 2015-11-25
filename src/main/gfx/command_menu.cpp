@@ -35,8 +35,19 @@ void CommandMenu::visit(Worker& entity) {
 		outText = outText + owner.completeLine("[g] Recolectar", size.x);
 		outText = outText + owner.completeLine("[c] Construir", size.x);
 	}
-	else
-		outText = outText + owner.completeLine("--> [] Posibles edificaciones", size.x);
+	else {
+		if (entity.products.size() < 1) {
+			outText = outText + owner.completeLine("No hay edificaciones disponibles", size.x);
+		}
+		int i = 1;
+		for (auto& p : entity.products) {
+			outText = outText + owner.completeLine("[" + intToString(i) + "] " + p.first, size.x);
+			for (auto& c : p.second) {
+				outText = outText + owner.completeLine("--> Costo: "+ c.first + "=" + intToString((int)c.second), size.x);
+			}
+			i++;
+		}
+	}
 	isVisibleWorker = true;
 }
 void CommandMenu::visit(ProducerBuilding& entity) {
@@ -45,7 +56,17 @@ void CommandMenu::visit(ProducerBuilding& entity) {
 		outText = outText + owner.completeLine("[p] Producir", size.x);
 	}
 	else {
-		outText = outText + owner.completeLine("--> [] Posibles productos", size.x);
+		if (entity.products.size() < 1) {
+			outText = outText + owner.completeLine("No hay productos disponibles", size.x);
+		}
+		int i = 1;
+		for (auto& p : entity.products) {
+			outText = outText + owner.completeLine("[" + intToString(i) + "] " + p.first, size.x);
+			for (auto& c : p.second) {
+				outText = outText + owner.completeLine("--> Costo: " + c.first + "=" + intToString((int)c.second), size.x);
+			}
+			i++;
+		}
 	}
 	isVisibleProducer = true;
 }
@@ -92,4 +113,12 @@ void CommandMenu::draw() {
 		SDL_FreeSurface(c1);
 		SDL_DestroyTexture(textureMenu1);
 	}
+}
+
+std::string CommandMenu::intToString(int i) {
+	string resultado;
+	ostringstream aux;
+	aux << i;
+	resultado = aux.str();
+	return resultado;
 }

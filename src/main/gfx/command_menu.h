@@ -17,6 +17,7 @@ private:
 protected:
 public:
 	void draw();
+	std::string intToString(int i);
 	CommandMenu(GameWindow& owner, GraphicsParser& graphicsParser);
 	~CommandMenu();
 	bool isVisibleWorker;
