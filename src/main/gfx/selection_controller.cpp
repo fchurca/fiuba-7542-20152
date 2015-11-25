@@ -46,9 +46,7 @@ void SelectionController::setSelection(rectangle r) {
 
 void SelectionController::setSelection(std::shared_ptr<Entity> e) {
 	selection.clear();
-	if (owner.player.getVisibility(*e) != INVISIBLE) {
-		selection.push_back(e);
-	}
+	selection.push_back(e);
 }
 
 std::vector<std::shared_ptr<Entity>> SelectionController::getSelection() {
