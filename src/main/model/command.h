@@ -21,9 +21,15 @@ class StopCommand : public Command {
 		void execute(ABoard& board);
 };
 
-class MoveCommand : public Command {
+class PositionalCommand : public Command {
 	public:
+		PositionalCommand(std::size_t entityId, r2 position);
 		const r2 position;
+		virtual ~PositionalCommand();
+};
+
+class MoveCommand : public PositionalCommand {
+	public:
 		MoveCommand(std::size_t entityId, r2 position);
 	// Visitor methods for dispatching execute(board, command)
 		void execute(ABoard& board);
