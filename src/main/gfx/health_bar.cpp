@@ -47,5 +47,5 @@ void HealthBar::visit(ProducerBuilding& entity) {
 }
 
 void HealthBar::visit(UnfinishedBuilding& entity) {
-	visit((Building)entity);
+	visit((Building&)entity);
 }
