@@ -40,9 +40,9 @@ void CommandMenu::visit(Worker& entity) {
 		}
 		int i = 1;
 		for (auto& p : entity.products) {
-			outText = outText + owner.completeLine("[" + intToString(i) + "] " + p.first, size.x);
-			for (auto& c : p.second) {
-				outText = outText + owner.completeLine("--> Costo: "+ c.first + "=" + intToString((int)c.second), size.x);
+			outText = outText + owner.completeLine("[" + intToString(i) + "] " + p.name, size.x);
+			for (auto& c : p.lines) {
+				outText = outText + owner.completeLine("--> Costo: "+ c.resource_name + "=" + intToString((int)c.amount), size.x);
 			}
 			i++;
 		}
@@ -60,9 +60,9 @@ void CommandMenu::visit(Building& entity) {
 		}
 		int i = 1;
 		for (auto& p : entity.products) {
-			outText = outText + owner.completeLine("[" + intToString(i) + "] " + p.first, size.x);
-			for (auto& c : p.second) {
-				outText = outText + owner.completeLine("--> Costo: " + c.first + "=" + intToString((int)c.second), size.x);
+			outText = outText + owner.completeLine("[" + intToString(i) + "] " + p.name, size.x);
+			for (auto& c : p.lines) {
+				outText = outText + owner.completeLine("--> Costo: " + c.resource_name+ "=" + intToString((int)c.amount), size.x);
 			}
 			i++;
 		}

@@ -34,9 +34,9 @@ class UnitFactory: public EntityFactory {
 
 class WorkerFactory: public UnitFactory {
 	public:
-		WorkerFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius, std::map<std::string, std::map<std::string, unsigned int>> workerProducts, ABoard& board);
+		WorkerFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius, std::vector<Budget> workerProducts, ABoard& board);
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
-		std::map<std::string, std::map < std::string, unsigned int >> products;
+		std::vector<Budget> products;
 };
 
 class KingFactory: public UnitFactory {
@@ -63,10 +63,10 @@ public:
 class BuildingFactory: public EntityFactory {
 	public:
 		const int health;
-		BuildingFactory(std::string name, r2 size, int sight_radius, bool solid, int health, std::map<std::string, std::map < std::string, unsigned int >> producerProducts, ABoard& board);
+		BuildingFactory(std::string name, r2 size, int sight_radius, bool solid, int health, std::vector<Budget> producerProducts, ABoard& board);
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 		virtual std::shared_ptr<Entity> createUnfinished(Player& player, r2 position);
-		std::map<std::string, std::map < std::string, unsigned int >> products;
+		std::vector<Budget> products;
 };
 
 
@@ -79,7 +79,7 @@ class FlagFactory: public EntityFactory {
 
 class TownCenterFactory: public BuildingFactory {
 	public:
-		TownCenterFactory(std::string name, r2 size, int sight_radius, bool solid, int health, std::map<std::string, std::map < std::string, unsigned int >> producerProducts, ABoard& board);
+		TownCenterFactory(std::string name, r2 size, int sight_radius, bool solid, int health, std::vector<Budget> producerProducts, ABoard& board);
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 };
 

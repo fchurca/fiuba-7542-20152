@@ -145,15 +145,30 @@ void GameWindow::processInput(){
 					case SDLK_ESCAPE:
 						commandMenu->showOptions = false;
 						break;
-					case SDLK_1:
+					case SDLK_1: case SDLK_2: case SDLK_3: case SDLK_4: case SDLK_5:
+					{
+						size_t i = e.key.keysym.sym - SDLK_1;
 						if (!chat->typing && commandMenu->showOptions) {
-							if (commandMenu->isVisibleProducer) {
-								//SELECCION DEBE PRODUCIR PRODUCTO 1.
-							}
+							//if (commandMenu->isVisibleProducer) {
+							//	auto p = dynamic_cast<Building*>(sController->getSelection().front().get());
+							//	if (p) {
+							//		if (i < p->products.size()) {
+							//			int j = 0;
+							//			for (auto& prod : p->products) {
+							//				if (i == j) {
+							//					board.pushCommand(make_shared<CreateCommand>(p->getId(), prod.first));
+							//					j++;
+							//				}
+							//			}
+							//			
+							//		}
+							//	}	
+							//}
 							if (commandMenu->isVisibleWorker) {
 								//CONSTRUIR PRODUCTO DEL WORKER SELECCIONADO 1.
 							}
 						}
+					}
 						break;
 					case SDLK_r:
 						if(!chat->typing)
