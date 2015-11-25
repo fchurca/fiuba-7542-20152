@@ -482,12 +482,12 @@ void Resource::collide(Entity& other) {
 	if (!getDeletable() &&
 		!other.getDeletable()) {
 		stringstream message;
-		message << "Un " << other.name << " de " << other.owner.name << " encontró" << name;
-		if (other.owner.grantResources(name, cargo.get())) {
+		message << "Un " << other.name << " de " << other.owner.name << " encontró" << resource_name;
+		if (other.owner.grantResources(resource_name, cargo.get())) {
 			setDeletable();
 			message << "; ahora " << other.owner.name
-				<< " tiene " << other.owner.getResources()[name]
-				<< " " << name;
+				<< " tiene " << other.owner.getResources()[resource_name]
+				<< " " << resource_name;
 		}
 		else {
 			message << "; pero no puede tomarlos";
