@@ -8,6 +8,11 @@ CommandMenu::CommandMenu(GameWindow& owner, GraphicsParser& graphicsParser) :
 	offset(0, owner.alto_pantalla - graphicsParser.getPantalla().hud_alto),
 	size((owner.ancho_pantalla-graphicsParser.getPantalla().minimapa_ancho)/2, graphicsParser.getPantalla().hud_alto)
 {
+	isVisibleProducer = false;
+	isVisibleWorker = false;
+	isVisibleUnit = false;
+	showOptions = false;
+	currentSelection = nullptr;
 }
 
 CommandMenu::~CommandMenu() {
@@ -18,21 +23,31 @@ void CommandMenu::visit(Entity& entity) {
 void CommandMenu::visit(Unit& entity) {
 	visit((Entity&)entity);
 	outText = outText + owner.completeLine("[] Ir", size.x);
-	outText = outText + owner.completeLine("[] Atacar", size.x);
-	outText = outText + owner.completeLine("[] Seguir", size.x);
-	outText = outText + owner.completeLine("[] Parar", size.x);
+	outText = outText + owner.completeLine("[a] Atacar", size.x);
+	outText = outText + owner.completeLine("[f] Seguir", size.x);
+	outText = outText + owner.completeLine("[s] Parar", size.x);
+	isVisibleUnit = true;
 }
 void CommandMenu::visit(Worker& entity) {
-	visit((Unit&)entity);
-	outText = outText + owner.completeLine("[] Reparar", size.x);
-	outText = outText + owner.completeLine("[] Recolectar", size.x);
-	outText = outText + owner.completeLine("[] Construir", size.x);
-	outText = outText + owner.completeLine("--> [] Posibles edificaciones", size.x);
+	if (!showOptions) {
+		visit((Unit&)entity);
+		outText = outText + owner.completeLine("[r] Reparar", size.x);
+		outText = outText + owner.completeLine("[g] Recolectar", size.x);
+		outText = outText + owner.completeLine("[c] Construir", size.x);
+	}
+	else
+		outText = outText + owner.completeLine("--> [] Posibles edificaciones", size.x);
+	isVisibleWorker = true;
 }
 void CommandMenu::visit(ProducerBuilding& entity) {
-	visit((Entity&)entity);
-	outText = outText + owner.completeLine("[] Producir", size.x);
-	outText = outText + owner.completeLine("--> [] Posibles productos", size.x);
+	if (!showOptions) {
+		visit((Entity&)entity);
+		outText = outText + owner.completeLine("[p] Producir", size.x);
+	}
+	else {
+		outText = outText + owner.completeLine("--> [] Posibles productos", size.x);
+	}
+	isVisibleProducer = true;
 }
 
 void CommandMenu::draw() {
@@ -41,16 +56,27 @@ void CommandMenu::draw() {
 	SDL_SetRenderDrawColor(owner.getRenderer(), 15, 15, 15, 255);
 	SDL_RenderFillRect(owner.getRenderer(), &destinoFondoMenu);
 	outText = "";
+	isVisibleProducer = false;
+	isVisibleUnit = false;
+	isVisibleWorker = false;
 	SDL_Color colorBlanco = { 255, 255, 255 };
 	if (owner.font) {
 		if ((owner.sController->getSelection().size() == 1) && (owner.player.name == owner.sController->getSelection().at(0)->owner.name)){
+			if (currentSelection != owner.sController->getSelection().at(0))
+				showOptions = false;
 			owner.sController->getSelection().at(0)->visit(*this);
+			currentSelection = owner.sController->getSelection().at(0);
 		}
 		else if (owner.sController->getSelection().size() > 1) {
 			outText = outText + owner.completeLine("[] Ir", size.x);
 			outText = outText + owner.completeLine("[] Atacar", size.x);
 			outText = outText + owner.completeLine("[] Seguir", size.x);
 			outText = outText + owner.completeLine("[] Parar", size.x);
+			currentSelection = nullptr;
+			isVisibleUnit = true;
+		}
+		else {
+			currentSelection = nullptr;
 		}
 		int access1, w1, h1;
 		Uint32 format1;

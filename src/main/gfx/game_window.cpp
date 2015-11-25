@@ -134,6 +134,17 @@ void GameWindow::processInput(){
 			case SDL_KEYDOWN:
 				Logger::getInstance()->writeInformation("Teclado");
 				switch(e.key.keysym.sym) {
+					case SDLK_c:
+						if(commandMenu->isVisibleWorker)
+							commandMenu->showOptions = true;
+						break;
+					case SDLK_p:
+						if(commandMenu->isVisibleProducer)
+							commandMenu->showOptions = true;
+						break;
+					case SDLK_ESCAPE:
+						commandMenu->showOptions = false;
+						break;
 					case SDLK_r:
 						if(!chat->typing)
 							owner.restart();
@@ -166,6 +177,7 @@ void GameWindow::processInput(){
 						break;
 				}
 				break;
+			case SDL_KEYUP:
 			case SDL_MOUSEBUTTONDOWN:
 				if (EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_LEFT) {
 					SDL_GetMouseState(&mouseDown.x, &mouseDown.y);
