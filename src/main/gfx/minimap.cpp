@@ -63,9 +63,9 @@ void MiniMap::draw() {
 }
 
 SDL_Color MiniMap::tmpGetColor(std::string name) {
-	if (name == "agua")
+	if (name == "Agua")
 		return{ 0, 0, 127 };
-	if (name == "piedra")
+	if (name == "Piedra")
 		return{ 127, 127, 127 };
 
 	return{ 0, 127, 0 };
