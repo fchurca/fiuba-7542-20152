@@ -232,7 +232,7 @@ void GameWindow::processInput(){
 						else {
 							if (e->owner.name == player.name && obj) {
 								std::shared_ptr<Command> command = e->defaultCommand(*obj);
-								board.pushCommand(command);
+								//board.pushCommand(command);
 							}
 						}
 					}

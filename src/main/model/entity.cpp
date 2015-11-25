@@ -689,7 +689,7 @@ std::shared_ptr<Command> Flag::giveDefaultCommand(Unit& r) {
 }
 
 std::shared_ptr<Command> Resource::giveDefaultCommand(Worker& r) {
-	return nullptr;
+	return std::make_shared<GatherCommand>(r.getId(), getId());
 }
 
 
