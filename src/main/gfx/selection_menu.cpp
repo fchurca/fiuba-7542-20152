@@ -17,39 +17,35 @@ SelectionMenu::~SelectionMenu() {
 }
 
 void SelectionMenu::visit(Entity& entity) {
-	outText = outText + owner.completeLine(entity.name + "(" + entity.owner.name + ")", size.x);
+	outText += owner.completeLine(entity.name + "(" + entity.owner.name + ")", size.x);
 }
 void SelectionMenu::visit(Unit& entity) {
 	visit((Entity&)entity);
 	stringstream ss;
 	ss << "Salud: " << entity.health.get() << "/" << entity.health.max;
-	outText = outText + owner.completeLine(ss.str().c_str(), size.x);
+	outText += owner.completeLine(ss.str().c_str(), size.x);
 }
 void SelectionMenu::visit(Worker& entity) {
 	visit((Unit&)entity);
-	outText = outText + owner.completeLine("Recursos: (--/--)", size.x);
+	outText += owner.completeLine("Recursos: (--/--)", size.x);
 }
 void SelectionMenu::visit(Resource& entity) {
 	visit((Entity&)entity);
 	stringstream ss;
 	ss << "Capacidad: " << entity.cargo.get() << "/" << entity.cargo.max;
-	outText = outText + owner.completeLine(ss.str().c_str(), size.x);
+	outText += owner.completeLine(ss.str().c_str(), size.x);
 }
 void SelectionMenu::visit(Building& entity) {
 	visit((Entity&)entity);
 	stringstream ss;
 	ss << "Salud: " << entity.health.get() << "/" << entity.health.max;
-	outText = outText + owner.completeLine(ss.str().c_str(), size.x);
+	outText += owner.completeLine(ss.str().c_str(), size.x);
+	outText += owner.completeLine("Produccion: (--/--)", size.x);
 }
 void SelectionMenu::visit(UnfinishedBuilding& entity) {
 	visit((Building&)entity);
-	outText = outText + owner.completeLine("Progreso: (--/--)", size.x);
+	outText += owner.completeLine("Progreso: (--/--)", size.x);
 }
-void SelectionMenu::visit(ProducerBuilding& entity) {
-	visit((Building&)entity);
-	outText = outText + owner.completeLine("Produccion: (--/--)", size.x);
-}
-
 
 void SelectionMenu::draw() {
 	//Dibujo fondo
@@ -61,7 +57,7 @@ void SelectionMenu::draw() {
 	if (owner.font) {
 		if (owner.sController->getSelection().size() > 1) {
 			for (auto e : owner.sController->getSelection()) {
-				outText = outText + owner.completeLine(e->name + "(" + e->owner.name + ")", size.x);
+				outText += owner.completeLine(e->name + "(" + e->owner.name + ")", size.x);
 			}
 		}
 		else if (owner.sController->getSelection().size() == 1) {

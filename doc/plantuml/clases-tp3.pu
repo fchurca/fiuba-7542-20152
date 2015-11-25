@@ -29,8 +29,7 @@ orientation
 strength
 range
 }
-abstract class Building
-class ProducerBuilding {
+class Building {
 products
 current
 }
@@ -44,10 +43,9 @@ class King
 
 Entity <|-- Building
 Entity <|-- Terrain
-Building <|-- Flag
+Entity <|-- Flag
 Building <|-- UnfinishedBuilding
-Building <|-- ProducerBuilding
-ProducerBuilding <|-- TownCenter
+Building <|-- TownCenter
 
 Entity <|-- Resource
 
@@ -58,7 +56,7 @@ Unit <|-- Worker
 
 Entity o-- Gauge : cooldown
 
-ProgressMixin <|-- ProducerBuilding
+ProgressMixin <|-- Building
 
 EntityMixin <|-- ProgressMixin
 ProgressMixin o-- Gauge
@@ -71,6 +69,7 @@ CargoMixin o-- Gauge
 
 HealthMixin <|-- Unit
 HealthMixin <|-- Building
+HealthMixin <|-- Flag
 
 CargoMixin <|-- Resource
 CargoMixin <|-- Worker
@@ -134,8 +133,9 @@ strength
 health
 range
 }
-abstract class BuildingFactory {
+class BuildingFactory {
 health
+products
 }
 class ResourceFactory {
 capacity
@@ -144,9 +144,8 @@ class WorkerFactory {
 capacity
 }
 class KingFactory
-class FlagFactory
-class ProducerBuildingFactory {
-products
+class FlagFactory {
+health
 }
 class TownCenterFactory
 }
@@ -165,11 +164,11 @@ WorkerFactory --> Worker
 UnitFactory <|-- KingFactory
 UnitFactory --> Unit
 KingFactory --> King
-BuildingFactory <|-- FlagFactory
+EntityFactory <|-- FlagFactory
 FlagFactory --> Flag
-BuildingFactory <|-- ProducerBuildingFactory
-ProducerBuildingFactory --> ProducerBuilding
-ProducerBuildingFactory <|-- TownCenterFactory
+BuildingFactory --> Building
+BuildingFactory --> UnfinishedBuilding
+BuildingFactory <|-- TownCenterFactory
 TownCenterFactory --> TownCenter
 
 
@@ -184,7 +183,6 @@ EntityVisitor --> Worker
 EntityVisitor --> King
 EntityVisitor --> Building
 EntityVisitor --> UnfinishedBuilding
-EntityVisitor --> ProducerBuilding
 EntityVisitor --> TownCenter
 EntityVisitor --> Flag
 EntityVisitor --> Resource

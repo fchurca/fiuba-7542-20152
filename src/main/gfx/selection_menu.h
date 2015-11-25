@@ -24,6 +24,5 @@ public:
 	virtual void visit(Resource& e);
 	virtual void visit(Building& e);
 	virtual void visit(UnfinishedBuilding& e);
-	virtual void visit(ProducerBuilding& e);
 };
 #endif // __GFX_SELECTION_MENU_H__

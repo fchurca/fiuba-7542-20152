@@ -396,9 +396,10 @@ void King::visit(EntityVisitor& e) {
 }
 
 
-Building::Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health) :
+Building::Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> producerProducts={}) :
 	Entity(name, board, owner, position, size, sight_radius, solid),
-	HealthMixin(health)
+	HealthMixin(health),
+	products(producerProducts)
 {}
 
 void Building::update() {
@@ -426,29 +427,13 @@ void UnfinishedBuilding::visit(EntityVisitor& e) {
 }
 
 
-ProducerBuilding::ProducerBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> producerProducts) :
-	Building(name, board, owner, position, size, sight_radius, solid, health),
-	products(producerProducts)
-{}
-
-void ProducerBuilding::update() {
-	Building::update();
-}
-
-ProducerBuilding::~ProducerBuilding() {
-}
-
-void ProducerBuilding::visit(EntityVisitor& e) {
-	e.visit(*this);
-}
-
-
 Flag::Flag(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health) :
-	Building(name, board, owner, position, size, sight_radius, solid, health)
+	Entity(name, board, owner, position, size, sight_radius, solid),
+	HealthMixin(health)
 {}
 
 void Flag::update() {
-	Building::update();
+	Entity::update();
 }
 
 void Flag::visit(EntityVisitor& e) {
@@ -457,7 +442,7 @@ void Flag::visit(EntityVisitor& e) {
 
 
 TownCenter::TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> producerProducts) :
-	ProducerBuilding(name, board, owner, position, size, sight_radius, solid, health, producerProducts)
+	Building(name, board, owner, position, size, sight_radius, solid, health, producerProducts)
 {}
 
 void TownCenter::update() {
@@ -536,16 +521,12 @@ void EntityVisitor::visit(UnfinishedBuilding& u) {
 	visit((Building&)u);
 }
 
-void EntityVisitor::visit(ProducerBuilding& p) {
-	visit((Building&)p);
-}
-
 void EntityVisitor::visit(TownCenter& t) {
-	visit((ProducerBuilding&)t);
+	visit((Building&)t);
 }
 
 void EntityVisitor::visit(Flag& f) {
-	visit((Building&)f);
+	visit((Entity&)f);
 }
 
 void EntityVisitor::visit(Resource& r) {

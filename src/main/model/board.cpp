@@ -119,8 +119,9 @@ shared_ptr<EntityFactory> ABoard::createEntityFactory(string name, r2 size, doub
 		pFactory = make_shared<WorkerFactory>(name, size, speed, sight_radius, solid, health, workerProducts, *this); 
 	 } else if(behaviour == "king") {
 		pFactory = make_shared<KingFactory>(name, size, speed, sight_radius, solid, health, *this); 
-	 } else if (behaviour == "building") {
-		 pFactory = make_shared<BuildingFactory>(name, size, sight_radius, solid, health, *this); 
+	 } else if (behaviour == "building") { // TODO: Unificar con producer_building
+		 std::map<std::string, std::map<std::string, unsigned int>> producerProducts;
+		 pFactory = make_shared<BuildingFactory>(name, size, sight_radius, solid, health, producerProducts, *this); 
 	 } else if(behaviour == "producer_building") {
 		 std::map<std::string, std::map<std::string, unsigned int>> producerProducts;
 		 for (auto& p : products) {
@@ -130,7 +131,7 @@ shared_ptr<EntityFactory> ABoard::createEntityFactory(string name, r2 size, doub
 			 }
 			 producerProducts[p.nombre] = productCostos;
 		 }
-		pFactory = make_shared<ProducerBuildingFactory>(name, size, sight_radius, solid, health, producerProducts, *this); 
+		pFactory = make_shared<BuildingFactory>(name, size, sight_radius, solid, health, producerProducts, *this); 
 	 } else if(behaviour == "town_center") {
 		 std::map<std::string, std::map<std::string, unsigned int>> producerProducts;
 		 for (auto& p : products) {

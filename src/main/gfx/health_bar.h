@@ -14,7 +14,6 @@ public:
 	virtual void visit(Entity& e);
 	virtual void visit(Unit& e);
 	virtual void visit(Building& e);
-	virtual void visit(ProducerBuilding& e);
 	virtual void visit(UnfinishedBuilding& e);
 
 };
