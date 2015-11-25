@@ -156,10 +156,10 @@ class Flag : public Entity, public HealthMixin {
 class Resource : public Entity , public CargoMixin {
 	protected:
 		void update();
-		std::string resource_name;
 		void collide(Entity& other);
 		void collide(Resource& other);
 	public:
+		const std::string resource_name;
 		Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity, std::string resourceName);
 		virtual void visit(EntityVisitor& v);
 };
