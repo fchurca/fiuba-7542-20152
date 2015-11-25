@@ -371,7 +371,7 @@ void Unit::execute(StopCommand& c) {
 }
 
 
-Worker::Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius, std::map<std::string, std::map<std::string, unsigned int>> workerProducts) :
+Worker::Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius, std::vector<Budget> workerProducts) :
 	Unit(name, board, owner, position, size, speed, sight_radius, solid, health, hit_force, hit_radius),
 	products(workerProducts)
 {}
@@ -398,7 +398,7 @@ void King::visit(EntityVisitor& e) {
 }
 
 
-Building::Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> producerProducts={}) :
+Building::Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::vector<Budget> producerProducts = {}) :
 	Entity(name, board, owner, position, size, sight_radius, solid),
 	HealthMixin(health),
 	products(producerProducts)
@@ -443,7 +443,7 @@ void Flag::visit(EntityVisitor& e) {
 }
 
 
-TownCenter::TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> producerProducts) :
+TownCenter::TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::vector<Budget> producerProducts) :
 	Building(name, board, owner, position, size, sight_radius, solid, health, producerProducts)
 {}
 

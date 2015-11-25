@@ -10,6 +10,7 @@
 #include "geometry.h"
 #include "mixins.h"
 #include "player.h"
+#include "budget.h"
 
 //-----------------------------------------------------------------------------
 
@@ -110,9 +111,9 @@ class Unit : public Entity, public HealthMixin {
 class Worker : public Unit {
 	public:
 		void update();
-		Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius, std::map<std::string, std::map<std::string, unsigned int>> workerProducts);
+		Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius, std::vector<Budget> workerProducts);
 		virtual void visit(EntityVisitor& v);
-		std::map<std::string, std::map<std::string, unsigned int>> products;
+		std::vector<Budget> products;
 };
 
 class King : public Unit {
@@ -125,8 +126,8 @@ class King : public Unit {
 class Building : public Entity, public HealthMixin {
 	public:
 		virtual void update();
-		Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> producerProducts);
-		std::map<std::string, std::map<std::string, unsigned int>> products;
+		Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::vector<Budget> producerProducts);
+		std::vector<Budget> products;
 		virtual void visit(EntityVisitor& v);
 		virtual ~Building();
 };
@@ -141,7 +142,7 @@ class UnfinishedBuilding : public Building {
 class TownCenter : public Building {
 	public:
 		void update();
-		TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> producerProducts);
+		TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::vector<Budget> producerProducts);
 		virtual void visit(EntityVisitor& v);
 };
 

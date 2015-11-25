@@ -108,35 +108,35 @@ shared_ptr<EntityFactory> ABoard::createEntityFactory(string name, r2 size, doub
 	}else if(behaviour == "unit") {
 		pFactory = make_shared<UnitFactory>(name, size, speed, sight_radius, solid, health, hit_force, hit_radius, *this); 
 	 } else if(behaviour == "worker") {
-		 std::map<std::string, std::map<std::string, unsigned int>> workerProducts;
+		 std::vector<Budget> workerProducts;
 		 for (auto& p : products) {
-			 std::map<std::string, unsigned int> productCostos;
+			 Budget product(p.nombre);
 			 for (auto& c : p.costos) {
-				 productCostos[c.recurso] = c.cantidad;
+				 product.lines.push_back(BudgetLine(c.recurso,c.cantidad));
 			 }
-			 workerProducts[p.nombre] = productCostos;
+			 workerProducts.push_back(product);
 		 }
 		pFactory = make_shared<WorkerFactory>(name, size, speed, sight_radius, solid, health, hit_force, hit_radius, workerProducts, *this);
 	 } else if(behaviour == "king") {
 		pFactory = make_shared<KingFactory>(name, size, speed, sight_radius, solid, health, *this); 
 	 } else if (behaviour == "building") {
-		 std::map<std::string, std::map<std::string, unsigned int>> producerProducts;
+		 std::vector<Budget> producerProducts;
 		 for (auto& p : products) {
-			 std::map<std::string, unsigned int> productCostos;
+			 Budget product(p.nombre);
 			 for (auto& c : p.costos) {
-				 productCostos[c.recurso] = c.cantidad;
+				 product.lines.push_back(BudgetLine(c.recurso, c.cantidad));
 			 }
-			 producerProducts[p.nombre] = productCostos;
+			 producerProducts.push_back(product);
 		 }
 		pFactory = make_shared<BuildingFactory>(name, size, sight_radius, solid, health, producerProducts, *this); 
 	 } else if(behaviour == "town_center") {
-		 std::map<std::string, std::map<std::string, unsigned int>> producerProducts;
+		 std::vector<Budget> producerProducts;
 		 for (auto& p : products) {
-			 std::map<std::string, unsigned int> productCostos;
+			 Budget product(p.nombre);
 			 for (auto& c : p.costos) {
-				 productCostos[c.recurso] = c.cantidad;
+				 product.lines.push_back(BudgetLine(c.recurso, c.cantidad));
 			 }
-			 producerProducts[p.nombre] = productCostos;
+			 producerProducts.push_back(product);
 		 }
 		pFactory = make_shared<TownCenterFactory>(name, size, sight_radius, solid, health, producerProducts, *this);
 	 } else if(behaviour == "flag") {
