@@ -123,7 +123,7 @@ shared_ptr<EntityFactory> ABoard::createEntityFactory(string name, r2 size, doub
 		pFactory = make_shared<FlagFactory>(name, size, sight_radius, solid, health, *this); 
 	 }
 	 else {
-		 pFactory = make_shared<UnitFactory>(name, size, speed, sight_radius, solid, 100, *this); // TODO: Traer Health
+		 pFactory = make_shared<UnitFactory>(name, size, speed, sight_radius, solid, health, *this); 
 	 }
 	entityFactories[name] = pFactory;
 	return pFactory;
