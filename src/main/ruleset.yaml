@@ -1,7 +1,7 @@
 configuracion:
     dt: 20
 tipos_unidades:
-  - nombre: Mago
+  - nombre: Rey
     imagen: resources/mago.png
     ancho_base: 0.5
     alto_base: 0.5
@@ -14,9 +14,38 @@ tipos_unidades:
     cantidad_sprites: 5
     sight_radius: 3
     speed: 3
-    behaviour: worker
+    behaviour: king
     health: 50
     hit_force: 5
+  - nombre: Dragon
+    imagen: resources/dragon.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 30
+    pixel_ref_y: 32
+    fps: 10
+    delay: 0
+    ancho_sprite: 60
+    alto_sprite: 60
+    cantidad_sprites: 5
+    sight_radius: 3
+    speed: 3
+  - nombre: Trabajador
+    imagen: resources/hachero.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 30
+    pixel_ref_y: 32
+    fps: 10
+    delay: 0
+    ancho_sprite: 60
+    alto_sprite: 60
+    cantidad_sprites: 5
+    sight_radius: 3
+    speed: 3
+    behaviour: worker
+    health: 100
+    hit_force: 7
     products:
       - nombre: Porton
         costos:
@@ -40,32 +69,6 @@ tipos_unidades:
             cantidad: 2
           - recurso: Carne
             cantidad: 2
-  - nombre: Dragon
-    imagen: resources/dragon.png
-    ancho_base: 0.5
-    alto_base: 0.5
-    pixel_ref_x: 30
-    pixel_ref_y: 32
-    fps: 10
-    delay: 0
-    ancho_sprite: 60
-    alto_sprite: 60
-    cantidad_sprites: 5
-    sight_radius: 3
-    speed: 3
-  - nombre: Hachero
-    imagen: resources/hachero.png
-    ancho_base: 0.5
-    alto_base: 0.5
-    pixel_ref_x: 30
-    pixel_ref_y: 32
-    fps: 10
-    delay: 0
-    ancho_sprite: 60
-    alto_sprite: 60
-    cantidad_sprites: 5
-    sight_radius: 3
-    speed: 3
   - nombre: Ogro
     imagen: resources/ogro.png
     ancho_base: 0.5
@@ -229,17 +232,6 @@ tipos_estructuras:
     ancho_sprite: 128
     alto_sprite: 128
     cantidad_sprites: 1
-  - nombre: Chancho
-    imagen: resources/chanchos.png
-    ancho_base: 0.5
-    alto_base: 0.5
-    pixel_ref_x: 17
-    pixel_ref_y: 24
-    fps: 20
-    delay: 1
-    ancho_sprite: 48
-    alto_sprite: 44
-    cantidad_sprites: 15
   - nombre: Cartel
     imagen: resources/cartel.png
     ancho_base: 0.5
@@ -264,28 +256,6 @@ tipos_estructuras:
     cantidad_sprites: 1
     behaviour: flag
     sight_radius: 10
-  - nombre: ChanchoDelay
-    imagen: resources/chanchos.png
-    ancho_base: 0.5
-    alto_base: 0.5
-    pixel_ref_x: 17
-    pixel_ref_y: 24
-    fps: 20
-    delay: 2
-    ancho_sprite: 48
-    alto_sprite: 44
-    cantidad_sprites: 15
-  - nombre: Arbol
-    imagen: resources/arbol.png
-    ancho_base: 2
-    alto_base: 2
-    pixel_ref_x: 49
-    pixel_ref_y: 84
-    fps: 0
-    delay: 0
-    ancho_sprite: 88
-    alto_sprite: 143
-    cantidad_sprites: 1
 tipos_terrenos:
   - nombre: Agua
     imagen: resources/agua.png
@@ -316,14 +286,30 @@ tipos_terrenos:
     alto_sprite: 32
     cantidad_sprites: 1
 tipos_recursos:
-  - nombre: Carne
-    imagen: resources/carne.png
-    ancho_base: 1
-    alto_base: 1
-    pixel_ref_x: 32
-    pixel_ref_y: 2
-    ancho_sprite: 64
-    alto_sprite: 32
+  - nombre: Arbol
+    imagen: resources/arbol.png
+    ancho_base: 2
+    alto_base: 2
+    pixel_ref_x: 49
+    pixel_ref_y: 84
+    fps: 0
+    delay: 0
+    ancho_sprite: 88
+    alto_sprite: 143
+    cantidad_sprites: 1
+    capacidad: 100
+    resource_name: Madera
+  - nombre: Chancho
+    imagen: resources/chanchos.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 17
+    pixel_ref_y: 24
+    fps: 20
+    delay: 1
+    ancho_sprite: 48
+    alto_sprite: 44
+    cantidad_sprites: 15
     capacidad: 100
     resource_name: Carne
   - nombre: Oro
@@ -336,16 +322,6 @@ tipos_recursos:
     alto_sprite: 35
     capacidad: 100
     resource_name: Oro
-  - nombre: Madera
-    imagen: resources/madera.png
-    ancho_base: 1
-    alto_base: 1
-    pixel_ref_x: 32
-    pixel_ref_y: 3
-    ancho_sprite: 64
-    alto_sprite: 35
-    capacidad: 100
-    resource_name: Madera
   - nombre: Piedras
     imagen: resources/piedras.png
     ancho_base: 1

@@ -497,7 +497,7 @@ void RulesetParser::setTipoRecurso(const YAML::Node& node, TagTipoEntidad& tipoR
 		tipoRecurso.delay = RECURSO_DEFAULT_DELAY;
 		tipoRecurso.sight_radius = RECURSO_DEFAULT_SIGHT_RADIUS;
 		tipoRecurso.speed = RECURSO_DEFAULT_SPEED;
-		tipoRecurso.solid = false;
+		tipoRecurso.solid = true;
 		tipoRecurso.behaviour = RECURSO_DEFAULT_BEHAVIOUR;
 		tipoRecurso.health = RECURSO_DEFAULT_HEALTH;
 		tipoRecurso.armour = RECURSO_DEFAULT_ARMOUR;
@@ -557,7 +557,7 @@ void RulesetParser::setTipoRecursoDefault(TagTipoEntidad& tipoRecurso, int i) {
 	tipoRecurso.cantidad_sprites = RECURSO_DEFAULT_CANTIDAD_SPRITES;
 	tipoRecurso.sight_radius = RECURSO_DEFAULT_SIGHT_RADIUS;
 	tipoRecurso.speed = RECURSO_DEFAULT_SPEED;
-	tipoRecurso.solid = false;
+	tipoRecurso.solid = true;
 	tipoRecurso.capacity = RECURSO_DEFAULT_CAPACITY;
 	tipoRecurso.behaviour = RECURSO_DEFAULT_BEHAVIOUR;
 	tipoRecurso.health = RECURSO_DEFAULT_HEALTH;
