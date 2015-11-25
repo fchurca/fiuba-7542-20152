@@ -673,11 +673,17 @@ std::shared_ptr<Command> Building::giveDefaultCommand(Entity& r) {
 }
 
 std::shared_ptr<Command> Building::giveDefaultCommand(Unit& r) {
-	return giveDefaultCommand((Entity&)r);
+	if (owner.name != r.owner.name)
+		return std::make_shared<AttackCommand>(r.getId(), getId());
+	else
+		return giveDefaultCommand((Entity&)r);
 }
 
 std::shared_ptr<Command> Building::giveDefaultCommand(Worker& r) {
-	return giveDefaultCommand((Entity&)r);
+	if (owner.name != r.owner.name)
+		return giveDefaultCommand((Unit&)r);
+	else
+		return std::make_shared<RepairCommand>(r.getId(), getId());
 }
 
 std::shared_ptr<Command> Flag::giveDefaultCommand(Entity& r) {
