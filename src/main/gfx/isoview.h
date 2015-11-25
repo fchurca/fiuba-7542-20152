@@ -3,6 +3,7 @@
 #include <string>
 #include <SDL2/SDL.h>
 #include "sprite_sheet.h"
+#include "health_bar.h"
 #include "../model/geometry.h"
 
 class GameWindow;
@@ -13,6 +14,7 @@ private:
 	r2 size;
 	r2 offset;
 	std::map<std::string, std::shared_ptr<SpriteSheet>> spriteSheets;
+	std::shared_ptr<HealthBar> healthBar;
 public:
 	GameWindow& owner;
 	SDL_Point getSize();

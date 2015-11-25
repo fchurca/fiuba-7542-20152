@@ -21,7 +21,6 @@ void CommandMenu::visit(Unit& entity) {
 	outText = outText + owner.completeLine("[] Atacar", size.x);
 	outText = outText + owner.completeLine("[] Seguir", size.x);
 	outText = outText + owner.completeLine("[] Parar", size.x);
-
 }
 void CommandMenu::visit(Worker& entity) {
 	visit((Unit&)entity);

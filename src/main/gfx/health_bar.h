@@ -1,0 +1,17 @@
+#ifndef __GFX_HEALTH_BAR_H__
+#define __GFX_HEALTH_BAR_H__
+#include <string>
+#include "../model/entity.h"
+class IsoView;
+
+class HealthBar : public EntityVisitor {
+private:
+	IsoView& owner;
+protected:
+public:
+	HealthBar(IsoView& owner);
+	~HealthBar();
+	virtual void visit(Entity& e);
+	virtual void visit(Unit& e);
+};
+#endif // __GFX_HEALTH_BAR_H__

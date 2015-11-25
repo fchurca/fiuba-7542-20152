@@ -27,6 +27,8 @@ IsoView::IsoView(GameWindow& owner, RulesetParser& rulesetParser) :
 	for (auto& t : rulesetParser.getTiposRecursos()) {
 		addSpriteSheet(t.nombre, t.imagen, t.pixel_ref_x, t.pixel_ref_y, t.alto_sprite, t.ancho_sprite, t.cantidad_sprites, t.fps, t.delay);
 	}
+
+	healthBar = std::make_shared<HealthBar>(*this);
 }
 
 IsoView::~IsoView() {
@@ -89,16 +91,11 @@ void IsoView::draw() {
 			Logger::getInstance()->writeWarning("No existe SpriteSheet para este tipo de entidad" + e->name);
 			continue;
 		}
-		//it->second->render(*e);
 		e->visit(*(it->second));
 	}
 	for (auto& e : entities) {
 		if (e->owner.name != DEFAULT_PLAYER_NAME && owner.player.getVisibility(*e) != INVISIBLE) {
-			SDL_Color color = owner.getColor(e->owner.getId());
-			SDL_SetRenderDrawColor(owner.getRenderer(), color.r, color.g, color.b, 255);
-			SDL_Point centro = boardToScreenPosition(e->center());
-			SDL_Rect linea = { (int)(centro.x - TILE_WIDTH_DEFAULT / 4), (int)(centro.y), TILE_WIDTH_DEFAULT / 2, 2 };
-			SDL_RenderFillRect(owner.getRenderer(), &linea);
+			e->visit(*healthBar);
 		}
 	}
 	r2 p, s;
