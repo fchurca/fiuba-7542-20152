@@ -35,5 +35,12 @@ class MoveCommand : public PositionalCommand {
 		void execute(ABoard& board);
 };
 
+class InteractionCommand : public Command {
+	public:
+		const std::size_t targetId;
+		InteractionCommand(std::size_t entityId, std::size_t targetId);
+		virtual ~InteractionCommand();
+};
+
 #endif // _COMMAND_H_
 

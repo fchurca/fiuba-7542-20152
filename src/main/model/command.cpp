@@ -25,3 +25,10 @@ void MoveCommand::execute(ABoard& board) {
 	board.execute(*this);
 }
 
+InteractionCommand::InteractionCommand(size_t entityId, size_t targetId) :
+	Command(entityId),
+	targetId(targetId)
+{}
+
+InteractionCommand::~InteractionCommand() {}
+
