@@ -71,5 +71,12 @@ class BuildCommand : public PositionalCommand, public EntityTypeCommand {
 		void execute(ABoard& board);
 };
 
+class CreateCommand : public EntityTypeCommand {
+	public:
+		CreateCommand(std::size_t entityId, std::string entityType);
+	// Visitor methods for dispatching execute(board, command)
+		void execute(ABoard& board);
+};
+
 #endif // _COMMAND_H_
 
