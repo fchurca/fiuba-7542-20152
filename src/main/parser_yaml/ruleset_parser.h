@@ -38,6 +38,8 @@ struct TagTipoEntidad {
 	unsigned int armour;
 	std::vector<TagProduct> products;
 	std::string resource_name;
+	unsigned int hit_force;
+	unsigned int hit_radius;
 };
 
 struct TagConfiguracion {
