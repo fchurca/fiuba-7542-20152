@@ -15,6 +15,8 @@ tipos_unidades:
     sight_radius: 3
     speed: 3
     behaviour: worker
+    health: 50
+    hit_force: 5
     products:
       - nombre: Porton
         costos:

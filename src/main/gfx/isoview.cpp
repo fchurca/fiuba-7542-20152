@@ -42,6 +42,7 @@ SDL_Point IsoView::getSize() {
 void IsoView::draw() {
 	SDL_SetRenderDrawColor(owner.getRenderer(), 0, 0, 0, 255);
 	SDL_RenderClear(owner.getRenderer());
+	drawRhombus(r2(0, 0), r2(owner.board.sizeX, owner.board.sizeY));
 	// Dibujamos el terreno
 	r2 margin(1, 1),
 		ul = screenToBoardPosition({ 0, 0 }) - margin, // Upper Left

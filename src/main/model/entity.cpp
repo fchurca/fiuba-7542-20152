@@ -310,10 +310,12 @@ Directions Unit::getDirection() {
 
 Unit::~Unit() {}
 
-Unit::Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health) :
+Unit::Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hitforce, unsigned int hitradius) :
 	Entity(name, board, owner, position, size, sight_radius, solid),
 	HealthMixin(health),
-	speed(speed)
+	speed(speed),
+	hit_force(hitforce),
+	hit_radius(hitradius)
 {}
 
 bool Unit::getIsInAction() {
@@ -369,8 +371,8 @@ void Unit::execute(StopCommand& c) {
 }
 
 
-Worker::Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> workerProducts) :
-	Unit(name, board, owner, position, size, speed, sight_radius, solid, health),
+Worker::Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius, std::map<std::string, std::map<std::string, unsigned int>> workerProducts) :
+	Unit(name, board, owner, position, size, speed, sight_radius, solid, health, hit_force, hit_radius),
 	products(workerProducts)
 {}
 
@@ -383,8 +385,8 @@ void Worker::visit(EntityVisitor& e) {
 }
 
 
-King::King(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health) :
-	Unit(name, board, owner, position, size, speed, sight_radius, solid, health)
+King::King(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius) :
+	Unit(name, board, owner, position, size, speed, sight_radius, solid, health, hit_force, hit_radius)
 {}
 
 void King::update() {

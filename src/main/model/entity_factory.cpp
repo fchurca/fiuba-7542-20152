@@ -28,33 +28,35 @@ void EntityFactory::populate() {
 }
 
 
-UnitFactory::UnitFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int health, ABoard& board) :
+UnitFactory::UnitFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hitforce, unsigned int hitradius, ABoard& board) :
 	EntityFactory(name, size, sight_radius, solid, board),
 	speed(speed),
-	health(health)
+	health(health),
+	hit_force(hitforce),
+	hit_radius(hitradius)
 {}
 
 std::shared_ptr<Entity> UnitFactory::createEntity(Player& player, r2 position) {
-	return std::make_shared<Unit>(name, board, player, position, size, speed, sight_radius, solid, health);
+	return std::make_shared<Unit>(name, board, player, position, size, speed, sight_radius, solid, health, hit_force, hit_radius);
 }
 
 
-WorkerFactory::WorkerFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> workerProducts , ABoard& board) :
-	UnitFactory(name, size, speed, sight_radius, solid, health, board),
+WorkerFactory::WorkerFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius, std::map<std::string, std::map<std::string, unsigned int>> workerProducts , ABoard& board) :
+	UnitFactory(name, size, speed, sight_radius, solid, health, hit_force, hit_radius, board),
 	products(workerProducts)
 {}
 
 std::shared_ptr<Entity> WorkerFactory::createEntity(Player& player, r2 position) {
-	return std::make_shared<Worker>(name, board, player, position, size, speed, sight_radius, solid, health, products);
+	return std::make_shared<Worker>(name, board, player, position, size, speed, sight_radius, solid, health, hit_force, hit_radius, products);
 }
 
 
 KingFactory::KingFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int health, ABoard& board) :
-	UnitFactory(name, size, speed, sight_radius, solid, health, board)
+	UnitFactory(name, size, speed, sight_radius, solid, health, 0, 0, board)
 {}
 
 std::shared_ptr<Entity> KingFactory::createEntity(Player& player, r2 position) {
-	return std::make_shared<King>(name, board, player, position, size, speed, sight_radius, solid, health);
+	return std::make_shared<King>(name, board, player, position, size, speed, sight_radius, solid, health, hit_force, hit_radius);
 }
 
 
