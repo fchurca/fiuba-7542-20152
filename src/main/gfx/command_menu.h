@@ -13,11 +13,16 @@ private:
 	r2 size;
 	r2 offset;
 	std::string outText;
+	std::shared_ptr<Entity> currentSelection;
 protected:
 public:
 	void draw();
 	CommandMenu(GameWindow& owner, GraphicsParser& graphicsParser);
 	~CommandMenu();
+	bool isVisibleWorker;
+	bool isVisibleUnit;
+	bool isVisibleProducer;
+	bool showOptions;
 	virtual void visit(Entity& e);
 	virtual void visit(Unit& e);
 	virtual void visit(Worker& e);
