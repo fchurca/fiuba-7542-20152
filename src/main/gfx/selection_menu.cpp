@@ -24,6 +24,9 @@ void SelectionMenu::visit(Unit& entity) {
 	stringstream ss;
 	ss << "Salud: " << entity.health.get() << "/" << entity.health.max;
 	outText = outText + owner.completeLine(ss.str().c_str(), size.x);
+	stringstream sf;
+	sf << "Fuerza: " << entity.hit_force;
+	outText = outText + owner.completeLine(sf.str().c_str(), size.x);
 }
 void SelectionMenu::visit(Worker& entity) {
 	visit((Unit&)entity);

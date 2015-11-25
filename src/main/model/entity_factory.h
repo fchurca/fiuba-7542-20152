@@ -26,13 +26,15 @@ class UnitFactory: public EntityFactory {
 	public:
 		const double speed;
 		const int health;
-		UnitFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int health, ABoard& board);
+		unsigned int hit_force;
+		unsigned int hit_radius;
+		UnitFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius, ABoard& board);
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 };
 
 class WorkerFactory: public UnitFactory {
 	public:
-		WorkerFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> workerProducts, ABoard& board);
+		WorkerFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius, std::map<std::string, std::map<std::string, unsigned int>> workerProducts, ABoard& board);
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 		std::map<std::string, std::map < std::string, unsigned int >> products;
 };

@@ -86,8 +86,9 @@ class Unit : public Entity, public HealthMixin {
 		std::deque<r2> waypoints;
 		double speed;	// Speed (tiles/s)
 		bool isInAction = false;
-
 	public:
+		unsigned int hit_force;
+		unsigned int hit_radius;
 		r2 trajectory();
 		virtual void addTarget(r2 newTarget);
 		virtual void unsetTarget();
@@ -96,7 +97,7 @@ class Unit : public Entity, public HealthMixin {
 		Directions getDirection();// TODO: Pertenece a vista
 		r2 target();
 		bool targeted();
-		Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health);
+		Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius);
 		virtual void update();
 		virtual void visit(EntityVisitor& v);
 		bool getIsInAction();
@@ -109,7 +110,7 @@ class Unit : public Entity, public HealthMixin {
 class Worker : public Unit {
 	public:
 		void update();
-		Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, std::map<std::string, std::map<std::string, unsigned int>> workerProducts);
+		Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius, std::map<std::string, std::map<std::string, unsigned int>> workerProducts);
 		virtual void visit(EntityVisitor& v);
 		std::map<std::string, std::map<std::string, unsigned int>> products;
 };
@@ -117,7 +118,7 @@ class Worker : public Unit {
 class King : public Unit {
 	public:
 		void update();
-		King(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health);
+		King(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius);
 		virtual void visit(EntityVisitor& v);
 };
 
