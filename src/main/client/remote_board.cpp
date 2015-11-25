@@ -194,6 +194,55 @@ void RemoteBoard::execute(MoveCommand& command) {
 	flushOut();
 }
 
+void RemoteBoard::execute(BuildCommand& command) {
+	auto e = findEntity(command.entityId);
+	if (e) {
+		if (e->owner.getAlive()) {
+			//e->execute(command); // TODO
+		}
+	}
+}
+
+
+void RemoteBoard::execute(CreateCommand& command) {
+	auto e = findEntity(command.entityId);
+	if (e) {
+		if (e->owner.getAlive()) {
+			//e->execute(command); // TODO
+		}
+	}
+}
+
+
+void RemoteBoard::execute(GatherCommand& command) {
+	auto e = findEntity(command.entityId);
+	if (e) {
+		if (e->owner.getAlive()) {
+			//e->execute(command); // TODO
+		}
+	}
+}
+
+
+void RemoteBoard::execute(AttackCommand& command) {
+	auto e = findEntity(command.entityId);
+	if (e) {
+		if (e->owner.getAlive()) {
+			//e->execute(command); // TODO
+		}
+	}
+}
+
+
+void RemoteBoard::execute(RepairCommand& command) {
+	auto e = findEntity(command.entityId);
+	if (e) {
+		if (e->owner.getAlive()) {
+			//e->execute(command); // TODO
+		}
+	}
+}
+
 bool RemoteBoard::flushOut() {
 	if(!socket->flushOut()) {
 		return false;

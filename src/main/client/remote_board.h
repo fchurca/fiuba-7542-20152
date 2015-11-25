@@ -21,6 +21,11 @@ class RemoteBoard : public ABoard {
 	// Visited methods for dispatching execute(board, command)
 		void execute(StopCommand& command);
 		void execute(MoveCommand& command);
+		void execute(BuildCommand& command);
+		void execute(CreateCommand& command);
+		void execute(GatherCommand& command);
+		void execute(AttackCommand& command);
+		void execute(RepairCommand& command);
 };
 
 #endif // _MODEL_BOARD_H_

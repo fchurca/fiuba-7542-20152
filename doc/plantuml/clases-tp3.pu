@@ -99,24 +99,26 @@ Command o-- Entity : subject
 
 Command <|-- StopCommand
 
-Command <|-- EntityTypeCommand
-
 EntityTypeCommand <|-- CreateCommand
-
-Command <|-- PositionalCommand
+Command <|-- CreateCommand
 
 PositionalCommand <|-- MoveCommand
+Command <|-- MoveCommand
 
 PositionalCommand <|-- BuildCommand
 EntityTypeCommand <|-- BuildCommand
-
-Command <|-- InteractionCommand
+Command <|-- BuildCommand
 
 InteractionCommand o-- Entity : object
 
 InteractionCommand <|-- AttackCommand
+Command <|-- AttackCommand
+
 InteractionCommand <|-- RepairCommand
+Command <|-- RepairCommand
+
 InteractionCommand <|-- GatherCommand
+Command <|-- GatherCommand
 
 
 package Factories {

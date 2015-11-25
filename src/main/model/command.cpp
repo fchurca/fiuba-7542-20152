@@ -12,8 +12,7 @@ void StopCommand::execute(ABoard& board) {
 }
 
 
-PositionalCommand::PositionalCommand(std::size_t entityId, r2 position) :
-	Command(entityId),
+PositionalCommand::PositionalCommand(r2 position) :
 	position(position)
 {}
 
@@ -21,7 +20,8 @@ PositionalCommand::~PositionalCommand() {}
 
 
 MoveCommand::MoveCommand(size_t entityId, r2 position) :
-	PositionalCommand(entityId, position)
+	Command(entityId),
+	PositionalCommand(position)
 {}
 
 void MoveCommand::execute(ABoard& board) {
@@ -29,8 +29,7 @@ void MoveCommand::execute(ABoard& board) {
 }
 
 
-InteractionCommand::InteractionCommand(size_t entityId, size_t targetId) :
-	Command(entityId),
+InteractionCommand::InteractionCommand(size_t targetId) :
 	targetId(targetId)
 {}
 
@@ -38,34 +37,36 @@ InteractionCommand::~InteractionCommand() {}
 
 
 RepairCommand::RepairCommand(size_t entityId, size_t targetId) :
-	InteractionCommand(entityId, targetId)
+	Command(entityId),
+	InteractionCommand(targetId)
 {}
 
 void RepairCommand::execute(ABoard& board) {
-//	board.execute(*this); // TODO
+	board.execute(*this); // TODO
 }
 
 
 GatherCommand::GatherCommand(size_t entityId, size_t targetId) :
-	InteractionCommand(entityId, targetId)
+	Command(entityId),
+	InteractionCommand(targetId)
 {}
 
 void GatherCommand::execute(ABoard& board) {
-//	board.execute(*this); // TODO
+	board.execute(*this); // TODO
 }
 
 
 AttackCommand::AttackCommand(size_t entityId, size_t targetId) :
-	InteractionCommand(entityId, targetId)
+	Command(entityId),
+	InteractionCommand(targetId)
 {}
 
 void AttackCommand::execute(ABoard& board) {
-//	board.execute(*this); // TODO
+	board.execute(*this); // TODO
 }
 
 
-EntityTypeCommand::EntityTypeCommand(size_t entityId, string entityType) :
-	Command(entityId),
+EntityTypeCommand::EntityTypeCommand(string entityType) :
 	entityType(entityType)
 {}
 
@@ -73,20 +74,22 @@ EntityTypeCommand::~EntityTypeCommand() {}
 
 
 BuildCommand::BuildCommand(size_t entityId, r2 position, string entityType) :
-	PositionalCommand(entityId, position),
-	EntityTypeCommand(entityId, entityType)
+	Command(entityId),
+	PositionalCommand(position),
+	EntityTypeCommand(entityType)
 {}
 
 void BuildCommand::execute(ABoard& board) {
-//	board.execute(*this); // TODO
+	board.execute(*this); // TODO
 }
 
 
 CreateCommand::CreateCommand(size_t entityId, string entityType) :
-	EntityTypeCommand(entityId, entityType)
+	Command(entityId),
+	EntityTypeCommand(entityType)
 {}
 
 void CreateCommand::execute(ABoard& board) {
-//	board.execute(*this); // TODO
+	board.execute(*this); // TODO
 }
 

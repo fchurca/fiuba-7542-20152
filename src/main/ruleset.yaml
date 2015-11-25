@@ -209,7 +209,7 @@ tipos_estructuras:
     ancho_sprite: 128
     alto_sprite: 128
     cantidad_sprites: 1
-    behaviour: producer_building
+    behaviour: building
   - nombre: Establo
     imagen: resources/establo.png
     ancho_base: 2

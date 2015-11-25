@@ -76,6 +76,11 @@ class ABoard : public FrameMixin {
 	// Visited methods for dispatching execute(board, command)
 		virtual void execute(StopCommand& command) = 0;
 		virtual void execute(MoveCommand& command) = 0;
+		virtual void execute(BuildCommand& command) = 0;
+		virtual void execute(CreateCommand& command) = 0;
+		virtual void execute(GatherCommand& command) = 0;
+		virtual void execute(AttackCommand& command) = 0;
+		virtual void execute(RepairCommand& command) = 0;
 };
 
 class SmartBoard : public ABoard {
@@ -90,6 +95,11 @@ class SmartBoard : public ABoard {
 	// Visited methods for dispatching execute(board, command)
 		void execute(StopCommand& command);
 		void execute(MoveCommand& command);
+		void execute(BuildCommand& command);
+		void execute(CreateCommand& command);
+		void execute(GatherCommand& command);
+		void execute(AttackCommand& command);
+		void execute(RepairCommand& command);
 };
 
 //-----------------------------------------------------------------------------

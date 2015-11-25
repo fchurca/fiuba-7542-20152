@@ -119,10 +119,7 @@ shared_ptr<EntityFactory> ABoard::createEntityFactory(string name, r2 size, doub
 		pFactory = make_shared<WorkerFactory>(name, size, speed, sight_radius, solid, health, hit_force, hit_radius, workerProducts, *this);
 	 } else if(behaviour == "king") {
 		pFactory = make_shared<KingFactory>(name, size, speed, sight_radius, solid, health, *this); 
-	 } else if (behaviour == "building") { // TODO: Unificar con producer_building
-		 std::map<std::string, std::map<std::string, unsigned int>> producerProducts;
-		 pFactory = make_shared<BuildingFactory>(name, size, sight_radius, solid, health, producerProducts, *this); 
-	 } else if(behaviour == "producer_building") {
+	 } else if (behaviour == "building") {
 		 std::map<std::string, std::map<std::string, unsigned int>> producerProducts;
 		 for (auto& p : products) {
 			 std::map<std::string, unsigned int> productCostos;
@@ -333,6 +330,55 @@ void SmartBoard::execute(MoveCommand& command) {
 	if (e) {
 		if (e->owner.getAlive()) {
 			e->execute(command);
+		}
+	}
+}
+
+void SmartBoard::execute(BuildCommand& command) {
+	auto e = findEntity(command.entityId);
+	if (e) {
+		if (e->owner.getAlive()) {
+			//e->execute(command); // TODO
+		}
+	}
+}
+
+
+void SmartBoard::execute(CreateCommand& command) {
+	auto e = findEntity(command.entityId);
+	if (e) {
+		if (e->owner.getAlive()) {
+			//e->execute(command); // TODO
+		}
+	}
+}
+
+
+void SmartBoard::execute(GatherCommand& command) {
+	auto e = findEntity(command.entityId);
+	if (e) {
+		if (e->owner.getAlive()) {
+			//e->execute(command); // TODO
+		}
+	}
+}
+
+
+void SmartBoard::execute(AttackCommand& command) {
+	auto e = findEntity(command.entityId);
+	if (e) {
+		if (e->owner.getAlive()) {
+			//e->execute(command); // TODO
+		}
+	}
+}
+
+
+void SmartBoard::execute(RepairCommand& command) {
+	auto e = findEntity(command.entityId);
+	if (e) {
+		if (e->owner.getAlive()) {
+			//e->execute(command); // TODO
 		}
 	}
 }
