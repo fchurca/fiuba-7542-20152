@@ -676,12 +676,20 @@ std::shared_ptr<Command> Building::giveDefaultCommand(Unit& r) {
 	return giveDefaultCommand((Entity&)r);
 }
 
+std::shared_ptr<Command> Building::giveDefaultCommand(Worker& r) {
+	return giveDefaultCommand((Entity&)r);
+}
+
 std::shared_ptr<Command> Flag::giveDefaultCommand(Entity& r) {
 	return nullptr;
 }
 
 std::shared_ptr<Command> Flag::giveDefaultCommand(Unit& r) {
 	return giveDefaultCommand((Entity&)r);
+}
+
+std::shared_ptr<Command> Resource::giveDefaultCommand(Worker& r) {
+	return nullptr;
 }
 
 
