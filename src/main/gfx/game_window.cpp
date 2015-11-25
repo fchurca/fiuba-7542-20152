@@ -101,6 +101,8 @@ void GameWindow::render() {
 	if (isSweeping()) {
 		r2 boardClick = isoview->screenToBoardPosition(mouseDown);
 		r2 boardMouse = isoview->screenToBoardPosition(mouse);
+		Uint8 q = 255;
+		SDL_SetRenderDrawColor(getRenderer(), q, q, q, q);
 		isoview->drawRhombus(boardClick, boardMouse);
 	}
 
@@ -161,7 +163,7 @@ void GameWindow::processInput(){
 								auto w = dynamic_cast<Worker*>(sController->getSelection().front().get());
 								if (w) {
 									if (i < w->products.size()) {
-										board.pushCommand(std::make_shared<CreateCommand>(w->getId(), w->products[i].name));
+										board.pushCommand(std::make_shared<BuildCommand>(w->getId(),r2(mouse.x,mouse.y), w->products[i].name)); // CLikeando y posicionando se hace el comando
 									}
 								}
 							}

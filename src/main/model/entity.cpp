@@ -538,3 +538,55 @@ void EntityVisitor::visit(Resource& r) {
 void EntityVisitor::visit(Terrain& r) {
 	visit((Entity&)r);
 }
+
+//-------------------------------------------------------------------- PARAMETRO SELECCIONADO
+std::shared_ptr<Command> Entity::defaultCommand(Entity& u) {
+	if (!deletable &&
+		!u.getDeletable()) {
+		return u.giveDefaultCommand(*this);
+	}
+	return nullptr;
+}
+
+std::shared_ptr<Command> Entity::giveDefaultCommand(Entity& u) {
+	return nullptr;
+}
+
+std::shared_ptr<Command> Entity::giveDefaultCommand(Unit& u) {
+	return giveDefaultCommand((Entity&)u);
+}
+
+std::shared_ptr<Command> Entity::giveDefaultCommand(Worker& w) {
+	return giveDefaultCommand((Unit&)w);
+}
+
+std::shared_ptr<Command> Entity::giveDefaultCommand(King& k) {
+	return giveDefaultCommand((Unit&)k);
+}
+
+std::shared_ptr<Command> Entity::giveDefaultCommand(Building& b) {
+	return giveDefaultCommand((Entity&)b);
+}
+
+std::shared_ptr<Command> Entity::giveDefaultCommand(UnfinishedBuilding& u) {
+	return giveDefaultCommand((Building&)u);
+}
+
+std::shared_ptr<Command> Entity::giveDefaultCommand(TownCenter& t) {
+	return giveDefaultCommand((Building&)t);
+}
+
+std::shared_ptr<Command> Entity::giveDefaultCommand(Flag& f) {
+	return giveDefaultCommand((Entity&)f);
+}
+
+std::shared_ptr<Command> Entity::giveDefaultCommand(Resource& r) {
+	return giveDefaultCommand((Entity&)r);
+}
+
+std::shared_ptr<Command> Entity::giveDefaultCommand(Terrain& r) {
+	return giveDefaultCommand((Entity&)r);
+}
+
+//
+

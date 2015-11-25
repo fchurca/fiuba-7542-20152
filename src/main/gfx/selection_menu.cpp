@@ -35,7 +35,7 @@ void SelectionMenu::visit(Worker& entity) {
 void SelectionMenu::visit(Resource& entity) {
 	visit((Entity&)entity);
 	stringstream ss;
-	ss << "Capacidad: " << entity.cargo.get() << "/" << entity.cargo.max;
+	ss << entity.resource_name << ": " << entity.cargo.get() << "/" << entity.cargo.max;
 	outText += owner.completeLine(ss.str().c_str(), size.x);
 }
 void SelectionMenu::visit(Building& entity) {

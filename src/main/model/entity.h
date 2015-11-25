@@ -15,7 +15,16 @@
 //-----------------------------------------------------------------------------
 
 class ABoard;
+class Entity;
+class Unit;
+class Worker;
+class King;
+class Flag;
+class Building;
+class TownCenter;
+class UnfinishedBuilding;
 class Resource;
+class Terrain;
 class EntityVisitor;
 
 
@@ -69,6 +78,18 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 		virtual ~Entity();
 
 		virtual void update();
+
+		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
+		virtual std::shared_ptr<Command> giveDefaultCommand(Entity& e);
+		virtual std::shared_ptr<Command> giveDefaultCommand(Unit& u);
+		virtual std::shared_ptr<Command> giveDefaultCommand(Worker& w);
+		virtual std::shared_ptr<Command> giveDefaultCommand(King& k);
+		virtual std::shared_ptr<Command> giveDefaultCommand(Building& b);
+		virtual std::shared_ptr<Command> giveDefaultCommand(UnfinishedBuilding& u);
+		virtual std::shared_ptr<Command> giveDefaultCommand(TownCenter& t);
+		virtual std::shared_ptr<Command> giveDefaultCommand(Flag& f);
+		virtual std::shared_ptr<Command> giveDefaultCommand(Resource& r);
+		virtual std::shared_ptr<Command> giveDefaultCommand(Terrain& t);
 
 		virtual void setDeletable();
 		void setFrame(size_t newFrame);
