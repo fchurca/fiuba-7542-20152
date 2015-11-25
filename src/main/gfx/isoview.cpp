@@ -42,6 +42,8 @@ SDL_Point IsoView::getSize() {
 void IsoView::draw() {
 	SDL_SetRenderDrawColor(owner.getRenderer(), 0, 0, 0, 255);
 	SDL_RenderClear(owner.getRenderer());
+	Uint8 q = 127;
+	SDL_SetRenderDrawColor(owner.getRenderer(), q, q, q, q);
 	drawRhombus(r2(0, 0), r2(owner.board.sizeX, owner.board.sizeY));
 	// Dibujamos el terreno
 	r2 margin(1, 1),
@@ -103,6 +105,8 @@ void IsoView::draw() {
 	for (auto e : owner.sController->getSelection()) {
 		p = e->getPosition();
 		s = e->size;
+		Uint8 q = 255;
+		SDL_SetRenderDrawColor(owner.getRenderer(), q, q, q, q);
 		drawRhombus(p, p + s);
 	}
 }
@@ -156,8 +160,6 @@ SDL_Point IsoView::boardToScreenPosition(r2 boardPos) {
 }
 
 void IsoView::drawRhombus(r2 corner1, r2 corner2) {
-	Uint8 q = 255;
-	SDL_SetRenderDrawColor(owner.getRenderer(), q, q, q, q);
 	SDL_Point points[] = {
 		boardToScreenPosition(corner1),
 		boardToScreenPosition(r2(corner1.x, corner2.y)),

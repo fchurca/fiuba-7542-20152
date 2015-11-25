@@ -22,7 +22,7 @@ void SelectionController::setSelection(rectangle r) {
 	selection.clear();
 	if (!owner.isSweeping()) {
 		std::shared_ptr<Entity> e = owner.board.findEntity(r);
-		if (e) {
+		if (e && owner.player.getVisibility(*e) != INVISIBLE) {
 			selection.push_back(e);
 		}	
 	}
@@ -35,10 +35,10 @@ void SelectionController::setSelection(rectangle r) {
 			for (auto e : entities) {
 				if (e->owner.name == owner.player.name) {
 					e->visit(*this);
-					if (isUnit)
+					if (isUnit && owner.player.getVisibility(*e) != INVISIBLE) {
 						selection.push_back(e);
-				}
-					
+					}
+				}		
 			}
 		}
 	}
@@ -46,7 +46,9 @@ void SelectionController::setSelection(rectangle r) {
 
 void SelectionController::setSelection(std::shared_ptr<Entity> e) {
 	selection.clear();
-	selection.push_back(e);
+	if (owner.player.getVisibility(*e) != INVISIBLE) {
+		selection.push_back(e);
+	}
 }
 
 std::vector<std::shared_ptr<Entity>> SelectionController::getSelection() {

@@ -145,6 +145,16 @@ void GameWindow::processInput(){
 					case SDLK_ESCAPE:
 						commandMenu->showOptions = false;
 						break;
+					case SDLK_1:
+						if (!chat->typing && commandMenu->showOptions) {
+							if (commandMenu->isVisibleProducer) {
+								//SELECCION DEBE PRODUCIR PRODUCTO 1.
+							}
+							if (commandMenu->isVisibleWorker) {
+								//CONSTRUIR PRODUCTO DEL WORKER SELECCIONADO 1.
+							}
+						}
+						break;
 					case SDLK_r:
 						if(!chat->typing)
 							owner.restart();
@@ -196,6 +206,7 @@ void GameWindow::processInput(){
 					}
 				if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_RIGHT) {
 					Logger::getInstance()->writeInformation("Boton derecho");
+					std::shared_ptr<Entity> obj = board.findEntity(rectangle(boardMouse,r2(0,0)));
 					for (auto e : sController->getSelection()) {
 						if (e->owner.name == player.name) {
 							if (!(SDL_GetModState()&KMOD_SHIFT)) {

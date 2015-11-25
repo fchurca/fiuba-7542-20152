@@ -23,16 +23,15 @@ void CommandMenu::visit(Entity& entity) {
 void CommandMenu::visit(Unit& entity) {
 	visit((Entity&)entity);
 	outText = outText + owner.completeLine("[] Ir", size.x);
-	outText = outText + owner.completeLine("[a] Atacar", size.x);
-	outText = outText + owner.completeLine("[f] Seguir", size.x);
+	outText = outText + owner.completeLine("[] Atacar", size.x);
 	outText = outText + owner.completeLine("[s] Parar", size.x);
 	isVisibleUnit = true;
 }
 void CommandMenu::visit(Worker& entity) {
 	if (!showOptions) {
 		visit((Unit&)entity);
-		outText = outText + owner.completeLine("[r] Reparar", size.x);
-		outText = outText + owner.completeLine("[g] Recolectar", size.x);
+		outText = outText + owner.completeLine("[] Reparar", size.x);
+		outText = outText + owner.completeLine("[] Recolectar", size.x);
 		outText = outText + owner.completeLine("[c] Construir", size.x);
 	}
 	else {
@@ -90,8 +89,7 @@ void CommandMenu::draw() {
 		}
 		else if (owner.sController->getSelection().size() > 1) {
 			outText = outText + owner.completeLine("[] Ir", size.x);
-			outText = outText + owner.completeLine("[a] Atacar", size.x);
-			outText = outText + owner.completeLine("[f] Seguir", size.x);
+			outText = outText + owner.completeLine("[] Atacar", size.x);
 			outText = outText + owner.completeLine("[s] Parar", size.x);
 			currentSelection = nullptr;
 			isVisibleUnit = true;
