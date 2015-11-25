@@ -83,17 +83,15 @@ class StopCommand
 abstract class PositionalCommand {
 position
 }
-class CreateCommand {
+abstract class EntityTypeCommand {
 unitType
 }
+class CreateCommand
 class MoveCommand
-class BuildCommand {
-buildingType
-}
+class BuildCommand
 abstract class InteractionCommand
 class AttackCommand
 class RepairCommand
-class FollowCommand
 class GatherCommand
 }
 
@@ -101,14 +99,18 @@ Command o-- Entity : subject
 
 Command <|-- StopCommand
 
-Command <|-- CreateCommand
+Command <|-- EntityTypeCommand
+
+EntityTypeCommand <|-- CreateCommand
 
 Command <|-- GatherCommand
 
 Command <|-- PositionalCommand
 
 PositionalCommand <|-- MoveCommand
+
 PositionalCommand <|-- BuildCommand
+EntityTypeCommand <|-- BuildCommand
 
 Command <|-- InteractionCommand
 
@@ -116,7 +118,6 @@ InteractionCommand o-- Entity : object
 
 InteractionCommand <|-- AttackCommand
 InteractionCommand <|-- RepairCommand
-InteractionCommand <|-- FollowCommand
 
 
 package Factories {

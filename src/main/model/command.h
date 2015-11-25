@@ -57,6 +57,19 @@ class AttackCommand : public InteractionCommand {
 		void execute(ABoard& board);
 };
 
+class EntityTypeCommand : public Command {
+	public:
+		const std::string entityType;
+		EntityTypeCommand(std::size_t entityId, std::string entityType);
+		virtual ~EntityTypeCommand();
+};
+
+class BuildCommand : public PositionalCommand, public EntityTypeCommand {
+	public:
+		BuildCommand(std::size_t entityId, r2 position, std::string entityType);
+	// Visitor methods for dispatching execute(board, command)
+		void execute(ABoard& board);
+};
 
 #endif // _COMMAND_H_
 

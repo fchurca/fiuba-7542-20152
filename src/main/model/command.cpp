@@ -48,3 +48,19 @@ void AttackCommand::execute(ABoard& board) {
 //	board.execute(*this); // TODO
 }
 
+EntityTypeCommand::EntityTypeCommand(size_t entityId, string entityType) :
+	Command(entityId),
+	entityType(entityType)
+{}
+
+EntityTypeCommand::~EntityTypeCommand() {}
+
+BuildCommand::BuildCommand(size_t entityId, r2 position, string entityType) :
+	PositionalCommand(entityId, position),
+	EntityTypeCommand(entityId, entityType)
+{}
+
+void BuildCommand::execute(ABoard& board) {
+//	board.execute(*this); // TODO
+}
+
