@@ -63,7 +63,7 @@ RemoteBoard::RemoteBoard(Game& game, RulesetParser& rulesetParser, ClientParser&
 				setTerrain(tname, x, y);
 			}
 		}
-		// Relleno con TERRENO_DEFAULT (TODO: deduplicate)
+		// Relleno con TERRENO_DEFAULT
 		fillTerrain();
 		{
 			// Entities
