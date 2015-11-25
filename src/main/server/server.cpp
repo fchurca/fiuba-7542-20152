@@ -91,7 +91,7 @@ void Server::stop() {
 		// Cerramos el socket
 		this->socket->deinit();
 	}
-	Logger::info("Closing network server");
+	Logger::getInstance()->writeInformation("Closing network server");
 }
 //-----------------------------------------------------------------------------
 

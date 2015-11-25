@@ -195,52 +195,28 @@ void RemoteBoard::execute(MoveCommand& command) {
 }
 
 void RemoteBoard::execute(BuildCommand& command) {
-	auto e = findEntity(command.entityId);
-	if (e) {
-		if (e->owner.getAlive()) {
-			//e->execute(command); // TODO
-		}
-	}
+	*socket << 'B' << command.entityId;
+	flushOut();
 }
-
 
 void RemoteBoard::execute(CreateCommand& command) {
-	auto e = findEntity(command.entityId);
-	if (e) {
-		if (e->owner.getAlive()) {
-			//e->execute(command); // TODO
-		}
-	}
+	*socket << 'C' << command.entityId;
+	flushOut();
 }
-
 
 void RemoteBoard::execute(GatherCommand& command) {
-	auto e = findEntity(command.entityId);
-	if (e) {
-		if (e->owner.getAlive()) {
-			//e->execute(command); // TODO
-		}
-	}
+	*socket << 'G' << command.entityId;
+	flushOut();
 }
-
 
 void RemoteBoard::execute(AttackCommand& command) {
-	auto e = findEntity(command.entityId);
-	if (e) {
-		if (e->owner.getAlive()) {
-			//e->execute(command); // TODO
-		}
-	}
+	*socket << 'A' << command.entityId;
+	flushOut();
 }
 
-
 void RemoteBoard::execute(RepairCommand& command) {
-	auto e = findEntity(command.entityId);
-	if (e) {
-		if (e->owner.getAlive()) {
-			//e->execute(command); // TODO
-		}
-	}
+	*socket << 'R' << command.entityId;
+	flushOut();
 }
 
 bool RemoteBoard::flushOut() {
@@ -249,3 +225,4 @@ bool RemoteBoard::flushOut() {
 	}
 	return true;
 }
+
