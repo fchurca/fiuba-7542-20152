@@ -34,6 +34,18 @@ HealthMixin::HealthMixin(int min, int max, int value) :
 	health(min, max, value)
 {}
 
+ProgressMixin::ProgressMixin(int max) :
+	progress(max)
+{}
+
+ProgressMixin::ProgressMixin(int max, int value) :
+	progress(max, value)
+{}
+
+ProgressMixin::ProgressMixin(int min, int max, int value) :
+	progress(min, max, value)
+{}
+
 
 Entity::Entity(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid) :
 	position(position),
@@ -401,8 +413,11 @@ void King::visit(EntityVisitor& e) {
 Building::Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::vector<Budget> producerProducts = {}) :
 	Entity(name, board, owner, position, size, sight_radius, solid),
 	HealthMixin(health),
+	ProgressMixin(0,100,0),
 	products(producerProducts)
-{}
+{
+	currentProduct = "";
+}
 
 void Building::update() {
 	Entity::update();

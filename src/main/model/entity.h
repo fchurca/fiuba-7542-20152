@@ -47,6 +47,14 @@ class HealthMixin : public EntityMixin {
 		HealthMixin(int min, int max, int value);
 };
 
+class ProgressMixin : public EntityMixin {
+public:
+	Gauge progress;
+	ProgressMixin(int max);
+	ProgressMixin(int min, int max);
+	ProgressMixin(int min, int max, int value);
+};
+
 
 class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 	protected:
@@ -149,11 +157,12 @@ class King : public Unit {
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
 };
 
-class Building : public Entity, public HealthMixin {
+class Building : public Entity, public HealthMixin, public ProgressMixin {
 	public:
 		virtual void update();
 		Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::vector<Budget> producerProducts);
 		std::vector<Budget> products;
+		std::string currentProduct;
 		virtual void visit(EntityVisitor& v);
 		virtual ~Building();
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
