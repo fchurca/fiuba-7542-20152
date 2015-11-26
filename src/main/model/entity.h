@@ -207,7 +207,9 @@ class Resource : public Entity , public CargoMixin {
 		Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity, std::string resourceName);
 		virtual void visit(EntityVisitor& v);
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
+		virtual std::shared_ptr<Command> giveDefaultCommand(Unit& u);
 		virtual std::shared_ptr<Command> giveDefaultCommand(Worker& u);
+		virtual std::shared_ptr<Command> giveDefaultCommand(King& u);
 };
 
 class Terrain : public Entity {

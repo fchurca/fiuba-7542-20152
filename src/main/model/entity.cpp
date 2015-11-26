@@ -715,8 +715,16 @@ std::shared_ptr<Command> Flag::giveDefaultCommand(Unit& r) {
 		return giveDefaultCommand((Entity&)r);
 }
 
+std::shared_ptr<Command> Resource::giveDefaultCommand(Unit& r) {
+	return std::make_shared<MoveCommand>(r.getId(), getPosition());
+}
+
 std::shared_ptr<Command> Resource::giveDefaultCommand(Worker& r) {
 	return std::make_shared<GatherCommand>(r.getId(), getId());
+}
+
+std::shared_ptr<Command> Resource::giveDefaultCommand(King& r) {
+	return std::make_shared<MoveCommand>(r.getId(), getPosition());
 }
 
 
