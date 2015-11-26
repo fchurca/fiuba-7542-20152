@@ -12,7 +12,7 @@ CommandMenu::CommandMenu(GameWindow& owner, GraphicsParser& graphicsParser) :
 	isVisibleWorker = false;
 	isVisibleUnit = false;
 	showOptions = false;
-	posicionating = false;
+	positioning = false;
 	currentSelection = nullptr;
 }
 
@@ -36,7 +36,7 @@ void CommandMenu::visit(Worker& entity) {
 		outText = outText + owner.completeLine("[c] Construir", size.x);
 	}
 	else {
-		if (posicionating) {
+		if (positioning) {
 			outText = outText + owner.completeLine("Posicionando nueva edificacion", size.x);
 		}
 		else {
@@ -94,7 +94,7 @@ void CommandMenu::draw() {
 		if ((owner.sController->getSelection().size() == 1) && (owner.player.name == owner.sController->getSelection().at(0)->owner.name)){
 			if (currentSelection != owner.sController->getSelection().at(0)) {
 				showOptions = false;
-				posicionating = false;
+				positioning = false;
 			}
 			owner.sController->getSelection().at(0)->visit(*this);
 			currentSelection = owner.sController->getSelection().at(0);
@@ -109,7 +109,7 @@ void CommandMenu::draw() {
 		else {
 			currentSelection = nullptr;
 			showOptions = false;
-			posicionating = false;
+			positioning = false;
 		}
 		int access1, w1, h1;
 		Uint32 format1;

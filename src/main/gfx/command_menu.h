@@ -25,7 +25,7 @@ public:
 	bool isVisibleUnit;
 	bool isVisibleProducer;
 	bool showOptions;
-	bool posicionating;
+	bool positioning;
 	int selectedOption;
 	virtual void visit(Entity& e);
 	virtual void visit(Unit& e);
