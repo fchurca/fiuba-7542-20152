@@ -43,11 +43,17 @@ void SelectionMenu::visit(Building& entity) {
 	stringstream ss;
 	ss << "Salud: " << entity.health.get() << "/" << entity.health.max;
 	outText += owner.completeLine(ss.str().c_str(), size.x);
-	outText += owner.completeLine("Produccion: (--/--)", size.x);
+	if (entity.currentProduct != "") {
+		stringstream sp;
+		sp << "Producciendo " + entity.currentProduct + ": " << entity.progress.get() << "/" << entity.progress.max;
+		outText += owner.completeLine(sp.str().c_str(), size.x);
+	}
 }
 void SelectionMenu::visit(UnfinishedBuilding& entity) {
 	visit((Building&)entity);
-	outText += owner.completeLine("Progreso: (--/--)", size.x);
+	stringstream ss;
+	ss << "Progreso: " << entity.progress.get() << "/" << entity.progress.max;
+	outText += owner.completeLine(ss.str().c_str(), size.x);
 }
 
 void SelectionMenu::draw() {
