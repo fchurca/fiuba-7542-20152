@@ -316,32 +316,34 @@ void SmartBoard::update() {
 	}
 }
 
+#include <iostream> // TODO: QUITAR
+
 void SmartBoard::execute(StopCommand& command) {
+	cerr << "StopCommand" << endl;
 	auto e = findEntity(command.entityId);
 	if (e) {
 		if (e->owner.getAlive()) {
-			e->execute(command);
+			e->setCommand(make_shared<StopCommand>(command));
 		}
 	}
 }
 
 void SmartBoard::execute(MoveCommand& command) {
+	cerr << "MoveCommand" << endl;
 	auto e = findEntity(command.entityId);
 	if (e) {
 		if (e->owner.getAlive()) {
-			e->execute(command);
+			e->setCommand(make_shared<MoveCommand>(command));
 		}
 	}
 }
-
-#include <iostream> // TODO: QUITAR
 
 void SmartBoard::execute(BuildCommand& command) {
 	cerr << "BuildCommand" << endl;
 	auto e = findEntity(command.entityId);
 	if (e) {
 		if (e->owner.getAlive()) {
-			//e->execute(command); // TODO
+			e->setCommand(make_shared<BuildCommand>(command));
 		}
 	}
 }
@@ -352,7 +354,7 @@ void SmartBoard::execute(CreateCommand& command) {
 	auto e = findEntity(command.entityId);
 	if (e) {
 		if (e->owner.getAlive()) {
-			//e->execute(command); // TODO
+			e->setCommand(make_shared<CreateCommand>(command));
 		}
 	}
 }
@@ -363,7 +365,7 @@ void SmartBoard::execute(GatherCommand& command) {
 	auto e = findEntity(command.entityId);
 	if (e) {
 		if (e->owner.getAlive()) {
-			//e->execute(command); // TODO
+			e->setCommand(make_shared<GatherCommand>(command));
 		}
 	}
 }
@@ -374,7 +376,7 @@ void SmartBoard::execute(AttackCommand& command) {
 	auto e = findEntity(command.entityId);
 	if (e) {
 		if (e->owner.getAlive()) {
-			//e->execute(command); // TODO
+			e->setCommand(make_shared<AttackCommand>(command));
 		}
 	}
 }
@@ -385,7 +387,7 @@ void SmartBoard::execute(RepairCommand& command) {
 	auto e = findEntity(command.entityId);
 	if (e) {
 		if (e->owner.getAlive()) {
-			//e->execute(command); // TODO
+			e->setCommand(make_shared<RepairCommand>(command));
 		}
 	}
 }

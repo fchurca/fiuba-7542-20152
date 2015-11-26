@@ -4,6 +4,7 @@
 #include "geometry.h"
 
 class ABoard;
+class Entity;
 
 class Command {
 	public:
@@ -12,6 +13,7 @@ class Command {
 		virtual ~Command();
 	// Visitor methods for dispatching execute(board, command)
 		virtual void execute(ABoard& board) = 0;
+		virtual void execute(Entity& board) = 0;
 };
 
 class StopCommand : public Command {
@@ -19,6 +21,7 @@ class StopCommand : public Command {
 		StopCommand(std::size_t entityId);
 	// Visitor methods for dispatching execute(board, command)
 		void execute(ABoard& board);
+		void execute(Entity& board);
 };
 
 class PositionalCommand {
@@ -33,6 +36,7 @@ class MoveCommand : public Command, public PositionalCommand {
 		MoveCommand(std::size_t entityId, r2 position);
 	// Visitor methods for dispatching execute(board, command)
 		void execute(ABoard& board);
+		void execute(Entity& board);
 };
 
 class InteractionCommand {
@@ -46,6 +50,7 @@ class RepairCommand : public Command, public InteractionCommand {
 	public:
 		RepairCommand(std::size_t entityId, std::size_t targetId);
 	// Visitor methods for dispatching execute(board, command)
+		void execute(Entity& board);
 		void execute(ABoard& board);
 };
 
@@ -55,6 +60,7 @@ class AttackCommand : public Command, public InteractionCommand {
 	// TODO: Dispatching react()
 	// Visitor methods for dispatching execute(board, command)
 		void execute(ABoard& board);
+		void execute(Entity& board);
 };
 
 class GatherCommand : public Command, public InteractionCommand {
@@ -62,6 +68,7 @@ class GatherCommand : public Command, public InteractionCommand {
 		GatherCommand(std::size_t entityId, std::size_t targetId);
 	// Visitor methods for dispatching execute(board, command)
 		void execute(ABoard& board);
+		void execute(Entity& board);
 };
 
 class EntityTypeCommand {
@@ -76,6 +83,7 @@ class BuildCommand : public Command, public PositionalCommand, public EntityType
 		BuildCommand(std::size_t entityId, r2 position, std::string entityType);
 	// Visitor methods for dispatching execute(board, command)
 		void execute(ABoard& board);
+		void execute(Entity& board);
 };
 
 class CreateCommand : public Command, public EntityTypeCommand {
@@ -83,6 +91,7 @@ class CreateCommand : public Command, public EntityTypeCommand {
 		CreateCommand(std::size_t entityId, std::string entityType);
 	// Visitor methods for dispatching execute(board, command)
 		void execute(ABoard& board);
+		void execute(Entity& board);
 };
 
 #endif // _COMMAND_H_

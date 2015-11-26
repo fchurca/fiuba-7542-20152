@@ -60,6 +60,8 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 		bool canEnter(r2 newPosition);
 		void setFrame();
 		double orientation;
+		std::shared_ptr<Command> command;
+		void clearCommand();
 	public:
 		Player& owner;
 		r2 size;
@@ -71,6 +73,7 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 		void setPosition(r2 newPos);
 		double getOrientation();
 		void setOrientation(double newOrientation);
+		void setCommand(std::shared_ptr<Command> newCommand);
 
 		template<typename L> void mapVisible(L fun);
 
@@ -101,6 +104,11 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 		// TODO: Rest of commands
 		virtual void execute(MoveCommand& c);
 		virtual void execute(StopCommand& c);
+		virtual void execute(RepairCommand& c);
+		virtual void execute(GatherCommand& c);
+		virtual void execute(AttackCommand& c);
+		virtual void execute(BuildCommand& c);
+		virtual void execute(CreateCommand& c);
 };
 
 class Unit : public Entity, public HealthMixin {
