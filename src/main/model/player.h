@@ -35,6 +35,7 @@ class Player : public IdMixin, public FrameMixin {
 		std::vector<std::shared_ptr<Entity>> entities();
 		void update();
 		Visibility getVisibility(r2 pos);
+		Visibility getVisibility2(r2 pos);
 		Visibility getVisibility(Entity& e);
 		std::map<std::string, long> getResources();
 		bool canGrantResources(std::string resource, long r);

@@ -65,6 +65,17 @@ Visibility Player::getVisibility(r2 pos) {
 	return ret;
 }
 
+Visibility Player::getVisibility2(r2 pos) { //TODO: Nose xq tuve que duplicar este metodo, si uso getVisibility en los lugares donde uso ahora getVisibility2 habia error.
+	//visibilitMutex.lock();
+	if (pos.x < 0 || pos.x >= board.sizeX ||
+		pos.y < 0 || pos.y >= board.sizeY) {
+		return INVISIBLE;
+	}
+	auto ret = map_visibility[(int)floor(pos.y) * board.sizeX + (int)floor(pos.x)];
+	//visibilitMutex.unlock();
+	return ret;
+}
+
 std::map<std::string, long> Player::getResources() {
 	return resources;
 }
