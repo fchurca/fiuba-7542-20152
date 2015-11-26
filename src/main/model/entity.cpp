@@ -50,6 +50,7 @@ ProgressMixin::ProgressMixin(int min, int max, int value) :
 Entity::Entity(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid) :
 	position(position),
 	orientation(0),
+	command(nullptr),
 	size(size),
 	name(name),
 	owner(owner),
@@ -128,7 +129,19 @@ bool Entity::canEnter(r2 newPosition) {
 	return canEnter(rectangle(newPosition, size));
 }
 
+void Entity::clearCommand() {
+	setCommand(nullptr);
+}
+
+void Entity::setCommand(shared_ptr<Command> newCommand) {
+	command = newCommand;
+}
+
 void Entity::update() {
+	if (command) {
+		cerr << this << " has a command: " << command << endl;
+		command->execute(*this);
+	}
 }
 
 r2 Entity::center() {
@@ -182,10 +195,33 @@ void Entity::setOrientation(double newOrientation) {
 }
 
 // TODO: Rest of commands
+#include <iostream>
 void Entity::execute(MoveCommand& c) {
+	cerr << "Move" << endl;
 }
 
 void Entity::execute(StopCommand& c) {
+	cerr << "Stop" << endl;
+}
+
+void Entity::execute(RepairCommand& c) {
+	cerr << "Repair" << endl;
+}
+
+void Entity::execute(GatherCommand& c) {
+	cerr << "Gather" << endl;
+}
+
+void Entity::execute(AttackCommand& c) {
+	cerr << "Attack" << endl;
+}
+
+void Entity::execute(BuildCommand& c) {
+	cerr << "Build" << endl;
+}
+
+void Entity::execute(CreateCommand& c) {
+	cerr << "Create" << endl;
 }
 
 
@@ -366,6 +402,9 @@ void Unit::update() {
 			unsetTarget();
 		}
 		setFrame();
+		if (!targeted()) {
+			clearCommand(); // At target? TODO: neater
+		}
 	}
 }
 
@@ -375,11 +414,20 @@ void Unit::visit(EntityVisitor& e) {
 
 // TODO: Rest of commands
 void Unit::execute(MoveCommand& c) {
-	addTarget(c.position);
+	// TODO: on first run of this command, clear waypoints
+	if (!targeted()) {
+		if (canEnter(c.position)) {
+			cerr << "Adding target" << endl;
+			addTarget(c.position);
+		} else {
+			clearCommand();
+		}
+	}
 }
 
 void Unit::execute(StopCommand& c) {
 	unsetTarget();
+	clearCommand();
 }
 
 

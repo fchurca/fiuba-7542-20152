@@ -1,4 +1,9 @@
 #include "board.h"
+#include "entity.h"
+
+#include <iostream>
+
+using namespace std;
 
 Command::Command(size_t entityId) : entityId(entityId){}
 
@@ -9,6 +14,11 @@ StopCommand::StopCommand(size_t entityId) : Command(entityId){}
 
 void StopCommand::execute(ABoard& board) {
 	board.execute(*this);
+}
+
+void StopCommand::execute(Entity& e) {
+	cerr << "StopCommand.execute" << endl;;
+	e.execute(*this);
 }
 
 
@@ -28,6 +38,10 @@ void MoveCommand::execute(ABoard& board) {
 	board.execute(*this);
 }
 
+void MoveCommand::execute(Entity& e) {
+	e.execute(*this);
+}
+
 
 InteractionCommand::InteractionCommand(size_t targetId) :
 	targetId(targetId)
@@ -45,6 +59,10 @@ void RepairCommand::execute(ABoard& board) {
 	board.execute(*this); // TODO
 }
 
+void RepairCommand::execute(Entity& e) {
+	e.execute(*this);
+}
+
 
 GatherCommand::GatherCommand(size_t entityId, size_t targetId) :
 	Command(entityId),
@@ -55,6 +73,10 @@ void GatherCommand::execute(ABoard& board) {
 	board.execute(*this); // TODO
 }
 
+void GatherCommand::execute(Entity& e) {
+	e.execute(*this);
+}
+
 
 AttackCommand::AttackCommand(size_t entityId, size_t targetId) :
 	Command(entityId),
@@ -63,6 +85,10 @@ AttackCommand::AttackCommand(size_t entityId, size_t targetId) :
 
 void AttackCommand::execute(ABoard& board) {
 	board.execute(*this); // TODO
+}
+
+void AttackCommand::execute(Entity& e) {
+	e.execute(*this);
 }
 
 
@@ -83,6 +109,10 @@ void BuildCommand::execute(ABoard& board) {
 	board.execute(*this); // TODO
 }
 
+void BuildCommand::execute(Entity& e) {
+	e.execute(*this);
+}
+
 
 CreateCommand::CreateCommand(size_t entityId, string entityType) :
 	Command(entityId),
@@ -91,5 +121,9 @@ CreateCommand::CreateCommand(size_t entityId, string entityType) :
 
 void CreateCommand::execute(ABoard& board) {
 	board.execute(*this); // TODO
+}
+
+void CreateCommand::execute(Entity& e) {
+	e.execute(*this);
 }
 
