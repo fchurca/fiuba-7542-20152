@@ -31,7 +31,6 @@ class ABoard : public FrameMixin {
 		enum BoardState {building, running, finished, error};
 	protected:
 		std::map<std::string, std::shared_ptr<Player>> players;
-		std::map<std::string, std::shared_ptr<EntityFactory>> entityFactories;
 		std::vector<std::shared_ptr<Entity>> entities;
 		std::vector<std::shared_ptr<Entity>> terrain;
 		std::queue<std::shared_ptr<Command>> commands;
@@ -47,7 +46,7 @@ class ABoard : public FrameMixin {
 		int sizeX, sizeY;
 		std::string name;
 		size_t dt;
-
+		std::map<std::string, std::shared_ptr<EntityFactory>> entityFactories;
 		ABoard(Game& game, RulesetParser& rulesetParser, std::string name, int sizeX, int sizeY, long maxResources);
 		virtual ~ABoard();
 

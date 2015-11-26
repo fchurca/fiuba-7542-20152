@@ -3,6 +3,7 @@
 #include <sstream>
 
 #include "game_window.h"
+#include "../model/entity_factory.h"
 
 #include "../parser_yaml/graphics_parser.h"
 #include "../parser_yaml/ruleset_parser.h"
@@ -98,6 +99,15 @@ void GameWindow::render() {
 		SDL_SetRenderDrawColor(getRenderer(), q, q, q, q);
 		isoview->drawRhombus(boardClick, boardMouse);
 	}
+	if (commandMenu->isVisibleWorker && commandMenu->showOptions && commandMenu->posicionating) {
+		auto w = dynamic_cast<Worker*>(sController->getSelection().front().get());
+		r2 sizeBuilding = board.entityFactories[w->products[commandMenu->selectedOption].name]->size;
+		r2 boardMouse = isoview->screenToBoardPosition(mouse);
+		Uint8 q = 255;
+		SDL_SetRenderDrawColor(getRenderer(), q, q, q, q);
+		isoview->drawRhombus(boardMouse - sizeBuilding/2, boardMouse + sizeBuilding / 2);
+
+	}
 	commandMenu->draw();
 	selectionMenu->draw();
 	minimap->draw();
@@ -144,7 +154,19 @@ void GameWindow::processInput(){
 							commandMenu->showOptions = true;
 						break;
 					case SDLK_ESCAPE:
+						sController->clear();
 						commandMenu->showOptions = false;
+						commandMenu->posicionating = false;
+						break;
+					case SDLK_q:
+						if (commandMenu->showOptions) {
+							if (commandMenu->posicionating) {
+								commandMenu->posicionating = false;
+							}
+							else {
+								commandMenu->showOptions = false;
+							}
+						}
 						break;
 					case SDLK_1: case SDLK_2: case SDLK_3: case SDLK_4: case SDLK_5:
 					{
@@ -162,7 +184,8 @@ void GameWindow::processInput(){
 								auto w = dynamic_cast<Worker*>(sController->getSelection().front().get());
 								if (w) {
 									if (i < w->products.size()) {
-										board.pushCommand(std::make_shared<BuildCommand>(w->getId(),r2(mouse.x,mouse.y), w->products[i].name)); // CLikeando y posicionando se hace el comando
+										commandMenu->posicionating = true;
+										commandMenu->selectedOption = i;
 									}
 								}
 							}
@@ -203,6 +226,13 @@ void GameWindow::processInput(){
 				break;
 			case SDL_MOUSEBUTTONDOWN:
 				if (EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_LEFT) {
+					if (commandMenu->isVisibleWorker && commandMenu->showOptions && commandMenu->posicionating) {
+						auto w = dynamic_cast<Worker*>(sController->getSelection().front().get());
+						r2 sizeBuilding = board.entityFactories[w->products[commandMenu->selectedOption].name]->size;
+						board.pushCommand(std::make_shared<BuildCommand>(w->getId(), boardMouse - sizeBuilding/2, w->products[commandMenu->selectedOption].name));
+						commandMenu->posicionating = false;
+					}
+
 					SDL_GetMouseState(&mouseDown.x, &mouseDown.y);
 					sweeping = true;
 				}
