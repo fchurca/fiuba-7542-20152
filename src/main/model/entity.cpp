@@ -680,7 +680,7 @@ std::shared_ptr<Command> Unit::giveDefaultCommand(Entity& r) {
 }
 
 std::shared_ptr<Command> Unit::giveDefaultCommand(Unit& r) {
-	if (owner.getActive() && (owner.name != r.owner.name))
+	if (owner.name != r.owner.name)//TODO VER SI ESTA ACTIVO?
 		return std::make_shared<AttackCommand>(r.getId(), getId());
 	else
 		return giveDefaultCommand((Entity&)r);
@@ -691,14 +691,14 @@ std::shared_ptr<Command> Building::giveDefaultCommand(Entity& r) {
 }
 
 std::shared_ptr<Command> Building::giveDefaultCommand(Unit& r) {
-	if (owner.getActive() && (owner.name != r.owner.name))
+	if (owner.name != r.owner.name)//TODO VER SI ESTA ACTIVO?
 		return std::make_shared<AttackCommand>(r.getId(), getId());
 	else
 		return giveDefaultCommand((Entity&)r);
 }
 
 std::shared_ptr<Command> Building::giveDefaultCommand(Worker& r) {
-	if (owner.getActive() && (owner.name != r.owner.name))
+	if (owner.name != r.owner.name)
 		return giveDefaultCommand((Unit&)r);
 	else
 		return std::make_shared<RepairCommand>(r.getId(), getId());
@@ -709,7 +709,7 @@ std::shared_ptr<Command> Flag::giveDefaultCommand(Entity& r) {
 }
 
 std::shared_ptr<Command> Flag::giveDefaultCommand(Unit& r) {
-	if (owner.getActive() && (owner.name != r.owner.name))
+	if (owner.name != r.owner.name) //TODO VER SI ESTA ACTIVO?
 		return std::make_shared<AttackCommand>(r.getId(), getId());
 	else
 		return giveDefaultCommand((Entity&)r);
