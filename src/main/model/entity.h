@@ -143,6 +143,7 @@ class Unit : public Entity, public HealthMixin {
 		// TODO: Rest of commands
 		virtual void execute(MoveCommand& c);
 		virtual void execute(StopCommand& c);
+		//virtual void execute(AttackCommand& c); El obj podria ser un Unit, Building o Flag
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
 		virtual std::shared_ptr<Command> giveDefaultCommand(Entity& u);
 		virtual std::shared_ptr<Command> giveDefaultCommand(Unit& u);
@@ -154,6 +155,9 @@ class Worker : public Unit {
 		Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hitForce, unsigned int hit_radius, std::vector<Budget> workerProducts);
 		virtual void visit(EntityVisitor& v);
 		std::vector<Budget> products;
+		//virtual void execute(GatherCommand& c);
+		//virtual void execute(RepairCommand& c);
+		//virtual void execute(BuildCommand& c);
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
 };
 
@@ -173,8 +177,8 @@ class Building : public Entity, public HealthMixin, public ProgressMixin {
 		std::string currentProduct;
 		virtual void visit(EntityVisitor& v);
 		virtual ~Building();
+		//virtual void execute(CreateCommand& c);
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
-		virtual std::shared_ptr<Command> giveDefaultCommand(Entity& u);
 		virtual std::shared_ptr<Command> giveDefaultCommand(Unit& u);
 		virtual std::shared_ptr<Command> giveDefaultCommand(Worker& u);
 };
@@ -201,8 +205,8 @@ class Flag : public Entity, public HealthMixin {
 		Flag(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health);
 		virtual void visit(EntityVisitor& v);
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
-		virtual std::shared_ptr<Command> giveDefaultCommand(Entity& u);
 		virtual std::shared_ptr<Command> giveDefaultCommand(Unit& u);
+		virtual std::shared_ptr<Command> giveDefaultCommand(King& r);
 };
 
 class Resource : public Entity , public CargoMixin {
@@ -217,7 +221,6 @@ class Resource : public Entity , public CargoMixin {
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
 		virtual std::shared_ptr<Command> giveDefaultCommand(Unit& u);
 		virtual std::shared_ptr<Command> giveDefaultCommand(Worker& u);
-		virtual std::shared_ptr<Command> giveDefaultCommand(King& u);
 };
 
 class Terrain : public Entity {
