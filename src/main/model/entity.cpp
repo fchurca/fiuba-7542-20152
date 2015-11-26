@@ -314,8 +314,8 @@ Unit::Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size,
 	Entity(name, board, owner, position, size, sight_radius, solid),
 	HealthMixin(health),
 	speed(speed),
-	hit_force(hitforce),
-	hit_radius(hitradius)
+	hitForce(hitforce),
+	hitRadius(hitradius)
 {}
 
 bool Unit::getIsInAction() {

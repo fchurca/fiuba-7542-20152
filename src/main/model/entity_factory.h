@@ -26,8 +26,8 @@ class UnitFactory: public EntityFactory {
 	public:
 		const double speed;
 		const int health;
-		unsigned int hit_force;
-		unsigned int hit_radius;
+		unsigned int hitForce;
+		unsigned int hitRadius;
 		UnitFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius, ABoard& board);
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 };

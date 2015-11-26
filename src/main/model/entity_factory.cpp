@@ -32,12 +32,12 @@ UnitFactory::UnitFactory(std::string name, r2 size, double speed, int sight_radi
 	EntityFactory(name, size, sight_radius, solid, board),
 	speed(speed),
 	health(health),
-	hit_force(hitforce),
-	hit_radius(hitradius)
+	hitForce(hitforce),
+	hitRadius(hitradius)
 {}
 
 std::shared_ptr<Entity> UnitFactory::createEntity(Player& player, r2 position) {
-	return std::make_shared<Unit>(name, board, player, position, size, speed, sight_radius, solid, health, hit_force, hit_radius);
+	return std::make_shared<Unit>(name, board, player, position, size, speed, sight_radius, solid, health, hitForce, hitRadius);
 }
 
 
@@ -47,7 +47,7 @@ WorkerFactory::WorkerFactory(std::string name, r2 size, double speed, int sight_
 {}
 
 std::shared_ptr<Entity> WorkerFactory::createEntity(Player& player, r2 position) {
-	return std::make_shared<Worker>(name, board, player, position, size, speed, sight_radius, solid, health, hit_force, hit_radius, products);
+	return std::make_shared<Worker>(name, board, player, position, size, speed, sight_radius, solid, health, hitForce, hitRadius, products);
 }
 
 
@@ -56,7 +56,7 @@ KingFactory::KingFactory(std::string name, r2 size, double speed, int sight_radi
 {}
 
 std::shared_ptr<Entity> KingFactory::createEntity(Player& player, r2 position) {
-	return std::make_shared<King>(name, board, player, position, size, speed, sight_radius, solid, health, hit_force, hit_radius);
+	return std::make_shared<King>(name, board, player, position, size, speed, sight_radius, solid, health, hitForce, hitRadius);
 }
 
 

@@ -109,8 +109,8 @@ class Unit : public Entity, public HealthMixin {
 		double speed;	// Speed (tiles/s)
 		bool isInAction = false;
 	public:
-		unsigned int hit_force;
-		unsigned int hit_radius;
+		unsigned int hitForce;
+		unsigned int hitRadius;
 		r2 trajectory();
 		virtual void addTarget(r2 newTarget);
 		virtual void unsetTarget();
@@ -119,7 +119,7 @@ class Unit : public Entity, public HealthMixin {
 		Directions getDirection();// TODO: Pertenece a vista
 		r2 target();
 		bool targeted();
-		Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius);
+		Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hitForce, unsigned int hit_radius);
 		virtual void update();
 		virtual void visit(EntityVisitor& v);
 		bool getIsInAction();
@@ -135,7 +135,7 @@ class Unit : public Entity, public HealthMixin {
 class Worker : public Unit {
 	public:
 		void update();
-		Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius, std::vector<Budget> workerProducts);
+		Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hitForce, unsigned int hit_radius, std::vector<Budget> workerProducts);
 		virtual void visit(EntityVisitor& v);
 		std::vector<Budget> products;
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
@@ -144,7 +144,7 @@ class Worker : public Unit {
 class King : public Unit {
 	public:
 		void update();
-		King(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius);
+		King(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hitForce, unsigned int hit_radius);
 		virtual void visit(EntityVisitor& v);
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
 };
