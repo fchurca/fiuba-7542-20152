@@ -178,6 +178,18 @@ void SpriteSheet::visit(Terrain& entity) {
 	}
 }
 
+void SpriteSheet::visit(UnfinishedBuilding& entity) {
+	Visibility state = owner.owner.player.getVisibility(entity);
+	bool playerIsActive = entity.owner.getActive();
+
+	//	Dibujado
+	if (state != INVISIBLE) {//Aca hay que usar el canDraw
+		Uint8 q = 255;
+		SDL_SetRenderDrawColor(owner.owner.getRenderer(), q, q, q, q);
+		owner.drawRhombus(entity.getPosition() - entity.size/2, entity.getPosition() + entity.size / 2);
+	}
+}
+
 
 void SpriteSheet::draw(int i, int j, SDL_Rect renderQuad, SDL_Texture* texture) {
 	//Fotograma a dibujar
