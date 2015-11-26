@@ -254,7 +254,7 @@ void GameWindow::processInput(){
 					Logger::getInstance()->writeInformation("Boton derecho");
 					std::shared_ptr<Entity> obj = board.findEntity(rectangle(boardMouse,r2(0,0)));
 					for (auto e : sController->getSelection()) {
-						if (e->owner.name == player.name && !obj) {
+						if ((player.getVisibility(boardMouse) == INVISIBLE || !obj) && e->owner.name == player.name) {
 							if (!(SDL_GetModState()&KMOD_SHIFT)) {
 								board.pushCommand(make_shared<StopCommand>(e->getId()));
 							}
