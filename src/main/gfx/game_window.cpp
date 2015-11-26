@@ -232,7 +232,7 @@ void GameWindow::processInput(){
 					if (commandMenu->isVisibleWorker && commandMenu->showOptions && commandMenu->positioning) {
 						auto w = dynamic_cast<Worker*>(sController->getSelection().front().get());
 						r2 sizeBuilding = board.entityFactories[w->products[commandMenu->selectedOption].name]->size;
-						if (player.getVisibility2(boardMouse) > INVISIBLE) {
+						if (player.getVisibility(boardMouse) > INVISIBLE) {
 							board.pushCommand(std::make_shared<BuildCommand>(w->getId(), boardMouse - sizeBuilding / 2, w->products[commandMenu->selectedOption].name));
 							commandMenu->positioning = false;
 						}
