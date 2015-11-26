@@ -91,13 +91,6 @@ SDL_Renderer* GameWindow::getRenderer() {
 
 void GameWindow::render() {
 	isoview->draw();
-	//menu->draw();TODO: MENU DEBERIA CONTENER A COMMANDMENU SELECTIONMENU MINIMAP
-	commandMenu->draw();
-	selectionMenu->draw();
-	minimap->draw();
-	chat->draw(inputText);
-	playersList->draw();
-	resourcesList->draw();
 	if (isSweeping()) {
 		r2 boardClick = isoview->screenToBoardPosition(mouseDown);
 		r2 boardMouse = isoview->screenToBoardPosition(mouse);
@@ -105,6 +98,12 @@ void GameWindow::render() {
 		SDL_SetRenderDrawColor(getRenderer(), q, q, q, q);
 		isoview->drawRhombus(boardClick, boardMouse);
 	}
+	commandMenu->draw();
+	selectionMenu->draw();
+	minimap->draw();
+	chat->draw(inputText);
+	playersList->draw();
+	resourcesList->draw();
 
 	SDL_RenderPresent(renderer);
 	return;
