@@ -46,9 +46,11 @@ void CommandMenu::visit(Worker& entity) {
 			int i = 1;
 			for (auto& p : entity.products) {
 				outText = outText + owner.completeLine("[" + intToString(i) + "] " + p.name, size.x);
+				std::string texto = "Costos |";
 				for (auto& c : p.lines) {
-					outText = outText + owner.completeLine("--> Costo: " + c.resource_name + "=" + intToString((int)c.amount), size.x);
+					texto = texto + "| " + c.resource_name + ": " + intToString((int)c.amount) + " ";
 				}
+				outText = outText + owner.completeLine(texto, size.x);
 				i++;
 			}
 		}
@@ -67,9 +69,11 @@ void CommandMenu::visit(Building& entity) {
 		int i = 1;
 		for (auto& p : entity.products) {
 			outText = outText + owner.completeLine("[" + intToString(i) + "] " + p.name, size.x);
+			std::string texto = "Costos |";
 			for (auto& c : p.lines) {
-				outText = outText + owner.completeLine("--> Costo: " + c.resource_name+ "=" + intToString((int)c.amount), size.x);
+				texto = texto + "| " + c.resource_name + ": " + intToString((int)c.amount) + " ";
 			}
+			outText = outText + owner.completeLine(texto, size.x);
 			i++;
 		}
 	}
