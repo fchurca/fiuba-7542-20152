@@ -12,6 +12,7 @@ CommandMenu::CommandMenu(GameWindow& owner, GraphicsParser& graphicsParser) :
 	isVisibleWorker = false;
 	isVisibleUnit = false;
 	showOptions = false;
+	posicionating = false;
 	currentSelection = nullptr;
 }
 
@@ -35,16 +36,23 @@ void CommandMenu::visit(Worker& entity) {
 		outText = outText + owner.completeLine("[c] Construir", size.x);
 	}
 	else {
-		if (entity.products.size() < 1) {
-			outText = outText + owner.completeLine("No hay edificaciones disponibles", size.x);
+		if (posicionating) {
+			outText = outText + owner.completeLine("Posicionando nueva edificacion", size.x);
 		}
-		int i = 1;
-		for (auto& p : entity.products) {
-			outText = outText + owner.completeLine("[" + intToString(i) + "] " + p.name, size.x);
-			for (auto& c : p.lines) {
-				outText = outText + owner.completeLine("--> Costo: "+ c.resource_name + "=" + intToString((int)c.amount), size.x);
+		else {
+			if (entity.products.size() < 1) {
+				outText = outText + owner.completeLine("No hay edificaciones disponibles", size.x);
 			}
-			i++;
+			int i = 1;
+			for (auto& p : entity.products) {
+				outText = outText + owner.completeLine("[" + intToString(i) + "] " + p.name, size.x);
+				std::string texto = "Costos |";
+				for (auto& c : p.lines) {
+					texto = texto + "| " + c.resource_name + ": " + intToString((int)c.amount) + " ";
+				}
+				outText = outText + owner.completeLine(texto, size.x);
+				i++;
+			}
 		}
 	}
 	isVisibleWorker = true;
@@ -61,9 +69,11 @@ void CommandMenu::visit(Building& entity) {
 		int i = 1;
 		for (auto& p : entity.products) {
 			outText = outText + owner.completeLine("[" + intToString(i) + "] " + p.name, size.x);
+			std::string texto = "Costos |";
 			for (auto& c : p.lines) {
-				outText = outText + owner.completeLine("--> Costo: " + c.resource_name+ "=" + intToString((int)c.amount), size.x);
+				texto = texto + "| " + c.resource_name + ": " + intToString((int)c.amount) + " ";
 			}
+			outText = outText + owner.completeLine(texto, size.x);
 			i++;
 		}
 	}
@@ -82,8 +92,10 @@ void CommandMenu::draw() {
 	SDL_Color colorBlanco = { 255, 255, 255 };
 	if (owner.font) {
 		if ((owner.sController->getSelection().size() == 1) && (owner.player.name == owner.sController->getSelection().at(0)->owner.name)){
-			if (currentSelection != owner.sController->getSelection().at(0))
+			if (currentSelection != owner.sController->getSelection().at(0)) {
 				showOptions = false;
+				posicionating = false;
+			}
 			owner.sController->getSelection().at(0)->visit(*this);
 			currentSelection = owner.sController->getSelection().at(0);
 		}
@@ -96,6 +108,8 @@ void CommandMenu::draw() {
 		}
 		else {
 			currentSelection = nullptr;
+			showOptions = false;
+			posicionating = false;
 		}
 		int access1, w1, h1;
 		Uint32 format1;

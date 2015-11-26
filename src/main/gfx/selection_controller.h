@@ -19,5 +19,6 @@ public:
 	void setSelection(std::shared_ptr<Entity>);
 	std::vector<std::shared_ptr<Entity>> getSelection();
 	void update();
+	void clear();
 };
 #endif // __GFX_SELECTION_CONTROLLER_H__

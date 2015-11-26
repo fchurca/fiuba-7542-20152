@@ -15,6 +15,7 @@ public:
 	virtual void visit(Unit& e);
 	virtual void visit(Building& e);
 	virtual void visit(UnfinishedBuilding& e);
+	virtual void visit(Flag& e);
 
 };
 #endif // __GFX_HEALTH_BAR_H__

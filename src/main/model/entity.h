@@ -47,6 +47,14 @@ class HealthMixin : public EntityMixin {
 		HealthMixin(int min, int max, int value);
 };
 
+class ProgressMixin : public EntityMixin {
+public:
+	Gauge progress;
+	ProgressMixin(int max);
+	ProgressMixin(int min, int max);
+	ProgressMixin(int min, int max, int value);
+};
+
 
 class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 	protected:
@@ -117,8 +125,8 @@ class Unit : public Entity, public HealthMixin {
 		double speed;	// Speed (tiles/s)
 		bool isInAction = false;
 	public:
-		unsigned int hit_force;
-		unsigned int hit_radius;
+		unsigned int hitForce;
+		unsigned int hitRadius;
 		r2 trajectory();
 		virtual void addTarget(r2 newTarget);
 		virtual void unsetTarget();
@@ -127,7 +135,7 @@ class Unit : public Entity, public HealthMixin {
 		Directions getDirection();// TODO: Pertenece a vista
 		r2 target();
 		bool targeted();
-		Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius);
+		Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hitForce, unsigned int hit_radius);
 		virtual void update();
 		virtual void visit(EntityVisitor& v);
 		bool getIsInAction();
@@ -143,7 +151,7 @@ class Unit : public Entity, public HealthMixin {
 class Worker : public Unit {
 	public:
 		void update();
-		Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius, std::vector<Budget> workerProducts);
+		Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hitForce, unsigned int hit_radius, std::vector<Budget> workerProducts);
 		virtual void visit(EntityVisitor& v);
 		std::vector<Budget> products;
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
@@ -152,16 +160,17 @@ class Worker : public Unit {
 class King : public Unit {
 	public:
 		void update();
-		King(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius);
+		King(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hitForce, unsigned int hit_radius);
 		virtual void visit(EntityVisitor& v);
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
 };
 
-class Building : public Entity, public HealthMixin {
+class Building : public Entity, public HealthMixin, public ProgressMixin {
 	public:
 		virtual void update();
 		Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::vector<Budget> producerProducts);
 		std::vector<Budget> products;
+		std::string currentProduct;
 		virtual void visit(EntityVisitor& v);
 		virtual ~Building();
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
@@ -206,7 +215,9 @@ class Resource : public Entity , public CargoMixin {
 		Resource(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int capacity, std::string resourceName);
 		virtual void visit(EntityVisitor& v);
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
+		virtual std::shared_ptr<Command> giveDefaultCommand(Unit& u);
 		virtual std::shared_ptr<Command> giveDefaultCommand(Worker& u);
+		virtual std::shared_ptr<Command> giveDefaultCommand(King& u);
 };
 
 class Terrain : public Entity {

@@ -1,5 +1,5 @@
 configuracion:
-    dt: 20
+    dt: 50
 tipos_unidades:
   - nombre: Rey
     imagen: resources/mago.png
@@ -51,24 +51,12 @@ tipos_unidades:
         costos:
           - recurso: Madera
             cantidad: 10
-          - recurso: rec1
-            cantidad: 2
-          - recurso: Carne
-            cantidad: 2
-      - nombre: p1
+      - nombre: Cuartel
         costos:
           - recurso: Madera
+            cantidad: 15
+          - recurso: Piedra
             cantidad: 10
-          - recurso: rec1
-            cantidad: 2
-      - nombre: Centro
-        costos:
-          - recurso: Madera
-            cantidad: 10
-          - recurso: rec1
-            cantidad: 2
-          - recurso: Carne
-            cantidad: 2
   - nombre: Ogro
     imagen: resources/ogro.png
     ancho_base: 0.5
@@ -131,18 +119,10 @@ tipos_estructuras:
     cantidad_sprites: 1
     behaviour: town_center
     products:
-      - nombre: p1
+      - nombre: Trabajador
         costos:
-          - recurso: Madera
+          - recurso: Carne
             cantidad: 10
-          - recurso: rec1
-            cantidad: 2
-      - nombre: Mago
-        costos:
-          - recurso: Madera
-            cantidad: 10
-          - recurso: rec1
-            cantidad: 2
   - nombre: Choza
     imagen: resources/choza.png
     ancho_base: 2
@@ -209,7 +189,15 @@ tipos_estructuras:
     ancho_sprite: 128
     alto_sprite: 128
     cantidad_sprites: 1
-    behaviour: building
+    products:
+      - nombre: Ogro
+        costos:
+          - recurso: Carne
+            cantidad: 15
+      - nombre: Dragon
+        costos:
+          - recurso: Carne
+            cantidad: 20
   - nombre: Establo
     imagen: resources/establo.png
     ancho_base: 2

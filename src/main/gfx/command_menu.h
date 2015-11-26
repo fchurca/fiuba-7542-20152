@@ -17,6 +17,7 @@ private:
 protected:
 public:
 	void draw();
+	void clear();
 	std::string intToString(int i);
 	CommandMenu(GameWindow& owner, GraphicsParser& graphicsParser);
 	~CommandMenu();
@@ -24,6 +25,8 @@ public:
 	bool isVisibleUnit;
 	bool isVisibleProducer;
 	bool showOptions;
+	bool posicionating;
+	int selectedOption;
 	virtual void visit(Entity& e);
 	virtual void visit(Unit& e);
 	virtual void visit(Worker& e);

@@ -64,3 +64,7 @@ void SelectionController::update() {
 			i++;
 	}
 }
+
+void SelectionController::clear() {
+	selection.clear();
+}

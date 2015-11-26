@@ -34,6 +34,18 @@ HealthMixin::HealthMixin(int min, int max, int value) :
 	health(min, max, value)
 {}
 
+ProgressMixin::ProgressMixin(int max) :
+	progress(max)
+{}
+
+ProgressMixin::ProgressMixin(int max, int value) :
+	progress(max, value)
+{}
+
+ProgressMixin::ProgressMixin(int min, int max, int value) :
+	progress(min, max, value)
+{}
+
 
 Entity::Entity(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid) :
 	position(position),
@@ -350,8 +362,8 @@ Unit::Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size,
 	Entity(name, board, owner, position, size, sight_radius, solid),
 	HealthMixin(health),
 	speed(speed),
-	hit_force(hitforce),
-	hit_radius(hitradius)
+	hitForce(hitforce),
+	hitRadius(hitradius)
 {}
 
 bool Unit::getIsInAction() {
@@ -449,8 +461,11 @@ void King::visit(EntityVisitor& e) {
 Building::Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::vector<Budget> producerProducts = {}) :
 	Entity(name, board, owner, position, size, sight_radius, solid),
 	HealthMixin(health),
+	ProgressMixin(0,100,0),
 	products(producerProducts)
-{}
+{
+	currentProduct = "";
+}
 
 void Building::update() {
 	Entity::update();
@@ -713,7 +728,7 @@ std::shared_ptr<Command> Unit::giveDefaultCommand(Entity& r) {
 }
 
 std::shared_ptr<Command> Unit::giveDefaultCommand(Unit& r) {
-	if (owner.getActive() && (owner.name != r.owner.name))
+	if (owner.name != r.owner.name)//TODO VER SI ESTA ACTIVO?
 		return std::make_shared<AttackCommand>(r.getId(), getId());
 	else
 		return giveDefaultCommand((Entity&)r);
@@ -724,14 +739,14 @@ std::shared_ptr<Command> Building::giveDefaultCommand(Entity& r) {
 }
 
 std::shared_ptr<Command> Building::giveDefaultCommand(Unit& r) {
-	if (owner.getActive() && (owner.name != r.owner.name))
+	if (owner.name != r.owner.name)//TODO VER SI ESTA ACTIVO?
 		return std::make_shared<AttackCommand>(r.getId(), getId());
 	else
 		return giveDefaultCommand((Entity&)r);
 }
 
 std::shared_ptr<Command> Building::giveDefaultCommand(Worker& r) {
-	if (owner.getActive() && (owner.name != r.owner.name))
+	if (owner.name != r.owner.name)
 		return giveDefaultCommand((Unit&)r);
 	else
 		return std::make_shared<RepairCommand>(r.getId(), getId());
@@ -742,14 +757,22 @@ std::shared_ptr<Command> Flag::giveDefaultCommand(Entity& r) {
 }
 
 std::shared_ptr<Command> Flag::giveDefaultCommand(Unit& r) {
-	if (owner.getActive() && (owner.name != r.owner.name))
+	if (owner.name != r.owner.name) //TODO VER SI ESTA ACTIVO?
 		return std::make_shared<AttackCommand>(r.getId(), getId());
 	else
 		return giveDefaultCommand((Entity&)r);
 }
 
+std::shared_ptr<Command> Resource::giveDefaultCommand(Unit& r) {
+	return std::make_shared<MoveCommand>(r.getId(), getPosition());
+}
+
 std::shared_ptr<Command> Resource::giveDefaultCommand(Worker& r) {
 	return std::make_shared<GatherCommand>(r.getId(), getId());
+}
+
+std::shared_ptr<Command> Resource::giveDefaultCommand(King& r) {
+	return std::make_shared<MoveCommand>(r.getId(), getPosition());
 }
 
 
