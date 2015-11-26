@@ -366,7 +366,9 @@ Unit::Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size,
 	speed(speed),
 	hitForce(hitforce),
 	hitRadius(hitradius)
-{}
+{
+	entityTarget = nullptr;
+}
 
 bool Unit::getIsInAction() {
 	return isInAction;
@@ -432,6 +434,22 @@ void Unit::execute(StopCommand& c) {
 	clearCommand();
 }
 
+void Unit::execute(AttackCommand& c) {
+	if (!executing) {
+		entityTarget = owner.board.findEntity(c.targetId);
+		if (!entityTarget) {
+			clearCommand();
+		}
+		executing = true;
+	}
+	else {
+		if (entityTarget->getDeletable()) {
+			entityTarget = nullptr;
+			clearCommand();
+		}
+	}
+}
+
 
 Worker::Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius, std::vector<Budget> workerProducts) :
 	Unit(name, board, owner, position, size, speed, sight_radius, solid, health, hit_force, hit_radius),
@@ -444,6 +462,40 @@ void Worker::update() {
 
 void Worker::visit(EntityVisitor& e) {
 	e.visit(*this);
+}
+
+void Worker::execute(GatherCommand& c) {
+	if (!executing) {
+		entityTarget = owner.board.findEntity(c.targetId);
+		if (!entityTarget) {
+			clearCommand();
+		}
+		executing = true;
+	}
+	else {
+		if (entityTarget->getDeletable()) {
+			entityTarget = nullptr;
+			clearCommand();
+		}
+	}
+}
+void Worker::execute(RepairCommand& c) {
+	if (!executing) {
+		entityTarget = owner.board.findEntity(c.targetId);
+		if (!entityTarget) {
+			clearCommand();
+		}
+		executing = true;
+	}
+	else {
+		if (entityTarget->getDeletable()) {
+			entityTarget = nullptr;
+			clearCommand();
+		}
+	}
+}
+
+void Worker::execute(BuildCommand& c) {
 }
 
 
@@ -474,6 +526,15 @@ void Building::update() {
 }
 
 void Building::execute(CreateCommand& c) {
+	if (!executing) { // Primera vez valido los recursos
+		int i = 0;
+		for (auto& p : products) {
+			if (p.name == c.entityType) {
+				break;
+			}
+			i++;
+		}
+	}
 }
 
 Building::~Building() {

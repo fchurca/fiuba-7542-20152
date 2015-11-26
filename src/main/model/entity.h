@@ -123,6 +123,7 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 class Unit : public Entity, public HealthMixin {
 	protected:
 		std::deque<r2> waypoints;
+		std::shared_ptr<Entity> entityTarget;
 		double speed;	// Speed (tiles/s)
 		bool isInAction = false;
 	public:
@@ -144,7 +145,7 @@ class Unit : public Entity, public HealthMixin {
 		// TODO: Rest of commands
 		virtual void execute(MoveCommand& c);
 		virtual void execute(StopCommand& c);
-		//virtual void execute(AttackCommand& c); El obj podria ser un Unit, Building o Flag
+		virtual void execute(AttackCommand& c); //El obj podria ser un Unit, Building o Flag
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
 		virtual std::shared_ptr<Command> giveDefaultCommand(Entity& u);
 		virtual std::shared_ptr<Command> giveDefaultCommand(Unit& u);
@@ -156,9 +157,9 @@ class Worker : public Unit {
 		Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hitForce, unsigned int hit_radius, std::vector<Budget> workerProducts);
 		virtual void visit(EntityVisitor& v);
 		std::vector<Budget> products;
-		//virtual void execute(GatherCommand& c);
-		//virtual void execute(RepairCommand& c);
-		//virtual void execute(BuildCommand& c);
+		virtual void execute(GatherCommand& c);
+		virtual void execute(RepairCommand& c);
+		virtual void execute(BuildCommand& c);
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
 };
 
