@@ -311,7 +311,8 @@ void SmartBoard::update() {
 	for(auto& p : players) {
 		p.second->update();
 	}
-	for(auto& e : entities) {
+	std::vector<std::shared_ptr<Entity>> vectorEntities = entities;
+	for(auto& e : vectorEntities) {
 		e->update();
 	}
 }

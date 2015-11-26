@@ -527,12 +527,40 @@ void Building::update() {
 
 void Building::execute(CreateCommand& c) {
 	if (!executing) { // Primera vez valido los recursos
+		progress.set(0);
 		int i = 0;
 		for (auto& p : products) {
 			if (p.name == c.entityType) {
 				break;
 			}
 			i++;
+		}
+		bool haveResources = true;
+		for (auto& c : products[i].lines) {
+			owner.grantResources(c.resource_name, 100);//TODO SACAR SOLO PARA PROBAR
+			if (c.amount > owner.getResources()[c.resource_name]) {
+				haveResources = false;
+				break;
+			}
+		}
+		if (!haveResources) {
+			clearCommand();
+			return;
+		}
+		for (auto& c : products[i].lines) {
+			owner.grantResources(c.resource_name , -1 * c.amount);
+		}
+		executing = true;
+	}
+	else {
+		if (getDeletable()) {
+			clearCommand();
+			return;
+		}
+		progress.inc(1);
+		if (progress.get() == progress.max) {
+			owner.board.createEntity(c.entityType, owner.name, r2(20, 20)); //TODO VER LA POSICION DONDE SE CREA
+			clearCommand();
 		}
 	}
 }
