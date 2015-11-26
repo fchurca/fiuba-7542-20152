@@ -48,7 +48,7 @@ void CommandMenu::visit(Worker& entity) {
 				outText = outText + owner.completeLine("[" + intToString(i) + "] " + p.name, size.x);
 				std::string texto = "Costos |";
 				for (auto& c : p.lines) {
-					texto = texto + "| " + c.resource_name + ": " + intToString((int)c.amount) + " ";
+					texto = texto + " | " + c.resource_name + ": " + intToString((int)c.amount);
 				}
 				outText = outText + owner.completeLine(texto, size.x);
 				i++;
