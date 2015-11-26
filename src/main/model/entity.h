@@ -74,6 +74,7 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 		Player& owner;
 		r2 size;
 		const std::string name;
+		bool executing;
 		ABoard& board;
 		r2 center();
 		int sight_radius;
@@ -177,7 +178,7 @@ class Building : public Entity, public HealthMixin, public ProgressMixin {
 		std::string currentProduct;
 		virtual void visit(EntityVisitor& v);
 		virtual ~Building();
-		//virtual void execute(CreateCommand& c);
+		virtual void execute(CreateCommand& c);
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
 		virtual std::shared_ptr<Command> giveDefaultCommand(Unit& u);
 		virtual std::shared_ptr<Command> giveDefaultCommand(Worker& u);

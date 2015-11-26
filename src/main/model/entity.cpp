@@ -68,6 +68,7 @@ Entity::Entity(std::string name, ABoard& board, Player& owner, r2 position, r2 s
 		<< " owned by board " << &board
 		<< " at " << position.x << "," << position.y;
 	Logger::getInstance()->writeInformation(message.str());
+	executing = false;
 }
 
 Entity::~Entity() {
@@ -134,6 +135,7 @@ void Entity::clearCommand() {
 }
 
 void Entity::setCommand(shared_ptr<Command> newCommand) {
+	executing = false;
 	command = newCommand;
 }
 
@@ -469,6 +471,9 @@ Building::Building(std::string name, ABoard& board, Player& owner, r2 position, 
 
 void Building::update() {
 	Entity::update();
+}
+
+void Building::execute(CreateCommand& c) {
 }
 
 Building::~Building() {
