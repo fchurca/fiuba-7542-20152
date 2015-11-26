@@ -496,6 +496,39 @@ void Worker::execute(RepairCommand& c) {
 }
 
 void Worker::execute(BuildCommand& c) {
+	if (!executing) { // Primera vez valido los recursos
+		int i = 0;
+		for (auto& p : products) {
+			if (p.name == c.entityType) {
+				break;
+			}
+			i++;
+		}
+		bool haveResources = true;
+		for (auto& c : products[i].lines) {
+			owner.grantResources(c.resource_name, 100);//TODO SACAR SOLO PARA PROBAR
+			if (c.amount > owner.getResources()[c.resource_name]) {
+				haveResources = false;
+				break;
+			}
+		}
+		if (!haveResources) {
+			clearCommand();
+			return;
+		}
+		for (auto& c : products[i].lines) {
+			owner.grantResources(c.resource_name, -1 * c.amount);
+		}
+		executing = true;
+	}
+	else {
+		if (getDeletable()) {
+			clearCommand();
+			return;
+		}
+		std::shared_ptr<Entity> entity = owner.board.createEntity(c.entityType, owner.name, c.position); //TODO DEBE SER UN UNFINISHED BUILDING
+		setCommand(std::make_shared<RepairCommand>(getId(), entity->getId()));
+	}
 }
 
 
