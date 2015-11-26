@@ -177,6 +177,8 @@ void GameWindow::processInput(){
 								if (p) {
 									if (i < p->products.size()) {
 										board.pushCommand(std::make_shared<CreateCommand>(p->getId(),p->products[i].name));
+										commandMenu->posicionating = false;
+										commandMenu->showOptions = false;
 									}
 								}	
 							}
