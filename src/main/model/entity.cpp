@@ -633,17 +633,19 @@ void Building::execute(CreateCommand& c) {
 		executing = true;
 	}
 	else {
-		if (getDeletable()) {
-			clearCommand();
-			return;
+		if (!getDeletable()) {
+			if (progress.get() < progress.max) {
+				progress.inc(1);
+				isInAction = true;
+				return;
+			}
+			if (progress.get() == progress.max) {
+				owner.board.createEntity(c.entityType, owner.name, r2(20, 20));//TODO VER LA POSICION DONDE SE CREA
+				isInAction = false;
+			}
 		}
-		progress.inc(1);
-		if (progress.get() == progress.max) {
-			owner.board.createEntity(c.entityType, owner.name, r2(20, 20)); //TODO VER LA POSICION DONDE SE CREA
-			clearCommand();
-			return;
-		}
-		isInAction = true;
+		clearCommand();
+		return;
 	}
 }
 
