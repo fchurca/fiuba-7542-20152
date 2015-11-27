@@ -476,6 +476,7 @@ void Worker::execute(GatherCommand& c) {
 		if (!entityTarget->getDeletable()) {
 			auto resource = dynamic_cast<Resource*>(entityTarget.get());
 			if (resource) {
+				//TODO. Movernos hacia el recurso
 				if (resource->cargo.get() == resource->cargo.min) {
 					resource->setDeletable();
 					entityTarget = nullptr;
@@ -504,48 +505,35 @@ void Worker::execute(RepairCommand& c) {
 		executing = true;
 	}
 	else {
-		if (entityTarget->getDeletable()) {
-			entityTarget = nullptr;
-			clearCommand();
-			return;
-		}
-		auto unfinichedBuilding = dynamic_cast<UnfinishedBuilding*>(entityTarget.get());
-		if (unfinichedBuilding) {
-			if (unfinichedBuilding->progress.get() < unfinichedBuilding->progress.max) {
-				unfinichedBuilding->progress.inc(1);
+		if (!entityTarget->getDeletable()) {
+			auto unfinichedBuilding = dynamic_cast<UnfinishedBuilding*>(entityTarget.get());
+			if (unfinichedBuilding) {
+				if (unfinichedBuilding->progress.get() < unfinichedBuilding->progress.max) {
+					unfinichedBuilding->progress.inc(1);
+					isInAction = true;
+					return;
+				}
 				if (unfinichedBuilding->progress.get() == unfinichedBuilding->progress.max) {
 					entityTarget->setDeletable();
 					owner.board.createEntity(entityTarget->name, entityTarget->owner.name, entityTarget->getPosition());
-					clearCommand();
-					return;
-				}
-			}
-		}
-		else {
-			auto building = dynamic_cast<Building*>(entityTarget.get());
-			if (building) {
-				if (building->health.get() < building->health.max) {
-					building->health.inc(1);
-					if (building->health.get() == building->health.max) {
-						entityTarget = nullptr;
-						clearCommand();
-						return;
-					}
-				}
-				else {
-					entityTarget = nullptr;
-					clearCommand();
-					return;
+					isInAction = false;
 				}
 			}
 			else {
-				entityTarget = nullptr;
-				clearCommand();
-				return;
+				auto building = dynamic_cast<Building*>(entityTarget.get());
+				if (building) {
+					if (building->health.get() < building->health.max) {
+						building->health.inc(1);
+						isInAction = true;
+						return;
+					}
+				}
 			}
 		}
+		entityTarget = nullptr;
+		clearCommand();
+		return;
 	}
-	isInAction = true;
 }
 
 void Worker::execute(BuildCommand& c) {
