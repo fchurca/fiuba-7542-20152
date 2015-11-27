@@ -418,12 +418,18 @@ void Unit::visit(EntityVisitor& e) {
 // TODO: Rest of commands
 void Unit::execute(MoveCommand& c) {
 	// TODO: on first run of this command, clear waypoints
-	if (!targeted()) {
-		if (canEnter(c.position)) {
+	if (!executing) {
+		waypoints.clear();
+		executing = true;
+	}
+	else{
+		if (!targeted()) {
+			if (canEnter(c.position)) {
 			cerr << "Adding target" << endl;
 			addTarget(c.position);
-		} else {
+			} else {
 			clearCommand();
+			}
 		}
 	}
 }
