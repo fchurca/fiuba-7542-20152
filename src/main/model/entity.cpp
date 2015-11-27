@@ -69,6 +69,7 @@ Entity::Entity(std::string name, ABoard& board, Player& owner, r2 position, r2 s
 		<< " at " << position.x << "," << position.y;
 	Logger::getInstance()->writeInformation(message.str());
 	executing = false;
+	isInAction = false;
 }
 
 Entity::~Entity() {
@@ -370,10 +371,6 @@ Unit::Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size,
 	entityTarget = nullptr;
 }
 
-bool Unit::getIsInAction() {
-	return isInAction;
-}
-
 void Unit::update() {
 	Entity::update();
 	if (targeted()) {
@@ -465,10 +462,12 @@ void Worker::visit(EntityVisitor& e) {
 }
 
 void Worker::execute(GatherCommand& c) {
+	isInAction = false;
 	if (!executing) {
 		entityTarget = owner.board.findEntity(c.targetId);
 		if (!entityTarget) {
 			clearCommand();
+			return;
 		}
 		executing = true;
 	}
@@ -476,7 +475,25 @@ void Worker::execute(GatherCommand& c) {
 		if (entityTarget->getDeletable()) {
 			entityTarget = nullptr;
 			clearCommand();
+			return;
 		}
+		//TODO: Si no estoy colisionando con entityTarget dirigirme a entityTarget.getPosition()
+		//else
+		auto resource = dynamic_cast<Resource*>(entityTarget.get());
+		if (!resource) {
+			entityTarget = nullptr;
+			clearCommand();
+			return;
+		}
+		if (resource->cargo.get() == resource->cargo.min) {
+			resource->setDeletable();
+			entityTarget = nullptr;
+			clearCommand();
+			return;
+		}
+		isInAction = true;
+		owner.grantResources(resource->resource_name, 1);
+		resource->cargo.inc(-1);
 	}
 }
 void Worker::execute(RepairCommand& c) {
@@ -559,6 +576,7 @@ void Building::update() {
 }
 
 void Building::execute(CreateCommand& c) {
+	isInAction = false;
 	if (!executing) { // Primera vez valido los recursos
 		progress.set(0);
 		int i = 0;
@@ -570,7 +588,6 @@ void Building::execute(CreateCommand& c) {
 		}
 		bool haveResources = true;
 		for (auto& c : products[i].lines) {
-			owner.grantResources(c.resource_name, 100);//TODO SACAR SOLO PARA PROBAR
 			if (c.amount > owner.getResources()[c.resource_name]) {
 				haveResources = false;
 				break;
@@ -594,7 +611,9 @@ void Building::execute(CreateCommand& c) {
 		if (progress.get() == progress.max) {
 			owner.board.createEntity(c.entityType, owner.name, r2(20, 20)); //TODO VER LA POSICION DONDE SE CREA
 			clearCommand();
+			return;
 		}
+		isInAction = true;
 	}
 }
 

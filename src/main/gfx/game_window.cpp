@@ -94,7 +94,6 @@ void GameWindow::render() {
 	isoview->draw();
 	if (isSweeping()) {
 		r2 boardClick = isoview->screenToBoardPosition(mouseDown);
-		r2 boardMouse = isoview->screenToBoardPosition(mouse);
 		Uint8 q = 255;
 		SDL_SetRenderDrawColor(getRenderer(), q, q, q, q);
 		isoview->drawRhombus(boardClick, boardMouse);
@@ -102,7 +101,6 @@ void GameWindow::render() {
 	if (commandMenu->isVisibleWorker && commandMenu->showOptions && commandMenu->positioning) {
 		auto w = dynamic_cast<Worker*>(sController->getSelection().front().get());
 		r2 sizeBuilding = board.entityFactories[w->products[commandMenu->selectedOption].name]->size;
-		r2 boardMouse = isoview->screenToBoardPosition(mouse);
 		if (player.getVisibility2(boardMouse) > INVISIBLE) {
 			Uint8 q = 255;
 			SDL_SetRenderDrawColor(getRenderer(), q, q, q, q);

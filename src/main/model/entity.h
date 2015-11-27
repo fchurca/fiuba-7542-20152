@@ -74,6 +74,7 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 		Player& owner;
 		r2 size;
 		const std::string name;
+		bool isInAction = false;
 		bool executing;
 		ABoard& board;
 		r2 center();
@@ -125,7 +126,6 @@ class Unit : public Entity, public HealthMixin {
 		std::deque<r2> waypoints;
 		std::shared_ptr<Entity> entityTarget;
 		double speed;	// Speed (tiles/s)
-		bool isInAction = false;
 	public:
 		unsigned int hitForce;
 		unsigned int hitRadius;
@@ -140,7 +140,6 @@ class Unit : public Entity, public HealthMixin {
 		Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hitForce, unsigned int hit_radius);
 		virtual void update();
 		virtual void visit(EntityVisitor& v);
-		bool getIsInAction();
 		virtual ~Unit();
 		// TODO: Rest of commands
 		virtual void execute(MoveCommand& c);

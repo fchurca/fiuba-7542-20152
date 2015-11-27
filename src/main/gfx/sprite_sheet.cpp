@@ -103,7 +103,7 @@ void SpriteSheet::visit(Unit& entity) {
 		currentFrame = 0;
 		Logger::getInstance()->writeWarning(" La cantidad de sprites debe ser mayor a cero " + path);
 	}
-	else if (entity.getIsInAction()) {
+	else if (entity.isInAction) {
 		//	Por ahora esta fija la cantidad de Sprite Sheet al ejecutar accion
 		currentFrame = (counter % ENTIDAD_DEFAULT_CANTIDAD_ACTION_SPRITES) + total_sprites;
 		if (currentFrame == total_sprites)
