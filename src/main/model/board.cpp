@@ -99,6 +99,16 @@ shared_ptr<Entity> ABoard::createEntity(string name, string playerName, r2 posit
 	return pEntity;
 }
 
+//TODO Agregue condicion de getDeletable para poder realizar el pasaje de UnfinishedBuilding a Building en Worker.BuildCommand
+shared_ptr<Entity> ABoard::createEntity(std::shared_ptr<Entity> e) {
+	if (findEntity(rectangle(e->getPosition(), e->size))) {
+		Logger::getInstance()->writeError("Lugar ya ocupado para entidad " + name);
+		return nullptr;
+	}
+	entities.push_back(e);
+	return e;
+}
+
 shared_ptr<EntityFactory> ABoard::createEntityFactory(string name, r2 size, double speed, int sight_radius, bool solid, int capacity, std::string behaviour, int health, std::vector<TagProduct> products, std::string resource_name, unsigned int hit_force, unsigned int hit_radius) {
 	shared_ptr<EntityFactory> pFactory;
 	if (behaviour == "resource") {
@@ -199,7 +209,7 @@ shared_ptr<Entity> ABoard::findEntity(size_t id) {
 
 shared_ptr<Entity> ABoard::findEntity(rectangle r) {
 	return findEntity([r](shared_ptr<Entity> e) {
-			return rectangle(e->getPosition(), e->size).intersects(r); });
+			return rectangle(e->getPosition(), e->size).intersects(r) && !e->getDeletable(); }); //TODO Agregue condicion de getDeletable para poder realizar el pasaje de UnfinishedBuilding a Building en Worker.BuildCommand
 }
 
 shared_ptr<Entity> ABoard::findEntity(r2 pos) {
