@@ -562,19 +562,19 @@ void Worker::execute(BuildCommand& c) {
 		executing = true;
 	}
 	else {
-		if (getDeletable()) {
-			clearCommand();
-			return;
+		if (!getDeletable()) {
+			std::shared_ptr<EntityFactory> entityFactory = owner.board.entityFactories[c.entityType];
+			auto entityFactoryUnfinished = dynamic_cast<BuildingFactory*>(entityFactory.get());
+			if (entityFactoryUnfinished) {
+				std::shared_ptr<Entity> entity = entityFactoryUnfinished->createUnfinished(owner, c.position);
+				if (owner.board.createEntity(entity)) {
+					setCommand(std::make_shared<RepairCommand>(getId(), entity->getId()));
+					return;
+				}
+			}
 		}
-		std::shared_ptr<EntityFactory> entityFactory = owner.board.entityFactories[c.entityType]; 
-		auto entityFactoryUnfinished = dynamic_cast<BuildingFactory*>(entityFactory.get());
-		if(!entityFactoryUnfinished){
-			clearCommand();
-			return;
-		}
-		std::shared_ptr<Entity> entity = entityFactoryUnfinished->createUnfinished(owner, c.position);
-		owner.board.createEntity(entity);
-		setCommand(std::make_shared<RepairCommand>(getId(), entity->getId()));
+		clearCommand();
+		return;
 	}
 }
 
