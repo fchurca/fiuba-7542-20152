@@ -530,11 +530,15 @@ void Worker::execute(RepairCommand& c) {
 				if (building->health.get() < building->health.max) {
 					building->health.inc(1);
 					if (building->health.get() == building->health.max) {
-						//TODO: Pasar el UnfinishedBuilding al Building Concreto que es
 						entityTarget = nullptr;
 						clearCommand();
 						return;
 					}
+				}
+				else {
+					entityTarget = nullptr;
+					clearCommand();
+					return;
 				}
 			}
 			else {
