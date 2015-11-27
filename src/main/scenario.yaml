@@ -66,6 +66,7 @@ escenario:
       - {x: 3, y: 14, tipo: Chancho }
       - {x: 11, y: 10, tipo: Chancho }
       - {x: 11, y: 11, tipo: Chancho }
+      - {x: 20, y: 20, tipo: Piedras }
       - {x: 5, y: 5, tipo: Chancho }
       - {x: 2, y: 20, tipo: Torre }
       - {x: 6, y: 20, tipo: Centro }

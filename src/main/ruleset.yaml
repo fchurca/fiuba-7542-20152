@@ -1,5 +1,5 @@
 configuracion:
-    dt: 50
+    dt: 20
 tipos_unidades:
   - nombre: Rey
     imagen: resources/mago.png
@@ -311,12 +311,12 @@ tipos_recursos:
     capacidad: 100
     resource_name: Oro
   - nombre: Piedras
-    imagen: resources/piedras.png
+    imagen: resources/piedraRec.png
     ancho_base: 1
     alto_base: 1
-    pixel_ref_x: 32
-    pixel_ref_y: 3
-    ancho_sprite: 64
-    alto_sprite: 35
+    pixel_ref_x: 28
+    pixel_ref_y: 32
+    ancho_sprite: 65
+    alto_sprite: 68
     capacidad: 100
     resource_name: Piedra
