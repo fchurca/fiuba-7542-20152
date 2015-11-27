@@ -101,7 +101,7 @@ void GameWindow::render() {
 	if (commandMenu->isVisibleWorker && commandMenu->showOptions && commandMenu->positioning) {
 		auto w = dynamic_cast<Worker*>(sController->getSelection().front().get());
 		r2 sizeBuilding = board.entityFactories[w->products[commandMenu->selectedOption].name]->size;
-		if (player.getVisibility2(boardMouse) > INVISIBLE) {
+		if (player.getVisibility2(boardMouse) > INVISIBLE) { //TODO: Ver 
 			Uint8 q = 255;
 			SDL_SetRenderDrawColor(getRenderer(), q, q, q, q);
 			isoview->drawRhombus(boardMouse - sizeBuilding / 2, boardMouse + sizeBuilding / 2);
@@ -230,14 +230,15 @@ void GameWindow::processInput(){
 					if (commandMenu->isVisibleWorker && commandMenu->showOptions && commandMenu->positioning) {
 						auto w = dynamic_cast<Worker*>(sController->getSelection().front().get());
 						r2 sizeBuilding = board.entityFactories[w->products[commandMenu->selectedOption].name]->size;
-						if (player.getVisibility(boardMouse) > INVISIBLE) {
+						if (player.getVisibility2(boardMouse) > INVISIBLE) {//TODO: Ver 
 							board.pushCommand(std::make_shared<BuildCommand>(w->getId(), boardMouse - sizeBuilding / 2, w->products[commandMenu->selectedOption].name));
 							commandMenu->positioning = false;
 						}
 					}
-
-					SDL_GetMouseState(&mouseDown.x, &mouseDown.y);
-					sweeping = true;
+					else {
+						SDL_GetMouseState(&mouseDown.x, &mouseDown.y);
+						sweeping = true;
+					}
 				}
 				break;
 			case SDL_MOUSEBUTTONUP:
@@ -248,14 +249,16 @@ void GameWindow::processInput(){
 
 				Logger::getInstance()->writeInformation(oss.str().c_str());
 				if (EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_LEFT) {
+					if (!(commandMenu->isVisibleWorker && commandMenu->showOptions && commandMenu->positioning)) {
 						setSelection();
 						sweeping = false;
 					}
+				}
 				if( EventHandler::getInstance()->getEvent()->button.button == SDL_BUTTON_RIGHT) {
 					Logger::getInstance()->writeInformation("Boton derecho");
 					std::shared_ptr<Entity> obj = board.findEntity(rectangle(boardMouse,r2(0,0)));
 					for (auto e : sController->getSelection()) {
-						if ((player.getVisibility(boardMouse) == INVISIBLE || !obj) && e->owner.name == player.name) {
+						if ((player.getVisibility2(boardMouse) == INVISIBLE || !obj) && e->owner.name == player.name) {//TODO: Ver 
 							if (!(SDL_GetModState()&KMOD_SHIFT)) {
 								board.pushCommand(make_shared<StopCommand>(e->getId()));
 							}
