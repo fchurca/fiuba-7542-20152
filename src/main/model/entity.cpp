@@ -473,7 +473,7 @@ void Worker::execute(GatherCommand& c) {
 		executing = true;
 	}
 	else {
-		if (!entityTarget->getDeletable()) {
+		if (!entityTarget->getDeletable() && !getDeletable()) {
 			auto resource = dynamic_cast<Resource*>(entityTarget.get());
 			if (resource) {
 				//TODO. Movernos hacia el recurso
@@ -505,7 +505,7 @@ void Worker::execute(RepairCommand& c) {
 		executing = true;
 	}
 	else {
-		if (!entityTarget->getDeletable()) {
+		if (!entityTarget->getDeletable() && !getDeletable()) {
 			auto unfinichedBuilding = dynamic_cast<UnfinishedBuilding*>(entityTarget.get());
 			if (unfinichedBuilding) {
 				//TODO. Movernos hacia el building
