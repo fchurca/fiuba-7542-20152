@@ -473,28 +473,25 @@ void Worker::execute(GatherCommand& c) {
 		executing = true;
 	}
 	else {
-		if (entityTarget->getDeletable()) {
-			entityTarget = nullptr;
-			clearCommand();
-			return;
+		if (!entityTarget->getDeletable()) {
+			auto resource = dynamic_cast<Resource*>(entityTarget.get());
+			if (resource) {
+				if (resource->cargo.get() == resource->cargo.min) {
+					resource->setDeletable();
+					entityTarget = nullptr;
+					clearCommand();
+				}
+				else {
+					isInAction = true;
+					owner.grantResources(resource->resource_name, 1);
+					resource->cargo.inc(-1);
+					return;
+				}
+			}
 		}
-		//TODO: Si no estoy colisionando con entityTarget dirigirme a entityTarget.getPosition()
-		//else
-		auto resource = dynamic_cast<Resource*>(entityTarget.get());
-		if (!resource) {
-			entityTarget = nullptr;
-			clearCommand();
-			return;
-		}
-		if (resource->cargo.get() == resource->cargo.min) {
-			resource->setDeletable();
-			entityTarget = nullptr;
-			clearCommand();
-			return;
-		}
-		isInAction = true;
-		owner.grantResources(resource->resource_name, 1);
-		resource->cargo.inc(-1);
+		entityTarget = nullptr;
+		clearCommand();
+		return;
 	}
 }
 void Worker::execute(RepairCommand& c) {
