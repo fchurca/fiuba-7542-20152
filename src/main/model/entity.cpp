@@ -5,6 +5,7 @@
 
 #include "entity.h"
 #include "board.h"
+#include "entity_factory.h"
 
 using namespace std;
 
@@ -497,6 +498,7 @@ void Worker::execute(GatherCommand& c) {
 	}
 }
 void Worker::execute(RepairCommand& c) {
+	isInAction = false;
 	if (!executing) {
 		entityTarget = owner.board.findEntity(c.targetId);
 		if (!entityTarget) {
@@ -508,8 +510,41 @@ void Worker::execute(RepairCommand& c) {
 		if (entityTarget->getDeletable()) {
 			entityTarget = nullptr;
 			clearCommand();
+			return;
+		}
+		auto unfinichedBuilding = dynamic_cast<UnfinishedBuilding*>(entityTarget.get());
+		if (unfinichedBuilding) {
+			if (unfinichedBuilding->progress.get() < unfinichedBuilding->progress.max) {
+				unfinichedBuilding->progress.inc(1);
+				if (unfinichedBuilding->progress.get() == unfinichedBuilding->progress.max) {
+					entityTarget->setDeletable();
+					owner.board.createEntity(entityTarget->name, entityTarget->owner.name, entityTarget->getPosition());
+					clearCommand();
+					return;
+				}
+			}
+		}
+		else {
+			auto building = dynamic_cast<Building*>(entityTarget.get());
+			if (building) {
+				if (building->health.get() < building->health.max) {
+					building->health.inc(1);
+					if (building->health.get() == building->health.max) {
+						//TODO: Pasar el UnfinishedBuilding al Building Concreto que es
+						entityTarget = nullptr;
+						clearCommand();
+						return;
+					}
+				}
+			}
+			else {
+				entityTarget = nullptr;
+				clearCommand();
+				return;
+			}
 		}
 	}
+	isInAction = true;
 }
 
 void Worker::execute(BuildCommand& c) {
@@ -523,7 +558,6 @@ void Worker::execute(BuildCommand& c) {
 		}
 		bool haveResources = true;
 		for (auto& c : products[i].lines) {
-			owner.grantResources(c.resource_name, 100);//TODO SACAR SOLO PARA PROBAR
 			if (c.amount > owner.getResources()[c.resource_name]) {
 				haveResources = false;
 				break;
@@ -543,7 +577,14 @@ void Worker::execute(BuildCommand& c) {
 			clearCommand();
 			return;
 		}
-		std::shared_ptr<Entity> entity = owner.board.createEntity(c.entityType, owner.name, c.position); //TODO DEBE SER UN UNFINISHED BUILDING
+		std::shared_ptr<EntityFactory> entityFactory = owner.board.entityFactories[c.entityType]; 
+		auto entityFactoryUnfinished = dynamic_cast<BuildingFactory*>(entityFactory.get());
+		if(!entityFactoryUnfinished){
+			clearCommand();
+			return;
+		}
+		std::shared_ptr<Entity> entity = entityFactoryUnfinished->createUnfinished(owner, c.position);
+		owner.board.createEntity(entity);
 		setCommand(std::make_shared<RepairCommand>(getId(), entity->getId()));
 	}
 }
