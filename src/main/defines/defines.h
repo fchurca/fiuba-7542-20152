@@ -65,8 +65,8 @@ enum Directions {
 #define ENTIDAD_DEFAULT_ARMOUR 5
 #define ENTIDAD_DEFAULT_PRODUCTS ""
 #define ENTIDAD_DEFAULT_RESOURCE_NAME ""
-#define ENTIDAD_DEFAULT_HIT_FORCE 0
-#define ENTIDAD_DEFAULT_HIT_RADIUS 0
+#define ENTIDAD_DEFAULT_HIT_FORCE 1
+#define ENTIDAD_DEFAULT_HIT_RADIUS 1
 //Nombre de jugador inicial (terreno, etc)
 #define DEFAULT_PLAYER_NAME "Gaia"
 

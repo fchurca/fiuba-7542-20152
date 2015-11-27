@@ -519,21 +519,27 @@ void Worker::execute(GatherCommand& c) {
 			return;
 		}
 		executing = true;
+		//TODO. Movernos hacia el recurso
 	}
 	else {
 		if (!entityTarget->getDeletable() && !getDeletable()) {
 			auto resource = dynamic_cast<Resource*>(entityTarget.get());
 			if (resource) {
-				//TODO. Movernos hacia el recurso
-				if (resource->cargo.get() == resource->cargo.min) {
-					resource->setDeletable();
-					entityTarget = nullptr;
-					clearCommand();
+				rectangle ataque(getPosition() - r2(hitRadius, hitRadius),r2(2*hitRadius, 2*hitRadius));//Vision en forma de Cuadrado
+				if (ataque.intersects(rectangle(resource->getPosition(), resource->size))){
+					if (resource->cargo.get() == resource->cargo.min) {
+						resource->setDeletable();
+						entityTarget = nullptr;
+						clearCommand();
+					}
+					else {
+						isInAction = true;
+						owner.grantResources(resource->resource_name, 1);
+						resource->cargo.inc(-1);
+						return;
+					}
 				}
 				else {
-					isInAction = true;
-					owner.grantResources(resource->resource_name, 1);
-					resource->cargo.inc(-1);
 					return;
 				}
 			}
@@ -551,33 +557,39 @@ void Worker::execute(RepairCommand& c) {
 			clearCommand();
 		}
 		executing = true;
+		//TODO. Movernos hacia el building
 	}
 	else {
 		if (!entityTarget->getDeletable() && !getDeletable()) {
-			auto unfinichedBuilding = dynamic_cast<UnfinishedBuilding*>(entityTarget.get());
-			if (unfinichedBuilding) {
-				//TODO. Movernos hacia el building
-				if (unfinichedBuilding->progress.get() < unfinichedBuilding->progress.max) {
-					unfinichedBuilding->progress.inc(1);
-					isInAction = true;
-					return;
-				}
-				if (unfinichedBuilding->progress.get() == unfinichedBuilding->progress.max) {
-					entityTarget->setDeletable();
-					owner.board.createEntity(entityTarget->name, entityTarget->owner.name, entityTarget->getPosition());
-					isInAction = false;
-				}
-			}
-			else {
-				auto building = dynamic_cast<Building*>(entityTarget.get());
-				if (building) {
-					//TODO. Movernos hacia el building
-					if (building->health.get() < building->health.max) {
-						building->health.inc(1);
+			rectangle ataque(getPosition() - r2(hitRadius, hitRadius), r2(2 * hitRadius, 2 * hitRadius));//Vision en forma de Cuadrado
+			if (ataque.intersects(rectangle(entityTarget->getPosition(), entityTarget->size))) {
+				auto unfinichedBuilding = dynamic_cast<UnfinishedBuilding*>(entityTarget.get());
+				if (unfinichedBuilding) {
+					if (unfinichedBuilding->progress.get() < unfinichedBuilding->progress.max) {
+						unfinichedBuilding->progress.inc(1);
 						isInAction = true;
 						return;
 					}
+					if (unfinichedBuilding->progress.get() == unfinichedBuilding->progress.max) {
+						entityTarget->setDeletable();
+						owner.board.createEntity(entityTarget->name, entityTarget->owner.name, entityTarget->getPosition());
+						isInAction = false;
+					}
 				}
+				else {
+					auto building = dynamic_cast<Building*>(entityTarget.get());
+					if (building) {
+						//TODO. Movernos hacia el building
+						if (building->health.get() < building->health.max) {
+							building->health.inc(1);
+							isInAction = true;
+							return;
+						}
+					}
+				}
+			}
+			else {
+				return;
 			}
 		}
 		entityTarget = nullptr;
