@@ -56,6 +56,13 @@ void SelectionMenu::visit(UnfinishedBuilding& entity) {
 	outText += owner.completeLine(ss.str().c_str(), size.x);
 }
 
+void SelectionMenu::visit(Flag& entity) {
+	visit((Entity&)entity);
+	stringstream ss;
+	ss << "Salud: " << entity.health.get() << "/" << entity.health.max;
+	outText += owner.completeLine(ss.str().c_str(), size.x);
+}
+
 void SelectionMenu::draw() {
 	//Dibujo fondo
 	SDL_Rect destinoFondoMenu = { (int)offset.x, (int)offset.y, (int)size.x, (int)size.y };
