@@ -649,7 +649,18 @@ void Building::execute(CreateCommand& c) {
 				return;
 			}
 			if (progress.get() == progress.max) {
-				owner.board.createEntity(c.entityType, owner.name, r2(20, 20));//TODO VER LA POSICION DONDE SE CREA
+				//TODO VER LA POSICION DONDE SE CREA
+				int i = getPosition().x + 1;
+				int j = getPosition().y + 1;
+				bool imposibleSet = false;
+				while (!owner.board.createEntity(c.entityType, owner.name, r2(i, j)) || imposibleSet) {
+					if (j < owner.board.sizeY) {
+						j++;
+					}
+					else {
+						imposibleSet = true;
+					}		
+				}
 				isInAction = false;
 			}
 		}
