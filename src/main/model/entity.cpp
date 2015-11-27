@@ -433,18 +433,65 @@ void Unit::execute(StopCommand& c) {
 }
 
 void Unit::execute(AttackCommand& c) {
+	isInAction = false;
 	if (!executing) {
 		entityTarget = owner.board.findEntity(c.targetId);
-		if (!entityTarget) {
-			clearCommand();
+		if (entityTarget) {
+			if (!entityTarget->getDeletable()) {
+				executing = true;
+				return;
+			}
 		}
-		executing = true;
+		entityTarget = nullptr;
+		clearCommand();
+		return;
 	}
 	else {
-		if (entityTarget->getDeletable()) {
-			entityTarget = nullptr;
-			clearCommand();
+		if (!getDeletable() && !entityTarget->getDeletable()) {
+			auto building = dynamic_cast<Building*>(entityTarget.get());
+			if (building) {
+				//TODO. Movernos hacia el recurso hasta entrar en hit radius 
+				building->health.inc(-1 * hitForce);
+				if (building->health.get() == building->health.min) {
+					building->setDeletable();
+				}
+				else {
+					isInAction = true;
+					return;
+				}
+			}
+			else {
+				auto unit = dynamic_cast<Unit*>(entityTarget.get());
+				if (unit) {
+					//TODO. Movernos hacia el recurso hasta entrar en hit radius 
+					unit->health.inc(-1 * hitForce);
+					if (unit->health.get() == unit->health.min) {
+						unit->setDeletable();
+					}
+					else {
+						isInAction = true;
+						return;
+					}
+				}
+				else {
+					auto flag = dynamic_cast<Flag*>(entityTarget.get());
+					if (flag) {
+						//TODO. Movernos hacia el recurso hasta entrar en hit radius 
+						flag->health.inc(-1 * hitForce);
+						if (flag->health.get() == flag->health.min) {
+							flag->setDeletable();
+						}
+						else {
+							isInAction = true;
+							return;
+						}
+					}
+				}
+			}
 		}
+		entityTarget = nullptr;
+		clearCommand();
+		return;
 	}
 }
 
