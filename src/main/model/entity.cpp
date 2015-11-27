@@ -138,6 +138,7 @@ void Entity::clearCommand() {
 
 void Entity::setCommand(shared_ptr<Command> newCommand) {
 	executing = false;
+	isInAction = false;
 	command = newCommand;
 }
 
