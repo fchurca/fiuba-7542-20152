@@ -558,9 +558,6 @@ void Worker::execute(BuildCommand& c) {
 			clearCommand();
 			return;
 		}
-		for (auto& c : products[i].lines) {
-			owner.grantResources(c.resource_name, -1 * c.amount);
-		}
 		executing = true;
 	}
 	else {
@@ -570,6 +567,16 @@ void Worker::execute(BuildCommand& c) {
 			if (entityFactoryUnfinished) {
 				std::shared_ptr<Entity> entity = entityFactoryUnfinished->createUnfinished(owner, c.position);
 				if (owner.board.createEntity(entity)) {
+					int i = 0;
+					for (auto& p : products) {
+						if (p.name == c.entityType) {
+							break;
+						}
+						i++;
+					}
+					for (auto& c : products[i].lines) {
+						owner.grantResources(c.resource_name, -1 * c.amount);
+					}
 					setCommand(std::make_shared<RepairCommand>(getId(), entity->getId()));
 					return;
 				}
