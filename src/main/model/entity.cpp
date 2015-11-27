@@ -449,25 +449,13 @@ void Unit::execute(AttackCommand& c) {
 	}
 	else {
 		if (!getDeletable() && !entityTarget->getDeletable()) {
-			auto building = dynamic_cast<Building*>(entityTarget.get());
-			if (building) {
-				//TODO. Movernos hacia el recurso hasta entrar en hit radius 
-				building->health.inc(-1 * hitForce);
-				if (building->health.get() == building->health.min) {
-					building->setDeletable();
-				}
-				else {
-					isInAction = true;
-					return;
-				}
-			}
-			else {
-				auto unit = dynamic_cast<Unit*>(entityTarget.get());
-				if (unit) {
-					//TODO. Movernos hacia el recurso hasta entrar en hit radius 
-					unit->health.inc(-1 * hitForce);
-					if (unit->health.get() == unit->health.min) {
-						unit->setDeletable();
+			rectangle ataque(getPosition() - r2(hitRadius, hitRadius), r2(2 * hitRadius, 2 * hitRadius));//Vision en forma de Cuadrado
+			if (ataque.intersects(rectangle(entityTarget->getPosition(), entityTarget->size))) {
+				auto building = dynamic_cast<Building*>(entityTarget.get());
+				if (building) {
+					building->health.inc(-1 * hitForce);
+					if (building->health.get() == building->health.min) {
+						building->setDeletable();
 					}
 					else {
 						isInAction = true;
@@ -475,19 +463,34 @@ void Unit::execute(AttackCommand& c) {
 					}
 				}
 				else {
-					auto flag = dynamic_cast<Flag*>(entityTarget.get());
-					if (flag) {
-						//TODO. Movernos hacia el recurso hasta entrar en hit radius 
-						flag->health.inc(-1 * hitForce);
-						if (flag->health.get() == flag->health.min) {
-							flag->setDeletable();
+					auto unit = dynamic_cast<Unit*>(entityTarget.get());
+					if (unit) {
+						unit->health.inc(-1 * hitForce);
+						if (unit->health.get() == unit->health.min) {
+							unit->setDeletable();
 						}
 						else {
 							isInAction = true;
 							return;
 						}
 					}
+					else {
+						auto flag = dynamic_cast<Flag*>(entityTarget.get());
+						if (flag) {
+							flag->health.inc(-1 * hitForce);
+							if (flag->health.get() == flag->health.min) {
+								flag->setDeletable();
+							}
+							else {
+								isInAction = true;
+								return;
+							}
+						}
+					}
 				}
+			}
+			else {
+				return;
 			}
 		}
 		entityTarget = nullptr;
