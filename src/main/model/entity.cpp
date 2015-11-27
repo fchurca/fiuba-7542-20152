@@ -508,6 +508,7 @@ void Worker::execute(RepairCommand& c) {
 		if (!entityTarget->getDeletable()) {
 			auto unfinichedBuilding = dynamic_cast<UnfinishedBuilding*>(entityTarget.get());
 			if (unfinichedBuilding) {
+				//TODO. Movernos hacia el building
 				if (unfinichedBuilding->progress.get() < unfinichedBuilding->progress.max) {
 					unfinichedBuilding->progress.inc(1);
 					isInAction = true;
@@ -522,6 +523,7 @@ void Worker::execute(RepairCommand& c) {
 			else {
 				auto building = dynamic_cast<Building*>(entityTarget.get());
 				if (building) {
+					//TODO. Movernos hacia el building
 					if (building->health.get() < building->health.max) {
 						building->health.inc(1);
 						isInAction = true;
