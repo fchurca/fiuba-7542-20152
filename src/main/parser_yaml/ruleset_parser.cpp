@@ -491,10 +491,19 @@ void RulesetParser::setTipoRecurso(const YAML::Node& node, TagTipoEntidad& tipoR
 			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (resource_name).");
 			tipoRecurso.resource_name = RECURSO_DEFAULT_RESOURCE_NAME;
 		}
+		if (!obtenerValorScalarNumericoPositivo(node, "delay", tipoRecurso.delay)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (delay).");
+			tipoRecurso.delay = RECURSO_DEFAULT_DELAY;
+		}
+		if (!obtenerValorScalarNumericoPositivo(node, "fps", tipoRecurso.fps)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (fps).");
+			tipoRecurso.fps = RECURSO_DEFAULT_FPS;
+		}
+		if (!obtenerValorScalarNumericoPositivo(node, "cantidad_sprites", tipoRecurso.cantidad_sprites)) {
+			Logger::getInstance()->writeWarning("YAML-CPP: Se toma por default (cantidad_sprites).");
+			tipoRecurso.cantidad_sprites = RECURSO_DEFAULT_CANTIDAD_SPRITES;
+		}
 		//DEFAULT NO USA
-		tipoRecurso.cantidad_sprites = RECURSO_DEFAULT_CANTIDAD_SPRITES;
-		tipoRecurso.fps = RECURSO_DEFAULT_FPS;
-		tipoRecurso.delay = RECURSO_DEFAULT_DELAY;
 		tipoRecurso.sight_radius = RECURSO_DEFAULT_SIGHT_RADIUS;
 		tipoRecurso.speed = RECURSO_DEFAULT_SPEED;
 		tipoRecurso.solid = true;
