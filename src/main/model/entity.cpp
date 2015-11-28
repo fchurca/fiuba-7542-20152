@@ -420,8 +420,8 @@ void Unit::visit(EntityVisitor& e) {
 }
 
 void Unit::conquered(Player& p) {
-	int modeGame = 0;
-	if (modeGame == 2 && !getDeletable()) {
+	GameModes modeGame = NOTHING;
+	if (modeGame == DESTROY_FLAG && !getDeletable()) {
 		Entity::conquered(p);
 		owner.board.createEntity(name, p.name, getPosition());
 	}
@@ -718,10 +718,10 @@ void Building::update() {
 }
 
 void Building::conquered(Player& p) {
-	int modeGame = 0;
+	GameModes modeGame = NOTHING;
 	if (!getDeletable()) {
 		Entity::conquered(p);
-		if (modeGame == 1 || modeGame == 3) {
+		if (modeGame == DESTROY_CENTER || modeGame == KILL_KING) {
 			owner.board.createEntity(name, DEFAULT_PLAYER_NAME, getPosition());
 		}
 		else {

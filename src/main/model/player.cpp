@@ -119,13 +119,13 @@ void Player::kill() {
 }
 
 bool Player::getAlive() {
-	int modeGame = 0;
+	GameModes modeGame = NOTHING;
 	if (alive) {
-		if(modeGame == 1 )
+		if(modeGame == DESTROY_CENTER )
 			alive = playerTownCenter? !playerTownCenter->getDeletable() : false ;
-		if (modeGame == 3)
+		if (modeGame == KILL_KING)
 			alive = playerKing? !playerKing->getDeletable() : false;
-		if (modeGame == 2)
+		if (modeGame == DESTROY_FLAG)
 			alive = playerFlag? !playerFlag->getDeletable() : false;
 	}
 	return alive;

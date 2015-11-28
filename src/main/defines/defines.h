@@ -12,6 +12,13 @@ enum Directions {
 	EAST = 7
 };
 
+enum GameModes {
+	NOTHING = 0, //TODO DESP PONER UNO DEFAULT
+	DESTROY_CENTER = 1,
+	KILL_KING = 2,
+	DESTROY_FLAG = 3
+};
+
 //Archivo Configuracion
 #define CONFIG_FILE_PATH "configuracion.yaml"
 #define CONFIG_FILE_PATH_DEFAULT  "default//configuracionDefault.yaml"
