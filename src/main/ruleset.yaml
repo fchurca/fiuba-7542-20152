@@ -30,6 +30,8 @@ tipos_unidades:
     cantidad_sprites: 5
     sight_radius: 3
     speed: 3
+    hit_force: 1
+    hit_radius: 5
   - nombre: Trabajador
     imagen: resources/hachero.png
     ancho_base: 0.5
@@ -45,7 +47,7 @@ tipos_unidades:
     speed: 3
     behaviour: worker
     health: 100
-    hit_force: 7
+    hit_force: 1
     products:
       - nombre: Porton
         costos:
@@ -70,6 +72,8 @@ tipos_unidades:
     cantidad_sprites: 4
     sight_radius: 3
     speed: 3
+    hit_force: 5
+    hit_radius: 1
   - nombre: Cubo
     imagen: resources/cubo_1_2.png
     ancho_base: 0.5
