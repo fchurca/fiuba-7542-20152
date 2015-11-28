@@ -473,7 +473,9 @@ void Unit::execute(AttackCommand& c) {
 			if (ataque.intersects(rectangle(entityTarget->getPosition(), entityTarget->size))) {
 				auto building = dynamic_cast<Building*>(entityTarget.get());
 				if (building) {
-					building->health.inc(-1 * hitForce);
+					if (!(building->armour > hitForce)) {
+						building->health.inc(-1 * hitForce);
+					}
 					if (building->health.get() == building->health.min) {
 						building->setDeletable();
 						if (!building->owner.getAlive()) {
@@ -489,7 +491,9 @@ void Unit::execute(AttackCommand& c) {
 				else {
 					auto unit = dynamic_cast<Unit*>(entityTarget.get());
 					if (unit) {
-						unit->health.inc(-1 * hitForce);
+						if (!(unit->armour > hitForce)) {
+							unit->health.inc(-1 * hitForce);
+						}
 						if (unit->health.get() == unit->health.min) {
 							unit->setDeletable();
 							if (!unit->owner.getAlive()) {
@@ -516,7 +520,9 @@ void Unit::execute(AttackCommand& c) {
 					else {
 						auto flag = dynamic_cast<Flag*>(entityTarget.get());
 						if (flag) {
-							flag->health.inc(-1 * hitForce);
+							if (!(flag->armour > hitForce)) {
+								flag->health.inc(-1 * hitForce);
+							}
 							if (flag->health.get() == flag->health.min) {
 								flag->setDeletable();
 								if (!flag->owner.getAlive()) {
