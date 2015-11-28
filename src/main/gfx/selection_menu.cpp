@@ -24,6 +24,9 @@ void SelectionMenu::visit(Unit& entity) {
 	stringstream ss;
 	ss << "Salud: " << entity.health.get() << "/" << entity.health.max;
 	outText += owner.completeLine(ss.str().c_str(), size.x);
+	stringstream sa;
+	sa << "Armadura: " << entity.armour;
+	outText += owner.completeLine(sa.str().c_str(), size.x);
 	stringstream sf;
 	sf << "Fuerza: " << entity.hitForce;
 	outText += owner.completeLine(sf.str().c_str(), size.x);
@@ -43,6 +46,9 @@ void SelectionMenu::visit(Building& entity) {
 	stringstream ss;
 	ss << "Salud: " << entity.health.get() << "/" << entity.health.max;
 	outText += owner.completeLine(ss.str().c_str(), size.x);
+	stringstream sa;
+	sa << "Armadura: " << entity.armour;
+	outText += owner.completeLine(sa.str().c_str(), size.x);
 	if (entity.currentProduct != "") {
 		stringstream sp;
 		sp << "Producciendo " + entity.currentProduct + ": " << entity.progress.get() << "/" << entity.progress.max;
@@ -61,6 +67,9 @@ void SelectionMenu::visit(Flag& entity) {
 	stringstream ss;
 	ss << "Salud: " << entity.health.get() << "/" << entity.health.max;
 	outText += owner.completeLine(ss.str().c_str(), size.x);
+	stringstream sa;
+	sa << "Armadura: " << entity.armour;
+	outText += owner.completeLine(sa.str().c_str(), size.x);
 }
 
 void SelectionMenu::draw() {
