@@ -477,6 +477,7 @@ void Unit::execute(AttackCommand& c) {
 						building->setDeletable();
 						if (!building->owner.getAlive()) {
 							owner.conquer(building->owner);
+							return;
 						}
 					}
 					else {
@@ -492,7 +493,19 @@ void Unit::execute(AttackCommand& c) {
 							unit->setDeletable();
 							if (!unit->owner.getAlive()) {
 								owner.conquer(unit->owner);
+								return;
 							}
+							//Buscar siguiente entidad a atacar
+							//std::vector<std::shared_ptr<Entity>> units = owner.board.selectEntities(rectangle(getPosition() - r2(sight_radius, sight_radius), r2(2 * sight_radius, 2 * sight_radius)));
+							//for (auto& u : units) {
+							//	auto nextUnit = dynamic_cast<Unit*>(u.get());
+							//	if (nextUnit) {
+							//		if (nextUnit->owner.name == unit->owner.name) {
+							//			setCommand(std::make_shared<AttackCommand>(getId(), nextUnit->getId()));
+							//			return;
+							//		}
+							//	}
+							//}
 						}
 						else {
 							isInAction = true;
@@ -507,6 +520,7 @@ void Unit::execute(AttackCommand& c) {
 								flag->setDeletable();
 								if (!flag->owner.getAlive()) {
 									owner.conquer(flag->owner);
+									return;
 								}
 							}
 							else {
@@ -561,16 +575,17 @@ void Worker::execute(GatherCommand& c) {
 					if (resource->cargo.get() == resource->cargo.min) {
 						resource->setDeletable();
 						entityTarget = nullptr;
-						std::vector<std::shared_ptr<Entity>> resources = owner.board.selectEntities(rectangle(getPosition() - r2(sight_radius,sight_radius), r2(2*sight_radius,2*sight_radius)));
-						for (auto& r : resources) {
-							auto nextResource = dynamic_cast<Resource*>(r.get());
-							if (nextResource) {
-								if (nextResource->resource_name == resource->resource_name) {
-									setCommand(std::make_shared<GatherCommand>(getId(), nextResource->getId()));
-									return;
-								}
-							}
-						}
+						//Buscar siguiente recurso a recolectar
+						//std::vector<std::shared_ptr<Entity>> resources = owner.board.selectEntities(rectangle(getPosition() - r2(sight_radius,sight_radius), r2(2*sight_radius,2*sight_radius)));
+						//for (auto& r : resources) {
+						//	auto nextResource = dynamic_cast<Resource*>(r.get());
+						//	if (nextResource) {
+						//		if (nextResource->resource_name == resource->resource_name) {
+						//			setCommand(std::make_shared<GatherCommand>(getId(), nextResource->getId()));
+						//			return;
+						//		}
+						//	}
+						//}
 					}
 					else {
 						isInAction = true;
