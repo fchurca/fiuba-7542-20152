@@ -367,9 +367,10 @@ Directions Unit::getDirection() {
 
 Unit::~Unit() {}
 
-Unit::Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hitforce, unsigned int hitradius) :
+Unit::Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid,unsigned int health, unsigned int armour, unsigned int hitforce, unsigned int hitradius) :
 	Entity(name, board, owner, position, size, sight_radius, solid),
 	HealthMixin(health),
+	armour(armour),
 	speed(speed),
 	hitForce(hitforce),
 	hitRadius(hitradius)
@@ -542,8 +543,8 @@ void Unit::execute(AttackCommand& c) {
 }
 
 
-Worker::Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius, std::vector<Budget> workerProducts) :
-	Unit(name, board, owner, position, size, speed, sight_radius, solid, health, hit_force, hit_radius),
+Worker::Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid,unsigned int health, unsigned int armour, unsigned int hit_force, unsigned int hit_radius, std::vector<Budget> workerProducts) :
+	Unit(name, board, owner, position, size, speed, sight_radius, solid, health, armour,hit_force, hit_radius),
 	products(workerProducts)
 {}
 
@@ -702,8 +703,8 @@ void Worker::execute(BuildCommand& c) {
 }
 
 
-King::King(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hit_force, unsigned int hit_radius) :
-	Unit(name, board, owner, position, size, speed, sight_radius, solid, health, hit_force, hit_radius)
+King::King(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, unsigned int health, unsigned int armour, unsigned int hit_force, unsigned int hit_radius) :
+	Unit(name, board, owner, position, size, speed, sight_radius, solid, health, armour, hit_force, hit_radius)
 {}
 
 void King::update() {
@@ -719,9 +720,10 @@ void King::conquered(Player& p){
 }
 
 
-Building::Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::vector<Budget> producerProducts = {}) :
+Building::Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid,unsigned int health, unsigned int armour, std::vector<Budget> producerProducts = {}) :
 	Entity(name, board, owner, position, size, sight_radius, solid),
 	HealthMixin(health),
+	armour(armour),
 	ProgressMixin(0,100,0),
 	products(producerProducts)
 {
@@ -809,8 +811,8 @@ void Building::visit(EntityVisitor& e) {
 }
 
 
-UnfinishedBuilding::UnfinishedBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health) :
-	Building(name, board, owner, position, size, sight_radius, solid, health)
+UnfinishedBuilding::UnfinishedBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid,unsigned int health, unsigned int armour) :
+	Building(name, board, owner, position, size, sight_radius, solid, health, armour)
 {}
 
 void UnfinishedBuilding::update() {
@@ -822,9 +824,10 @@ void UnfinishedBuilding::visit(EntityVisitor& e) {
 }
 
 
-Flag::Flag(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health) :
+Flag::Flag(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid,unsigned int health, unsigned int armour) :
 	Entity(name, board, owner, position, size, sight_radius, solid),
-	HealthMixin(health)
+	HealthMixin(health),
+	armour(armour)
 {}
 
 void Flag::update() {
@@ -836,8 +839,8 @@ void Flag::visit(EntityVisitor& e) {
 }
 
 
-TownCenter::TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::vector<Budget> producerProducts) :
-	Building(name, board, owner, position, size, sight_radius, solid, health, producerProducts)
+TownCenter::TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid,unsigned int health, unsigned int armour, std::vector<Budget> producerProducts) :
+	Building(name, board, owner, position, size, sight_radius, solid, health, armour, producerProducts)
 {}
 
 void TownCenter::update() {

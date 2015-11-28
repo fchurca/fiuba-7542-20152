@@ -59,7 +59,7 @@ class ABoard : public FrameMixin {
 		std::shared_ptr<Player> createPlayer(std::string name, bool human);
 		Player& findPlayer(std::string name);
 		virtual std::vector<std::shared_ptr<Player>> getPlayers();
-		std::shared_ptr<EntityFactory> createEntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, std::string behaviour, int health, std::vector<TagProduct> products, std::string resource_name, unsigned int hit_force, unsigned int hit_radius);
+		std::shared_ptr<EntityFactory> createEntityFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int capacity, std::string behaviour, unsigned int health, unsigned int armour, std::vector<TagProduct> products, std::string resource_name, unsigned int hit_force, unsigned int hit_radius);
 		std::shared_ptr<Entity> createEntity(std::string name, std::string playerName, r2 position);
 		std::shared_ptr<Entity> createEntity(std::shared_ptr<Entity> e);
 		virtual std::shared_ptr<Entity> getTerrain(size_t x, size_t y);
