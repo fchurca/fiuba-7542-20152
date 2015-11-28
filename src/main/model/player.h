@@ -33,6 +33,9 @@ class Player : public IdMixin, public FrameMixin {
 		Player(ABoard& board, std::string name, bool human);
 		ABoard& board;
 		std::vector<std::shared_ptr<Entity>> entities();
+		std::shared_ptr<Entity> playerFlag;
+		std::shared_ptr<Entity> playerKing;
+		std::shared_ptr<Entity> playerTownCenter;
 		void update();
 		Visibility getVisibility(r2 pos);
 		Visibility getVisibility2(r2 pos);
@@ -45,6 +48,7 @@ class Player : public IdMixin, public FrameMixin {
 		void setActive(bool newActive);
 		bool getAlive();
 		void kill();
+		void conquer(Player& p);
 };
 
 #endif

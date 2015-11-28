@@ -95,6 +95,11 @@ void Entity::visit(EntityVisitor& e) {
 	e.visit(*this);
 }
 
+void Entity::conquered(Player& p) {
+	setDeletable();
+	owner.board.createEntity(name, p.name, getPosition());
+}
+
 void Entity::collide(Entity& other) {}
 
 void Entity::collide(Resource& other) {}
@@ -424,12 +429,12 @@ void Unit::execute(MoveCommand& c) {
 	}
 	else{
 		if (!targeted()) {
-			if (canEnter(c.position)) {
+			//if (canEnter(c.position)) {
 			cerr << "Adding target" << endl;
 			addTarget(c.position);
-			} else {
+			//} else {
 			clearCommand();
-			}
+			//}
 		}
 	}
 }
@@ -462,6 +467,9 @@ void Unit::execute(AttackCommand& c) {
 					building->health.inc(-1 * hitForce);
 					if (building->health.get() == building->health.min) {
 						building->setDeletable();
+						if (!building->owner.getAlive()) {
+							owner.conquer(building->owner);
+						}
 					}
 					else {
 						isInAction = true;
@@ -474,6 +482,9 @@ void Unit::execute(AttackCommand& c) {
 						unit->health.inc(-1 * hitForce);
 						if (unit->health.get() == unit->health.min) {
 							unit->setDeletable();
+							if (!unit->owner.getAlive()) {
+								owner.conquer(unit->owner);
+							}
 						}
 						else {
 							isInAction = true;
@@ -486,6 +497,9 @@ void Unit::execute(AttackCommand& c) {
 							flag->health.inc(-1 * hitForce);
 							if (flag->health.get() == flag->health.min) {
 								flag->setDeletable();
+								if (!flag->owner.getAlive()) {
+									owner.conquer(flag->owner);
+								}
 							}
 							else {
 								isInAction = true;
@@ -539,7 +553,16 @@ void Worker::execute(GatherCommand& c) {
 					if (resource->cargo.get() == resource->cargo.min) {
 						resource->setDeletable();
 						entityTarget = nullptr;
-						clearCommand();
+						std::vector<std::shared_ptr<Entity>> resources = owner.board.selectEntities(rectangle(getPosition() - r2(sight_radius,sight_radius), r2(2*sight_radius,2*sight_radius)));
+						for (auto& r : resources) {
+							auto nextResource = dynamic_cast<Resource*>(r.get());
+							if (nextResource) {
+								if (nextResource->resource_name == resource->resource_name) {
+									setCommand(std::make_shared<GatherCommand>(getId(), nextResource->getId()));
+									return;
+								}
+							}
+						}
 					}
 					else {
 						isInAction = true;
@@ -588,7 +611,6 @@ void Worker::execute(RepairCommand& c) {
 				else {
 					auto building = dynamic_cast<Building*>(entityTarget.get());
 					if (building) {
-						//TODO. Movernos hacia el building
 						if (building->health.get() < building->health.max) {
 							building->health.inc(1);
 							isInAction = true;

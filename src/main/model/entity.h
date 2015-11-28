@@ -84,6 +84,7 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 		double getOrientation();
 		void setOrientation(double newOrientation);
 		void setCommand(std::shared_ptr<Command> newCommand);
+	    void conquered(Player& p);
 
 		template<typename L> void mapVisible(L fun);
 

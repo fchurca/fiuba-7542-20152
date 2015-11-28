@@ -119,6 +119,21 @@ void Player::kill() {
 }
 
 bool Player::getAlive() {
+	int mode = 0;
+	if (alive) {
+		if(mode == 1 )
+			alive = playerTownCenter? !playerTownCenter->getDeletable() : false ;
+		if (mode == 2)
+			alive = playerKing? !playerKing->getDeletable() : false;
+		if (mode == 3)
+			alive = playerFlag? !playerFlag->getDeletable() : false;
+	}
 	return alive;
+}
+
+void Player::conquer(Player& p) {
+	for (auto& entity : p.entities()) {
+		entity->conquered(*this);
+	}
 }
 
