@@ -97,7 +97,6 @@ void Entity::visit(EntityVisitor& e) {
 
 void Entity::conquered(Player& p) {
 	setDeletable();
-	owner.board.createEntity(name, p.name, getPosition());
 }
 
 void Entity::collide(Entity& other) {}
@@ -420,6 +419,15 @@ void Unit::visit(EntityVisitor& e) {
 	e.visit(*this);
 }
 
+void Unit::conquered(Player& p) {
+	int modeGame = 0;
+	if (modeGame == 2 && !getDeletable()) {
+		Entity::conquered(p);
+		owner.board.createEntity(name, p.name, getPosition());
+	}
+	Entity::conquered(p);
+}
+
 // TODO: Rest of commands
 void Unit::execute(MoveCommand& c) {
 	// TODO: on first run of this command, clear waypoints
@@ -691,6 +699,10 @@ void King::visit(EntityVisitor& e) {
 	e.visit(*this);
 }
 
+void King::conquered(Player& p){
+	Entity::conquered(p);
+}
+
 
 Building::Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::vector<Budget> producerProducts = {}) :
 	Entity(name, board, owner, position, size, sight_radius, solid),
@@ -703,6 +715,20 @@ Building::Building(std::string name, ABoard& board, Player& owner, r2 position, 
 
 void Building::update() {
 	Entity::update();
+}
+
+void Building::conquered(Player& p) {
+	int modeGame = 0;
+	if (!getDeletable()) {
+		Entity::conquered(p);
+		if (modeGame == 1 || modeGame == 3) {
+			owner.board.createEntity(name, DEFAULT_PLAYER_NAME, getPosition());
+		}
+		else {
+			owner.board.createEntity(name, p.name, getPosition());
+		}
+	}
+	Entity::conquered(p);
 }
 
 void Building::execute(CreateCommand& c) {
@@ -805,6 +831,10 @@ void TownCenter::update() {
 
 void TownCenter::visit(EntityVisitor& e) {
 	e.visit(*this);
+}
+
+void TownCenter::conquered(Player& p) {
+	Entity::conquered(p);
 }
 
 Terrain::Terrain(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid) :

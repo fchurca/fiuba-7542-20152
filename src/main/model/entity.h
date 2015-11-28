@@ -84,7 +84,7 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 		double getOrientation();
 		void setOrientation(double newOrientation);
 		void setCommand(std::shared_ptr<Command> newCommand);
-	    void conquered(Player& p);
+	    virtual void conquered(Player& p);
 
 		template<typename L> void mapVisible(L fun);
 
@@ -149,6 +149,7 @@ class Unit : public Entity, public HealthMixin {
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
 		virtual std::shared_ptr<Command> giveDefaultCommand(Entity& u);
 		virtual std::shared_ptr<Command> giveDefaultCommand(Unit& u);
+		virtual void conquered(Player& p);
 };
 
 class Worker : public Unit {
@@ -169,6 +170,7 @@ class King : public Unit {
 		King(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, unsigned int hitForce, unsigned int hit_radius);
 		virtual void visit(EntityVisitor& v);
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
+		virtual void conquered(Player& p);
 };
 
 class Building : public Entity, public HealthMixin, public ProgressMixin {
@@ -183,6 +185,7 @@ class Building : public Entity, public HealthMixin, public ProgressMixin {
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
 		virtual std::shared_ptr<Command> giveDefaultCommand(Unit& u);
 		virtual std::shared_ptr<Command> giveDefaultCommand(Worker& u);
+		virtual void conquered(Player& p);
 };
 
 class UnfinishedBuilding : public Building {
@@ -199,6 +202,7 @@ class TownCenter : public Building {
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
 		TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, std::vector<Budget> producerProducts);
 		virtual void visit(EntityVisitor& v);
+		virtual void conquered(Player& p);
 };
 
 class Flag : public Entity, public HealthMixin {
