@@ -21,15 +21,17 @@ void PlayersList::draw() {
 		std::string columna = "";
 		SDL_Color colorBlanco = { 255, 255, 255 };
 		for (auto p : owner.player.board.getPlayers()) {
-			if (!(p->getAlive())) {
-				columna = columna + owner.completeLine("[X] " + p->name, size.x);
-			}
-			else {
-				if (p->getActive()) {
-					columna = columna + owner.completeLine("[A] " + p->name, size.x);
+			if (p->name != DEFAULT_PLAYER_NAME) {
+				if (!(p->getAlive())) {
+					columna = columna + owner.completeLine("[X] " + p->name, size.x);
 				}
 				else {
-					columna = columna + owner.completeLine("[I]  " + p->name, size.x);
+					if (p->getActive()) {
+						columna = columna + owner.completeLine("[A] " + p->name, size.x);
+					}
+					else {
+						columna = columna + owner.completeLine("[I]  " + p->name, size.x);
+					}
 				}
 			}
 		}
