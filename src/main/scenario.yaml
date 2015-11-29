@@ -119,4 +119,3 @@ escenario:
           - {x: 18, y: 1, tipo: Trabajador}
           - {x: 15, y: 1, tipo: Centro }
           - {x: 19, y: 1, tipo: Bandera }
-          - {x: 22, y: 3, tipo: Cuartel }

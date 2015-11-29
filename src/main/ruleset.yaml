@@ -1,5 +1,5 @@
 configuracion:
-    dt: 50
+    dt: 20
 tipos_unidades:
   - nombre: Rey
     imagen: resources/mago.png
@@ -15,6 +15,21 @@ tipos_unidades:
     sight_radius: 3
     speed: 3
     behaviour: king
+    health: 50
+    hit_force: 5
+  - nombre: Jinete
+    imagen: resources/jinete_1.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 37
+    pixel_ref_y: 37
+    fps: 10
+    delay: 0
+    ancho_sprite: 74
+    alto_sprite: 74
+    cantidad_sprites: 5
+    sight_radius: 3
+    speed: 3
     health: 50
     hit_force: 5
   - nombre: Soldado
@@ -84,7 +99,7 @@ tipos_unidades:
     health: 100
     hit_force: 1
     products:
-      - nombre: Porton
+      - nombre: Establo
         costos:
           - recurso: Madera
             cantidad: 10
@@ -252,13 +267,18 @@ tipos_estructuras:
     imagen: resources/establo.png
     ancho_base: 2
     alto_base: 2
-    pixel_ref_x: 60
-    pixel_ref_y: 60
+    pixel_ref_x: 55
+    pixel_ref_y: 55
     fps: 0
     delay: 0
     ancho_sprite: 128
     alto_sprite: 128
     cantidad_sprites: 1
+    products:
+      - nombre: Jinete
+        costos:
+          - recurso: Carne
+            cantidad: 15
   - nombre: Torre
     imagen: resources/torre.png
     ancho_base: 2
