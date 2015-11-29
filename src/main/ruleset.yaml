@@ -3,8 +3,8 @@ configuracion:
 tipos_unidades:
   - nombre: Rey
     imagen: resources/mago.png
-    ancho_base: 0.5
-    alto_base: 0.5
+    ancho_base: 1
+    alto_base: 1
     pixel_ref_x: 30
     pixel_ref_y: 32
     fps: 10
@@ -19,8 +19,8 @@ tipos_unidades:
     hit_force: 5
   - nombre: Jinete
     imagen: resources/jinete_1.png
-    ancho_base: 0.5
-    alto_base: 0.5
+    ancho_base: 1
+    alto_base: 1
     pixel_ref_x: 37
     pixel_ref_y: 37
     fps: 10
@@ -32,10 +32,26 @@ tipos_unidades:
     speed: 3
     health: 50
     hit_force: 5
+  - nombre: Catapulta
+    imagen: resources/catapulta_1.png
+    ancho_base: 1
+    alto_base: 1
+    pixel_ref_x: 30
+    pixel_ref_y: 25
+    fps: 10
+    delay: 0
+    ancho_sprite: 69
+    alto_sprite: 69
+    cantidad_sprites: 5
+    sight_radius: 3
+    speed: 3
+    health: 50
+    hit_force: 1
+    hit_radius: 5
   - nombre: Soldado
     imagen: resources/soldier.png
-    ancho_base: 0.5
-    alto_base: 0.5
+    ancho_base: 1
+    alto_base: 1
     pixel_ref_x: 30
     pixel_ref_y: 32
     fps: 10
@@ -50,8 +66,8 @@ tipos_unidades:
     hit_force: 2
   - nombre: Dragon
     imagen: resources/dragon.png
-    ancho_base: 0.5
-    alto_base: 0.5
+    ancho_base: 1
+    alto_base: 1
     pixel_ref_x: 30
     pixel_ref_y: 32
     fps: 10
@@ -67,8 +83,8 @@ tipos_unidades:
     hit_radius: 1
   - nombre: Arquero
     imagen: resources/arquero_1.png
-    ancho_base: 0.5
-    alto_base: 0.5
+    ancho_base: 1
+    alto_base: 1
     pixel_ref_x: 30
     pixel_ref_y: 32
     fps: 10
@@ -84,8 +100,8 @@ tipos_unidades:
     hit_radius: 5
   - nombre: Trabajador
     imagen: resources/hachero.png
-    ancho_base: 0.5
-    alto_base: 0.5
+    ancho_base: 1
+    alto_base: 1
     pixel_ref_x: 30
     pixel_ref_y: 32
     fps: 10
@@ -111,8 +127,8 @@ tipos_unidades:
             cantidad: 10
   - nombre: Ogro
     imagen: resources/ogro.png
-    ancho_base: 0.5
-    alto_base: 0.5
+    ancho_base: 1
+    alto_base: 1
     pixel_ref_x: 30
     pixel_ref_y: 32
     fps: 10
@@ -128,8 +144,8 @@ tipos_unidades:
     hit_radius: 1
   - nombre: Cubo
     imagen: resources/cubo_1_2.png
-    ancho_base: 0.5
-    alto_base: 0.5
+    ancho_base: 1
+    alto_base: 1
     pixel_ref_x: 16
     pixel_ref_y: 16
     fps: 0
@@ -279,6 +295,10 @@ tipos_estructuras:
         costos:
           - recurso: Carne
             cantidad: 15
+      - nombre: Catapulta
+        costos:
+          - recurso: Madera
+            cantidad: 15
   - nombre: Torre
     imagen: resources/torre.png
     ancho_base: 2
@@ -292,8 +312,8 @@ tipos_estructuras:
     cantidad_sprites: 1
   - nombre: Cartel
     imagen: resources/cartel.png
-    ancho_base: 0.5
-    alto_base: 0.5
+    ancho_base: 1
+    alto_base: 1
     pixel_ref_x: 16
     pixel_ref_y: 16
     fps: 0
@@ -303,8 +323,8 @@ tipos_estructuras:
     cantidad_sprites: 1
   - nombre: Bandera
     imagen: resources/estandarte.png
-    ancho_base: 0.5
-    alto_base: 0.5
+    ancho_base: 1
+    alto_base: 1
     pixel_ref_x: 24
     pixel_ref_y: 60
     fps: 0
@@ -359,8 +379,8 @@ tipos_recursos:
     resource_name: Madera
   - nombre: Chancho
     imagen: resources/chanchos.png
-    ancho_base: 0.5
-    alto_base: 0.5
+    ancho_base: 1
+    alto_base: 1
     pixel_ref_x: 17
     pixel_ref_y: 24
     fps: 20
