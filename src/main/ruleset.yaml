@@ -1,5 +1,5 @@
 configuracion:
-    dt: 20
+    dt: 50
 tipos_unidades:
   - nombre: Rey
     imagen: resources/mago.png
@@ -17,6 +17,22 @@ tipos_unidades:
     behaviour: king
     health: 50
     hit_force: 5
+  - nombre: Soldado
+    imagen: resources/soldier.png
+    ancho_base: 0.5
+    alto_base: 0.5
+    pixel_ref_x: 30
+    pixel_ref_y: 32
+    fps: 10
+    delay: 0
+    ancho_sprite: 60
+    alto_sprite: 60
+    cantidad_sprites: 5
+    sight_radius: 3
+    speed: 3
+    health: 100
+    health: 4
+    hit_force: 2
   - nombre: Dragon
     imagen: resources/dragon.png
     ancho_base: 0.5
@@ -228,6 +244,10 @@ tipos_estructuras:
         costos:
           - recurso: Carne
             cantidad: 25
+      - nombre: Soldado
+        costos:
+          - recurso: Carne
+            cantidad: 10
   - nombre: Establo
     imagen: resources/establo.png
     ancho_base: 2
@@ -273,7 +293,7 @@ tipos_estructuras:
     alto_sprite: 70
     cantidad_sprites: 1
     behaviour: flag
-    sight_radius: 10
+    sight_radius: 200
 tipos_terrenos:
   - nombre: Agua
     imagen: resources/agua.png
