@@ -63,6 +63,7 @@ class rectangle {
 		rectangle();
 		explicit rectangle(r2 position, r2 size);
 		bool intersects(rectangle other);
+		bool intersects(r2 point);
 
 		static rectangle box(rectangle a, rectangle b);
 		static rectangle box(r2 a, r2 b, r2 margin);

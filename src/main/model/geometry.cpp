@@ -111,6 +111,13 @@ bool rectangle::intersects(rectangle other) {
 		position.y + size.y > other.position.y;
 }
 
+bool rectangle::intersects(r2 point) {
+	return position.x < point.x &&
+		position.x + size.x >= point.y &&
+		position.y < point.y &&
+		position.y + size.y >= point.y;
+}
+
 rectangle rectangle::box(rectangle a, rectangle b) {
 	r2
 		pa = a.position,
