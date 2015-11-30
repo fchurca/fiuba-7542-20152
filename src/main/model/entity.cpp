@@ -23,16 +23,16 @@ CargoMixin::CargoMixin(int min, int max, int value) :
 {}
 
 
-HealthMixin::HealthMixin(int max) :
-	health(max)
+HealthMixin::HealthMixin(int max, int armour) :
+	health(max), armour(armour)
 {}
 
-HealthMixin::HealthMixin(int max, int value) :
-	health(max, value)
+HealthMixin::HealthMixin(int max, int value, int armour) :
+	health(max, value), armour(armour)
 {}
 
-HealthMixin::HealthMixin(int min, int max, int value) :
-	health(min, max, value)
+HealthMixin::HealthMixin(int min, int max, int value, int armour) :
+	health(min, max, value), armour(armour)
 {}
 
 ProgressMixin::ProgressMixin(int max) :
@@ -369,8 +369,7 @@ Unit::~Unit() {}
 
 Unit::Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid,unsigned int health, unsigned int armour, unsigned int hitforce, unsigned int hitradius) :
 	Entity(name, board, owner, position, size, sight_radius, solid),
-	HealthMixin(health),
-	armour(armour),
+	HealthMixin(health, armour),
 	speed(speed),
 	hitForce(hitforce),
 	hitRadius(hitradius)
@@ -380,6 +379,9 @@ Unit::Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size,
 
 void Unit::update() {
 	Entity::update();
+}
+
+void Unit::step() {
 	if (targeted()) {
 		auto traj = trajectory();
 		orientation = atan2(traj.y, traj.x);
@@ -387,22 +389,12 @@ void Unit::update() {
 		if (pow(dr, 2) < sqDistance()) {
 			auto newPos = position + r2::fromPolar(orientation, dr);
 			rectangle shapeCandidate(newPos, size);
-			auto colliders = board.selectEntities([this, shapeCandidate](shared_ptr<Entity> e) {
-				return (*e != *this) &&
-					(rectangle(e->getPosition(), e->size).intersects(shapeCandidate));
-			});
-			for (auto c : colliders) {
-				collide(c.get());
-			}
 			if (!canEnter(newPos)) {
-				auto destiny = waypoints.back();
 				unsetTarget();
-				addTarget(destiny);
 				return;
 			}
 			position = newPos;
-		}
-		else {
+		} else {
 			position = target() - size / 2;
 			waypoints.pop_front();
 		}
@@ -410,9 +402,6 @@ void Unit::update() {
 			unsetTarget();
 		}
 		setFrame();
-		if (!targeted()) {
-			clearCommand(); // At target? TODO: neater
-		}
 	}
 }
 
@@ -433,18 +422,14 @@ void Unit::conquered(Player& p) {
 void Unit::execute(MoveCommand& c) {
 	// TODO: on first run of this command, clear waypoints
 	if (!executing) {
-		waypoints.clear();
+		unsetTarget();
+		cerr << "Adding target" << endl;
+		addTarget(c.position);
 		executing = true;
 	}
-	else{
-		if (!targeted()) {
-			//if (canEnter(c.position)) {
-			cerr << "Adding target" << endl;
-			addTarget(c.position);
-			//} else {
-			clearCommand();
-			//}
-		}
+	step();
+	if (!targeted()) {
+		clearCommand();
 	}
 }
 
@@ -500,17 +485,6 @@ void Unit::execute(AttackCommand& c) {
 								owner.conquer(unit->owner);
 								return;
 							}
-							//Buscar siguiente entidad a atacar
-							//std::vector<std::shared_ptr<Entity>> units = owner.board.selectEntities(rectangle(getPosition() - r2(sight_radius, sight_radius), r2(2 * sight_radius, 2 * sight_radius)));
-							//for (auto& u : units) {
-							//	auto nextUnit = dynamic_cast<Unit*>(u.get());
-							//	if (nextUnit) {
-							//		if (nextUnit->owner.name == unit->owner.name) {
-							//			setCommand(std::make_shared<AttackCommand>(getId(), nextUnit->getId()));
-							//			return;
-							//		}
-							//	}
-							//}
 						}
 						else {
 							isInAction = true;
@@ -728,8 +702,7 @@ void King::conquered(Player& p){
 
 Building::Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid,unsigned int health, unsigned int armour, std::vector<Budget> producerProducts = {}) :
 	Entity(name, board, owner, position, size, sight_radius, solid),
-	HealthMixin(health),
-	armour(armour),
+	HealthMixin(health, armour),
 	ProgressMixin(0,100,0),
 	products(producerProducts)
 {
@@ -832,8 +805,7 @@ void UnfinishedBuilding::visit(EntityVisitor& e) {
 
 Flag::Flag(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid,unsigned int health, unsigned int armour) :
 	Entity(name, board, owner, position, size, sight_radius, solid),
-	HealthMixin(health),
-	armour(armour)
+	HealthMixin(health, armour)
 {}
 
 void Flag::update() {

@@ -42,9 +42,10 @@ class CargoMixin : public EntityMixin {
 class HealthMixin : public EntityMixin {
 	public:
 		Gauge health;
-		HealthMixin(int max);
-		HealthMixin(int min, int max);
-		HealthMixin(int min, int max, int value);
+		const int armour;
+		HealthMixin(int max, int armour);
+		HealthMixin(int min, int max, int armour);
+		HealthMixin(int min, int max, int value, int armour);
 };
 
 class ProgressMixin : public EntityMixin {
@@ -127,10 +128,10 @@ class Unit : public Entity, public HealthMixin {
 		std::deque<r2> waypoints;
 		std::shared_ptr<Entity> entityTarget;
 		double speed;	// Speed (tiles/s)
+		void step();
 	public:
 		unsigned int hitForce;
 		unsigned int hitRadius;
-		unsigned int armour;
 		r2 trajectory();
 		virtual void addTarget(r2 newTarget);
 		virtual void unsetTarget();
@@ -176,7 +177,6 @@ class King : public Unit {
 
 class Building : public Entity, public HealthMixin, public ProgressMixin {
 	public:
-		unsigned int armour;
 		virtual void update();
 		Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, unsigned int health, unsigned int armour, std::vector<Budget> producerProducts);
 		std::vector<Budget> products;
@@ -210,7 +210,6 @@ class TownCenter : public Building {
 class Flag : public Entity, public HealthMixin {
 	public:
 		void update();
-		unsigned int armour;
 		Flag(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid,unsigned int health, unsigned int armour);
 		virtual void visit(EntityVisitor& v);
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
