@@ -457,6 +457,7 @@ void Unit::execute(AttackCommand& c) {
 		if (entityTarget) {
 			if (!entityTarget->getDeletable()) {
 				executing = true;
+				addTarget(entityTarget->center());
 				return;
 			}
 		}
@@ -465,8 +466,8 @@ void Unit::execute(AttackCommand& c) {
 		return;
 	}
 	else {
-		if (!getDeletable() && !entityTarget->getDeletable()) {
-			rectangle ataque(getPosition() - r2(hitRadius, hitRadius), r2(2 * hitRadius, 2 * hitRadius));//Vision en forma de Cuadrado
+		if (!getDeletable() && !entityTarget->getDeletable() && owner.getVisibility(*entityTarget) > INVISIBLE) {
+			rectangle ataque(getPosition() - r2(hitRadius, hitRadius), r2(2 * hitRadius + size.x, 2 * hitRadius + size.y));//Vision en forma de Cuadrado
 			if (ataque.intersects(rectangle(entityTarget->getPosition(), entityTarget->size))) {
 				auto entity = dynamic_cast<HealthMixin*>(entityTarget.get());
 				if (entity) {
@@ -487,6 +488,10 @@ void Unit::execute(AttackCommand& c) {
 				}
 			}
 			else {
+				if (!targeted()) {
+					addTarget(entityTarget->center());
+				}
+				step();
 				return;
 			}
 		}
@@ -519,13 +524,13 @@ void Worker::execute(GatherCommand& c) {
 			return;
 		}
 		executing = true;
-		//TODO. Movernos hacia el recurso
+		addTarget(entityTarget->center());
 	}
 	else {
 		if (!entityTarget->getDeletable() && !getDeletable()) {
 			auto resource = dynamic_cast<Resource*>(entityTarget.get());
 			if (resource) {
-				rectangle ataque(getPosition() - r2(hitRadius, hitRadius),r2(2*hitRadius, 2*hitRadius));//Vision en forma de Cuadrado
+				rectangle ataque(getPosition() - r2(hitRadius, hitRadius),r2(2*hitRadius + size.x, 2*hitRadius + size.y));//Vision en forma de Cuadrado
 				if (ataque.intersects(rectangle(resource->getPosition(), resource->size))){
 					if (resource->cargo.get() == resource->cargo.min) {
 						resource->setDeletable();
@@ -550,6 +555,7 @@ void Worker::execute(GatherCommand& c) {
 					}
 				}
 				else {
+					step();
 					return;
 				}
 			}
@@ -567,11 +573,11 @@ void Worker::execute(RepairCommand& c) {
 			clearCommand();
 		}
 		executing = true;
-		//TODO. Movernos hacia el building
+		addTarget(entityTarget->center());
 	}
 	else {
 		if (!entityTarget->getDeletable() && !getDeletable()) {
-			rectangle ataque(getPosition() - r2(hitRadius, hitRadius), r2(2 * hitRadius, 2 * hitRadius));//Vision en forma de Cuadrado
+			rectangle ataque(getPosition() - r2(hitRadius, hitRadius), r2(2 * hitRadius + size.x, 2 * hitRadius + size.y));//Vision en forma de Cuadrado
 			if (ataque.intersects(rectangle(entityTarget->getPosition(), entityTarget->size))) {
 				auto unfinichedBuilding = dynamic_cast<UnfinishedBuilding*>(entityTarget.get());
 				if (unfinichedBuilding) {
@@ -598,6 +604,7 @@ void Worker::execute(RepairCommand& c) {
 				}
 			}
 			else {
+				step();
 				return;
 			}
 		}
@@ -1023,10 +1030,18 @@ std::shared_ptr<Command> Unit::giveDefaultCommand(Unit& r) {
 		return std::make_shared<MoveCommand>(r.getId(), center());
 }
 
+std::shared_ptr<Command> Unit::giveDefaultCommand(King& r) {
+		return std::make_shared<MoveCommand>(r.getId(), center());
+}
+
 std::shared_ptr<Command> Building::giveDefaultCommand(Unit& r) {
 	if (owner.name != r.owner.name)//TODO VER SI ESTA ACTIVO?
 		return std::make_shared<AttackCommand>(r.getId(), getId());
 	else
+		return std::make_shared<MoveCommand>(r.getId(), center());
+}
+
+std::shared_ptr<Command> Building::giveDefaultCommand(King& r) {
 		return std::make_shared<MoveCommand>(r.getId(), center());
 }
 

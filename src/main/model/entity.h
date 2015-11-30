@@ -151,6 +151,7 @@ class Unit : public Entity, public HealthMixin {
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
 		virtual std::shared_ptr<Command> giveDefaultCommand(Entity& u);
 		virtual std::shared_ptr<Command> giveDefaultCommand(Unit& u);
+		virtual std::shared_ptr<Command> giveDefaultCommand(King& u);
 		virtual void conquered(Player& p);
 };
 
@@ -186,6 +187,7 @@ class Building : public Entity, public HealthMixin, public ProgressMixin {
 		virtual void execute(CreateCommand& c);
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
 		virtual std::shared_ptr<Command> giveDefaultCommand(Unit& u);
+		virtual std::shared_ptr<Command> giveDefaultCommand(King& u);
 		virtual std::shared_ptr<Command> giveDefaultCommand(Worker& u);
 		virtual void conquered(Player& p);
 };
