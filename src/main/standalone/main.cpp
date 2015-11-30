@@ -69,6 +69,14 @@ int main(int argc, char* argv[]) {
 				}
 				logger.writeInformation("Using custom graphics " + graphicsFile);
 				break;
+			// Scenario
+			case 'S':
+				i++;
+				if(i < argc) {
+					scenarioFile = argv[i];
+				}
+				break;
+				logger.writeInformation("Using custom scenario " + scenarioFile);
 			// Ruleset
 			case 'R':
 				i++;
