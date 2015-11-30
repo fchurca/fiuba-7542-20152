@@ -263,6 +263,15 @@ void Unit::addTarget(r2 newTarget) {
 		end = round(targeted() ? waypoints.back() : position),
 		start = round(newTarget);
 
+	cerr << end.x << '\t' << end.y << " => " << start.x << '\t' << start.y << '\t' << endl;
+	auto targetEntity = board.findEntity(start);
+	rectangle targetFootprint;
+	cerr << targetEntity;
+	if (targetEntity) {
+		cerr << '\t' << targetEntity->getPosition().x << '\t' << targetEntity->getPosition().y;
+		targetFootprint = rectangle(targetEntity->getPosition(), targetEntity->size);
+	}
+	cerr << endl;
 	priority_queue<TSNode, vector<shared_ptr<TSNode>>, compare> open;
 	auto h = [&end](r2& p) {return (p - end).length(); };
 	auto f = [&h](TSNode n) {return h(n.position) + n.g; };
@@ -317,16 +326,21 @@ void Unit::addTarget(r2 newTarget) {
 				if (p == cpos) {
 					continue;
 				}
+				if (closed[(int)floor(p.x)][(int)floor(p.y)]) {
+					continue;
+				}
 				if ((owner.getVisibility(p) != INVISIBLE)) {
-					if (!(canEnter(rectangle::box(p - size / 2, cpos - size / 2, size)))) {
-						continue;
+					auto nextFootprint = rectangle::box(p - size / 2, cpos - size / 2, size);
+					if (!targetFootprint.intersects(nextFootprint)) {
+						if (!(canEnter(nextFootprint))) {
+							cerr << p.x << '\t' << p.y << '\t' << "XX" << endl;
+							continue;
+						}
 					}
 				}
 				auto n = make_shared<TSNode>(p, (cpos - p).length() + c->g, .0, c);
 				n->f = f(*n);
-				if (closed[(int)floor(p.x)][(int)floor(p.y)]) {
-					continue;
-				}
+				cerr << p.x << '\t' << p.y << '\t' << "OK" << endl;
 				straighten(n);
 				open.emplace(n);
 			}
@@ -1006,14 +1020,14 @@ std::shared_ptr<Command> Unit::giveDefaultCommand(Unit& r) {
 	if (owner.name != r.owner.name)//TODO VER SI ESTA ACTIVO?
 		return std::make_shared<AttackCommand>(r.getId(), getId());
 	else
-		return std::make_shared<MoveCommand>(r.getId(), getPosition());
+		return std::make_shared<MoveCommand>(r.getId(), center());
 }
 
 std::shared_ptr<Command> Building::giveDefaultCommand(Unit& r) {
 	if (owner.name != r.owner.name)//TODO VER SI ESTA ACTIVO?
 		return std::make_shared<AttackCommand>(r.getId(), getId());
 	else
-		return std::make_shared<MoveCommand>(r.getId(), getPosition());
+		return std::make_shared<MoveCommand>(r.getId(), center());
 }
 
 std::shared_ptr<Command> Building::giveDefaultCommand(Worker& r) {
@@ -1027,15 +1041,15 @@ std::shared_ptr<Command> Flag::giveDefaultCommand(Unit& r) {
 	if (owner.name != r.owner.name) //TODO VER SI ESTA ACTIVO?
 		return std::make_shared<AttackCommand>(r.getId(), getId());
 	else
-		return std::make_shared<MoveCommand>(r.getId(), getPosition());
+		return std::make_shared<MoveCommand>(r.getId(), center());
 }
 
 std::shared_ptr<Command> Flag::giveDefaultCommand(King& r) {
-		return std::make_shared<MoveCommand>(r.getId(), getPosition());
+		return std::make_shared<MoveCommand>(r.getId(), center());
 }
 
 std::shared_ptr<Command> Resource::giveDefaultCommand(Unit& r) {
-	return std::make_shared<MoveCommand>(r.getId(), getPosition());
+	return std::make_shared<MoveCommand>(r.getId(), center());
 }
 
 std::shared_ptr<Command> Resource::giveDefaultCommand(Worker& r) {
