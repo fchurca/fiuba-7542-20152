@@ -263,15 +263,11 @@ void Unit::addTarget(r2 newTarget) {
 		end = round(targeted() ? waypoints.back() : position),
 		start = round(newTarget);
 
-	cerr << end.x << '\t' << end.y << " => " << start.x << '\t' << start.y << '\t' << endl;
 	auto targetEntity = board.findEntity(start);
 	rectangle targetFootprint;
-	cerr << targetEntity;
 	if (targetEntity) {
-		cerr << '\t' << targetEntity->getPosition().x << '\t' << targetEntity->getPosition().y;
 		targetFootprint = rectangle(targetEntity->getPosition(), targetEntity->size);
 	}
-	cerr << endl;
 	priority_queue<TSNode, vector<shared_ptr<TSNode>>, compare> open;
 	auto h = [&end](r2& p) {return (p - end).length(); };
 	auto f = [&h](TSNode n) {return h(n.position) + n.g; };
@@ -333,14 +329,12 @@ void Unit::addTarget(r2 newTarget) {
 					auto nextFootprint = rectangle::box(p - size / 2, cpos - size / 2, size);
 					if (!targetFootprint.intersects(nextFootprint)) {
 						if (!(canEnter(nextFootprint))) {
-							cerr << p.x << '\t' << p.y << '\t' << "XX" << endl;
 							continue;
 						}
 					}
 				}
 				auto n = make_shared<TSNode>(p, (cpos - p).length() + c->g, .0, c);
 				n->f = f(*n);
-				cerr << p.x << '\t' << p.y << '\t' << "OK" << endl;
 				straighten(n);
 				open.emplace(n);
 			}
@@ -731,11 +725,10 @@ void Building::execute(CreateCommand& c) {
 			return;
 		}
 		for (auto& c : products[i].lines) {
-			owner.grantResources(c.resource_name , -1 * c.amount);
+			owner.grantResources(c.resource_name , -1 * (int)c.amount);
 		}
 		executing = true;
-	}
-	else {
+	} else {
 		if (!getDeletable()) {
 			if (progress.get() < progress.max) {
 				progress.inc(1);
@@ -743,19 +736,22 @@ void Building::execute(CreateCommand& c) {
 				return;
 			}
 			if (progress.get() == progress.max) {
-				//TODO VER LA POSICION DONDE SE CREA
-				int i = getPosition().x + 1;
-				int j = getPosition().y + 1;
-				bool imposibleSet = false;
-				while (!owner.board.createEntity(c.entityType, owner.name, r2(i, j)) || imposibleSet) {
-					if (j < owner.board.sizeY) {
-						j++;
+				auto es = board.entityFactories[c.entityType]->size;
+				auto s = es + size + r2(1, 1);
+				shared_ptr<Entity> created = nullptr;
+				for (double x = 0; (x < s.x) && !created; x++) {
+					for (double y = 0; (y < s.y) && !created; y++) {
+						auto p = position + r2(x, y) - es;
+						created = board.createEntity(c.entityType, owner.name, p);
 					}
-					else {
-						imposibleSet = true;
-					}		
 				}
 				isInAction = false;
+				if (!created) {
+					// TODO: Perdonar recursos si no pudo crear producto
+					// for (auto& c : products[i].lines) {
+						// owner.grantResources(c.resource_name , c.amount);
+					// }
+				}
 			}
 		}
 		clearCommand();
