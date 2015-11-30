@@ -148,7 +148,6 @@ void Entity::setCommand(shared_ptr<Command> newCommand) {
 
 void Entity::update() {
 	if (command) {
-		cerr << this << " has a command: " << command << endl;
 		command->execute(*this);
 	}
 }
@@ -388,9 +387,10 @@ void Unit::step() {
 		auto dr = speed*board.dt / 1000;
 		if (pow(dr, 2) < sqDistance()) {
 			auto newPos = position + r2::fromPolar(orientation, dr);
-			rectangle shapeCandidate(newPos, size);
 			if (!canEnter(newPos)) {
+				auto newTarget = waypoints.back();
 				unsetTarget();
+				addTarget(newTarget);
 				return;
 			}
 			position = newPos;
@@ -420,12 +420,10 @@ void Unit::conquered(Player& p) {
 
 // TODO: Rest of commands
 void Unit::execute(MoveCommand& c) {
-	// TODO: on first run of this command, clear waypoints
 	if (!executing) {
 		unsetTarget();
-		cerr << "Adding target" << endl;
-		addTarget(c.position);
 		executing = true;
+		addTarget(c.position);
 	}
 	step();
 	if (!targeted()) {
