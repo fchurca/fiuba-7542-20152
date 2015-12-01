@@ -232,6 +232,10 @@ void Entity::execute(CreateCommand& c) {
 	cerr << "Create" << endl;
 }
 
+void Entity::die() {
+	setDeletable();
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // HIC SVNT DRACONES
@@ -418,7 +422,7 @@ void Unit::visit(EntityVisitor& e) {
 }
 
 void Unit::conquered(Player& p) {
-	GameModes modeGame = NOTHING;
+	GameModes modeGame = DESTROY_FLAG;
 	if (modeGame == DESTROY_FLAG && !getDeletable()) {
 		Entity::conquered(p);
 		owner.board.createEntity(name, p.name, getPosition());
@@ -469,7 +473,7 @@ void Unit::execute(AttackCommand& c) {
 						entity->health.inc(-1 * hitForce);
 					}
 					if (entity->health.get() == entity->health.min) {
-						entityTarget->setDeletable();
+						entityTarget->die();
 						if (!entityTarget->owner.getAlive()) {
 							owner.conquer(entityTarget->owner);
 							return;
@@ -666,6 +670,14 @@ void King::update() {
 	Unit::update();
 }
 
+void King::die() {
+	Entity::die();
+	GameModes modeGame = DESTROY_FLAG;
+	if (modeGame = KILL_KING) {//TODO SACAR DEL BOARD
+		owner.kill();
+	}
+}
+
 void King::visit(EntityVisitor& e) {
 	e.visit(*this);
 }
@@ -689,7 +701,7 @@ void Building::update() {
 }
 
 void Building::conquered(Player& p) {
-	GameModes modeGame = NOTHING;
+	GameModes modeGame = DESTROY_FLAG;
 	if (!getDeletable()) {
 		Entity::conquered(p);
 		if (modeGame == DESTROY_CENTER || modeGame == KILL_KING) {
@@ -802,6 +814,14 @@ void Flag::visit(EntityVisitor& e) {
 	e.visit(*this);
 }
 
+void Flag::die() {
+	Entity::die();
+	GameModes modeGame = DESTROY_FLAG;
+	if (modeGame = DESTROY_FLAG) { //TODO SACAR DEL BOARD
+		owner.kill();
+	}
+}
+
 
 TownCenter::TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid,unsigned int health, unsigned int armour, std::vector<Budget> producerProducts) :
 	Building(name, board, owner, position, size, sight_radius, solid, health, armour, producerProducts)
@@ -809,6 +829,13 @@ TownCenter::TownCenter(std::string name, ABoard& board, Player& owner, r2 positi
 
 void TownCenter::update() {
 	Building::update();
+}
+void TownCenter::die() {
+	Entity::die();
+	GameModes modeGame = DESTROY_FLAG;
+	if (modeGame = DESTROY_CENTER) {//TODO SACAR DEL BOARD
+		owner.kill();
+	}
 }
 
 void TownCenter::visit(EntityVisitor& e) {

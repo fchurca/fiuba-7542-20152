@@ -112,6 +112,8 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 		bool operator==(Entity& other);
 		bool operator!=(Entity& other);
 
+		virtual void die();
+
 		virtual void visit(EntityVisitor& v) = 0;
 		// TODO: Rest of commands
 		virtual void execute(MoveCommand& c);
@@ -174,6 +176,7 @@ class King : public Unit {
 		virtual void visit(EntityVisitor& v);
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
 		virtual void conquered(Player& p);
+		virtual void die();
 };
 
 class Building : public Entity, public HealthMixin, public ProgressMixin {
@@ -207,6 +210,7 @@ class TownCenter : public Building {
 		TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid,unsigned int health, unsigned int armour, std::vector<Budget> producerProducts);
 		virtual void visit(EntityVisitor& v);
 		virtual void conquered(Player& p);
+		virtual void die();
 };
 
 class Flag : public Entity, public HealthMixin {
@@ -217,6 +221,7 @@ class Flag : public Entity, public HealthMixin {
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
 		virtual std::shared_ptr<Command> giveDefaultCommand(Unit& u);
 		virtual std::shared_ptr<Command> giveDefaultCommand(King& r);
+		virtual void die();
 };
 
 class Resource : public Entity , public CargoMixin {
