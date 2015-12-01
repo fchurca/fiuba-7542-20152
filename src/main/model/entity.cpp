@@ -71,6 +71,7 @@ Entity::Entity(std::string name, ABoard& board, Player& owner, r2 position, r2 s
 	Logger::getInstance()->writeInformation(message.str());
 	executing = false;
 	isInAction = false;
+	setFrame();
 }
 
 Entity::~Entity() {
@@ -149,6 +150,7 @@ void Entity::setCommand(shared_ptr<Command> newCommand) {
 void Entity::update() {
 	if (command) {
 		command->execute(*this);
+		setFrame();
 	}
 }
 
@@ -483,6 +485,7 @@ void Unit::execute(AttackCommand& c) {
 						isInAction = true;
 						return;
 					}
+					entityTarget->setFrame();
 				}
 			}
 			else {
@@ -551,6 +554,7 @@ void Worker::execute(GatherCommand& c) {
 						resource->cargo.inc(-1);
 						return;
 					}
+					resource->setFrame();
 				}
 				else {
 					step();
@@ -598,6 +602,7 @@ void Worker::execute(RepairCommand& c) {
 							isInAction = true;
 							return;
 						}
+						building->setFrame();
 					}
 				}
 			}
@@ -672,7 +677,7 @@ void King::update() {
 
 void King::die() {
 	Entity::die();
-	if (board.gameMode = KILL_KING) {
+	if (board.gameMode == KILL_KING) {
 		owner.kill();
 	}
 }
@@ -813,7 +818,7 @@ void Flag::visit(EntityVisitor& e) {
 
 void Flag::die() {
 	Entity::die();
-	if (board.gameMode = DESTROY_FLAG) {
+	if (board.gameMode == DESTROY_FLAG) {
 		owner.kill();
 	}
 }
@@ -828,7 +833,7 @@ void TownCenter::update() {
 }
 void TownCenter::die() {
 	Entity::die();;
-	if (board.gameMode = DESTROY_CENTER) {
+	if (board.gameMode == DESTROY_CENTER) {
 		owner.kill();
 	}
 }

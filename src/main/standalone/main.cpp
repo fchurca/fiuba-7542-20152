@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
 	string scenarioFile = SCENARIO_CONFIG_FILE_PATH;
 	string clientFile = CLIENT_SERVER_CONFIG_FILE_PATH;
 	string graphicsFile = GRAPHICS_CONFIG_FILE_PATH;
-	GameModes gameMode = NOTHING;
+	GameModes gameMode = DESTROY_CENTER;
 
 	for(int i = 1; i < argc; i++) {
 		switch (argv[i][0]) {
@@ -86,13 +86,18 @@ int main(int argc, char* argv[]) {
 				}
 				break;
 				logger.writeInformation("Using custom ruleset " + rulesetFile);
-			//case 'M':
-			//	i++;
-			//	if (i < argc) {
-			//		gameMode = (GameModes)argv[i];
-			//	}
-			//	break;
-			//	logger.writeInformation("Using gameMode " + gameMode);
+			// Game mode
+			case 'M':
+				i++;
+				char m = 0x00;
+				if (i < argc) {
+					m = argv[i][0];
+					gameMode =
+						(m == 'K') ? KILL_KING:
+						(m == 'F') ? DESTROY_FLAG:
+						DESTROY_CENTER;
+				}
+				break;
 		}
 	}
 
@@ -117,6 +122,8 @@ int main(int argc, char* argv[]) {
 			ScenarioParser scenarioParser(scenarioFile);
 			scenarioParser.parse();
 			game.setBoard(make_shared<SmartBoard>(game, rulesetParser, scenarioParser, gameMode));
+			string modes[] = {"destroy_center", "kill_king", "destroy_flag"};
+			logger.writeInformation("Using GameMode " + modes[gameMode]);
 		}
 		if (daemon) {
 			ServerParser serverParser(serverFile);

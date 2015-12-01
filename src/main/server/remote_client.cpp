@@ -95,19 +95,19 @@ void RemoteClient::run() {
 				char eotSink;
 				*socket >> frame >> eotSink;
 				*socket << ack << this->frame;
-				board.mapEntities([this, frame](shared_ptr<Entity> e) {
-						if(e) {
-							if (e->getFrame() > frame) {
-								*socket << 'E' << *e;
-							}
-						}}
-						);
 				deletedMutex.lock();
 				while (deleted.size() > 0) {
 					*socket << 'D' << deleted.front();
 					deleted.pop();
 				}
 				deletedMutex.unlock();
+				board.mapEntities([this, frame](shared_ptr<Entity> e) {
+						if(e) {
+							if ((e->getFrame() > frame) && !e->getDeletable()) {
+								*socket << 'E' << *e;
+							}
+						}}
+						);
 				for(auto& p : board.getPlayers()) {
 					if (p->getFrame() > frame) {
 						*socket << 'P' << *p;
@@ -133,27 +133,5 @@ void RemoteClient::notifyDeath(int id) {
 	deletedMutex.lock();
 	deleted.push(id);
 	deletedMutex.unlock();
-}
-
-
-Socket& operator<<(Socket& socket, r2 r) {
-	return socket << r.x << r.y;
-}
-
-Socket& operator<<(Socket& socket, Entity& e) {
-	return socket << e.getId() << e.name << e.owner.name
-		<< e.getFrame()
-		<< e.getPosition()
-		<< e.getOrientation();
-}
-
-Socket& operator<<(Socket& socket, Player& p) {
-	socket << p.name << p.getActive() << p.getAlive();
-	for(auto& i : p.getResources()) {
-		socket << gs << i.first << i.second;
-	}
-	socket << nul;
-
-	return socket;
 }
 
