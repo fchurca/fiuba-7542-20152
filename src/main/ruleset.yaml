@@ -191,6 +191,7 @@ tipos_estructuras:
     cantidad_sprites: 1
     behaviour: town_center
     armour: 4
+    sight_radius: 10
     products:
       - nombre: Trabajador
         costos:
