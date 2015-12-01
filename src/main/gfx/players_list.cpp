@@ -19,7 +19,22 @@ void PlayersList::draw() {
 	//SDL_RenderFillRect(owner.getRenderer(), &destinoFondoMenu);
 	if (owner.font) {
 		std::string columna = "";
+		std::string gameMode = "Modo de Juego: ";
 		SDL_Color colorBlanco = { 255, 255, 255 };
+		if (owner.player.board.gameMode == KILL_KING) {
+			gameMode = gameMode + "Matar al rey";
+		}
+		else {
+			if (owner.player.board.gameMode == DESTROY_CENTER) {
+				gameMode = gameMode + "Destruir centro civico";
+			}
+			else {
+				if (owner.player.board.gameMode == DESTROY_FLAG) {
+					gameMode = gameMode + "Destruir bandera";
+				}
+			}
+		}
+		columna = columna + owner.completeLine(gameMode, size.x);
 		for (auto p : owner.player.board.getPlayers()) {
 			if (p->name != DEFAULT_PLAYER_NAME) {
 				if (!(p->getAlive())) {
