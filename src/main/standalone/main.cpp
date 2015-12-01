@@ -31,6 +31,7 @@ int main(int argc, char* argv[]) {
 	string scenarioFile = SCENARIO_CONFIG_FILE_PATH;
 	string clientFile = CLIENT_SERVER_CONFIG_FILE_PATH;
 	string graphicsFile = GRAPHICS_CONFIG_FILE_PATH;
+	GameModes gameMode = NOTHING;
 
 	for(int i = 1; i < argc; i++) {
 		switch (argv[i][0]) {
@@ -85,6 +86,13 @@ int main(int argc, char* argv[]) {
 				}
 				break;
 				logger.writeInformation("Using custom ruleset " + rulesetFile);
+			//case 'M':
+			//	i++;
+			//	if (i < argc) {
+			//		gameMode = (GameModes)argv[i];
+			//	}
+			//	break;
+			//	logger.writeInformation("Using gameMode " + gameMode);
 		}
 	}
 
@@ -104,11 +112,11 @@ int main(int argc, char* argv[]) {
 			// Acá estamos levantando el cliente. Lo siguiente en realidad es un RemoteBoard que se conecta por TCP/IP al daemon
 			ClientParser clientParser(clientFile);
 			clientParser.parse();
-			game.setBoard(make_shared<RemoteBoard>(game, rulesetParser, clientParser));
+			game.setBoard(make_shared<RemoteBoard>(game, rulesetParser, clientParser, gameMode));
 		} else {
 			ScenarioParser scenarioParser(scenarioFile);
 			scenarioParser.parse();
-			game.setBoard(make_shared<SmartBoard>(game, rulesetParser, scenarioParser));
+			game.setBoard(make_shared<SmartBoard>(game, rulesetParser, scenarioParser, gameMode));
 		}
 		if (daemon) {
 			ServerParser serverParser(serverFile);

@@ -42,12 +42,13 @@ class ABoard : public FrameMixin {
 		Game& game;
 		void fillTerrain();
 	public:
+		GameModes gameMode;
 		long maxResources;
 		int sizeX, sizeY;
 		std::string name;
 		size_t dt;
 		std::map<std::string, std::shared_ptr<EntityFactory>> entityFactories;
-		ABoard(Game& game, RulesetParser& rulesetParser, std::string name, int sizeX, int sizeY, long maxResources);
+		ABoard(Game& game, RulesetParser& rulesetParser, std::string name, int sizeX, int sizeY, long maxResources, GameModes gameMode);
 		virtual ~ABoard();
 
 		enum ABoard::BoardState getState();
@@ -88,7 +89,7 @@ class SmartBoard : public ABoard {
 		SmartBoard();
 
 	public:
-		SmartBoard(Game& game, RulesetParser& rulesetParser, ScenarioParser& scenarioParser);
+		SmartBoard(Game& game, RulesetParser& rulesetParser, ScenarioParser& scenarioParser, GameModes gameMode);
 		~SmartBoard();
 
 		void update();

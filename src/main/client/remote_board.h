@@ -14,7 +14,7 @@ class RemoteBoard : public ABoard {
 		void updateResources(std::string playerName);
 		bool flushOut();
 	public:
-		RemoteBoard(Game& game, RulesetParser& rulesetParser, ClientParser& clientParser);
+		RemoteBoard(Game& game, RulesetParser& rulesetParser, ClientParser& clientParser, GameModes gameMode);
 		~RemoteBoard();
 
 		void update();

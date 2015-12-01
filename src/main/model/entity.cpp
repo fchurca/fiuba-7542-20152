@@ -422,12 +422,12 @@ void Unit::visit(EntityVisitor& e) {
 }
 
 void Unit::conquered(Player& p) {
-	GameModes modeGame = DESTROY_FLAG;
-	if (modeGame == DESTROY_FLAG && !getDeletable()) {
+	if (!getDeletable()) {
 		Entity::conquered(p);
-		owner.board.createEntity(name, p.name, getPosition());
+		if (board.gameMode == DESTROY_FLAG) {
+			owner.board.createEntity(name, p.name, getPosition());
+		}
 	}
-	Entity::conquered(p);
 }
 
 // TODO: Rest of commands
@@ -672,8 +672,7 @@ void King::update() {
 
 void King::die() {
 	Entity::die();
-	GameModes modeGame = DESTROY_FLAG;
-	if (modeGame = KILL_KING) {//TODO SACAR DEL BOARD
+	if (board.gameMode = KILL_KING) {
 		owner.kill();
 	}
 }
@@ -701,17 +700,15 @@ void Building::update() {
 }
 
 void Building::conquered(Player& p) {
-	GameModes modeGame = DESTROY_FLAG;
 	if (!getDeletable()) {
 		Entity::conquered(p);
-		if (modeGame == DESTROY_CENTER || modeGame == KILL_KING) {
+		if (board.gameMode == DESTROY_CENTER || board.gameMode == KILL_KING) {
 			owner.board.createEntity(name, DEFAULT_PLAYER_NAME, getPosition());
 		}
 		else {
 			owner.board.createEntity(name, p.name, getPosition());
 		}
 	}
-	Entity::conquered(p);
 }
 
 void Building::execute(CreateCommand& c) {
@@ -816,8 +813,7 @@ void Flag::visit(EntityVisitor& e) {
 
 void Flag::die() {
 	Entity::die();
-	GameModes modeGame = DESTROY_FLAG;
-	if (modeGame = DESTROY_FLAG) { //TODO SACAR DEL BOARD
+	if (board.gameMode = DESTROY_FLAG) {
 		owner.kill();
 	}
 }
@@ -831,9 +827,8 @@ void TownCenter::update() {
 	Building::update();
 }
 void TownCenter::die() {
-	Entity::die();
-	GameModes modeGame = DESTROY_FLAG;
-	if (modeGame = DESTROY_CENTER) {//TODO SACAR DEL BOARD
+	Entity::die();;
+	if (board.gameMode = DESTROY_CENTER) {
 		owner.kill();
 	}
 }

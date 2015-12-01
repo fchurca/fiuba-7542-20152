@@ -13,10 +13,10 @@
 using namespace std;
 using namespace charnames;
 
-RemoteBoard::RemoteBoard(Game& game, RulesetParser& rulesetParser, ClientParser& clientParser) :
+RemoteBoard::RemoteBoard(Game& game, RulesetParser& rulesetParser, ClientParser& clientParser, GameModes gameMode) :
 	ABoard(game, rulesetParser,
 			"Loading...",
-			0, 0, 0)
+			0, 0, 0, gameMode)
 {
 	stringstream message;
 	message << "Creating RemoteBoard " << this;

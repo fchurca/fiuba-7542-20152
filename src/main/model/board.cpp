@@ -12,14 +12,15 @@
 using namespace std;
 
 //-----------------------------------------------------------------------------
-ABoard::ABoard(Game& game, RulesetParser& rulesetParser, string name, int sizeX, int sizeY, long maxResources) :
+ABoard::ABoard(Game& game, RulesetParser& rulesetParser, string name, int sizeX, int sizeY, long maxResources, GameModes gameMode) :
 	game(game),
 	dt(rulesetParser.getConfiguracion().dt),
 	name(name),
 	sizeX(sizeX), sizeY(sizeY),
 	maxResources(maxResources),
 	state(BoardState::building),
-	started(false)
+	started(false),
+	gameMode(gameMode)
 {
 	stringstream message;
 	message << "Creating board " << this << " of size " << sizeX << "x" << sizeY;
@@ -269,12 +270,12 @@ void ABoard::update() {
 	commandMutex.unlock();
 }
 
-SmartBoard::SmartBoard(Game& game, RulesetParser& rulesetParser, ScenarioParser& scenarioParser) :
+SmartBoard::SmartBoard(Game& game, RulesetParser& rulesetParser, ScenarioParser& scenarioParser, GameModes gameMode) :
 	ABoard(game,
 			rulesetParser,
 			scenarioParser.getEscenario().nombre,
 			scenarioParser.getEscenario().size_x, scenarioParser.getEscenario().size_y,
-			scenarioParser.getEscenario().max_resources)
+			scenarioParser.getEscenario().max_resources, gameMode)
 {
 	stringstream message;
 	message << "Creating SmartBoard " << this;
