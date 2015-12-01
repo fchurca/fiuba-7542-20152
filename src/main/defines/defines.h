@@ -13,9 +13,9 @@ enum Directions {
 };
 
 enum GameModes {
-	DESTROY_CENTER = 1,
-	KILL_KING = 2,
-	DESTROY_FLAG = 3
+	DESTROY_CENTER = 0,
+	KILL_KING = 1,
+	DESTROY_FLAG = 2
 };
 
 //Archivo Configuracion
