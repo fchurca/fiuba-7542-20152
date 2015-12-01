@@ -333,7 +333,7 @@ tipos_estructuras:
     alto_sprite: 70
     cantidad_sprites: 1
     behaviour: flag
-    sight_radius: 200
+    sight_radius: 10
 tipos_terrenos:
   - nombre: Agua
     imagen: resources/agua.png
