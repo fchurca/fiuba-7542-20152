@@ -474,6 +474,7 @@ void Unit::execute(AttackCommand& c) {
 					if (!(entity->armour > hitForce)) {
 						entity->health.inc(-1 * hitForce);
 					}
+					entityTarget->setFrame();
 					if (entity->health.get() == entity->health.min) {
 						entityTarget->die();
 						if (!entityTarget->owner.getAlive()) {
@@ -485,7 +486,6 @@ void Unit::execute(AttackCommand& c) {
 						isInAction = true;
 						return;
 					}
-					entityTarget->setFrame();
 				}
 			}
 			else {
@@ -533,20 +533,10 @@ void Worker::execute(GatherCommand& c) {
 			if (resource) {
 				rectangle ataque(getPosition() - r2(hitRadius, hitRadius),r2(2*hitRadius + size.x, 2*hitRadius + size.y));//Vision en forma de Cuadrado
 				if (ataque.intersects(rectangle(resource->getPosition(), resource->size))){
+					resource->setFrame();
 					if (resource->cargo.get() == resource->cargo.min) {
 						resource->setDeletable();
 						entityTarget = nullptr;
-						//Buscar siguiente recurso a recolectar
-						//std::vector<std::shared_ptr<Entity>> resources = owner.board.selectEntities(rectangle(getPosition() - r2(sight_radius,sight_radius), r2(2*sight_radius,2*sight_radius)));
-						//for (auto& r : resources) {
-						//	auto nextResource = dynamic_cast<Resource*>(r.get());
-						//	if (nextResource) {
-						//		if (nextResource->resource_name == resource->resource_name) {
-						//			setCommand(std::make_shared<GatherCommand>(getId(), nextResource->getId()));
-						//			return;
-						//		}
-						//	}
-						//}
 					}
 					else {
 						isInAction = true;
@@ -554,7 +544,6 @@ void Worker::execute(GatherCommand& c) {
 						resource->cargo.inc(-1);
 						return;
 					}
-					resource->setFrame();
 				}
 				else {
 					step();
@@ -581,14 +570,15 @@ void Worker::execute(RepairCommand& c) {
 		if (!entityTarget->getDeletable() && !getDeletable()) {
 			rectangle ataque(getPosition() - r2(hitRadius, hitRadius), r2(2 * hitRadius + size.x, 2 * hitRadius + size.y));//Vision en forma de Cuadrado
 			if (ataque.intersects(rectangle(entityTarget->getPosition(), entityTarget->size))) {
-				auto unfinichedBuilding = dynamic_cast<UnfinishedBuilding*>(entityTarget.get());
-				if (unfinichedBuilding) {
-					if (unfinichedBuilding->progress.get() < unfinichedBuilding->progress.max) {
-						unfinichedBuilding->progress.inc(1);
+				auto unfinishedBuilding = dynamic_cast<UnfinishedBuilding*>(entityTarget.get());
+				if (unfinishedBuilding) {
+					unfinishedBuilding->setFrame();
+					if (unfinishedBuilding->progress.get() < unfinishedBuilding->progress.max) {
+						unfinishedBuilding->progress.inc(1);
 						isInAction = true;
 						return;
 					}
-					if (unfinichedBuilding->progress.get() == unfinichedBuilding->progress.max) {
+					if (unfinishedBuilding->progress.get() == unfinishedBuilding->progress.max) {
 						entityTarget->setDeletable();
 						owner.board.createEntity(entityTarget->name, entityTarget->owner.name, entityTarget->getPosition());
 						isInAction = false;
@@ -597,12 +587,12 @@ void Worker::execute(RepairCommand& c) {
 				else {
 					auto building = dynamic_cast<Building*>(entityTarget.get());
 					if (building) {
+						building->setFrame();
 						if (building->health.get() < building->health.max) {
 							building->health.inc(1);
 							isInAction = true;
 							return;
 						}
-						building->setFrame();
 					}
 				}
 			}
