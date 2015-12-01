@@ -71,6 +71,7 @@ Entity::Entity(std::string name, ABoard& board, Player& owner, r2 position, r2 s
 	Logger::getInstance()->writeInformation(message.str());
 	executing = false;
 	isInAction = false;
+	setFrame();
 }
 
 Entity::~Entity() {
