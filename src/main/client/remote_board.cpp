@@ -140,9 +140,15 @@ void RemoteBoard::update() {
 					double orientation;
 					*socket >> id >> ename >> owner >> f >> pos.x >> pos.y >> orientation;
 					auto e = findEntity(id);
-					e->setFrame(f);
-					e->setPosition(pos);
-					e->setOrientation(orientation);
+					if (!e) {
+						e = createEntity(ename, owner, pos);
+						e->setId(id);
+					}
+					if (e) {
+						e->setFrame(f);
+						e->setPosition(pos);
+						e->setOrientation(orientation);
+					}
 				}
 				break;
 			case 'L':
