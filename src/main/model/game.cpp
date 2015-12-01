@@ -39,7 +39,7 @@ std::shared_ptr<ABoard> Game::getBoard() {
 std::shared_ptr<Player> Game::getAvailablePlayer() {
 	auto players = board->getPlayers();
 	for(auto& p : players) {
-		if(p->human && (clients.find(p->name) == clients.end())) {
+		if(p->human && p->getAlive() && (clients.find(p->name) == clients.end())) {
 			return p;
 		}
 	}
