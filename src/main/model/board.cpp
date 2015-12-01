@@ -96,7 +96,9 @@ shared_ptr<Entity> ABoard::createEntity(string name, string playerName, r2 posit
 	}
 
 	auto pEntity = factory->createEntity(*players[playerName], position);
-	entities.push_back(pEntity);
+	if (pEntity) {
+		entities.push_back(pEntity);
+	}
 	return pEntity;
 }
 
@@ -106,7 +108,9 @@ shared_ptr<Entity> ABoard::createEntity(std::shared_ptr<Entity> e) {
 		Logger::getInstance()->writeError("Lugar ya ocupado para entidad " + name);
 		return nullptr;
 	}
-	entities.push_back(e);
+	if (e) {
+		entities.push_back(e);
+	}
 	return e;
 }
 

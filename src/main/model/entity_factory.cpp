@@ -57,7 +57,10 @@ KingFactory::KingFactory(std::string name, r2 size, double speed, int sight_radi
 {}
 
 std::shared_ptr<Entity> KingFactory::createEntity(Player& player, r2 position) {
-	return  std::make_shared<King>(name, board, player, position, size, speed, sight_radius, solid, health, armour, hitForce, hitRadius);
+	if (board.gameMode == KILL_KING) {
+		return  std::make_shared<King>(name, board, player, position, size, speed, sight_radius, solid, health, armour, hitForce, hitRadius);
+	}
+	return nullptr;
 }
 
 
@@ -84,7 +87,10 @@ FlagFactory::FlagFactory(std::string name, r2 size, int sight_radius, bool solid
 {}
 
 std::shared_ptr<Entity> FlagFactory::createEntity(Player& player, r2 position) {
-	return  std::make_shared<Flag>(name, board, player, position, size, sight_radius, solid, health, armour);
+	if (board.gameMode == DESTROY_FLAG) {
+		return  std::make_shared<Flag>(name, board, player, position, size, sight_radius, solid, health, armour);
+	}
+	return nullptr;
 }
 
 
