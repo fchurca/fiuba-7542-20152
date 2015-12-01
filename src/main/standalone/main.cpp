@@ -31,7 +31,7 @@ int main(int argc, char* argv[]) {
 	string scenarioFile = SCENARIO_CONFIG_FILE_PATH;
 	string clientFile = CLIENT_SERVER_CONFIG_FILE_PATH;
 	string graphicsFile = GRAPHICS_CONFIG_FILE_PATH;
-	GameModes gameMode = NOTHING;
+	GameModes gameMode = DESTROY_CENTER;
 
 	for(int i = 1; i < argc; i++) {
 		switch (argv[i][0]) {

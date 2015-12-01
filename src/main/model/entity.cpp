@@ -677,7 +677,7 @@ void King::update() {
 
 void King::die() {
 	Entity::die();
-	if (board.gameMode = KILL_KING) {
+	if (board.gameMode == KILL_KING) {
 		owner.kill();
 	}
 }
@@ -818,7 +818,7 @@ void Flag::visit(EntityVisitor& e) {
 
 void Flag::die() {
 	Entity::die();
-	if (board.gameMode = DESTROY_FLAG) {
+	if (board.gameMode == DESTROY_FLAG) {
 		owner.kill();
 	}
 }
@@ -833,7 +833,7 @@ void TownCenter::update() {
 }
 void TownCenter::die() {
 	Entity::die();;
-	if (board.gameMode = DESTROY_CENTER) {
+	if (board.gameMode == DESTROY_CENTER) {
 		owner.kill();
 	}
 }

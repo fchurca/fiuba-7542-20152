@@ -13,7 +13,6 @@ enum Directions {
 };
 
 enum GameModes {
-	NOTHING = 0, //TODO DESP PONER UNO DEFAULT
 	DESTROY_CENTER = 1,
 	KILL_KING = 2,
 	DESTROY_FLAG = 3
