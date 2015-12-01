@@ -142,9 +142,9 @@ void RemoteBoard::update() {
 					auto e = findEntity(id);
 					if (!e) {
 						e = createEntity(ename, owner, pos);
-						e->setId(id);
 					}
 					if (e) {
+						e->setId(id);
 						e->setFrame(f);
 						e->setPosition(pos);
 						e->setOrientation(orientation);

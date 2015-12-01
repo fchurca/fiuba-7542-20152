@@ -95,19 +95,19 @@ void RemoteClient::run() {
 				char eotSink;
 				*socket >> frame >> eotSink;
 				*socket << ack << this->frame;
-				board.mapEntities([this, frame](shared_ptr<Entity> e) {
-						if(e) {
-							if (e->getFrame() > frame) {
-								*socket << 'E' << *e;
-							}
-						}}
-						);
 				deletedMutex.lock();
 				while (deleted.size() > 0) {
 					*socket << 'D' << deleted.front();
 					deleted.pop();
 				}
 				deletedMutex.unlock();
+				board.mapEntities([this, frame](shared_ptr<Entity> e) {
+						if(e) {
+							if ((e->getFrame() > frame) && !e->getDeletable()) {
+								*socket << 'E' << *e;
+							}
+						}}
+						);
 				for(auto& p : board.getPlayers()) {
 					if (p->getFrame() > frame) {
 						*socket << 'P' << *p;
