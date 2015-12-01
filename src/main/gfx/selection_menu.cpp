@@ -33,7 +33,6 @@ void SelectionMenu::visit(Unit& entity) {
 }
 void SelectionMenu::visit(Worker& entity) {
 	visit((Unit&)entity);
-	outText += owner.completeLine("Recursos: (--/--)", size.x);
 }
 void SelectionMenu::visit(Resource& entity) {
 	visit((Entity&)entity);

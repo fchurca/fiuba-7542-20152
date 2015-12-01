@@ -645,7 +645,7 @@ void Worker::execute(BuildCommand& c) {
 						i++;
 					}
 					for (auto& c : products[i].lines) {
-						owner.grantResources(c.resource_name, -1 * c.amount);
+						owner.grantResources(c.resource_name, -1 * (int)c.amount);
 					}
 					setCommand(std::make_shared<RepairCommand>(getId(), entity->getId()));
 					return;
@@ -705,8 +705,8 @@ void Building::conquered(Player& p) {
 void Building::execute(CreateCommand& c) {
 	isInAction = false;
 	if (!executing) { // Primera vez valido los recursos
-		progress.set(0);
 		int i = 0;
+		progress.set(0);
 		for (auto& p : products) {
 			if (p.name == c.entityType) {
 				break;
@@ -727,6 +727,7 @@ void Building::execute(CreateCommand& c) {
 		for (auto& c : products[i].lines) {
 			owner.grantResources(c.resource_name , -1 * (int)c.amount);
 		}
+		currentProduct = products[i].name;
 		executing = true;
 	} else {
 		if (!getDeletable()) {
@@ -736,6 +737,7 @@ void Building::execute(CreateCommand& c) {
 				return;
 			}
 			if (progress.get() == progress.max) {
+				currentProduct = "";
 				auto es = board.entityFactories[c.entityType]->size;
 				auto s = es + size + r2(1, 1);
 				shared_ptr<Entity> created = nullptr;
@@ -747,10 +749,17 @@ void Building::execute(CreateCommand& c) {
 				}
 				isInAction = false;
 				if (!created) {
-					// TODO: Perdonar recursos si no pudo crear producto
-					// for (auto& c : products[i].lines) {
-						// owner.grantResources(c.resource_name , c.amount);
-					// }
+					int i = 0;
+					progress.set(0);
+					for (auto& p : products) {
+						if (p.name == c.entityType) {
+							break;
+						}
+						i++;
+					}
+					for (auto& c : products[i].lines) {
+						owner.grantResources(c.resource_name, (int)c.amount);
+					}
 				}
 			}
 		}
