@@ -70,16 +70,8 @@ RemoteBoard::RemoteBoard(Game& game, RulesetParser& rulesetParser, ClientParser&
 			char c = nul;
 			*socket >> c;
 			while(c == gs) {
-				c = nul;
-				size_t id, f;
-				string ename, owner;
-				r2 pos;
-				double orientation;
-				*socket >> id >> ename >> owner >> f >> pos.x >> pos.y >> orientation >> c;
-				auto e = createEntity(ename, owner, pos);
-				e->setFrame(f);
-				e->setId(id);
-				e->setOrientation(orientation);
+				readEntity();
+				*socket >> c;
 			}
 		}
 	}
@@ -134,21 +126,7 @@ void RemoteBoard::update() {
 				break;
 			case 'E':
 				{
-					size_t id, f;
-					string ename, owner;
-					r2 pos;
-					double orientation;
-					*socket >> id >> ename >> owner >> f >> pos.x >> pos.y >> orientation;
-					auto e = findEntity(id);
-					if (!e) {
-						e = createEntity(ename, owner, pos);
-					}
-					if (e) {
-						e->setId(id);
-						e->setFrame(f);
-						e->setPosition(pos);
-						e->setOrientation(orientation);
-					}
+					readEntity();
 				}
 				break;
 			case 'L':
@@ -230,5 +208,54 @@ bool RemoteBoard::flushOut() {
 		return false;
 	}
 	return true;
+}
+
+void RemoteBoard::readEntity() {
+	char t = nul;
+	size_t id, f;
+	string ename, owner, product;
+	r2 pos;
+	double orientation = 0;
+	int health = 0;
+	int progress = 0;
+	int cargo = 0;
+	*socket >> t >> id >> ename >> owner >> f >> pos.x >> pos.y;
+	switch (t) {
+		case 'B':
+			{
+				*socket >> health >> progress >> product;
+				break;
+			}
+		case 'U':
+			{
+				*socket >> health >> progress;
+				break;
+			}
+		case 'R':
+			{
+				*socket >> cargo;
+				break;
+			}
+		case 'N':
+			{
+				*socket >> health >> orientation;
+				break;
+			}
+		case 'F':
+			{
+				*socket >> health;
+				break;
+			}
+	}
+	auto e = findEntity(id);
+	if (!e) {
+		e = createEntity(ename, owner, pos);
+	}
+	if (e) {
+		e->setId(id);
+		e->setFrame(f);
+		e->setPosition(pos);
+		e->setOrientation(orientation);
+	}
 }
 

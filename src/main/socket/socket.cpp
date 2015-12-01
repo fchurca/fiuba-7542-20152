@@ -153,3 +153,67 @@ Socket& Socket::operator>>(string& s) {
 	return *this;
 }
 
+Socket& Socket::operator<<(r2 r) {
+	return *this << r.x << r.y;
+}
+
+Socket& Socket::operator<<(Entity& e) {
+	e.visit(*this);
+	return *this;
+}
+
+void Socket::visit(Entity& e) {
+	*this << 'E' << e.getId() << e.name << e.owner.name
+		<< e.getFrame()
+		<< e.getPosition();
+}
+
+void Socket::visit(Building& e) {
+	*this << 'B' << e.getId() << e.name << e.owner.name
+		<< e.getFrame()
+		<< e.getPosition()
+		<< e.health.get()
+		<< e.progress.get()
+		<< e.currentProduct;
+}
+
+void Socket::visit(UnfinishedBuilding& e) {
+	*this << 'U' << e.getId() << e.name << e.owner.name
+		<< e.getFrame()
+		<< e.getPosition()
+		<< e.health.get()
+		<< e.progress.get();
+}
+
+void Socket::visit(Resource& e) {
+	*this << 'R' << e.getId() << e.name << e.owner.name
+		<< e.getFrame()
+		<< e.getPosition()
+		<< e.cargo.get();
+}
+
+void Socket::visit(Unit& e) {
+	*this << 'N' << e.getId() << e.name << e.owner.name
+		<< e.getFrame()
+		<< e.getPosition()
+		<< e.health.get()
+		<< e.getOrientation();
+}
+
+void Socket::visit(Flag& e) {
+	*this << 'F' << e.getId() << e.name << e.owner.name
+		<< e.getFrame()
+		<< e.getPosition()
+		<< e.health.get();
+}
+
+Socket& Socket::operator<<(Player& p) {
+	*this << p.name << p.getActive() << p.getAlive();
+	for(auto& i : p.getResources()) {
+		*this << gs << i.first << i.second;
+	}
+	*this << nul;
+
+	return *this;
+}
+

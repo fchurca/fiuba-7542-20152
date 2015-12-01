@@ -135,25 +135,3 @@ void RemoteClient::notifyDeath(int id) {
 	deletedMutex.unlock();
 }
 
-
-Socket& operator<<(Socket& socket, r2 r) {
-	return socket << r.x << r.y;
-}
-
-Socket& operator<<(Socket& socket, Entity& e) {
-	return socket << e.getId() << e.name << e.owner.name
-		<< e.getFrame()
-		<< e.getPosition()
-		<< e.getOrientation();
-}
-
-Socket& operator<<(Socket& socket, Player& p) {
-	socket << p.name << p.getActive() << p.getAlive();
-	for(auto& i : p.getResources()) {
-		socket << gs << i.first << i.second;
-	}
-	socket << nul;
-
-	return socket;
-}
-

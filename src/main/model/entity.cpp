@@ -150,6 +150,7 @@ void Entity::setCommand(shared_ptr<Command> newCommand) {
 void Entity::update() {
 	if (command) {
 		command->execute(*this);
+		setFrame();
 	}
 }
 
@@ -484,6 +485,7 @@ void Unit::execute(AttackCommand& c) {
 						isInAction = true;
 						return;
 					}
+					entityTarget->setFrame();
 				}
 			}
 			else {
@@ -552,6 +554,7 @@ void Worker::execute(GatherCommand& c) {
 						resource->cargo.inc(-1);
 						return;
 					}
+					resource->setFrame();
 				}
 				else {
 					step();
@@ -599,6 +602,7 @@ void Worker::execute(RepairCommand& c) {
 							isInAction = true;
 							return;
 						}
+						building->setFrame();
 					}
 				}
 			}

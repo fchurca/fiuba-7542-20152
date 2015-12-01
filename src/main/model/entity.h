@@ -67,7 +67,6 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 		virtual void collide(Resource& other);
 		bool canEnter(rectangle r);
 		bool canEnter(r2 newPosition);
-		void setFrame();
 		double orientation;
 		std::shared_ptr<Command> command;
 		void clearCommand();
@@ -107,6 +106,7 @@ class Entity : public IdMixin, public FrameMixin, public DeletableMixin {
 		virtual std::shared_ptr<Command> giveDefaultCommand(Terrain& t);
 
 		virtual void setDeletable();
+		void setFrame();
 		void setFrame(size_t newFrame);
 
 		bool operator==(Entity& other);

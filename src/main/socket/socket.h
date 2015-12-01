@@ -6,6 +6,8 @@
 #include <memory>
 #include <vector>
 
+#include "../model/entity.h"
+
 #ifdef _WIN32
 #include <winsock2.h>
 #else // !_WIN32
@@ -13,7 +15,7 @@
 #endif //!_WIN32
 
 //-----------------------------------------------------------------------------
-class Socket {
+class Socket : public EntityVisitor {
 protected:
 	size_t sockfd;
 	bool status;
@@ -59,6 +61,17 @@ public:
 	bool flushIn();
 	bool oFlushIn();
 	bool flushOut();
+
+	Socket& operator<<(r2 r);
+	Socket& operator<<(Entity& e);
+	Socket& operator<<(Player& p);
+
+	void visit(Entity& e);
+	void visit(Building& e);
+	void visit(UnfinishedBuilding& e);
+	void visit(Resource& e);
+	void visit(Unit& e);
+	void visit(Flag& e);
 };
 
 

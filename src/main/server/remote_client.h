@@ -31,9 +31,5 @@ class RemoteClient : public AClient{
 		void notifyDeath(int id);
 };
 
-Socket& operator<<(Socket& socket, r2 r);
-Socket& operator<<(Socket& socket, Entity& e);
-Socket& operator<<(Socket& socket, Player& p);
-
 #endif // _REMOTE_CLIENT_H_
 
