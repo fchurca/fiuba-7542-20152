@@ -296,8 +296,8 @@ SmartBoard::SmartBoard(Game& game, RulesetParser& rulesetParser, ScenarioParser&
 		createPlayer(jugador.name, jugador.isHuman);
 		for (auto& entidadJugador : jugador.entidades) {
 			if (!createEntity(entidadJugador.tipoEntidad,jugador.name , entidadJugador.pos)) {
-				Logger::getInstance()->writeInformation("Se crea un protagonista default");
-				createEntity(PROTAGONISTA_DEFAULT_NOMBRE, jugador.name, { PROTAGONISTA_DEFAULT_POSX, PROTAGONISTA_DEFAULT_POSY });
+				//Logger::getInstance()->writeInformation("Se crea un protagonista default");
+				//createEntity(PROTAGONISTA_DEFAULT_NOMBRE, jugador.name, { PROTAGONISTA_DEFAULT_POSX, PROTAGONISTA_DEFAULT_POSY });
 			}
 		}
 	}
