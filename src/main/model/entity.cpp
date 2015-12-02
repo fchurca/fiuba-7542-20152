@@ -207,33 +207,25 @@ void Entity::setOrientation(double newOrientation) {
 }
 
 // TODO: Rest of commands
-#include <iostream>
 void Entity::execute(MoveCommand& c) {
-	cerr << "Move" << endl;
 }
 
 void Entity::execute(StopCommand& c) {
-	cerr << "Stop" << endl;
 }
 
 void Entity::execute(RepairCommand& c) {
-	cerr << "Repair" << endl;
 }
 
 void Entity::execute(GatherCommand& c) {
-	cerr << "Gather" << endl;
 }
 
 void Entity::execute(AttackCommand& c) {
-	cerr << "Attack" << endl;
 }
 
 void Entity::execute(BuildCommand& c) {
-	cerr << "Build" << endl;
 }
 
 void Entity::execute(CreateCommand& c) {
-	cerr << "Create" << endl;
 }
 
 void Entity::die() {

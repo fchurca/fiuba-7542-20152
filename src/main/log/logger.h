@@ -2,7 +2,6 @@
 #define __LOGGER_H__
 
 #include <string> 
-#include <iostream>
 #include <fstream>
 #include <ctime>
 #include <algorithm>

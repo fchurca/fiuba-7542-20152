@@ -333,10 +333,8 @@ void SmartBoard::update() {
 	}
 }
 
-#include <iostream> // TODO: QUITAR
 
 void SmartBoard::execute(StopCommand& command) {
-	cerr << "StopCommand" << endl;
 	auto e = findEntity(command.entityId);
 	if (e) {
 		if (e->owner.getAlive()) {
@@ -346,7 +344,6 @@ void SmartBoard::execute(StopCommand& command) {
 }
 
 void SmartBoard::execute(MoveCommand& command) {
-	cerr << "MoveCommand" << endl;
 	auto e = findEntity(command.entityId);
 	if (e) {
 		if (e->owner.getAlive()) {
@@ -356,7 +353,6 @@ void SmartBoard::execute(MoveCommand& command) {
 }
 
 void SmartBoard::execute(BuildCommand& command) {
-	cerr << "BuildCommand" << endl;
 	auto e = findEntity(command.entityId);
 	if (e) {
 		if (e->owner.getAlive()) {
@@ -367,7 +363,6 @@ void SmartBoard::execute(BuildCommand& command) {
 
 
 void SmartBoard::execute(CreateCommand& command) {
-	cerr << "CreateCommand" << endl;
 	auto e = findEntity(command.entityId);
 	if (e) {
 		if (e->owner.getAlive()) {
@@ -378,7 +373,6 @@ void SmartBoard::execute(CreateCommand& command) {
 
 
 void SmartBoard::execute(GatherCommand& command) {
-	cerr << "GatherCommand" << endl;
 	auto e = findEntity(command.entityId);
 	if (e) {
 		if (e->owner.getAlive()) {
@@ -389,7 +383,6 @@ void SmartBoard::execute(GatherCommand& command) {
 
 
 void SmartBoard::execute(AttackCommand& command) {
-	cerr << "AttackCommand" << endl;
 	auto e = findEntity(command.entityId);
 	if (e) {
 		if (e->owner.getAlive()) {
@@ -400,7 +393,6 @@ void SmartBoard::execute(AttackCommand& command) {
 
 
 void SmartBoard::execute(RepairCommand& command) {
-	cerr << "RepairCommand" << endl;
 	auto e = findEntity(command.entityId);
 	if (e) {
 		if (e->owner.getAlive()) {

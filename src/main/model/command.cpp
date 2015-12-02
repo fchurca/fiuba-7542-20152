@@ -1,7 +1,6 @@
 #include "board.h"
 #include "entity.h"
 
-#include <iostream>
 
 using namespace std;
 
@@ -17,7 +16,6 @@ void StopCommand::execute(ABoard& board) {
 }
 
 void StopCommand::execute(Entity& e) {
-	cerr << "StopCommand.execute" << endl;;
 	e.execute(*this);
 }
 
