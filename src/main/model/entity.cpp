@@ -579,12 +579,11 @@ void Worker::execute(RepairCommand& c) {
 					unfinishedBuilding->setFrame();
 					if (unfinishedBuilding->progress.get() < unfinishedBuilding->progress.max) {
 						auto delta = max(hitForce - unfinishedBuilding->armour, 0);
-						unfinishedBuilding->progress.inc((unfinishedBuilding->progress.max * delta / unfinishedBuilding->health.max)+1);
+						unfinishedBuilding->progress.inc(delta+1);
 						unfinishedBuilding->health.inc(delta+1);
 						isInAction = true;
 						return;
-					}
-					if (unfinishedBuilding->progress.get() == unfinishedBuilding->progress.max) {
+					} else {
 						entityTarget->setDeletable();
 						if(auto b = board.createEntity(entityTarget->name, entityTarget->owner.name, entityTarget->getPosition())) {
 							if(auto building = dynamic_cast<Building*>(b.get())) {
@@ -795,6 +794,7 @@ UnfinishedBuilding::UnfinishedBuilding(std::string name, ABoard& board, Player& 
 	Building(name, board, owner, position, size, sight_radius, solid, health, armour)
 {
 	this->health.set(1);
+	this->progress = Gauge(health, this->health.get());
 }
 
 void UnfinishedBuilding::update() {

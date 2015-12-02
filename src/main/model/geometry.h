@@ -18,8 +18,8 @@ class Gauge {
 		Gauge();
 		void clip();
 	public:
-		const int min;
-		const int max;
+		int min;
+		int max;
 		Gauge(int max);
 		Gauge(int max, int value);
 		Gauge(int min, int max, int value);
