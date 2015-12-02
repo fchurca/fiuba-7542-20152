@@ -76,7 +76,7 @@ std::shared_ptr<Entity> BuildingFactory::createEntity(Player& player, r2 positio
 }
 
 std::shared_ptr<Entity> BuildingFactory::createUnfinished(Player& player, r2 position) {
-	return std::make_shared<UnfinishedBuilding>(name, board, player, position, size, sight_radius, solid, health, 0);
+	return std::make_shared<UnfinishedBuilding>(name, board, player, position, size, (int)max(size.x,size.y)/2, solid, health, 0);
 }
 
 
