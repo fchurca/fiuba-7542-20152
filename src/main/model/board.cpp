@@ -238,7 +238,7 @@ void ABoard::setState(enum ABoard::BoardState newState) {
 }
 
 bool ABoard::isRunning() {
-	return state == BoardState::running;
+	return (state == BoardState::running) || (state == BoardState::building);
 }
 
 void ABoard::start() {
@@ -256,7 +256,7 @@ void ABoard::run() {
 }
 
 void ABoard::update() {
-	if(!isRunning()) {
+	if(state != BoardState::running) {
 		return;
 	}
 	frame++;
@@ -282,6 +282,7 @@ SmartBoard::SmartBoard(Game& game, RulesetParser& rulesetParser, ScenarioParser&
 			scenarioParser.getEscenario().size_x, scenarioParser.getEscenario().size_y,
 			scenarioParser.getEscenario().max_resources, gameMode)
 {
+	state = BoardState::building;
 	stringstream message;
 	message << "Creating SmartBoard " << this;
 	Logger::getInstance()->writeInformation(message.str());

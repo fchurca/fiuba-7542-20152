@@ -19,6 +19,7 @@ RemoteBoard::RemoteBoard(Game& game, RulesetParser& rulesetParser, ClientParser&
 			"Loading...",
 			0, 0, 0, gameMode)
 {
+	state = ABoard::BoardState::running;
 	stringstream message;
 	message << "Creating RemoteBoard " << this;
 	Logger::getInstance()->writeInformation(message.str());

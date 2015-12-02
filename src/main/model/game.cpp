@@ -60,6 +60,9 @@ bool Game::addClient(std::shared_ptr<AClient> newClient) {
 		p.setActive(true);
 	}
 	clientsMutex.unlock();
+	if(!getAvailablePlayer()) {
+		board->setState(ABoard::BoardState::running);
+	}
 	return ret;
 }
 
