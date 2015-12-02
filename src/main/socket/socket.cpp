@@ -8,6 +8,7 @@ using namespace charnames;
 using namespace std;
 
 const size_t double_discretization_scale = 100;
+const double double_offset = 100;
 
 Socket::Socket() : inBufferIndex(0) {
 }
@@ -90,7 +91,7 @@ Socket& Socket::operator<<(std::string s) {
 }
 
 Socket& Socket::operator<<(double d) {
-	return *this << (int)(d * double_discretization_scale);
+	return *this << (int)((d + double_offset) * double_discretization_scale);
 }
 
 Socket& Socket::operator>>(char& c) {
@@ -137,7 +138,7 @@ Socket& Socket::operator>>(int& i) {
 Socket& Socket::operator>>(double& d) {
 	long l;
 	*this >> l;
-	d = ((double)l) / double_discretization_scale;
+	d = (((double)l) / double_discretization_scale) - double_offset;
 	return *this;
 }
 
