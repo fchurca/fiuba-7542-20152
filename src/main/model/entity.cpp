@@ -6,6 +6,7 @@
 #include "entity.h"
 #include "board.h"
 #include "entity_factory.h"
+#include "game.h"
 
 using namespace std;
 
@@ -168,6 +169,7 @@ void Entity::setPosition(r2 newPos) {
 
 void Entity::setDeletable() {
 	DeletableMixin::setDeletable();
+	board.game.notifyDeath(id);
 	setFrame();
 }
 

@@ -39,9 +39,9 @@ class ABoard : public FrameMixin {
 		bool started;
 		std::thread th;
 		GameTimer timer;
-		Game& game;
 		void fillTerrain();
 	public:
+		Game& game;
 		GameModes gameMode;
 		long maxResources;
 		int sizeX, sizeY;

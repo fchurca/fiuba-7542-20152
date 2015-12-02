@@ -122,6 +122,7 @@ void RemoteBoard::update() {
 					auto e = findEntity(id);
 					if(e) {
 						e->setDeletable();
+						cerr << "Deleting entity " << id << " of type " << e->name << endl;
 					}
 				}
 				break;
@@ -259,6 +260,7 @@ void RemoteBoard::readEntity() {
 			}
 		} else {
 			e = createEntity(ename, owner, pos);
+			cerr << "Creating entity " << ename << ": " << e << endl;
 		}
 	}
 	if (e) {
@@ -268,6 +270,7 @@ void RemoteBoard::readEntity() {
 	}
 	auto p = e.get();
 	if(auto u = dynamic_cast<UnfinishedBuilding*>(p)) {
+		cerr << "UnfinishedBuilding " << e << endl;
 		u->health.set(health);
 		u->progress.set(progress);
 	} else if(auto b = dynamic_cast<Building*>(p)) {

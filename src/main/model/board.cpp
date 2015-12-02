@@ -262,7 +262,6 @@ void ABoard::update() {
 	frame++;
 	for(size_t i = 0; i < entities.size();) {
 		if (entities[i]->getDeletable()) {
-			game.notifyDeath(entities[i]->getId());
 			entities.erase(entities.begin() + i);
 		} else {
 			i++;
