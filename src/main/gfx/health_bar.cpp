@@ -40,7 +40,7 @@ void HealthBar::visit(Building& entity) {
 	SDL_SetRenderDrawColor(owner.owner.getRenderer(), 255, 0, 0, 255);
 	SDL_Rect lineaSalud = { (int)((centro.x - TILE_WIDTH_DEFAULT / 4)), (int)(centro.y + 2), (int)(TILE_WIDTH_DEFAULT / 2 * porcentaje), 2 };
 	SDL_RenderFillRect(owner.owner.getRenderer(), &lineaSalud);
-	if (entity.isInAction) {
+	if (entity.isInAction && entity.owner.name == owner.owner.player.name) {
 		SDL_SetRenderDrawColor(owner.owner.getRenderer(), 0, 0, 0, 255);
 		SDL_Rect lineaFondoProgress = { (int)(centro.x - TILE_WIDTH_DEFAULT / 4), (int)(centro.y + 4), TILE_WIDTH_DEFAULT / 2, 2 };
 		SDL_RenderFillRect(owner.owner.getRenderer(), &lineaFondoProgress);
@@ -53,14 +53,16 @@ void HealthBar::visit(Building& entity) {
 
 void HealthBar::visit(UnfinishedBuilding& entity) {
 	visit((Building&)entity);
-	SDL_Point centro = owner.boardToScreenPosition(entity.center());
-	SDL_SetRenderDrawColor(owner.owner.getRenderer(), 0, 0, 0, 255);
-	SDL_Rect lineaFondo = { (int)(centro.x - TILE_WIDTH_DEFAULT / 4), (int)(centro.y + 4), TILE_WIDTH_DEFAULT / 2, 2 };
-	SDL_RenderFillRect(owner.owner.getRenderer(), &lineaFondo);
-	double porcentaje = (double)entity.progress.get() / (double)entity.progress.max;
-	SDL_SetRenderDrawColor(owner.owner.getRenderer(), 0, 0, 255, 255);
-	SDL_Rect lineaProgreso = { (int)((centro.x - TILE_WIDTH_DEFAULT / 4)), (int)(centro.y + 4), (int)(TILE_WIDTH_DEFAULT / 2 * porcentaje), 2 };
-	SDL_RenderFillRect(owner.owner.getRenderer(), &lineaProgreso);
+	if (entity.owner.name == owner.owner.player.name) {
+		SDL_Point centro = owner.boardToScreenPosition(entity.center());
+		SDL_SetRenderDrawColor(owner.owner.getRenderer(), 0, 0, 0, 255);
+		SDL_Rect lineaFondo = { (int)(centro.x - TILE_WIDTH_DEFAULT / 4), (int)(centro.y + 4), TILE_WIDTH_DEFAULT / 2, 2 };
+		SDL_RenderFillRect(owner.owner.getRenderer(), &lineaFondo);
+		double porcentaje = (double)entity.progress.get() / (double)entity.progress.max;
+		SDL_SetRenderDrawColor(owner.owner.getRenderer(), 0, 0, 255, 255);
+		SDL_Rect lineaProgreso = { (int)((centro.x - TILE_WIDTH_DEFAULT / 4)), (int)(centro.y + 4), (int)(TILE_WIDTH_DEFAULT / 2 * porcentaje), 2 };
+		SDL_RenderFillRect(owner.owner.getRenderer(), &lineaProgreso);
+	}
 }
 
 void HealthBar::visit(Flag& entity) {
