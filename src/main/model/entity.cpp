@@ -573,7 +573,9 @@ void Worker::execute(RepairCommand& c) {
 				if (unfinishedBuilding) {
 					unfinishedBuilding->setFrame();
 					if (unfinishedBuilding->progress.get() < unfinishedBuilding->progress.max) {
-						unfinishedBuilding->progress.inc(1);
+						int i = 1;
+						unfinishedBuilding->progress.inc(i);
+						unfinishedBuilding->health.inc(i * unfinishedBuilding->health.max / unfinishedBuilding->progress.max);
 						isInAction = true;
 						return;
 					}
@@ -782,7 +784,9 @@ void Building::visit(EntityVisitor& e) {
 
 UnfinishedBuilding::UnfinishedBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid,unsigned int health, unsigned int armour) :
 	Building(name, board, owner, position, size, sight_radius, solid, health, armour)
-{}
+{
+	this->health.set(1);
+}
 
 void UnfinishedBuilding::update() {
 	Building::update();
