@@ -120,13 +120,13 @@ tipos_unidades:
       - nombre: Establo
         costos:
           - recurso: Madera
-            cantidad: 10
+            cantidad: 200
+          - recurso: Piedra
+            cantidad: 100
       - nombre: Cuartel
         costos:
           - recurso: Madera
-            cantidad: 15
-          - recurso: Piedra
-            cantidad: 10
+            cantidad: 300
   - nombre: Ogro
     imagen: resources/ogro.png
     ancho_base: 1
@@ -198,7 +198,7 @@ tipos_estructuras:
       - nombre: Trabajador
         costos:
           - recurso: Carne
-            cantidad: 10
+            cantidad: 25
   - nombre: Choza
     imagen: resources/choza.png
     ancho_base: 2
@@ -273,19 +273,23 @@ tipos_estructuras:
       - nombre: Ogro
         costos:
           - recurso: Carne
-            cantidad: 15
+            cantidad: 150
+          - recurso: Oro
+            cantidad: 100
       - nombre: Dragon
         costos:
           - recurso: Carne
-            cantidad: 20
+            cantidad: 100
       - nombre: Arquero
         costos:
           - recurso: Carne
-            cantidad: 25
+            cantidad: 100
+          - recurso: Madera
+            cantidad: 50
       - nombre: Soldado
         costos:
           - recurso: Carne
-            cantidad: 10
+            cantidad: 50
   - nombre: Establo
     imagen: resources/establo.png
     ancho_base: 2
@@ -303,11 +307,13 @@ tipos_estructuras:
       - nombre: Jinete
         costos:
           - recurso: Carne
-            cantidad: 15
+            cantidad: 100
       - nombre: Catapulta
         costos:
           - recurso: Madera
-            cantidad: 15
+            cantidad: 150
+          - recurso: Oro
+            cantidad: 100
   - nombre: Torre
     imagen: resources/torre.png
     ancho_base: 2
