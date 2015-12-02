@@ -48,7 +48,7 @@ void SelectionMenu::visit(Building& entity) {
 	stringstream sa;
 	sa << "Armadura: " << entity.armour;
 	outText += owner.completeLine(sa.str().c_str(), size.x);
-	if (entity.currentProduct != "") {
+	if (entity.currentProduct != "" && entity.owner.name == owner.player.name) {
 		stringstream sp;
 		sp << "Producciendo " + entity.currentProduct + ": " << entity.progress.get() << "/" << entity.progress.max;
 		outText += owner.completeLine(sp.str().c_str(), size.x);
@@ -57,8 +57,10 @@ void SelectionMenu::visit(Building& entity) {
 void SelectionMenu::visit(UnfinishedBuilding& entity) {
 	visit((Building&)entity);
 	stringstream ss;
-	ss << "Progreso: " << entity.progress.get() << "/" << entity.progress.max;
-	outText += owner.completeLine(ss.str().c_str(), size.x);
+	if (entity.owner.name == owner.player.name) {
+		ss << "Progreso: " << entity.progress.get() << "/" << entity.progress.max;
+		outText += owner.completeLine(ss.str().c_str(), size.x);
+	}
 }
 
 void SelectionMenu::visit(Flag& entity) {
