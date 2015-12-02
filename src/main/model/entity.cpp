@@ -308,7 +308,10 @@ void Unit::addTarget(r2 newTarget) {
 		closed[(int)floor(cpos.x)][(int)floor(cpos.y)] = true;
 		if ((cpos - end).sqLength() <= 1) {
 			for (auto p = c; p; p = p->previous) {
-				waypoints.push_back(p->position);
+				auto nextFootprint = rectangle::box(p->position - size / 2, cpos - size / 2, size);
+				if(!(targetFootprint.intersects(nextFootprint))) {
+					waypoints.push_back(p->position);
+				}
 			}
 			return;
 		}
