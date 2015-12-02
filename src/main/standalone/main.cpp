@@ -132,7 +132,7 @@ int main(int argc, char* argv[]) {
 		server->init();
 	}
 	auto graphicPlayer = game.getAvailablePlayer();
-	if (graphicPlayer) {
+	if (graphicPlayer && !(daemon && client)) {
 		GraphicsParser graphicsParser(graphicsFile);
 		graphicsParser.parse();
 		game.addClient(make_shared<GameWindow>(game, *(graphicPlayer), graphicsParser, rulesetParser));
