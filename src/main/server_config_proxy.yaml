@@ -1,0 +1,5 @@
+configuration:
+    ip: localhost
+    port: 8002
+    max_clients: 10
+ 
