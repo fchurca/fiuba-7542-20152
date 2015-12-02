@@ -184,8 +184,8 @@ void SpriteSheet::visit(UnfinishedBuilding& entity) {
 
 	//	Dibujado
 	if (state != INVISIBLE) {//Aca hay que usar el canDraw
-		Uint8 q = 255;
-		SDL_SetRenderDrawColor(owner.owner.getRenderer(), q, q, q, q);
+		SDL_Color color = owner.owner.getColor(entity.owner.getId());
+		SDL_SetRenderDrawColor(owner.owner.getRenderer(), color.r, color.g, color.b, 255);
 		owner.drawRhombus(entity.getPosition(), entity.getPosition() + entity.size);
 	}
 }
