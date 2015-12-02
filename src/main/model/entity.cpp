@@ -377,7 +377,7 @@ Directions Unit::getDirection() {
 
 Unit::~Unit() {}
 
-Unit::Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid,unsigned int health, unsigned int armour, unsigned int hitforce, unsigned int hitradius) :
+Unit::Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid,int health, int armour, int hitforce, int hitradius) :
 	Entity(name, board, owner, position, size, sight_radius, solid),
 	HealthMixin(health, armour),
 	speed(speed),
@@ -505,7 +505,7 @@ void Unit::execute(AttackCommand& c) {
 }
 
 
-Worker::Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid,unsigned int health, unsigned int armour, unsigned int hit_force, unsigned int hit_radius, std::vector<Budget> workerProducts) :
+Worker::Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid,int health, int armour, int hit_force, int hit_radius, std::vector<Budget> workerProducts) :
 	Unit(name, board, owner, position, size, speed, sight_radius, solid, health, armour,hit_force, hit_radius),
 	products(workerProducts)
 {}
@@ -576,15 +576,19 @@ void Worker::execute(RepairCommand& c) {
 				if (unfinishedBuilding) {
 					unfinishedBuilding->setFrame();
 					if (unfinishedBuilding->progress.get() < unfinishedBuilding->progress.max) {
-						int i = 1;
-						unfinishedBuilding->progress.inc(i);
-						unfinishedBuilding->health.inc(i * unfinishedBuilding->health.max / unfinishedBuilding->progress.max);
+						auto delta = max(hitForce - unfinishedBuilding->armour, 0);
+						unfinishedBuilding->progress.inc((unfinishedBuilding->progress.max * delta / unfinishedBuilding->health.max)+1);
+						unfinishedBuilding->health.inc(delta+1);
 						isInAction = true;
 						return;
 					}
 					if (unfinishedBuilding->progress.get() == unfinishedBuilding->progress.max) {
 						entityTarget->setDeletable();
-						board.createEntity(entityTarget->name, entityTarget->owner.name, entityTarget->getPosition());
+						if(auto b = board.createEntity(entityTarget->name, entityTarget->owner.name, entityTarget->getPosition())) {
+							if(auto building = dynamic_cast<Building*>(b.get())) {
+								building->health.set(unfinishedBuilding->health.get());
+							}
+						}
 						isInAction = false;
 					}
 				}
@@ -593,7 +597,7 @@ void Worker::execute(RepairCommand& c) {
 					if (building) {
 						building->setFrame();
 						if (building->health.get() < building->health.max) {
-							building->health.inc(1);
+							building->health.inc(1 + max(hitForce - building->armour, 0));
 							isInAction = true;
 							return;
 						}
@@ -662,7 +666,7 @@ void Worker::execute(BuildCommand& c) {
 }
 
 
-King::King(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, unsigned int health, unsigned int armour, unsigned int hit_force, unsigned int hit_radius) :
+King::King(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, int armour, int hit_force, int hit_radius) :
 	Unit(name, board, owner, position, size, speed, sight_radius, solid, health, armour, hit_force, hit_radius)
 {}
 
@@ -686,7 +690,7 @@ void King::conquered(Player& p){
 }
 
 
-Building::Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid,unsigned int health, unsigned int armour, std::vector<Budget> producerProducts = {}) :
+Building::Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid,int health, int armour, std::vector<Budget> producerProducts = {}) :
 	Entity(name, board, owner, position, size, sight_radius, solid),
 	HealthMixin(health, armour),
 	ProgressMixin(0,100,0),
@@ -785,7 +789,7 @@ void Building::visit(EntityVisitor& e) {
 }
 
 
-UnfinishedBuilding::UnfinishedBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid,unsigned int health, unsigned int armour) :
+UnfinishedBuilding::UnfinishedBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid,int health, int armour) :
 	Building(name, board, owner, position, size, sight_radius, solid, health, armour)
 {
 	this->health.set(1);
@@ -800,7 +804,7 @@ void UnfinishedBuilding::visit(EntityVisitor& e) {
 }
 
 
-Flag::Flag(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid,unsigned int health, unsigned int armour) :
+Flag::Flag(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid,int health, int armour) :
 	Entity(name, board, owner, position, size, sight_radius, solid),
 	HealthMixin(health, armour)
 {}
@@ -821,7 +825,7 @@ void Flag::die() {
 }
 
 
-TownCenter::TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid,unsigned int health, unsigned int armour, std::vector<Budget> producerProducts) :
+TownCenter::TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid,int health, int armour, std::vector<Budget> producerProducts) :
 	Building(name, board, owner, position, size, sight_radius, solid, health, armour, producerProducts)
 {}
 

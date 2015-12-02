@@ -132,8 +132,8 @@ class Unit : public Entity, public HealthMixin {
 		double speed;	// Speed (tiles/s)
 		void step();
 	public:
-		unsigned int hitForce;
-		unsigned int hitRadius;
+		int hitForce;
+		int hitRadius;
 		r2 trajectory();
 		virtual void addTarget(r2 newTarget);
 		virtual void unsetTarget();
@@ -142,7 +142,7 @@ class Unit : public Entity, public HealthMixin {
 		Directions getDirection();// TODO: Pertenece a vista
 		r2 target();
 		bool targeted();
-		Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, unsigned int health, unsigned int armour, unsigned int hitForce, unsigned int hit_radius);
+		Unit(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, int armour, int hitForce, int hit_radius);
 		virtual void update();
 		virtual void visit(EntityVisitor& v);
 		virtual ~Unit();
@@ -160,7 +160,7 @@ class Unit : public Entity, public HealthMixin {
 class Worker : public Unit {
 	public:
 		void update();
-		Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, unsigned int health, unsigned int armour, unsigned int hitForce, unsigned int hit_radius, std::vector<Budget> workerProducts);
+		Worker(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, int armour, int hitForce, int hit_radius, std::vector<Budget> workerProducts);
 		virtual void visit(EntityVisitor& v);
 		std::vector<Budget> products;
 		virtual void execute(GatherCommand& c);
@@ -172,7 +172,7 @@ class Worker : public Unit {
 class King : public Unit {
 	public:
 		void update();
-		King(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, unsigned int health, unsigned int armour, unsigned int hitForce, unsigned int hit_radius);
+		King(std::string name, ABoard& board, Player& owner, r2 position, r2 size, double speed, int sight_radius, bool solid, int health, int armour, int hitForce, int hit_radius);
 		virtual void visit(EntityVisitor& v);
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
 		virtual void conquered(Player& p);
@@ -182,7 +182,7 @@ class King : public Unit {
 class Building : public Entity, public HealthMixin, public ProgressMixin {
 	public:
 		virtual void update();
-		Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, unsigned int health, unsigned int armour, std::vector<Budget> producerProducts);
+		Building(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, int armour, std::vector<Budget> producerProducts);
 		std::vector<Budget> products;
 		std::string currentProduct;
 		virtual void visit(EntityVisitor& v);
@@ -199,7 +199,7 @@ class UnfinishedBuilding : public Building {
 	public:
 		void update();
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
-		UnfinishedBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, unsigned int health, unsigned int armour);
+		UnfinishedBuilding(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid, int health, int armour);
 		virtual void visit(EntityVisitor& v);
 };
 
@@ -207,7 +207,7 @@ class TownCenter : public Building {
 	public:
 		void update();
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
-		TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid,unsigned int health, unsigned int armour, std::vector<Budget> producerProducts);
+		TownCenter(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid,int health, int armour, std::vector<Budget> producerProducts);
 		virtual void visit(EntityVisitor& v);
 		virtual void conquered(Player& p);
 		virtual void die();
@@ -216,7 +216,7 @@ class TownCenter : public Building {
 class Flag : public Entity, public HealthMixin {
 	public:
 		void update();
-		Flag(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid,unsigned int health, unsigned int armour);
+		Flag(std::string name, ABoard& board, Player& owner, r2 position, r2 size, int sight_radius, bool solid,int health, int armour);
 		virtual void visit(EntityVisitor& v);
 		virtual std::shared_ptr<Command> defaultCommand(Entity& other);
 		virtual std::shared_ptr<Command> giveDefaultCommand(Unit& u);

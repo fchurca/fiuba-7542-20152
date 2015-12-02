@@ -25,24 +25,24 @@ class EntityFactory {
 class UnitFactory: public EntityFactory {
 	public:
 		const double speed;
-		unsigned int health;
-		unsigned int armour;
-		unsigned int hitForce;
-		unsigned int hitRadius;
-		UnitFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, unsigned int health, unsigned int armour, unsigned int hit_force, unsigned int hit_radius, ABoard& board);
+		int health;
+		int armour;
+		int hitForce;
+		int hitRadius;
+		UnitFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int health, int armour, int hit_force, int hit_radius, ABoard& board);
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 };
 
 class WorkerFactory: public UnitFactory {
 	public:
-		WorkerFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, unsigned int health, unsigned int armour, unsigned int hit_force, unsigned int hit_radius, std::vector<Budget> workerProducts, ABoard& board);
+		WorkerFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int health, int armour, int hit_force, int hit_radius, std::vector<Budget> workerProducts, ABoard& board);
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 		std::vector<Budget> products;
 };
 
 class KingFactory: public UnitFactory {
 	public:
-		KingFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, unsigned int health, unsigned int armour, ABoard& board);
+		KingFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int health, int armour, ABoard& board);
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 };
 
@@ -63,9 +63,9 @@ public:
 
 class BuildingFactory: public EntityFactory {
 	public:
-		unsigned int health;
-		unsigned int armour;
-		BuildingFactory(std::string name, r2 size, int sight_radius, bool solid, unsigned int health, unsigned int armour, std::vector<Budget> producerProducts, ABoard& board);
+		int health;
+		int armour;
+		BuildingFactory(std::string name, r2 size, int sight_radius, bool solid, int health, int armour, std::vector<Budget> producerProducts, ABoard& board);
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 		virtual std::shared_ptr<Entity> createUnfinished(Player& player, r2 position);
 		std::vector<Budget> products;
@@ -74,15 +74,15 @@ class BuildingFactory: public EntityFactory {
 
 class FlagFactory: public EntityFactory {
 	public:
-		unsigned int health;
-		unsigned int armour;
-		FlagFactory(std::string name, r2 size, int sight_radius, bool solid, unsigned int health, unsigned int armour, ABoard& board);
+		int health;
+		int armour;
+		FlagFactory(std::string name, r2 size, int sight_radius, bool solid, int health, int armour, ABoard& board);
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 };
 
 class TownCenterFactory: public BuildingFactory {
 	public:
-		TownCenterFactory(std::string name, r2 size, int sight_radius, bool solid, unsigned int health, unsigned int armour, std::vector<Budget> producerProducts, ABoard& board);
+		TownCenterFactory(std::string name, r2 size, int sight_radius, bool solid, int health, int armour, std::vector<Budget> producerProducts, ABoard& board);
 		virtual std::shared_ptr<Entity> createEntity(Player& player, r2 position);
 };
 

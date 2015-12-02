@@ -28,7 +28,7 @@ void EntityFactory::populate() {
 }
 
 
-UnitFactory::UnitFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, unsigned int health, unsigned int armour, unsigned int hitforce, unsigned int hitradius, ABoard& board) :
+UnitFactory::UnitFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int health, int armour, int hitforce, int hitradius, ABoard& board) :
 	EntityFactory(name, size, sight_radius, solid, board),
 	speed(speed),
 	armour(armour),
@@ -42,7 +42,7 @@ std::shared_ptr<Entity> UnitFactory::createEntity(Player& player, r2 position) {
 }
 
 
-WorkerFactory::WorkerFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, unsigned int health, unsigned int armour, unsigned int hit_force, unsigned int hit_radius, std::vector<Budget> workerProducts , ABoard& board) :
+WorkerFactory::WorkerFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int health, int armour, int hit_force, int hit_radius, std::vector<Budget> workerProducts , ABoard& board) :
 	UnitFactory(name, size, speed, sight_radius, solid, health, armour, hit_force, hit_radius, board),
 	products(workerProducts)
 {}
@@ -52,7 +52,7 @@ std::shared_ptr<Entity> WorkerFactory::createEntity(Player& player, r2 position)
 }
 
 
-KingFactory::KingFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, unsigned int health, unsigned int armour, ABoard& board) :
+KingFactory::KingFactory(std::string name, r2 size, double speed, int sight_radius, bool solid, int health, int armour, ABoard& board) :
 	UnitFactory(name, size, speed, sight_radius, solid, health, armour, 0, 0, board)
 {}
 
@@ -64,7 +64,7 @@ std::shared_ptr<Entity> KingFactory::createEntity(Player& player, r2 position) {
 }
 
 
-BuildingFactory::BuildingFactory(std::string name, r2 size, int sight_radius, bool solid, unsigned int health, unsigned int armour, std::vector<Budget> producerProducts, ABoard& board) :
+BuildingFactory::BuildingFactory(std::string name, r2 size, int sight_radius, bool solid, int health, int armour, std::vector<Budget> producerProducts, ABoard& board) :
 	EntityFactory(name, size, sight_radius, solid, board),
 	health(health),
 	armour(armour),
@@ -80,7 +80,7 @@ std::shared_ptr<Entity> BuildingFactory::createUnfinished(Player& player, r2 pos
 }
 
 
-FlagFactory::FlagFactory(std::string name, r2 size, int sight_radius, bool solid, unsigned int health, unsigned int armour, ABoard& board) :
+FlagFactory::FlagFactory(std::string name, r2 size, int sight_radius, bool solid, int health, int armour, ABoard& board) :
 	EntityFactory(name, size, sight_radius, solid, board),
 	health(health),
 	armour(armour)
@@ -94,7 +94,7 @@ std::shared_ptr<Entity> FlagFactory::createEntity(Player& player, r2 position) {
 }
 
 
-TownCenterFactory::TownCenterFactory(std::string name, r2 size, int sight_radius, bool solid, unsigned int health, unsigned int armour, std::vector<Budget> producerProducts, ABoard& board) :
+TownCenterFactory::TownCenterFactory(std::string name, r2 size, int sight_radius, bool solid, int health, int armour, std::vector<Budget> producerProducts, ABoard& board) :
 	BuildingFactory(name, size, sight_radius, solid, health, armour, producerProducts, board)
 {}
 
