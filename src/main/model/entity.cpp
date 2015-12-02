@@ -472,7 +472,7 @@ void Unit::execute(AttackCommand& c) {
 				auto entity = dynamic_cast<HealthMixin*>(entityTarget.get());
 				if (entity) {
 					if (!(entity->armour > hitForce)) {
-						entity->health.inc(-1 * hitForce);
+						entity->health.inc(-1 * (hitForce - entity->armour));
 					}
 					auto unit = dynamic_cast<Unit*>(entityTarget.get());
 					if (unit && !unit->command) {

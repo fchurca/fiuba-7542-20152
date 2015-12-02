@@ -15,8 +15,9 @@ tipos_unidades:
     sight_radius: 3
     speed: 3
     behaviour: king
-    health: 50
+    health: 100
     hit_force: 5
+    armour: 5
   - nombre: Jinete
     imagen: resources/jinete_1.png
     ancho_base: 1
@@ -29,9 +30,9 @@ tipos_unidades:
     alto_sprite: 74
     cantidad_sprites: 5
     sight_radius: 3
-    speed: 3
-    health: 50
-    hit_force: 5
+    speed: 5
+    health: 100
+    hit_force: 6
   - nombre: Catapulta
     imagen: resources/catapulta_1.png
     ancho_base: 1
@@ -45,8 +46,9 @@ tipos_unidades:
     cantidad_sprites: 5
     sight_radius: 3
     speed: 3
-    health: 50
-    hit_force: 1
+    health: 100
+    hit_force: 8
+    armour: 4
     hit_radius: 5
   - nombre: Soldado
     imagen: resources/soldier.png
@@ -62,8 +64,7 @@ tipos_unidades:
     sight_radius: 3
     speed: 3
     health: 100
-    health: 4
-    hit_force: 2
+    hit_force: 6
   - nombre: Dragon
     imagen: resources/dragon.png
     ancho_base: 1
@@ -79,7 +80,7 @@ tipos_unidades:
     speed: 3
     health: 100
     armour: 5
-    hit_force: 2
+    hit_force: 7
     hit_radius: 1
   - nombre: Arquero
     imagen: resources/arquero_1.png
@@ -96,7 +97,7 @@ tipos_unidades:
     speed: 3
     health: 100
     armour: 1
-    hit_force: 3
+    hit_force: 6
     hit_radius: 5
   - nombre: Trabajador
     imagen: resources/hachero.png
@@ -113,7 +114,7 @@ tipos_unidades:
     speed: 3
     behaviour: worker
     health: 100
-    hit_force: 1
+    hit_force: 6
     products:
       - nombre: Establo
         costos:
@@ -140,7 +141,7 @@ tipos_unidades:
     speed: 3
     health: 100
     armour: 10
-    hit_force: 5
+    hit_force: 8
     hit_radius: 1
   - nombre: Cubo
     imagen: resources/cubo_1_2.png
@@ -190,7 +191,7 @@ tipos_estructuras:
     alto_sprite: 128
     cantidad_sprites: 1
     behaviour: town_center
-    armour: 4
+    armour: 5
     sight_radius: 10
     products:
       - nombre: Trabajador
@@ -262,6 +263,7 @@ tipos_estructuras:
     delay: 0
     ancho_sprite: 128
     alto_sprite: 128
+    armour: 3
     cantidad_sprites: 1
     products:
       - nombre: Ogro
@@ -291,6 +293,7 @@ tipos_estructuras:
     ancho_sprite: 128
     alto_sprite: 128
     cantidad_sprites: 1
+    armour: 3
     products:
       - nombre: Jinete
         costos:
@@ -335,6 +338,7 @@ tipos_estructuras:
     cantidad_sprites: 1
     behaviour: flag
     sight_radius: 10
+    armour: 5
 tipos_terrenos:
   - nombre: Agua
     imagen: resources/agua.png
