@@ -3,7 +3,7 @@
 #include "game.h"
 
 Game::Game() :
-	exit_p(false), restart_p(false)
+	exit_p(false)
 {
 	std::stringstream message;
 	message << "Creating Game " << this;
@@ -20,7 +20,6 @@ Game::~Game(){
 void Game::clear() {
 	board = nullptr;
 	clients.clear();
-	restart_p = false;
 	exit_p = false;
 }
 
@@ -89,21 +88,13 @@ void Game::start() {
 	}
 }
 
-void Game::restart() {
-	restart_p = true;
-}
-
-bool Game::willRestart() {
-	return restart_p;
-}
-
 void Game::exit() {
 	exit_p = true;
 	board->setState(ABoard::BoardState::finished);
 }
 
 bool Game::willExit() {
-	return exit_p || restart_p || (!board->isRunning());
+	return exit_p || (!board->isRunning());
 }
 
 void Game::notifyDeath(int id) {

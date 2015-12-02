@@ -18,7 +18,6 @@ private:
 	std::map<std::string, std::shared_ptr<AClient>> clients;
 	std::mutex clientsMutex;
 	bool exit_p;
-	bool restart_p;
 	void clear();
 public:
 	GameTimer timer;
@@ -29,7 +28,6 @@ public:
 	std::shared_ptr<Player> getAvailablePlayer();
 	bool addClient(std::shared_ptr<AClient> newClient);
 	void start();
-	void restart();
 	bool willRestart();
 	void exit();
 	bool willExit();
