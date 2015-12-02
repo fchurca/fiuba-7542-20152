@@ -474,6 +474,10 @@ void Unit::execute(AttackCommand& c) {
 					if (!(entity->armour > hitForce)) {
 						entity->health.inc(-1 * hitForce);
 					}
+					auto unit = dynamic_cast<Unit*>(entityTarget.get());
+					if (unit && !unit->command) {
+						unit->setCommand(std::make_shared<AttackCommand>(unit->getId(), getId()));
+					}
 					entityTarget->setFrame();
 					if (entity->health.get() == entity->health.min) {
 						entityTarget->die();
@@ -492,6 +496,7 @@ void Unit::execute(AttackCommand& c) {
 				if (!targeted()) {
 					addTarget(entityTarget->center());
 				}
+				isInAction = false;
 				step();
 				return;
 			}
@@ -1046,10 +1051,12 @@ std::shared_ptr<Command> Unit::giveDefaultCommand(Entity& r) {
 }
 
 std::shared_ptr<Command> Unit::giveDefaultCommand(Unit& r) {
-	if (owner.name != r.owner.name)//TODO VER SI ESTA ACTIVO?
-		return std::make_shared<AttackCommand>(r.getId(), getId());
-	else
-		return std::make_shared<MoveCommand>(r.getId(), center());
+	if (owner.getActive()) {
+		if (owner.name != r.owner.name) {
+			return std::make_shared<AttackCommand>(r.getId(), getId());
+		}
+	}
+	return std::make_shared<MoveCommand>(r.getId(), center());
 }
 
 std::shared_ptr<Command> Unit::giveDefaultCommand(King& r) {
@@ -1057,10 +1064,12 @@ std::shared_ptr<Command> Unit::giveDefaultCommand(King& r) {
 }
 
 std::shared_ptr<Command> Building::giveDefaultCommand(Unit& r) {
-	if (owner.name != r.owner.name)//TODO VER SI ESTA ACTIVO?
-		return std::make_shared<AttackCommand>(r.getId(), getId());
-	else
-		return std::make_shared<MoveCommand>(r.getId(), center());
+	if (owner.getActive()) {
+		if (owner.name != r.owner.name) {
+			return std::make_shared<AttackCommand>(r.getId(), getId());
+		}
+	}
+	return std::make_shared<MoveCommand>(r.getId(), center());
 }
 
 std::shared_ptr<Command> Building::giveDefaultCommand(King& r) {
@@ -1068,21 +1077,28 @@ std::shared_ptr<Command> Building::giveDefaultCommand(King& r) {
 }
 
 std::shared_ptr<Command> Building::giveDefaultCommand(Worker& r) {
-	if (owner.name != r.owner.name)
-		return giveDefaultCommand((Unit&)r);
-	else
-		return std::make_shared<RepairCommand>(r.getId(), getId());
+	if (owner.getActive()) {
+		if (owner.name != r.owner.name) {
+			return giveDefaultCommand((Unit&)r);
+		}
+		else {
+			return std::make_shared<RepairCommand>(r.getId(), getId());
+		}	
+	}
+	return std::make_shared<MoveCommand>(r.getId(), center());
 }
 
 std::shared_ptr<Command> Flag::giveDefaultCommand(Unit& r) {
-	if (owner.name != r.owner.name) //TODO VER SI ESTA ACTIVO?
-		return std::make_shared<AttackCommand>(r.getId(), getId());
-	else
-		return std::make_shared<MoveCommand>(r.getId(), center());
+	if (owner.getActive()) {
+		if (owner.name != r.owner.name) {
+			return std::make_shared<AttackCommand>(r.getId(), getId());
+		}
+	}
+	return std::make_shared<MoveCommand>(r.getId(), center());
 }
 
 std::shared_ptr<Command> Flag::giveDefaultCommand(King& r) {
-		return std::make_shared<MoveCommand>(r.getId(), center());
+	return std::make_shared<MoveCommand>(r.getId(), center());
 }
 
 std::shared_ptr<Command> Resource::giveDefaultCommand(Unit& r) {
