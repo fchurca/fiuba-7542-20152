@@ -1,6 +1,6 @@
-LDLIBS += -lyaml-cpp -lSDL2 -lSDL2_image -lSDL2_ttf
+LDLIBS += -lyaml-cpp -lSDL2 -lSDL2_image -lSDL2_ttf -Lvendor/lib
 
-CFLAGS += -std=c++11 -g
+CFLAGS += -std=c++11 -g -Ivendor/include
 
 CXX += $(CFLAGS)
 CXXT = $(CXX) -o $@

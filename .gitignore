@@ -48,4 +48,5 @@ bin/
 /SDL2-2.0.3/
 /yaml-cpp/
 /age_server/
+/src/main/vendor
 
