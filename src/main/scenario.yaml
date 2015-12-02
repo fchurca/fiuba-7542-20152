@@ -3435,6 +3435,36 @@ escenario:
       - {x: 64, y: 52, tipo: Piedras }
       - {x: 64, y: 53, tipo: Piedras }
       - {x: 64, y: 54, tipo: Piedras }
+      - {x: 10, y: 10, tipo: Chancho }
+      - {x: 10, y: 11, tipo: Chancho }
+      - {x: 10, y: 12, tipo: Chancho }
+      - {x: 11, y: 11, tipo: Chancho }
+      - {x: 12, y: 11, tipo: Chancho }
+      - {x: 20, y: 15, tipo: Chancho }
+      - {x: 20, y: 16, tipo: Chancho }
+      - {x: 20, y: 17, tipo: Chancho }
+      - {x: 21, y: 16, tipo: Chancho }
+      - {x: 22, y: 16, tipo: Chancho }
+      - {x: 85, y: 10, tipo: Chancho }
+      - {x: 85, y: 11, tipo: Chancho }
+      - {x: 85, y: 12, tipo: Chancho }
+      - {x: 86, y: 11, tipo: Chancho }
+      - {x: 87, y: 11, tipo: Chancho }
+      - {x: 75, y: 15, tipo: Chancho }
+      - {x: 75, y: 16, tipo: Chancho }
+      - {x: 75, y: 17, tipo: Chancho }
+      - {x: 76, y: 16, tipo: Chancho }
+      - {x: 77, y: 16, tipo: Chancho }
+      - {x: 85, y: 80, tipo: Chancho }
+      - {x: 85, y: 81, tipo: Chancho }
+      - {x: 85, y: 82, tipo: Chancho }
+      - {x: 86, y: 81, tipo: Chancho }
+      - {x: 87, y: 81, tipo: Chancho }
+      - {x: 90, y: 95, tipo: Chancho }
+      - {x: 90, y: 96, tipo: Chancho }
+      - {x: 90, y: 97, tipo: Chancho }
+      - {x: 91, y: 96, tipo: Chancho }
+      - {x: 92, y: 96, tipo: Chancho }
     jugadores:
       - name: Franceses
         isHuman: true
@@ -3467,8 +3497,8 @@ escenario:
         isHuman: true
         entidades:
           - {x: 92, y: 92, tipo: Rey}
-          - {x: 95, y: 95, tipo: Trabajador}
-          - {x: 96, y: 95, tipo: Trabajador}
-          - {x: 97, y: 95, tipo: Trabajador}
+          - {x: 93, y: 87, tipo: Trabajador}
+          - {x: 94, y: 87, tipo: Trabajador}
+          - {x: 95, y: 87, tipo: Trabajador}
           - {x: 87, y: 87, tipo: Centro }
           - {x: 84, y: 84, tipo: Bandera }
