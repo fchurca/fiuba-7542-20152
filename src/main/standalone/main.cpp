@@ -106,40 +106,38 @@ int main(int argc, char* argv[]) {
 	}
 
 	bool restart = true;
-	do {
-		RulesetParser rulesetParser(rulesetFile);
-		rulesetParser.parse();
 
-		Game game;
-		shared_ptr<Server> server = nullptr;
+	RulesetParser rulesetParser(rulesetFile);
+	rulesetParser.parse();
 
-		if (client) {
-			// Acá estamos levantando el cliente. Lo siguiente en realidad es un RemoteBoard que se conecta por TCP/IP al daemon
-			ClientParser clientParser(clientFile);
-			clientParser.parse();
-			game.setBoard(make_shared<RemoteBoard>(game, rulesetParser, clientParser, gameMode));
-		} else {
-			ScenarioParser scenarioParser(scenarioFile);
-			scenarioParser.parse();
-			game.setBoard(make_shared<SmartBoard>(game, rulesetParser, scenarioParser, gameMode));
-			string modes[] = {"destroy_center", "kill_king", "destroy_flag"};
-			logger.writeInformation("Using GameMode " + modes[gameMode]);
-		}
-		if (daemon) {
-			ServerParser serverParser(serverFile);
-			serverParser.parse();
-			server = make_shared<Server>(game, serverParser);
-			server->init(); // TODO: Delay until game.start()
-		}
-		auto graphicPlayer = game.getAvailablePlayer();
-		if (graphicPlayer) {
-			GraphicsParser graphicsParser(graphicsFile);
-			graphicsParser.parse();
-			game.addClient(make_shared<GameWindow>(game, *(graphicPlayer), graphicsParser, rulesetParser));
-		}
-		game.start();
-		restart = game.willRestart();
-	} while (restart);
+	Game game;
+	shared_ptr<Server> server = nullptr;
+
+	if (client) {
+		// Acá estamos levantando el cliente. Lo siguiente en realidad es un RemoteBoard que se conecta por TCP/IP al daemon
+		ClientParser clientParser(clientFile);
+		clientParser.parse();
+		game.setBoard(make_shared<RemoteBoard>(game, rulesetParser, clientParser, gameMode));
+	} else {
+		ScenarioParser scenarioParser(scenarioFile);
+		scenarioParser.parse();
+		game.setBoard(make_shared<SmartBoard>(game, rulesetParser, scenarioParser, gameMode));
+		string modes[] = {"destroy_center", "kill_king", "destroy_flag"};
+		logger.writeInformation("Using GameMode " + modes[gameMode]);
+	}
+	if (daemon) {
+		ServerParser serverParser(serverFile);
+		serverParser.parse();
+		server = make_shared<Server>(game, serverParser);
+		server->init();
+	}
+	auto graphicPlayer = game.getAvailablePlayer();
+	if (graphicPlayer) {
+		GraphicsParser graphicsParser(graphicsFile);
+		graphicsParser.parse();
+		game.addClient(make_shared<GameWindow>(game, *(graphicPlayer), graphicsParser, rulesetParser));
+	}
+	game.start();
 
 	logger.writeInformation("Closing down");
 

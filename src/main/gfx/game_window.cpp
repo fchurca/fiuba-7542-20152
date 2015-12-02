@@ -194,10 +194,6 @@ void GameWindow::processInput(){
 						}
 					}
 						break;
-					case SDLK_r:
-						if(!chat->typing)
-							owner.restart();
-						break;
 					case SDLK_s:
 						for (auto e : sController->getSelection()) {
 							if (!chat->typing && e->owner.name == player.name) {
