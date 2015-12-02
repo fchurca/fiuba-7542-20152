@@ -140,7 +140,7 @@ tipos_unidades:
     sight_radius: 3
     speed: 3
     health: 100
-    armour: 10
+    armour: 2
     hit_force: 8
     hit_radius: 1
   - nombre: Cubo
