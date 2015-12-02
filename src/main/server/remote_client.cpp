@@ -70,7 +70,7 @@ void RemoteClient::run() {
 				auto e = board.findEntity(i);
 				if(e) {
 					if (&(e->owner) == &(this->player)) {
-						board.pushCommand(make_shared<StopCommand>(e->getId()));
+						board.pushCommand(make_shared<StopCommand>(i));
 					}
 				}
 			}
@@ -84,7 +84,78 @@ void RemoteClient::run() {
 				auto e = board.findEntity(i);
 				if (e) {
 					if (&(e->owner) == &(this->player)) {
-						board.pushCommand(make_shared<MoveCommand>(e->getId(), r2(x, y)));
+						board.pushCommand(make_shared<MoveCommand>(i, r2(x, y)));
+					}
+				}
+			}
+			break;
+		case 'B':
+			{
+				int i;
+				double x, y;
+				string entityType;
+				char eotSink;
+				*socket >> i >> x >> y >> entityType >> eotSink;
+				auto e = board.findEntity(i);
+				if (e) {
+					if (&(e->owner) == &(this->player)) {
+						board.pushCommand(make_shared<BuildCommand>(i, r2(x, y), entityType));
+					}
+				}
+			}
+			break;
+		case 'C':
+			{
+				int i;
+				string entityType;
+				char eotSink;
+				*socket >> i >> entityType >> eotSink;
+				auto e = board.findEntity(i);
+				if (e) {
+					if (&(e->owner) == &(this->player)) {
+						board.pushCommand(make_shared<CreateCommand>(i, entityType));
+					}
+				}
+			}
+			break;
+		case 'G':
+			{
+				int i;
+				int o;
+				char eotSink;
+				*socket >> i >> o >> eotSink;
+				auto e = board.findEntity(i);
+				if (e) {
+					if (&(e->owner) == &(this->player)) {
+						board.pushCommand(make_shared<GatherCommand>(i, o));
+					}
+				}
+			}
+			break;
+		case 'A':
+			{
+				int i;
+				int o;
+				char eotSink;
+				*socket >> i >> o >> eotSink;
+				auto e = board.findEntity(i);
+				if (e) {
+					if (&(e->owner) == &(this->player)) {
+						board.pushCommand(make_shared<AttackCommand>(i, o));
+					}
+				}
+			}
+			break;
+		case 'R':
+			{
+				int i;
+				int o;
+				char eotSink;
+				*socket >> i >> o >> eotSink;
+				auto e = board.findEntity(i);
+				if (e) {
+					if (&(e->owner) == &(this->player)) {
+						board.pushCommand(make_shared<RepairCommand>(i, o));
 					}
 				}
 			}

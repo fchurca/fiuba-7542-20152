@@ -179,27 +179,27 @@ void RemoteBoard::execute(MoveCommand& command) {
 }
 
 void RemoteBoard::execute(BuildCommand& command) {
-	*socket << 'B' << command.entityId;
+	*socket << 'B' << command.entityId << command.position << command.entityType;
 	flushOut();
 }
 
 void RemoteBoard::execute(CreateCommand& command) {
-	*socket << 'C' << command.entityId;
+	*socket << 'C' << command.entityId << command.entityType;
 	flushOut();
 }
 
 void RemoteBoard::execute(GatherCommand& command) {
-	*socket << 'G' << command.entityId;
+	*socket << 'G' << command.entityId << command.targetId;
 	flushOut();
 }
 
 void RemoteBoard::execute(AttackCommand& command) {
-	*socket << 'A' << command.entityId;
+	*socket << 'A' << command.entityId << command.targetId;
 	flushOut();
 }
 
 void RemoteBoard::execute(RepairCommand& command) {
-	*socket << 'R' << command.entityId;
+	*socket << 'R' << command.entityId << command.targetId;
 	flushOut();
 }
 
