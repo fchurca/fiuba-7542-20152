@@ -271,12 +271,14 @@ void Unit::addTarget(r2 newTarget) {
 	priority_queue<TSNode, vector<shared_ptr<TSNode>>, compare> open;
 	auto h = [&end](r2& p) {return (p - end).length(); };
 	auto f = [&h](TSNode n) {return h(n.position) + n.g; };
-	auto straightenOnce = [this](shared_ptr<TSNode> n) {
-		if (n->previous) {
-			if (n->previous->previous) {
-				if (canEnter(rectangle::box(n->position, n->previous->previous->position, this->size))) {
-					n->previous = n->previous->previous;
-					return true;
+	auto straightenOnce = [this, &targetFootprint](shared_ptr<TSNode> n) {
+		if(!targetFootprint.intersects(rectangle(n->position - this->size/2, this->size))) {
+			if (n->previous) {
+				if (n->previous->previous) {
+					if (canEnter(rectangle::box(n->position, n->previous->previous->position, this->size))) {
+						n->previous = n->previous->previous;
+						return true;
+					}
 				}
 			}
 		}
