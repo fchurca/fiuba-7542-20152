@@ -116,6 +116,11 @@ bool Player::getActive() {
 void Player::kill() {
 	alive = false;
 	setFrame();
+	for (auto& entity : entities()) {
+		if (dynamic_cast<Unit*>(entity.get())) {
+			entity->setDeletable();
+		}
+	}
 }
 
 bool Player::getAlive() {
