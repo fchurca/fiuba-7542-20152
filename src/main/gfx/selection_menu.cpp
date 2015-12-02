@@ -17,7 +17,7 @@ SelectionMenu::~SelectionMenu() {
 }
 
 void SelectionMenu::visit(Entity& entity) {
-	outText += owner.completeLine(entity.name + "(" + entity.owner.name + ")", size.x);
+	outText += owner.completeLine(entity.name + " (" + entity.owner.name + ")", size.x);
 }
 void SelectionMenu::visit(Unit& entity) {
 	visit((Entity&)entity);
