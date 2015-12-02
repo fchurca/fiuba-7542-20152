@@ -117,7 +117,7 @@ void Player::kill() {
 	alive = false;
 	setFrame();
 	for (auto& entity : entities()) {
-		if (dynamic_cast<Unit*>(entity.get())) {
+		if ((board.gameMode != DESTROY_FLAG) && dynamic_cast<Unit*>(entity.get())) {
 			entity->setDeletable();
 		}
 	}
