@@ -220,11 +220,12 @@ void RemoteBoard::readEntity() {
 	int health = 0;
 	int progress = 0;
 	int cargo = 0;
+	bool isInAction = false;
 	*socket >> t >> id >> ename >> owner >> f >> pos.x >> pos.y;
 	switch (t) {
 		case 'B':
 			{
-				*socket >> health >> progress >> product;
+				*socket >> health >> isInAction >> progress >> product;
 				break;
 			}
 		case 'U':
@@ -239,7 +240,7 @@ void RemoteBoard::readEntity() {
 			}
 		case 'N':
 			{
-				*socket >> health >> orientation;
+				*socket >> health >> isInAction >> orientation;
 				break;
 			}
 		case 'F':
@@ -265,6 +266,7 @@ void RemoteBoard::readEntity() {
 		e->setId(id);
 		e->setFrame(f);
 		e->setPosition(pos);
+		e->isInAction = isInAction;
 	}
 	auto p = e.get();
 	if(auto u = dynamic_cast<UnfinishedBuilding*>(p)) {

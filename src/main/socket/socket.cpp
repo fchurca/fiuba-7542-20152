@@ -174,6 +174,7 @@ void Socket::visit(Building& e) {
 		<< e.getFrame()
 		<< e.getPosition()
 		<< e.health.get()
+		<< e.isInAction
 		<< e.progress.get()
 		<< e.currentProduct;
 }
@@ -198,6 +199,7 @@ void Socket::visit(Unit& e) {
 		<< e.getFrame()
 		<< e.getPosition()
 		<< e.health.get()
+		<< e.isInAction
 		<< e.getOrientation();
 }
 
