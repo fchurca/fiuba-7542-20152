@@ -6,6 +6,7 @@
 #include "../model/command.h"
 #include "../model/charnames.h"
 #include "../model/entity.h"
+#include "../model/entity_factory.h"
 
 #include "../parser_yaml/client_parser.h"
 #include "../parser_yaml/ruleset_parser.h"
@@ -249,7 +250,16 @@ void RemoteBoard::readEntity() {
 	}
 	auto e = findEntity(id);
 	if (!e) {
-		e = createEntity(ename, owner, pos);
+		if (t == 'U') {
+			auto entityFactory = entityFactories[ename];
+			auto entityFactoryUnfinished = dynamic_cast<BuildingFactory*>(entityFactory.get());
+			if (entityFactoryUnfinished && players[owner]) {
+				e = entityFactoryUnfinished->createUnfinished(*(players[owner]), pos);
+				createEntity(e);
+			}
+		} else {
+			e = createEntity(ename, owner, pos);
+		}
 	}
 	if (e) {
 		e->setId(id);
@@ -257,23 +267,20 @@ void RemoteBoard::readEntity() {
 		e->setPosition(pos);
 	}
 	auto p = e.get();
-	if(auto b = dynamic_cast<Building*>(p)) {
-		b->health.set(health);
-		b->progress.set(progress);
-		b->currentProduct = product;
-	}
 	if(auto u = dynamic_cast<UnfinishedBuilding*>(p)) {
 		u->health.set(health);
 		u->progress.set(progress);
-	}
-	if(auto r = dynamic_cast<Resource*>(p)) {
+	} else if(auto b = dynamic_cast<Building*>(p)) {
+		cerr << "Building " << e << endl;
+		b->health.set(health);
+		b->progress.set(progress);
+		b->currentProduct = product;
+	} else if(auto r = dynamic_cast<Resource*>(p)) {
 		r->cargo.set(cargo);
-	}
-	if(auto n = dynamic_cast<Unit*>(p)) {
+	} else if(auto n = dynamic_cast<Unit*>(p)) {
 		n->health.set(health);
 		n->setOrientation(orientation);
-	}
-	if(auto f = dynamic_cast<Flag*>(p)) {
+	} else if(auto f = dynamic_cast<Flag*>(p)) {
 		f->health.set(health);
 	}
 }

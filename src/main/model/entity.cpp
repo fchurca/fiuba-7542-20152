@@ -427,7 +427,7 @@ void Unit::conquered(Player& p) {
 	if (!getDeletable()) {
 		Entity::conquered(p);
 		if (board.gameMode == DESTROY_FLAG) {
-			owner.board.createEntity(name, p.name, getPosition());
+			board.createEntity(name, p.name, getPosition());
 		}
 	}
 }
@@ -453,7 +453,7 @@ void Unit::execute(StopCommand& c) {
 void Unit::execute(AttackCommand& c) {
 	isInAction = false;
 	if (!executing) {
-		entityTarget = owner.board.findEntity(c.targetId);
+		entityTarget = board.findEntity(c.targetId);
 		if (entityTarget) {
 			if (!entityTarget->getDeletable()) {
 				executing = true;
@@ -524,7 +524,7 @@ void Worker::visit(EntityVisitor& e) {
 void Worker::execute(GatherCommand& c) {
 	isInAction = false;
 	if (!executing) {
-		entityTarget = owner.board.findEntity(c.targetId);
+		entityTarget = board.findEntity(c.targetId);
 		if (!entityTarget) {
 			clearCommand();
 			return;
@@ -564,7 +564,7 @@ void Worker::execute(GatherCommand& c) {
 void Worker::execute(RepairCommand& c) {
 	isInAction = false;
 	if (!executing) {
-		entityTarget = owner.board.findEntity(c.targetId);
+		entityTarget = board.findEntity(c.targetId);
 		if (!entityTarget) {
 			clearCommand();
 		}
@@ -585,7 +585,7 @@ void Worker::execute(RepairCommand& c) {
 					}
 					if (unfinishedBuilding->progress.get() == unfinishedBuilding->progress.max) {
 						entityTarget->setDeletable();
-						owner.board.createEntity(entityTarget->name, entityTarget->owner.name, entityTarget->getPosition());
+						board.createEntity(entityTarget->name, entityTarget->owner.name, entityTarget->getPosition());
 						isInAction = false;
 					}
 				}
@@ -636,11 +636,12 @@ void Worker::execute(BuildCommand& c) {
 	}
 	else {
 		if (!getDeletable()) {
-			std::shared_ptr<EntityFactory> entityFactory = owner.board.entityFactories[c.entityType];
+			std::shared_ptr<EntityFactory> entityFactory = board.entityFactories[c.entityType];
 			auto entityFactoryUnfinished = dynamic_cast<BuildingFactory*>(entityFactory.get());
 			if (entityFactoryUnfinished) {
 				std::shared_ptr<Entity> entity = entityFactoryUnfinished->createUnfinished(owner, c.position);
-				if (owner.board.createEntity(entity)) {
+				if (board.createEntity(entity)) {
+					entity->setFrame();
 					int i = 0;
 					for (auto& p : products) {
 						if (p.name == c.entityType) {
@@ -703,10 +704,10 @@ void Building::conquered(Player& p) {
 	if (!getDeletable()) {
 		Entity::conquered(p);
 		if (board.gameMode == DESTROY_CENTER || board.gameMode == KILL_KING) {
-			owner.board.createEntity(name, DEFAULT_PLAYER_NAME, getPosition());
+			board.createEntity(name, DEFAULT_PLAYER_NAME, getPosition());
 		}
 		else {
-			owner.board.createEntity(name, p.name, getPosition());
+			board.createEntity(name, p.name, getPosition());
 		}
 	}
 }

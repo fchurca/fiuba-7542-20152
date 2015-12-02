@@ -98,6 +98,7 @@ shared_ptr<Entity> ABoard::createEntity(string name, string playerName, r2 posit
 	auto pEntity = factory->createEntity(*players[playerName], position);
 	if (pEntity) {
 		entities.push_back(pEntity);
+		pEntity->setFrame();
 	}
 	return pEntity;
 }
@@ -110,6 +111,7 @@ shared_ptr<Entity> ABoard::createEntity(std::shared_ptr<Entity> e) {
 	}
 	if (e) {
 		entities.push_back(e);
+		e->setFrame();
 	}
 	return e;
 }
