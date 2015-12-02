@@ -3475,30 +3475,14 @@ escenario:
           - {x: 9, y: 5, tipo: Trabajador}
           - {x: 2, y: 5, tipo: Centro }
           - {x: 2, y: 2, tipo: Bandera }
+          - {x: 85, y: 2, tipo: Ogro }
       - name: Ingleses
         isHuman: true
         entidades:
+          - {x: 5, y: 2, tipo: Ogro }
           - {x: 90, y: 5, tipo: Rey}
           - {x: 92, y: 5, tipo: Trabajador}
           - {x: 93, y: 5, tipo: Trabajador}
           - {x: 94, y: 5, tipo: Trabajador}
           - {x: 87, y: 5, tipo: Centro }
           - {x: 87, y: 2, tipo: Bandera }
-      - name: Alemanes
-        isHuman: true
-        entidades:
-          - {x: 5, y: 75, tipo: Rey}
-          - {x: 7, y: 78, tipo: Trabajador}
-          - {x: 8, y: 78, tipo: Trabajador}
-          - {x: 9, y: 78, tipo: Trabajador}
-          - {x: 2, y: 79, tipo: Centro }
-          - {x: 2, y: 75, tipo: Bandera }
-      - name: Italianos
-        isHuman: true
-        entidades:
-          - {x: 92, y: 92, tipo: Rey}
-          - {x: 93, y: 87, tipo: Trabajador}
-          - {x: 94, y: 87, tipo: Trabajador}
-          - {x: 95, y: 87, tipo: Trabajador}
-          - {x: 87, y: 87, tipo: Centro }
-          - {x: 84, y: 84, tipo: Bandera }

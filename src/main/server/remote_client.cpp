@@ -37,7 +37,7 @@ RemoteClient::RemoteClient(Game& owner, Player& player, shared_ptr<Socket> socke
 
 void RemoteClient::run() {
 	auto& board = *owner.getBoard();
-	*socket << ack << board.name << board.sizeX << board.sizeY << frame
+	*socket << ack << board.name << (int)board.gameMode << board.sizeX << board.sizeY << frame
 		<< board.maxResources << player;
 	for(auto p : board.getPlayers()) {
 		if (p->getId() != player.getId()) {

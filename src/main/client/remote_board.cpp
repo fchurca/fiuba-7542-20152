@@ -37,7 +37,9 @@ RemoteBoard::RemoteBoard(Game& game, RulesetParser& rulesetParser, ClientParser&
 	char c = nul;
 	*socket >> c;
 	if (c == ack) {
-		*socket >> name >> sizeX >> sizeY >> frame >> maxResources;
+		int remoteMode;
+		*socket >> name >> remoteMode >> sizeX >> sizeY >> frame >> maxResources;
+		this->gameMode = (GameModes)remoteMode;
 		terrain.resize(sizeX * sizeY);
 		string pname;
 		*socket >> pname;
