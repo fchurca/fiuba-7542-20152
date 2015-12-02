@@ -2525,7 +2525,6 @@ escenario:
       - {y: 99, x: 63, tipo: Piedra }
       - {y: 99, x: 64, tipo: Piedra }
     entidades:
-      - {x: 5, y: 5, tipo: Chancho }
       - {x: 10, y: 20, tipo: Arbol }
       - {x: 10, y: 21, tipo: Arbol }
       - {x: 10, y: 22, tipo: Arbol }
@@ -3442,6 +3441,8 @@ escenario:
         entidades:
           - {x: 5, y: 5, tipo: Rey}
           - {x: 7, y: 5, tipo: Trabajador}
+          - {x: 8, y: 5, tipo: Trabajador}
+          - {x: 9, y: 5, tipo: Trabajador}
           - {x: 2, y: 5, tipo: Centro }
           - {x: 2, y: 2, tipo: Bandera }
       - name: Ingleses
@@ -3449,6 +3450,8 @@ escenario:
         entidades:
           - {x: 90, y: 5, tipo: Rey}
           - {x: 92, y: 5, tipo: Trabajador}
+          - {x: 93, y: 5, tipo: Trabajador}
+          - {x: 94, y: 5, tipo: Trabajador}
           - {x: 87, y: 5, tipo: Centro }
           - {x: 87, y: 2, tipo: Bandera }
       - name: Alemanes
@@ -3456,6 +3459,8 @@ escenario:
         entidades:
           - {x: 5, y: 75, tipo: Rey}
           - {x: 7, y: 78, tipo: Trabajador}
+          - {x: 8, y: 78, tipo: Trabajador}
+          - {x: 9, y: 78, tipo: Trabajador}
           - {x: 2, y: 79, tipo: Centro }
           - {x: 2, y: 75, tipo: Bandera }
       - name: Italianos
@@ -3463,5 +3468,7 @@ escenario:
         entidades:
           - {x: 92, y: 92, tipo: Rey}
           - {x: 95, y: 95, tipo: Trabajador}
+          - {x: 96, y: 95, tipo: Trabajador}
+          - {x: 97, y: 95, tipo: Trabajador}
           - {x: 87, y: 87, tipo: Centro }
           - {x: 84, y: 84, tipo: Bandera }
