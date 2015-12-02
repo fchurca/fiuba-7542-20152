@@ -102,8 +102,8 @@ void GameWindow::render() {
 		auto w = dynamic_cast<Worker*>(sController->getSelection().front().get());
 		r2 sizeBuilding = board.entityFactories[w->products[commandMenu->selectedOption].name]->size;
 		std::shared_ptr<SpriteSheet> sp = isoview->spriteSheets[w->products[commandMenu->selectedOption].name];
-		if (player.getVisibility2(boardMouse) > INVISIBLE) { //TODO: Ver 
-			boardMouse = r2(floor(boardMouse.x), floor(boardMouse.y));
+		boardMouse = r2(floor(boardMouse.x), floor(boardMouse.y));
+		if ((player.getVisibility2(boardMouse) > INVISIBLE) && !board.findEntity(rectangle(boardMouse,sizeBuilding))) { //TODO: Ver 
 			SDL_Rect renderQuad = sp->targetRect(boardMouse);
 			sp->draw(0, 0, renderQuad, sp->getLoadedTexture(INVISIBLE, false));
 		}
