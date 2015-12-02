@@ -116,7 +116,7 @@ void SpriteSheet::visit(Unit& entity) {
 	}
 
 	//	Ubicacion donde dibujar
-	SDL_Rect renderQuad = targetRect(entity);
+	SDL_Rect renderQuad = targetRect(entity.getPosition());
 
 	//	Dibujado
 	if (state != INVISIBLE) {//Aca hay que usar el canDraw
@@ -139,7 +139,7 @@ void SpriteSheet::visit(Entity& entity) {
 	}
 
 	//	Ubicacion donde dibujar
-	SDL_Rect renderQuad = targetRect(entity);
+	SDL_Rect renderQuad = targetRect(entity.getPosition());
 
 	//	Dibujado
 	if (state != INVISIBLE) {//Aca hay que usar el canDraw
@@ -152,7 +152,7 @@ void SpriteSheet::visit(Flag& entity) {
 	bool playerIsActive = entity.owner.getActive();
 
 	//	Ubicacion donde dibujar
-	SDL_Rect renderQuad = targetRect(entity);
+	SDL_Rect renderQuad = targetRect(entity.getPosition());
 
 	//	Dibujado
 	if (state != INVISIBLE) {//Aca hay que usar el canDraw
@@ -170,7 +170,7 @@ void SpriteSheet::visit(Terrain& entity) {
 	bool playerIsActive = entity.owner.getActive();
 
 	//	Ubicacion donde dibujar
-	SDL_Rect renderQuad = targetRect(entity);
+	SDL_Rect renderQuad = targetRect(entity.getPosition());
 
 	//	Dibujado
 	if (state != INVISIBLE) {//Aca hay que usar el canDraw
@@ -184,8 +184,8 @@ void SpriteSheet::visit(UnfinishedBuilding& entity) {
 
 	//	Dibujado
 	if (state != INVISIBLE) {//Aca hay que usar el canDraw
-		Uint8 q = 255;
-		SDL_SetRenderDrawColor(owner.owner.getRenderer(), q, q, q, q);
+		SDL_Color color = owner.owner.getColor(entity.owner.getId());
+		SDL_SetRenderDrawColor(owner.owner.getRenderer(), color.r, color.g, color.b, 255);
 		owner.drawRhombus(entity.getPosition(), entity.getPosition() + entity.size);
 	}
 }
@@ -210,8 +210,8 @@ void SpriteSheet::update() {
 	}
 }
 
-SDL_Rect SpriteSheet::targetRect(Entity& entity) {
-	auto screenPos = owner.boardToScreenPosition(entity.getPosition());
+SDL_Rect SpriteSheet::targetRect(r2 position) {
+	auto screenPos = owner.boardToScreenPosition(position);
 	SDL_Rect renderQuad = { screenPos.x - pixel_ref_x , screenPos.y - pixel_ref_y, ancho_sprite, alto_sprite };
 	return renderQuad;
 }

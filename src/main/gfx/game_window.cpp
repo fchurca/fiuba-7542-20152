@@ -101,11 +101,11 @@ void GameWindow::render() {
 	if (commandMenu->isVisibleWorker && commandMenu->showOptions && commandMenu->positioning) {
 		auto w = dynamic_cast<Worker*>(sController->getSelection().front().get());
 		r2 sizeBuilding = board.entityFactories[w->products[commandMenu->selectedOption].name]->size;
+		std::shared_ptr<SpriteSheet> sp = isoview->spriteSheets[w->products[commandMenu->selectedOption].name];
 		if (player.getVisibility2(boardMouse) > INVISIBLE) { //TODO: Ver 
 			boardMouse = r2(floor(boardMouse.x), floor(boardMouse.y));
-			Uint8 q = 255;
-			SDL_SetRenderDrawColor(getRenderer(), q, q, q, q);
-			isoview->drawRhombus(boardMouse - sizeBuilding / 2, boardMouse + sizeBuilding / 2);
+			SDL_Rect renderQuad = sp->targetRect(boardMouse);
+			sp->draw(0, 0, renderQuad, sp->getLoadedTexture(INVISIBLE, false));
 		}
 	}
 	commandMenu->draw();
@@ -229,7 +229,7 @@ void GameWindow::processInput(){
 						r2 sizeBuilding = board.entityFactories[w->products[commandMenu->selectedOption].name]->size;
 						if (player.getVisibility2(boardMouse) > INVISIBLE) {//TODO: Ver 
 							boardMouse = r2(floor(boardMouse.x), floor(boardMouse.y));
-							board.pushCommand(std::make_shared<BuildCommand>(w->getId(), boardMouse - sizeBuilding / 2, w->products[commandMenu->selectedOption].name));
+							board.pushCommand(std::make_shared<BuildCommand>(w->getId(), boardMouse, w->products[commandMenu->selectedOption].name));
 							commandMenu->positioning = false;
 						}
 					}

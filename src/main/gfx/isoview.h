@@ -13,11 +13,11 @@ class IsoView {
 private:
 	r2 size;
 	r2 offset;
-	std::map<std::string, std::shared_ptr<SpriteSheet>> spriteSheets;
 	std::shared_ptr<HealthBar> healthBar;
 public:
 	GameWindow& owner;
 	SDL_Point getSize();
+	std::map<std::string, std::shared_ptr<SpriteSheet>> spriteSheets;
 	void draw();
 	void drawRhombus(r2 corner1, r2 corner2);
 	IsoView(GameWindow& owner, RulesetParser& rulesetParser);

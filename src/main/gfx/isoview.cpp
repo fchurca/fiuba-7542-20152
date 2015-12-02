@@ -131,7 +131,7 @@ bool IsoView::canDraw(shared_ptr<Entity> e) {
 		Logger::getInstance()->writeWarning("No existe SpriteSheet para este tipo de entidad" + entity.name);
 		return false;
 	}
-	auto candidate = it->second->targetRect(entity);
+	auto candidate = it->second->targetRect(entity.getPosition());
 	return SDL_HasIntersection(&screenRect, &candidate);
 }
 
