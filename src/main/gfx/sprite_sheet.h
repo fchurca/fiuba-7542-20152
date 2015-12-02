@@ -32,15 +32,14 @@ private:
 	SDL_Texture* textureFOG;// = NULL; //Creamos para prueba de fog un nuevo texture
 	bool loadTexture();
 	void clear();
-	void draw(int i, int j, SDL_Rect position, SDL_Texture* texture);
-
 public:
 	IsoView & owner;
 	SpriteSheet( std::string pPath, int pixelRefX, int pixelRefY, int altoSprite, int anchoSprite, int cantSprites, double fps, double delay, IsoView & owner );
 	~SpriteSheet();
 	void update();
 	SDL_Texture* getLoadedTexture(Visibility state, bool playerIsActive);
-	SDL_Rect targetRect(Entity& entity);
+	SDL_Rect targetRect(r2 position);
+	void draw(int i, int j, SDL_Rect position, SDL_Texture* texture);
 	virtual void visit(Entity& e);
 	virtual void visit(Unit& e);
 	virtual void visit(Flag& e);
