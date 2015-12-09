@@ -39,6 +39,10 @@ bin/
 # Archivos de log
 *.log
 
+# Archivos temporales
+#
+.~lock*
+
 # Fuentes: responsabilidad del cliente (licencias)
 *.ttf
 
