@@ -271,22 +271,6 @@ void Unit::addTarget(r2 newTarget) {
 	priority_queue<TSNode, vector<shared_ptr<TSNode>>, compare> open;
 	auto h = [&end](r2& p) {return (p - end).length(); };
 	auto f = [&h](TSNode n) {return h(n.position) + n.g; };
-	auto straightenOnce = [this, &targetFootprint](shared_ptr<TSNode> n) {
-		if(!targetFootprint.intersects(rectangle(n->position - this->size/2, this->size))) {
-			if (n->previous) {
-				if (n->previous->previous) {
-					if (canEnter(rectangle::box(n->position, n->previous->previous->position, this->size))) {
-						n->previous = n->previous->previous;
-						return true;
-					}
-				}
-			}
-		}
-		return false;
-	};
-	auto straighten = [straightenOnce](shared_ptr<TSNode> n) {
-		while (straightenOnce(n));
-	};
 	bool closed[100][100]; //TODO: Fix
 	for (size_t i = 0; i < board.sizeX; i++) {
 		for (size_t j = 0; j < board.sizeY; j++) {
@@ -308,7 +292,7 @@ void Unit::addTarget(r2 newTarget) {
 			continue;
 		}
 		closed[(int)floor(cpos.x)][(int)floor(cpos.y)] = true;
-		if ((cpos - end).sqLength() <= 1) {
+		if ((cpos - center()).sqLength() <= 1) {
 			for (auto p = c; p; p = p->previous) {
 				auto nextFootprint = rectangle::box(p->position - size / 2, cpos - size / 2, size);
 				if(!(targetFootprint.intersects(nextFootprint))) {
@@ -340,7 +324,6 @@ void Unit::addTarget(r2 newTarget) {
 				}
 				auto n = make_shared<TSNode>(p, (cpos - p).length() + c->g, .0, c);
 				n->f = f(*n);
-				straighten(n);
 				open.emplace(n);
 			}
 		}
