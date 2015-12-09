@@ -6,10 +6,11 @@ CXX += $(CFLAGS)
 CXXT = $(CXX) -o $@
 CXXO = $(CXXT) -c $<
 
-all: bin/tp7542_standalone
+all: bin/tp7542
 
-bin/tp7542_standalone: bin/standalone_main.o bin/geometry.o bin/logger.o bin/game_window.o bin/game_timer.o bin/controller.o bin/board.o bin/entity.o bin/sprite_sheet.o bin/players_list.o bin/resources_list.o bin/selection_menu.o bin/command_menu.o bin/selection_controller.o bin/health_bar.o bin/game.o bin/mixins.o bin/entity_factory.o bin/player.o bin/budget.o bin/budget_line.o bin/abstract_client.o bin/remote_client.o bin/command.o bin/minimap.o bin/generic_parser.o bin/client_parser.o bin/graphics_parser.o bin/ruleset_parser.o bin/scenario_parser.o bin/server_parser.o bin/server.o bin/posix_socket.o bin/isoview.o bin/remote_board.o bin/menu.o bin/chat.o bin/socket.o
+bin/tp7542: bin/standalone_main.o bin/geometry.o bin/logger.o bin/game_window.o bin/game_timer.o bin/controller.o bin/board.o bin/entity.o bin/sprite_sheet.o bin/players_list.o bin/resources_list.o bin/selection_menu.o bin/command_menu.o bin/selection_controller.o bin/health_bar.o bin/game.o bin/mixins.o bin/entity_factory.o bin/player.o bin/budget.o bin/budget_line.o bin/abstract_client.o bin/remote_client.o bin/command.o bin/minimap.o bin/generic_parser.o bin/client_parser.o bin/graphics_parser.o bin/ruleset_parser.o bin/scenario_parser.o bin/server_parser.o bin/server.o bin/posix_socket.o bin/isoview.o bin/remote_board.o bin/menu.o bin/chat.o bin/socket.o
 	${CXXT} $^ $(LDLIBS)
+	cp $@ .
 
 bin/standalone_main.o: standalone/main.cpp server/remote_client.h
 	${CXXO}
@@ -134,7 +135,7 @@ cleanobj:
 force: clean all
 
 run: all
-	bin/tp7542_standalone
+	./tp7542
 
 cppcheck:
 	cppcheck `find . -name '*.cpp'`
